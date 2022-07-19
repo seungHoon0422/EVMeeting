@@ -22,7 +22,7 @@
     </button>
     <div class="collapse navbar-collapse d-flex justify-content-end" id="navbarTogglerDemo02">
       <router-link class="nav-link text-dark" :to="{ name: 'home' }">홈</router-link>
-      <router-link class="nav-link text-dark" :to="{ name: 'home' }">미팅참가</router-link>
+      <router-link class="nav-link text-dark" :to="{ name: 'cam' }">미팅참가</router-link>
       <router-link v-if="!isLoggedIn" class="nav-link text-dark" :to="{ name: 'login' }">로그인/회원가입</router-link>
       <router-link v-if="isLoggedIn" class="nav-link text-dark" :to="{ name: 'logout' }">로그아웃</router-link>
     </div>
