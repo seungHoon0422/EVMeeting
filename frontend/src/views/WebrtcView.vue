@@ -32,6 +32,10 @@
       <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
     </div>
   </div>
+  <div>
+    <button @click="countTime" class="btn btn-primary">click</button>
+    <h1>{{tenseconds}}</h1>
+  </div>
 </div>
 </template>
 
@@ -55,6 +59,7 @@ export default {
       mainStreamManager: undefined,
       publisher: undefined,
       subscribers: [],
+      tenseconds: 10,
       mySessionId: 'SessionA',
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
 
@@ -188,6 +193,15 @@ export default {
           .then(data => resolve(data.token))
           .catch(error => reject(error.response))
       })
+    },
+    countTime () {
+      if (this.tenseconds > 0) {
+        setTimeout(() => {
+          this.tenseconds -= 1
+          console.log(this.tenseconds)
+          this.countTime()
+        }, 1000)
+      }
     }
   }
 }
