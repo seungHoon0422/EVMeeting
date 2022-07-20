@@ -23,16 +23,16 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: #FFFFEA;
-  height: 1000px;
+  height: 1500px;
 }
 
 nav {
-  padding: 30px;
+  padding: 20px;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  /* color: #2c3e50; */
 }
 
 nav a.router-link-exact-active {
