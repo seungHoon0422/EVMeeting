@@ -2,13 +2,13 @@
 <div class="box d-flex justify-content-center">
   <div class="signup-form">
     <div class="mt-5 p-3 mb-5 rounded form-style">
-      <h1>회원가입</h1>
+      <h1>입주민 등록</h1>
 
       <account-error-list v-if="authError"></account-error-list>
 
       <form @submit.prevent="signup(credentials)" class="mt-5">
         <div class="d-flex justify-content-between">
-          <div>
+          <div class="ms-3">
             <div class="d-flex justify-content-end">
               <label for="username" class="me-3 pt-3">*아이디</label>
               <input id="username" v-model="credentials.username" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
@@ -71,7 +71,7 @@
         </div>
         <div class="mt-3">
           <p class="text-start self-margin">자기소개</p>
-          <textarea name="" id="" cols="80" rows="5" class="input-color"></textarea>
+          <textarea name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
         <button type="submit" class="btn rounded length mt-4">가입하기</button>
       </form>
