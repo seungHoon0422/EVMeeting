@@ -32,7 +32,7 @@
       <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
     </div>
   </div>
-  <div>
+  <div v-show="sessionjoined">
     <button @click="countTime" class="btn btn-primary">click</button>
     <h1>{{tenseconds}}</h1>
   </div>
@@ -60,6 +60,7 @@ export default {
       publisher: undefined,
       subscribers: [],
       tenseconds: 10,
+      sessionjoined: false,
       mySessionId: 'SessionA',
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
 
@@ -67,6 +68,7 @@ export default {
   },
   methods: {
     joinSession () {
+      this.sessionjoined = true
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
