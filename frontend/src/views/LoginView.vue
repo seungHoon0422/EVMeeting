@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .length {
   width: 300px;
 }

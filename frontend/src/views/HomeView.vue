@@ -54,7 +54,7 @@ export default {
 // }
 </script>
 
-<style>
+<style scoped>
 .box {
   width: 1200px;
   margin: 0 auto;
@@ -63,13 +63,13 @@ export default {
 
 .elevator-img {
   position: absolute;
-  top: 15%;
+  top: 50px;
   right: 0%;
 }
 
 .home-text {
   position: absolute;
-  top: 25%;
+  top: 100px;
   left: 10%;
   font-size: 40px;
   color: #F88F6D;
