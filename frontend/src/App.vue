@@ -1,4 +1,4 @@
-<template>
+<template id="back">
   <div id="app">
     <nav-bar></nav-bar>
     <router-view/>
@@ -22,6 +22,8 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #FFFFEA;
+  height: 1000px;
 }
 
 nav {
