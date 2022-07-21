@@ -20,6 +20,11 @@
   </div>
 
   <div id="session" v-if="session">
+    <div v-if="sessionjoined">
+      <!-- <button @click="countTime" class="btn btn-primary">click</button><br> -->
+      <button @click="addTime" class="btn btn-success" :disabled="stopadd">Add</button>
+      <h1>{{tenseconds}}</h1>
+    </div>
     <div id="session-header">
       <h1 id="session-title">{{ mySessionId }}</h1>
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
@@ -31,10 +36,6 @@
       <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
       <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
     </div>
-  </div>
-  <div v-show="sessionjoined">
-    <button @click="countTime" class="btn btn-primary">click</button>
-    <h1>{{tenseconds}}</h1>
   </div>
 </div>
 </template>
@@ -60,6 +61,9 @@ export default {
       publisher: undefined,
       subscribers: [],
       tenseconds: 10,
+      addcount: 0,
+      stopadd: false,
+      autoleaveflag: false,
       sessionjoined: false,
       mySessionId: 'SessionA',
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
@@ -68,7 +72,9 @@ export default {
   },
   methods: {
     joinSession () {
+      this.autoleaveflag = false
       this.sessionjoined = true
+      this.tenseconds = 10
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -132,6 +138,7 @@ export default {
     },
 
     leaveSession () {
+      this.sessionjoined = false
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) this.session.disconnect()
 
@@ -142,6 +149,7 @@ export default {
       this.OV = undefined
 
       window.removeEventListener('beforeunload', this.leaveSession)
+      // this.$router.push('cam')
     },
 
     updateMainVideoStreamManager (stream) {
@@ -196,16 +204,45 @@ export default {
           .catch(error => reject(error.response))
       })
     },
+    // 10초 count
     countTime () {
-      if (this.tenseconds > 0) {
+      if (this.tenseconds === 0) {
+        this.autoleaveflag = true
+      } else if (this.tenseconds > 0) {
         setTimeout(() => {
           this.tenseconds -= 1
-          console.log(this.tenseconds)
           this.countTime()
         }, 1000)
       }
+    },
+    // 한 사람당 4번 시간 추가 가능
+    stopaddFunc () {
+      this.stopadd = true
+    },
+    // 10초 추가
+    addTime () {
+      if (this.addcount >= 3) {
+        this.stopaddFunc()
+        this.addcount = 0
+      }
+      this.tenseconds += 10
+      this.addcount += 1
+    }
+  },
+  watch: {
+    // 시간이 다 되면 자동적으로 세션 종료
+    autoleaveflag (newautoleaveflag) {
+      this.leaveSession()
+    },
+    // 세션에 들어간 순간 count
+    sessionjoined () {
+      this.stopadd = false
+      this.countTime()
     }
   }
+  // mounted () {
+  //   this.countTime()
+  // }
 }
 </script>
 
