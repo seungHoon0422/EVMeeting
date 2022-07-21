@@ -1,49 +1,29 @@
-import Vue from 'vue'
-import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import LogoutView from '../views/LogoutView.vue'
-import SignupView from '../views/SignupView.vue'
-import NotFound404 from '../views/NotFound404.vue'
-
-Vue.use(VueRouter)
+import { createRouter, createWebHashHistory } from "vue-router";
+import login from "../views/Login.vue";
+import Room from "../views/Room.vue";
+import RoomList from "../views/RoomList.vue";
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "login",
+    component: login
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: "/room",
+    name: "Room",
+    component : Room
   },
   {
-    path: '/logout',
-    name: 'logout',
-    component: LogoutView
-  },
-  {
-    path: '/signup',
-    name: 'signup',
-    component: SignupView
-  },
-  {
-    path: '/404',
-    name: '404',
-    component: NotFound404
+    path: "/rooms",
+    name: "Roomlist",
+    component : RoomList
   }
-  // {
-  //   path: '*',
-  //   redirect: '/404'
-  // }
-]
+];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHashHistory(),
   routes
-})
+});
 
-export default router
+export default router;
