@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.db.repository.UserRepository;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -53,7 +54,9 @@ public class UserController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-		if(userRepository.existsByUserId(registerInfo.getId())){
+		System.out.println("@@@ID : " + registerInfo.getUsername());
+		System.out.println("@@@PW : " + registerInfo.getPassword1());
+		if(userRepository.existsByUserId(registerInfo.getUsername())){
 			return ResponseEntity.status(405).body(BaseResponseBody.of(405, "Fail"));
 		}
 		else{
