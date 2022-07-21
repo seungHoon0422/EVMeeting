@@ -1,6 +1,11 @@
 package com.ssafy.api.service;
 
-public class CallService {
+import com.ssafy.db.entity.CallMeeting;
+import jdk.nashorn.internal.codegen.CompilerConstants;
+
+import java.util.List;
+
+public interface CallService {
     // maven to gradle
 
     // application.properties update
@@ -10,4 +15,9 @@ public class CallService {
     // One2OneCall code fix
 
     // advanced, recording...
+    CallMeeting createCall(CallMeeting callMeetingDto);
+
+    List<CallMeeting> getCallMeetingByCategory();
+
+    void deleteMatch(CallMeeting callMeeting);
 }

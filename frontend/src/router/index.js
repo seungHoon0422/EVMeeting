@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import SignupView from '../views/SignupView.vue'
 import NotFound404 from '../views/NotFound404.vue'
+import WebrtcView from '../views/WebrtcView.vue'
 
 Vue.use(VueRouter)
 
@@ -33,6 +34,11 @@ const routes = [
     path: '/404',
     name: '404',
     component: NotFound404
+  },
+  {
+    path: '/cam',
+    name: 'cam',
+    component: WebrtcView
   }
   // {
   //   path: '*',
