@@ -1,6 +1,7 @@
 package com.ssafy.api.controller;
 
 import com.ssafy.db.repository.UserRepository;
+import net.bytebuddy.implementation.bind.MethodDelegationBinder;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
@@ -34,7 +35,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/accounts/")
 public class UserController {
 	
 	@Autowired
@@ -43,7 +44,7 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@PostMapping()
+	@PostMapping("signup/")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -53,7 +54,9 @@ public class UserController {
     })
 	public ResponseEntity<? extends BaseResponseBody> register(
 			@RequestBody @ApiParam(value="회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-		if(userRepository.existsByUserId(registerInfo.getId())){
+		System.out.println("@@@ID : " + registerInfo.getUsername());
+		System.out.println("@@@PW : " + registerInfo.getPassword1());
+		if(userRepository.existsByUserId(registerInfo.getUsername())){
 			return ResponseEntity.status(405).body(BaseResponseBody.of(405, "Fail"));
 		}
 		else{
