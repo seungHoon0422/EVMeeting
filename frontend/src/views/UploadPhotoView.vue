@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <h1 class="font-style mt-3">사진 등록</h1>
-    <form  @submit.prevent="">
+    <form  @submit.prevent="uploadPhotos(images)">
       <div class="container container-position">
       <div class="row my-3">
         <div class="col">
@@ -69,6 +69,8 @@
 </template>
 
 <script>
+import { mapActions } from 'vuex'
+
 export default {
   name: 'UploadPhotoView',
   data () {
@@ -84,10 +86,11 @@ export default {
     }
   },
   methods: {
+    ...mapActions(['uploadPhotos']),
     upload1 (e) {
       const file = e.target.files
       const url = URL.createObjectURL(file[0])
-      // console.log(url)
+      console.log(url)
       this.images.image1 = url
     },
     upload2 (e) {
@@ -125,7 +128,7 @@ export default {
 
 </script>
 
-<style>
+<style scoped>
 .img-box {
   width: 200px;
   height: 200px;

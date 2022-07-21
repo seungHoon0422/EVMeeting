@@ -6,6 +6,7 @@ import LogoutView from '../views/LogoutView.vue'
 import SignupView from '../views/SignupView.vue'
 import NotFound404 from '../views/NotFound404.vue'
 import UploadPhotoView from '../views/UploadPhotoView.vue'
+import ProfileView from '../views/ProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -34,6 +35,11 @@ const routes = [
     path: '/upload',
     name: 'upload',
     component: UploadPhotoView
+  },
+  {
+    path: '/profile', // variable routing 해야함 :username
+    name: 'profile',
+    component: ProfileView
   },
   {
     path: '/404',

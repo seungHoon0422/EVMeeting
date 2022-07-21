@@ -8,6 +8,7 @@ export default {
     logout: () => HOST + ACCOUNTS + 'logout/',
     signup: () => HOST + ACCOUNTS + 'signup/',
     currentUserInfo: () => HOST + ACCOUNTS + 'user/',
-    profile: username => HOST + ACCOUNTS + 'profile/' + username
+    profile: username => HOST + ACCOUNTS + 'profile/' + username,
+    upload: username => HOST + ACCOUNTS + 'upload/' + username
   }
 }

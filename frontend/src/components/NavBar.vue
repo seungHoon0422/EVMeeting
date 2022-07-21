@@ -41,14 +41,14 @@ export default {
 }
 
 .font-head {
-  font-size: 40px;
+  font-size: 30px;
 }
 
 .font-normal {
-  font-size: 25px;
+  font-size: 20px;
 }
 
 .nav-padding {
-  padding-top: 80px;
+  padding-top: 60px;
 }
 </style>

@@ -72,6 +72,23 @@ export default {
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
+
+    uploadPhotos ({ dispatch }, images) {
+      axios({
+        url: api.accounts.upload(),
+        method: 'post',
+        data: images
+      })
+        .then(res => {
+          dispatch('fetchCurrentUser')
+          router.push({ name: 'home' })
+        })
+        .catch(err => {
+          console.error(err.response.data)
+          // commit('SET_AUTH_ERROR', err.response.data)
+        })
+    },
+
     logout ({ getters, dispatch, commit }) {
       if (getters.kakaoLogin) {
         // window.Kakao.init('ce7dd03b67ecccd321fee3d9e96865ae')
