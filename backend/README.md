@@ -1,7 +1,10 @@
 # 웹 기술 Backend
 
+## subBranch2
 <!-- 필수 항목 -->
+## feature chat branch
 
+## merge feature/chat
 ## Sub Project 1
 2022/07/11 ~ 2022/07/15
 
