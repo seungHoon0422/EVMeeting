@@ -7,9 +7,9 @@
         <profile-card></profile-card>
       </div>
       <div class="button-style d-flex justify-content-between mt-3">
-        <button>프로필 수정</button>
-        <button>비밀번호 수정</button>
-        <button>회원 탈퇴</button>
+        <router-link :to="{ name: 'editprofile' }"><button>프로필 변경</button></router-link>
+        <router-link :to="{ name: 'editpwd' }"><button>비밀번호 변경</button></router-link>
+        <router-link :to="{ name: 'editpwd' }"><button>회원 탈퇴</button></router-link>
       </div>
     </div>
   </div>

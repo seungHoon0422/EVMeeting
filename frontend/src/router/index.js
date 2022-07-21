@@ -7,6 +7,8 @@ import SignupView from '../views/SignupView.vue'
 import NotFound404 from '../views/NotFound404.vue'
 import UploadPhotoView from '../views/UploadPhotoView.vue'
 import ProfileView from '../views/ProfileView.vue'
+import EditPasswordView from '../views/EditPasswordView.vue'
+import EditProfileView from '../views/EditProfileView.vue'
 
 Vue.use(VueRouter)
 
@@ -40,6 +42,16 @@ const routes = [
     path: '/profile', // variable routing 해야함 :username
     name: 'profile',
     component: ProfileView
+  },
+  {
+    path: '/editpwd', // variable routing 해야함 :username
+    name: 'editpwd',
+    component: EditPasswordView
+  },
+  {
+    path: '/editprofile', // variable routing 해야함 :username
+    name: 'editprofile',
+    component: EditProfileView
   },
   {
     path: '/404',

@@ -4,7 +4,7 @@ const ACCOUNTS = 'accounts/'
 
 export default {
   accounts: {
-    login: () => HOST + 'login/',
+    login: () => HOST + ACCOUNTS + 'login/',
     logout: () => HOST + ACCOUNTS + 'logout/',
     signup: () => HOST + ACCOUNTS + 'signup/',
     currentUserInfo: () => HOST + ACCOUNTS + 'user/',

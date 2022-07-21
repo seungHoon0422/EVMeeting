@@ -10,8 +10,8 @@
         <div class="d-flex justify-content-between">
           <div class="ms-3">
             <div class="d-flex justify-content-end">
-              <label for="username" class="me-3 pt-3">*아이디</label>
-              <input id="username" v-model="credentials.username" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
+              <label for="id" class="me-3 pt-3">*아이디</label>
+              <input id="id" v-model="credentials.id" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="password1" class="me-3 pt-3">*비밀번호</label>
@@ -40,16 +40,16 @@
           </div>
           <div class="me-5">
             <div class="d-flex justify-content-end">
-              <label for="hobby" class="me-3 pt-3">관심사</label>
-              <input id="hobby" v-model="credentials.hobby" class="input-color rounded length height p-3" type="text" placeholder="관심사">
+              <label for="username" class="me-3 pt-3">닉네임</label>
+              <input id="username" v-model="credentials.username" class="input-color rounded length height p-3" type="text" placeholder="닉네임">
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="mbti" class="me-3 pt-3">MBTI</label>
               <input id="mbti" v-model="credentials.mbti" class="input-color rounded length height p-3" type="text" placeholder="MBTI">
             </div>
             <div class="mt-3 d-flex justify-content-end">
-              <label for="job" class="me-3 pt-3">신분</label>
-              <input id="job" v-model="credentials.job" class="input-color rounded length height p-3" type="text"  placeholder="신분">
+              <label for="hobby" class="me-3 pt-3">관심사</label>
+              <input id="hobby" v-model="credentials.hobby" class="input-color rounded length height p-3" type="text"  placeholder="관심사">
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="school" class="me-3 pt-3">학교</label>
@@ -71,7 +71,7 @@
         </div>
         <div class="mt-3">
           <p class="text-start self-margin">자기소개</p>
-          <textarea name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
+          <textarea v-model="credentials.self" name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
         <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button>
       </form>
@@ -90,6 +90,7 @@ export default {
   data () {
     return {
       credentials: {
+        id: '',
         username: '',
         password1: '',
         password2: '',
@@ -99,11 +100,11 @@ export default {
         birth: '',
         hobby: '',
         mbti: '',
-        job: '',
         school: '',
         email: '',
         drink: '',
-        sigarette: ''
+        sigarette: '',
+        self: ''
       }
     }
   },
