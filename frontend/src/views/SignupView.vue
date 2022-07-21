@@ -10,8 +10,8 @@
         <div class="d-flex justify-content-between">
           <div class="ms-3">
             <div class="d-flex justify-content-end">
-              <label for="id" class="me-3 pt-3">*아이디</label>
-              <input id="id" v-model="credentials.id" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
+              <label for="userid" class="me-3 pt-3">*아이디</label>
+              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="password1" class="me-3 pt-3">*비밀번호</label>
@@ -71,7 +71,7 @@
         </div>
         <div class="mt-3">
           <p class="text-start self-margin">자기소개</p>
-          <textarea v-model="credentials.self" name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
+          <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
         <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button>
       </form>
@@ -90,7 +90,7 @@ export default {
   data () {
     return {
       credentials: {
-        id: '',
+        userid: '',
         username: '',
         password1: '',
         password2: '',
@@ -104,7 +104,7 @@ export default {
         email: '',
         drink: '',
         sigarette: '',
-        self: ''
+        description: ''
       }
     }
   },

@@ -6,7 +6,7 @@
       <form @submit.prevent="login(credentials)" class="mt-5">
         <div class="my-3">
           <div class="mb-3">
-            <input v-model="credentials.username" class="border-top-0 border-end-0 border-start-0 rounded length height p-3" id="id" type="text" placeholder="아이디">
+            <input v-model="credentials.userid" class="border-top-0 border-end-0 border-start-0 rounded length height p-3" id="id" type="text" placeholder="아이디">
           </div>
           <div>
             <input v-model="credentials.password" class="border-top-0 border-end-0 border-start-0 rounded length height p-3" type="password" placeholder="비밀번호">
@@ -48,7 +48,7 @@ export default {
   data () {
     return {
       credentials: {
-        username: '',
+        userid: '',
         password: ''
       },
       client: ''
