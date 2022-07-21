@@ -5,6 +5,7 @@ import LoginView from '../views/LoginView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import SignupView from '../views/SignupView.vue'
 import NotFound404 from '../views/NotFound404.vue'
+import UploadPhotoView from '../views/UploadPhotoView.vue'
 
 Vue.use(VueRouter)
 
@@ -28,6 +29,11 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignupView
+  },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: UploadPhotoView
   },
   {
     path: '/404',

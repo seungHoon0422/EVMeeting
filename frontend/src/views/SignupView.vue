@@ -73,7 +73,7 @@
           <p class="text-start self-margin">자기소개</p>
           <textarea name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
-        <button type="submit" class="btn rounded length mt-4">가입하기</button>
+        <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button>
       </form>
     </div>
   </div>
