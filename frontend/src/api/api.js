@@ -1,10 +1,10 @@
-const HOST = 'http://localhost:8000/api/v1/'
+const HOST = 'http://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 
 export default {
   accounts: {
-    login: () => HOST + ACCOUNTS + 'login/',
+    login: () => HOST + 'login/',
     logout: () => HOST + ACCOUNTS + 'logout/',
     signup: () => HOST + ACCOUNTS + 'signup/',
     currentUserInfo: () => HOST + ACCOUNTS + 'user/',
