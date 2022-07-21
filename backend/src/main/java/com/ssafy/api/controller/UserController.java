@@ -34,7 +34,7 @@ import springfox.documentation.annotations.ApiIgnore;
  */
 @Api(value = "유저 API", tags = {"User"})
 @RestController
-@RequestMapping("/api/v1/users")
+@RequestMapping("/api/v1/accounts/")
 public class UserController {
 	
 	@Autowired
@@ -43,7 +43,7 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 	
-	@PostMapping()
+	@PostMapping("signup/")
 	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드</strong>를 통해 회원가입 한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
@@ -65,7 +65,7 @@ public class UserController {
 //		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
 	
-	@GetMapping("/me")
+	@GetMapping("currentUserInfo/")
 	@ApiOperation(value = "회원 본인 정보 조회", notes = "로그인한 회원 본인의 정보를 응답한다.") 
     @ApiResponses({
         @ApiResponse(code = 200, message = "성공"),
