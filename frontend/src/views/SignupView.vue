@@ -31,7 +31,12 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="gender" class="me-3 pt-3">*성별</label>
-              <input id="gender" v-model="credentials.gender" class="input-color rounded length height p-3" type="text" placeholder="라디오버튼으로" required>
+              <select name="gender" id="gender" class="length height">
+                <option value="">성별을 선택해주세요</option>
+                <option value="male">남성</option>
+                <option value="female">여성</option>
+              </select>
+              <!-- <input id="gender" v-model="credentials.gender" class="input-color rounded length height p-3" type="text" placeholder="라디오버튼으로" required> -->
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="birth" class="me-3 pt-3">*생년월일</label>
@@ -49,7 +54,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="hobby" class="me-3 pt-3">관심사</label>
-              <input id="hobby" v-model="credentials.hobby" class="input-color rounded length height p-3" type="text"  placeholder="관심사">
+              <input id="hobby" v-model="credentials.hobby" class="input-color rounded length height p-3" type="text"  placeholder="관심사(모달창띄우기)">
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="school" class="me-3 pt-3">학교</label>
@@ -61,11 +66,23 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="drink" class="me-3 pt-3">주량</label>
-              <input id="drink" v-model="credentials.drink" class="input-color rounded length height p-3" type="text" placeholder="주량">
+              <select name="drink" id="drink" class="length height">
+                <option value="">-- 주량 --</option>
+                <option value="nodrink">아예 안 마심</option>
+                <option value="solodrink">혼술할 정도로 좋아함</option>
+                <option value="frienddrink">친구들 만날 때만</option>
+                <option value="nownodrink">현재 금주 중</option>
+              </select>
+              <!-- <input id="drink" v-model="credentials.drink" class="input-color rounded length height p-3" type="text" placeholder="주량"> -->
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="sigarette" class="me-3 pt-3">흡연여부</label>
-              <input id="sigarette" v-model="credentials.sigarette" class="input-color rounded length height p-3" type="text" placeholder="흡연여부">
+              <select name="sigarette" id="sigarette" class="length height">
+                <option value="">-- 흡연여부 --</option>
+                <option value="smoke">흡연</option>
+                <option value="nosmoke">비흡연</option>
+              </select>
+              <!-- <input id="sigarette" v-model="credentials.sigarette" class="input-color rounded length height p-3" type="text" placeholder="흡연여부"> -->
             </div>
           </div>
         </div>
@@ -141,12 +158,18 @@ export default {
 }
 
 .input-color {
-  border: solid 3px;
-  border-color: #F88F6D;
+  border: solid 3px #F88F6D;
   background-color: #FFFFEA;
 }
 
 .self-margin {
   margin-left: 40px;
+}
+
+select {
+  border: 3px solid #F88F6D;
+  background-color: #FFFFEA;
+  font-size: 14px;
+  padding: 0 10px;
 }
 </style>
