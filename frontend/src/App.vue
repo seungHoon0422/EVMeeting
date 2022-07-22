@@ -36,7 +36,7 @@ body {
 }
 
 .container {
-  max-width: 375px;
+  width: 375px;
   height: 812px;
   background-color: #ffffff;
   margin: 5rem auto 0rem;
