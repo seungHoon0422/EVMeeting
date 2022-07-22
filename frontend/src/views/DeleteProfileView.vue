@@ -5,11 +5,11 @@
       <form action="#">
           <div class="input-box d-flex justify-content-end">
             <label for="password1">비밀번호</label>
-            <input id="password1" type="text" placeholder="비밀번호">
+            <input id="password1" type="password" placeholder="비밀번호">
           </div>
           <div class="input-box d-flex justify-content-end">
             <label for="password2">비밀번호 확인</label>
-            <input id="password2" type="text" placeholder="비밀번호 확인">
+            <input id="password2" type="password" placeholder="비밀번호 확인">
           </div>
         <button type="submit" class="mt-3">탈퇴하기</button>
       </form>
