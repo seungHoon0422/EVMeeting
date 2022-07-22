@@ -10,6 +10,7 @@ import ProfileView from '../views/ProfileView.vue'
 import EditPasswordView from '../views/EditPasswordView.vue'
 import EditProfileView from '../views/EditProfileView.vue'
 import DeleteProfileView from '../views/DeleteProfileView.vue'
+import EditPhotoView from '../views/EditPhotoView.vue'
 
 Vue.use(VueRouter)
 
@@ -58,6 +59,11 @@ const routes = [
     path: '/deleteprofile', // variable routing 해야함 :username
     name: 'deleteprofile',
     component: DeleteProfileView
+  },
+  {
+    path: '/editphoto', // variable routing 해야함 :username
+    name: 'editphoto',
+    component: EditPhotoView
   },
   {
     path: '/404',

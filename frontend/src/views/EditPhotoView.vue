@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <h1 class="font-style mt-3">사진 등록</h1>
+    <h1 class="font-style mt-3">사진 변경</h1>
     <form  @submit.prevent="uploadPhotos(images)">
       <div class="container container-position">
       <div class="row my-3">
@@ -62,8 +62,8 @@
         </div>
       </div>
       </div>
-      <!-- <button class="upload-button" type="submit">등록 완료</button> -->
-      <router-link :to="{ name: 'home' }" class="btn rounded length mt-4">등록 완료</router-link>
+      <!-- <button class="upload-button" type="submit">변경 사항 저장</button> -->
+      <router-link :to="{ name: 'profile' }" class="btn rounded length mt-4">변경 사항 저장</router-link>
     </form>
   </div>
 
@@ -73,7 +73,7 @@
 import { mapActions } from 'vuex'
 
 export default {
-  name: 'UploadPhotoView',
+  name: 'EditPhotoView',
   data () {
     return {
       images: {
