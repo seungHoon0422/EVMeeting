@@ -90,7 +90,8 @@
           <p class="text-start self-margin">자기소개</p>
           <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
-        <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button>
+        <!-- <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button> -->
+        <router-link :to="{ name: 'upload' }" class="btn rounded length mt-4">사진 등록하러 가기</router-link>
       </form>
     </div>
   </div>

@@ -7,6 +7,7 @@
     </router-link>
     <div class="nav-padding">
       <router-link class="text-danger me-5 text-decoration-none" :to="{ name: 'home' }">홈</router-link>
+      <router-link class="text-danger me-5 text-decoration-none" :to="{ name: 'profile' }">임시 프로필</router-link>
       <router-link v-if="!isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
       <router-link v-if="isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
     </div>

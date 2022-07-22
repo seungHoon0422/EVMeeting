@@ -62,7 +62,8 @@
         </div>
       </div>
       </div>
-      <button class="upload-button" type="submit">가입 완료</button>
+      <!-- <button class="upload-button" type="submit">가입 완료</button> -->
+      <router-link :to="{ name: 'home' }" class="btn rounded length mt-4">가입 완료</router-link>
     </form>
   </div>
 
