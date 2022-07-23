@@ -15,6 +15,17 @@
     />
     <div class="login__form__username">
       <label for="input-username" class="login__form__username__label">
+        아이디를 입력하세요.
+      </label>
+      <input
+        id="input-username"
+        class="login__form__username__input"
+        type="text"
+        v-model.trim="id"
+        required
+      />
+      <p></p>
+      <label for="input-username" class="login__form__username__label">
         닉네임을 입력하세요.
       </label>
       <input
@@ -24,9 +35,9 @@
         v-model.trim="nickname"
         required
       />
-      <br />
-      <input type="button" @click="enterChatRoom()" value="ENTER" />
-      <input type="button" @click="createUser()" value="CREATE" />
+      <p></p>
+      <button @click="enterChatRoom()">LOGIN</button>
+      <button @click="createUser()">SIGN</button>
     </div>
   </div>
 </template>
@@ -184,5 +195,11 @@ export default {
 
 .login__form__username__input:focus {
   outline: none;
+}
+button{
+  margin-left: 15px;
+  background-color: yellow;
+  border: solid slategray 0.5px;
+  border-radius: 5px;
 }
 </style>

@@ -1,14 +1,33 @@
 <template>
   <div class="room">
-    <h1>{{ title }}</h1>
-    <hr />
-    <div v-for="(m, idx) in msg" :key="idx">
-      <div v-bind:class="m.style">
-        <h5 style="margin:3px">
-          {{ m.senderNickname }}
-        </h5>
-        {{ m.content }}
-      </div>
+    <div class="chat__header">
+      <img src="../assets/angle-circle-left.svg" alt="" @click="moveBack" style="margin-left: 0px; margin-top: 5px" />
+      <span class="chat__header__greetings">{{ title }}</span>
+    </div>
+    <div class="chat__body" id="chat__body">
+      <chat-message
+        v-for="(m, idx) in msg"
+        :key="idx"
+        :m="m"
+        :prev="[idx == 0 ? null : msg[idx - 1]]"
+      >
+        <div v-bind:class="m.style">
+          <div v-if="masterId == senderId" class="chat__mymessage">
+            <h5 class="chat__mymessage__user" style="margin:3px">
+              {{ m.senderNickname }}
+            </h5>
+            <p class="chat__mymessage__paragraph">{{ m.content }}</p>
+          </div>
+          <div v-else class="chat__yourmessage">
+            <h5 class="chat__yourmessage__user" style="margin:3px">
+              {{ m.senderNickname }}
+            </h5>
+            <div class="chat__yourmessage__p">
+              <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
+            </div>
+          </div>
+        </div>
+      </chat-message>
     </div>
     <div class="form">
       <input
@@ -54,7 +73,6 @@
 import axios from "axios";
 import Stomp from "webstomp-client";
 import SockJS from "sockjs-client";
-
 export default {
   name: "Room",
   data: () => {
@@ -73,6 +91,17 @@ export default {
     this.id = this.$route.params.id;
     this.roomid = this.$route.params.roomid;
     this.nickname = this.$route.params.nickname;
+    // 방 제목 가져오기
+    axios({
+        method:'get',
+        url:'/api/chat/room/'+this.roomid,
+        baseURL:'http://localhost:8080/'
+      }).then(res=>{
+        this.title = res.data
+      }, err=>{
+        console.log(err)
+        this.$router.push({ name: "Home" });
+      })
 
     // 채팅방 내용 불러오기
     axios({
@@ -132,8 +161,11 @@ export default {
 
         this.content = "";
       }
-    }
-  }
+    },
+    moveBack() {
+      this.$router.go(-1);
+    },
+  },
 };
 </script>
 <style scoped>
@@ -148,6 +180,80 @@ export default {
 }
 .otherMsg {
   text-align: left;
+}
+.chat__header {
+  background: #ffffff;
+  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
+  border-radius: 24px 24px 0px 0px;
+  padding: 1.8rem;
+  font-size: 16px;
+  font-weight: 700;
+}
+.chat__header__greetings {
+  color: #292929;
+  margin-left: 10px;
+}
+.chat__body {
+  padding: 2rem;
+  overflow: scroll;
+  scroll-behavior: smooth;
+}
+
+.chat__body::-webkit-scrollbar {
+  display: none;
+}
+.chat__mymessage {
+  display: flex;
+  justify-content: right;
+  align-items: flex-end;
+  margin: 0;
+  min-height: 40px;
+  line-break: anywhere;
+}
+
+.chat__mymessage__paragraph {
+  margin: 0.4rem 0 0 1rem;
+  border-radius: 20px 20px 0px 20px;
+  max-width: 180px;
+  background-color: #bbc4ef;
+  color: #ffffff;
+  padding: 0.8rem;
+  font-size: 14px;
+}
+
+.chat__yourmessage {
+  display: flex;
+}
+
+.chat__mymessage__user {
+  font-size: 14px;
+  font-weight: 700;
+  color: #292929;
+  margin-top: 0;
+  margin-block-end: 0rem;
+}
+.chat__yourmessage__user {
+  font-size: 14px;
+  font-weight: 700;
+  color: #292929;
+  margin-top: 0;
+  margin-block-end: 0rem;
+}
+
+.chat__yourmessage__p {
+  display: flex;
+  align-items: flex-end;
+  line-break: anywhere;
+}
+
+.chat__yourmessage__paragraph {
+  margin: 0.4rem 1rem 0 0;
+  border-radius: 0px 20px 20px 20px;
+  background-color: #39f5e2;
+  max-width: 180px;
+  color: #414141;
+  padding: 0.8rem;
+  font-size: 14px;
 }
 
 .form {

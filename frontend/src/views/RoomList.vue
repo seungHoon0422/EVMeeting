@@ -1,19 +1,16 @@
 <template>
-  <div id="room_list">
+  <div class="room_list">
     <h2>채팅방 목록</h2>
-    <h3>닉네임 : {{ nickname }}</h3>
-    <input type="text" placeholder="방 제목" v-model="title" />
-    <button @click="createRoom()">
-      방 만들기
-    </button>
+    <h3>{{ nickname }}님</h3>
+    <input class="search_room" type="text" placeholder="방 제목" v-model="title" />&nbsp;&nbsp;
+    <img src="../assets/add.svg" @click="createRoom()" style="margin-left: 0px; margin-top: 5px" />
     <hr />
     <div v-if="room_list.length == 0">
       방 없다
     </div>
-    <div v-else-if="room_list.length > 0">
+    <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
-        <div
-          style="border:2px orange solid; height:70px; width:200px; font-size:20px;"
+        <div class="rooms"
           @click="enterRoom(r.id)"
         >
           {{ r.title }}
@@ -94,3 +91,34 @@ export default {
   }
 };
 </script>
+<style scoped>
+ h2 {
+  margin-top: 20px;
+  text-align: center;
+ }
+ h3{
+  margin-left: 15px;
+  margin-bottom:10px;
+ }
+ .roomList{
+  margin-left:15px;
+ }
+ .search_room{
+  margin-left:15px;
+  margin-bottom:30px;
+  height: 20px;
+ }
+ .rooms{
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  border:2px yellow solid; 
+  height:70px; 
+  width:95%; 
+  border-radius: 10px;
+  font-size:20px;
+  background: rgb(255, 255, 172);
+  margin-bottom: 5px;
+ }
+</style>
