@@ -10,16 +10,14 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class Chatroom {
+public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ManyToOne
     int id;
 
     String title;
 
-    @OneToMany(mappedBy = "user")
     @Column(name="master_id")
     int masterId;
 

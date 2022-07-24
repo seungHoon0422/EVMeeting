@@ -3,6 +3,7 @@ package com.ssafy.chat.db.entity;
 import lombok.*;
 
 import javax.persistence.*;
+import java.util.List;
 
 @Entity
 @Getter
@@ -18,11 +19,9 @@ public class Message {
 
     String content;
 
-    @OneToMany(mappedBy = "user")
     @Column(name="sender_id")
     int senderId;
 
-    @OneToMany(mappedBy = "chatroom")
     @Column(name="chatroom_id")
     int chatroomId;
 }

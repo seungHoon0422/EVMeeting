@@ -10,11 +10,10 @@ import javax.persistence.*;
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
-public class User {
+public class Member {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    @ManyToOne
     int id;
 
     String nickname;
