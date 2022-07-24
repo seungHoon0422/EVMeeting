@@ -1,19 +1,42 @@
 <template>
   <div class="room_list">
-    <h2>채팅방 목록</h2>
+    <div class="title">
+      채팅 목록
+      <img
+        src="../assets/trash.svg"
+        @click="showdelete()"
+        style="margin-left: 350px;  margin-right: 5px;"
+      />
+    </div>
     <h3>{{ nickname }}님</h3>
-    <input class="search_room" type="text" placeholder="방 제목" v-model="title" />&nbsp;&nbsp;
-    <img src="../assets/add.svg" @click="createRoom()" style="margin-left: 0px; margin-top: 5px" />
+    <input
+      class="search_room"
+      type="text"
+      placeholder="방 제목"
+      v-model="title"
+    />&nbsp;&nbsp;
+    <img
+      src="../assets/add.svg"
+      @click="createRoom()"
+      style="margin-left: 0px; margin-top: 5px"
+    />
     <hr />
     <div v-if="room_list.length == 0">
       방 없다
     </div>
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
-        <div class="rooms"
-          @click="enterRoom(r.id)"
-        >
+        <div id="rooms" class="rooms" @click="enterRoom(r.id)">
           {{ r.title }}
+        </div>
+        <div
+          style="float:right; margin-top:-50px; margin-right: 5px; background-color: red; border-radius: 30px;"
+        >
+          <img
+            v-if="isShowing"
+            src="../assets/cross.svg"
+            @click="deleteRoom()"
+          />
         </div>
       </div>
     </div>
@@ -29,7 +52,8 @@ export default {
       id: -1,
       nickname: "",
       room_list: [1, 2, 3],
-      title: ""
+      title: "",
+      isShowing: false
     };
   },
   created() {
@@ -87,38 +111,45 @@ export default {
           this.$router.push({ name: "Home" });
         }
       );
+    },
+    showdelete() {
+      if (this.isShowing == false) this.isShowing = true;
+      else this.isShowing = false;
     }
   }
 };
 </script>
 <style scoped>
- h2 {
-  margin-top: 20px;
+.title {
+  margin-top: 10px;
   text-align: center;
- }
- h3{
+  font-size: large;
+  font: bold;
+}
+h3 {
   margin-left: 15px;
-  margin-bottom:10px;
- }
- .roomList{
-  margin-left:15px;
- }
- .search_room{
-  margin-left:15px;
-  margin-bottom:30px;
+  margin-bottom: 10px;
+}
+.roomList {
+  margin-left: 15px;
+}
+.search_room {
+  margin-left: 15px;
+  margin-bottom: 30px;
   height: 20px;
- }
- .rooms{
+}
+.rooms {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border:2px yellow solid; 
-  height:70px; 
-  width:95%; 
+  border: 2px yellow solid;
+  height: 70px;
+  max-width: 90%;
   border-radius: 10px;
-  font-size:20px;
+  font-size: 20px;
   background: rgb(255, 255, 172);
   margin-bottom: 5px;
- }
+  text-align: center;
+}
 </style>

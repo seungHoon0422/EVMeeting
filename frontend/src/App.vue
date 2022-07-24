@@ -3,7 +3,7 @@
     <router-view class="container"/>
     <div class="app__brand">
       <p @click="moveToHome" class="app__logo">
-        엘레베이터안에서우린사랑을나누지
+        엘레베이터에서우린사랑을나누지
       </p>
       <div class="app__copyright"></div>
     </div>
