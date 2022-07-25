@@ -69,11 +69,6 @@ const routes = [
     path: '/404',
     name: '404',
     component: NotFound404
-  },
-  {
-    path: '/cam',
-    name: 'cam',
-    component: WebrtcView
   }
   // {
   //   path: '*',
