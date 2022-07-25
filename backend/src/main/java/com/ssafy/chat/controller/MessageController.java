@@ -21,8 +21,8 @@ public class MessageController {
 	@MessageMapping("/message")
 	public void sendMessage(@Payload Message chatMessage) {
 	//	log.info("전달 메세지 : " + chatMessage);
-		
-		messageService.insertMessage(chatMessage);
+
+		long id = messageService.insertMessage(chatMessage);
 		template.convertAndSend("/sub/" + chatMessage.getChatroomId(), chatMessage);
 	}
 }

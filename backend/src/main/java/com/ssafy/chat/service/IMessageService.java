@@ -5,6 +5,6 @@ import com.ssafy.chat.db.entity.Message;
 import java.util.List;
 
 public interface IMessageService {
-	int insertMessage(Message chatMessage);
+	Long insertMessage(Message chatMessage);
 	List<Message> getMessagesByChatroomId(long id, long idx);
 }
