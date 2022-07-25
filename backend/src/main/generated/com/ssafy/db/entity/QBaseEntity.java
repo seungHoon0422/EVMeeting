@@ -9,8 +9,6 @@ import javax.annotation.Generated;
 import com.querydsl.core.types.Path;
 
 
-
-
 /**
  * QBaseEntity is a Querydsl query type for BaseEntity
  */
