@@ -13,7 +13,7 @@ public class MessageService implements IMessageService{
     @Autowired
     MessageRepository messageRepository;
     @Override
-    public int insertMessage(Message chatMessage) {
+    public Long insertMessage(Message chatMessage) {
         return messageRepository.save(chatMessage).getId();
     }
 

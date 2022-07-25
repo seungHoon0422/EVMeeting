@@ -18,8 +18,6 @@ public class ChatRoom {
 
     String title;
 
-    @ManyToOne
-    @JoinColumn(name="MEMBER_ID")
     Long masterId;
 
 }
