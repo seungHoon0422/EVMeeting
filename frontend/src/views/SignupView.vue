@@ -31,7 +31,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="gender" class="me-3 pt-3">*성별</label>
-              <select name="gender" id="gender" class="length height">
+              <select v-model="credentials.gender" name="gender" id="gender" class="length height">
                 <option value="">성별을 선택해주세요</option>
                 <option value="male">남성</option>
                 <option value="female">여성</option>
@@ -66,7 +66,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="drink" class="me-3 pt-3">주량</label>
-              <select name="drink" id="drink" class="length height">
+              <select v-model="credentials.drink" name="drink" id="drink" class="length height">
                 <option value="">-- 주량 --</option>
                 <option value="nodrink">아예 안 마심</option>
                 <option value="solodrink">혼술할 정도로 좋아함</option>
@@ -77,7 +77,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="sigarette" class="me-3 pt-3">흡연여부</label>
-              <select name="sigarette" id="sigarette" class="length height">
+              <select v-model="credentials.cigarette" name="sigarette" id="sigarette" class="length height">
                 <option value="">-- 흡연여부 --</option>
                 <option value="smoke">흡연</option>
                 <option value="nosmoke">비흡연</option>
