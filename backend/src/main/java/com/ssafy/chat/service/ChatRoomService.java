@@ -4,9 +4,11 @@ import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.chat.db.entity.ChatRoom;
 import com.ssafy.chat.db.repository.ChatRoomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class ChatRoomService implements IChatRoomService{
 
 

@@ -3,9 +3,11 @@ package com.ssafy.chat.service;
 import com.ssafy.chat.db.entity.Message;
 import com.ssafy.chat.db.repository.MessageRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
+@Service
 public class MessageService implements IMessageService{
 
     @Autowired
@@ -17,6 +19,6 @@ public class MessageService implements IMessageService{
 
     @Override
     public List<Message> getMessagesByChatroomId(long id, long idx) {
-        return messageRepository.findAllByChatRoomId(id);
+        return messageRepository.findAllByChatroomId(id);
     }
 }

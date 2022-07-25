@@ -14,11 +14,12 @@ public class ChatRoom {
 
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
-    int id;
+    Long id = null;
 
     String title;
 
-    @Column(name="master_id")
-    int masterId;
+    @ManyToOne
+    @JoinColumn(name="MEMBER_ID")
+    Long masterId;
 
 }

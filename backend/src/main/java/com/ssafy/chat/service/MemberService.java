@@ -3,8 +3,10 @@ package com.ssafy.chat.service;
 import com.ssafy.chat.db.entity.Member;
 import com.ssafy.chat.db.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Service;
 
 import java.util.Optional;
+@Service
 
 public class MemberService implements IUserService{
 
@@ -22,6 +24,6 @@ public class MemberService implements IUserService{
 
     @Override
     public boolean signin(Member user) {
-        return memberRepository.exists(user);
+        return true;
     }
 }

@@ -14,6 +14,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
     @Override
     <S extends Message> S save(S chatMessage);
 
-    List<Message> findAllByChatRoomId(long id);
+    List<Message> findAllByChatroomId(long id);
 
 }

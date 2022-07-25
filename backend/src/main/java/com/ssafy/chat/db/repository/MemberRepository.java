@@ -19,6 +19,4 @@ public interface MemberRepository extends JpaRepository<Member, Long> {
 
     // 로그인 확인 쿼리 : 입력된 id, password를 통해서 로그인 정보 확인
 
-    boolean exists(Member user);
-    boolean existsByIdAndPassword(Long id, String Password);
 }
