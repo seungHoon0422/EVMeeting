@@ -144,10 +144,10 @@ export default {
           headers: getters.authHeader
         })
           .then(res => {
-            // console.log('cur', res)
-            // console.log(state.currentUser)
+            console.log('cur', res)
+            console.log(state.currentUser)
             commit('SET_CURRENT_USER', res.data)
-            // console.log(state.currentUser)
+            console.log(state.currentUser)
           })
           .catch(err => {
             if (err.response.status === 401) {
