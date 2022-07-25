@@ -4,7 +4,7 @@
     <div class="mt-5 p-3 mb-5 rounded form-style">
       <h1>입주민 등록</h1>
 
-      <account-error-list v-if="authError"></account-error-list>
+      <!-- <account-error-list v-if="authError"></account-error-list> -->
 
       <form @submit.prevent="signup(credentials)" class="mt-5">
         <div class="d-flex justify-content-between">
@@ -90,8 +90,8 @@
           <p class="text-start self-margin">자기소개</p>
           <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
-        <!-- <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button> -->
-        <router-link :to="{ name: 'upload' }" class="btn rounded length mt-4">사진 등록하러 가기</router-link>
+        <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button>
+        <!-- <router-link :to="{ name: 'upload' }" class="btn rounded length mt-4">사진 등록하러 가기</router-link> -->
       </form>
     </div>
   </div>
@@ -100,11 +100,11 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import AccountErrorList from '@/components/AccountErrorList'
+// import AccountErrorList from '@/components/AccountErrorList'
 
 export default {
   name: 'SignupView',
-  components: { AccountErrorList },
+  // components: { AccountErrorList },
   data () {
     return {
       credentials: {

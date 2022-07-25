@@ -2,7 +2,7 @@
   <div class="d-flex justify-content-center">
     <div class="box mt-5 p-3 mb-5">
       <h1 class="mt-3 font-head" >로그인</h1>
-      <account-error-list v-if="authError"></account-error-list>
+      <!-- <account-error-list v-if="authError"></account-error-list> -->
       <form @submit.prevent="login(credentials)" class="mt-5">
         <div class="my-3">
           <div class="mb-3">
@@ -38,13 +38,13 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
-import AccountErrorList from '../components/AccountErrorList'
+// import AccountErrorList from '../components/AccountErrorList'
 
 export default {
   name: 'LoginView',
-  components: {
-    AccountErrorList
-  },
+  // components: {
+  //   AccountErrorList
+  // },
   data () {
     return {
       credentials: {
@@ -86,7 +86,7 @@ export default {
           console.log(tokenResponse)
         }
       })
-      console.log(client)
+      // console.log(client)
       this.client = client
     },
     fetchinfo () {

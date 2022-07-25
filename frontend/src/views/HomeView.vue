@@ -9,19 +9,25 @@
       <button class="mt-5 home-btn">엘리베이터 타러 가기</button>
     </div>
     <img class="elevator-img" src="@/img/elevator.jpg" alt="..">
-    <p v-if="isLoggedIn">Hi, {{ currentUser.username }}</p>
+    <p v-if="isLoggedIn">Hi, {{ currentUser.userid }}</p>
   </div>
 </template>
 
 <script>
 // @ is an alias to /src
 // import axios from 'axios'
-import { mapGetters } from 'vuex'
+import { mapGetters, mapActions } from 'vuex'
 
 export default {
   name: 'HomeView',
   computed: {
     ...mapGetters(['currentUser', 'isLoggedIn'])
+  },
+  methods: {
+    ...mapActions(['fetchCurrentUser'])
+  },
+  created () {
+    this.fetchCurrentUser()
   }
 }
 // created () {

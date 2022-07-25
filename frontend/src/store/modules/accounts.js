@@ -16,7 +16,7 @@ export default {
     currentUser: state => state.currentUser,
     profile: state => state.profile,
     authError: state => state.authError,
-    authHeader: state => ({ Authorization: `Token ${state.token}` }),
+    authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
     kakaoLogin: state => state.kakaoLogin
   },
   mutations: {
@@ -44,7 +44,8 @@ export default {
         data: credentials
       })
         .then(res => {
-          const token = res.data.key
+          console.log(res)
+          const token = res.data.accessToken
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
           router.push({ name: 'home' })
@@ -62,6 +63,7 @@ export default {
         data: credentials
       })
         .then(res => {
+          console.log(res)
           const token = res.data.key
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
@@ -134,14 +136,19 @@ export default {
       }
     },
 
-    fetchCurrentUser ({ commit, getters, dispatch }) {
+    fetchCurrentUser ({ state, commit, getters, dispatch }) {
       if (getters.isLoggedIn) {
         axios({
           url: api.accounts.currentUserInfo(),
           method: 'get',
           headers: getters.authHeader
         })
-          .then(res => commit('SET_CURRENT_USER', res.data))
+          .then(res => {
+            // console.log('cur', res)
+            // console.log(state.currentUser)
+            commit('SET_CURRENT_USER', res.data)
+            // console.log(state.currentUser)
+          })
           .catch(err => {
             if (err.response.status === 401) {
               dispatch('removeToken')
