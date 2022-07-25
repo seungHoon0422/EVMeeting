@@ -1,6 +1,6 @@
 package com.ssafy.api.service;
 
-import com.ssafy.api.request.UserRegisterPostReq;
+import com.ssafy.api.request.*;
 import com.ssafy.db.entity.User;
 
 /**
@@ -9,4 +9,8 @@ import com.ssafy.db.entity.User;
 public interface UserService {
 	User createUser(UserRegisterPostReq userRegisterInfo);
 	User getUserByUserId(String userId);
+	void removeUser(String userId);
+	User editUserInfor(UserEditInforPutReq userEditInfo);
+	User editUserPW(UserEditPWPutReq userEditPW);
+	User editUserImage(UserEditImagePutReq userEditImage);
 }
