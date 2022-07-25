@@ -2,7 +2,7 @@
 <div class="box d-flex justify-content-center">
   <div class="signup-form">
     <div class="mt-5 p-3 mb-5 rounded form-style">
-      <h1>입주민 등록</h1>
+      <h1>프로필 변경</h1>
 
       <!-- <account-error-list v-if="authError"></account-error-list> -->
 
@@ -90,8 +90,8 @@
           <p class="text-start self-margin">자기소개</p>
           <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color"></textarea>
         </div>
-        <button type="submit" class="btn rounded length mt-4">사진 등록하러 가기</button>
-        <!-- <router-link :to="{ name: 'upload' }" class="btn rounded length mt-4">사진 등록하러 가기</router-link> -->
+        <!-- <button type="submit" class="btn rounded length mt-4">변경 사항 저장</button> -->
+        <router-link :to="{ name: 'profile' }" class="btn rounded length mt-4">변경 사항 저장</router-link>
       </form>
     </div>
   </div>
@@ -103,7 +103,7 @@ import { mapActions, mapGetters } from 'vuex'
 // import AccountErrorList from '@/components/AccountErrorList'
 
 export default {
-  name: 'SignupView',
+  name: 'EditProfileView',
   // components: { AccountErrorList },
   data () {
     return {

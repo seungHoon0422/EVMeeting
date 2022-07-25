@@ -1,15 +1,15 @@
 <template>
   <div class="d-flex justify-content-center">
-    <div class="box mt-5 shadow-lg p-3 mb-5 bg-body rounded">
-      <h1 class="mt-3" >A708</h1>
-      <account-error-list v-if="authError"></account-error-list>
+    <div class="box mt-5 p-3 mb-5">
+      <h1 class="mt-3 font-head" >로그인</h1>
+      <!-- <account-error-list v-if="authError"></account-error-list> -->
       <form @submit.prevent="login(credentials)" class="mt-5">
         <div class="my-3">
           <div class="mb-3">
-            <input v-model="credentials.username" class="border-top-0 border-end-0 border-start-0 rounded length height p-3" id="id" type="text" placeholder="아이디">
+            <input v-model="credentials.userid" class="length height p-3" id="id" type="text" placeholder="아이디">
           </div>
           <div>
-            <input v-model="credentials.password" class="border-top-0 border-end-0 border-start-0 rounded length height p-3" type="password" placeholder="비밀번호">
+            <input v-model="credentials.password" class="length height p-3" type="password" placeholder="비밀번호">
           </div>
         </div>
         <div>
@@ -28,8 +28,8 @@
         <!-- <button @click="client.requestAccessToken()">Authorize me</button>
         <button @click="fetchinfo">fetchinfo</button> -->
       <div class="mt-3 d-flex justify-content-center">
-        <router-link v-if="!isLoggedIn" class="nav-link text-secondary" :to="{ name: 'home' }">비밀번호 찾기</router-link>
-        <router-link v-if="!isLoggedIn" class="nav-link text-secondary" :to="{ name: 'signup' }">회원가입</router-link>
+        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'home' }">비밀번호 찾기</router-link>
+        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'signup' }">회원가입</router-link>
       </div>
     </div>
   </div>
@@ -38,17 +38,17 @@
 <script>
 import axios from 'axios'
 import { mapActions, mapGetters } from 'vuex'
-import AccountErrorList from '../components/AccountErrorList'
+// import AccountErrorList from '../components/AccountErrorList'
 
 export default {
   name: 'LoginView',
-  components: {
-    AccountErrorList
-  },
+  // components: {
+  //   AccountErrorList
+  // },
   data () {
     return {
       credentials: {
-        username: '',
+        userid: '',
         password: ''
       },
       client: ''
@@ -86,7 +86,7 @@ export default {
           console.log(tokenResponse)
         }
       })
-      console.log(client)
+      // console.log(client)
       this.client = client
     },
     fetchinfo () {
@@ -100,7 +100,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .length {
   width: 300px;
 }
@@ -112,6 +112,27 @@ export default {
 .box {
   width: 500px;
   height: 550px;
+  border: 5px solid #F88F6D;
+  background-color: #FFFFEA;
+  border-radius: 10px;
 }
 
+.text-color {
+ color: #F88F6D;
+ font-weight: 600;
+}
+
+.font-head {
+  color: #F88F6D;
+  font-size: 40px;
+}
+
+input {
+  background-color: #FFFFEA;
+  border: 3px solid #F88F6D;
+  border-top: none;
+  border-left: none;
+  border-right: none;
+  border-radius: 5px;
+}
 </style>

@@ -1,4 +1,4 @@
-<template>
+<template id="back">
   <div id="app">
     유저이름:
     <input
@@ -23,7 +23,6 @@
 </template>
 
 <script>
-
 import NavBar from './components/NavBar'
 
 import Stomp from 'webstomp-client'
@@ -101,15 +100,17 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
+  background-color: #FFFFEA;
+  height: 1500px;
 }
 
 nav {
-  padding: 30px;
+  padding: 20px;
 }
 
 nav a {
   font-weight: bold;
-  color: #2c3e50;
+  /* color: #2c3e50; */
 }
 
 nav a.router-link-exact-active {

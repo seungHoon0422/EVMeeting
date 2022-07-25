@@ -5,7 +5,12 @@ import LoginView from '../views/LoginView.vue'
 import LogoutView from '../views/LogoutView.vue'
 import SignupView from '../views/SignupView.vue'
 import NotFound404 from '../views/NotFound404.vue'
-import WebrtcView from '../views/WebrtcView.vue'
+import UploadPhotoView from '../views/UploadPhotoView.vue'
+import ProfileView from '../views/ProfileView.vue'
+import EditPasswordView from '../views/EditPasswordView.vue'
+import EditProfileView from '../views/EditProfileView.vue'
+import DeleteProfileView from '../views/DeleteProfileView.vue'
+import EditPhotoView from '../views/EditPhotoView.vue'
 
 Vue.use(VueRouter)
 
@@ -29,6 +34,36 @@ const routes = [
     path: '/signup',
     name: 'signup',
     component: SignupView
+  },
+  {
+    path: '/upload',
+    name: 'upload',
+    component: UploadPhotoView
+  },
+  {
+    path: '/profile', // variable routing 해야함 :username
+    name: 'profile',
+    component: ProfileView
+  },
+  {
+    path: '/editpwd', // variable routing 해야함 :username
+    name: 'editpwd',
+    component: EditPasswordView
+  },
+  {
+    path: '/editprofile', // variable routing 해야함 :username
+    name: 'editprofile',
+    component: EditProfileView
+  },
+  {
+    path: '/deleteprofile', // variable routing 해야함 :username
+    name: 'deleteprofile',
+    component: DeleteProfileView
+  },
+  {
+    path: '/editphoto', // variable routing 해야함 :username
+    name: 'editphoto',
+    component: EditPhotoView
   },
   {
     path: '/404',
