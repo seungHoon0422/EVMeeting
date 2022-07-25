@@ -25,9 +25,6 @@
 <script>
 import NavBar from './components/NavBar'
 
-import Stomp from 'webstomp-client'
-import SockJS from 'sockjs-client'
-
 export default {
   name: 'App',
   components: {

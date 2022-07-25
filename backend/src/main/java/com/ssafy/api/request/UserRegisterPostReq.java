@@ -39,7 +39,7 @@ public class UserRegisterPostReq {
 	@ApiModelProperty(name="유저 주량", example="1병")
 	String drink;
 	@ApiModelProperty(name="유저 흡연여부", example="N")
-	String sigarette;
+	String cigarette;
 	@ApiModelProperty(name="유저 자기소개", example="편하게 연락주세요")
 	String description;
 }

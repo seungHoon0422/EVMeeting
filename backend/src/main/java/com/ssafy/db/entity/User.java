@@ -26,7 +26,7 @@ public class User extends BaseEntity{
     String school;
     String email;
     String drink;
-    String sigarette;
+    String cigarette;
     String description;
 
     @JsonIgnore
