@@ -1,4 +1,4 @@
-<template>
+<template id="back">
   <div id="app">
     <router-view class="container"/>
     <div class="app__brand">
@@ -11,6 +11,11 @@
 </template>
 
 <script>
+<<<<<<< HEAD
+=======
+import NavBar from './components/NavBar'
+
+>>>>>>> 18c6715a8ed890a0d0348b46b3cc1f61117d6914
 export default {
   methods: {
     moveToHome() {
@@ -22,6 +27,7 @@ export default {
 </script>
 
 <style>
+<<<<<<< HEAD
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
 
@@ -42,6 +48,25 @@ body {
   margin: 5rem auto 0rem;
   border-radius: 1.5rem;
   box-shadow: 0px 1px 20px #9c9cc855;
+=======
+#app {
+  font-family: Avenir, Helvetica, Arial, sans-serif;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+  text-align: center;
+  color: #2c3e50;
+  background-color: #FFFFEA;
+  height: 1500px;
+}
+
+nav {
+  padding: 20px;
+}
+
+nav a {
+  font-weight: bold;
+  /* color: #2c3e50; */
+>>>>>>> 18c6715a8ed890a0d0348b46b3cc1f61117d6914
 }
 
 .app__brand {
