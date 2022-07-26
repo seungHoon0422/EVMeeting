@@ -26,3 +26,4 @@ public class MessageController {
 		template.convertAndSend("/sub/" + chatMessage.getChatroomId(), chatMessage);
 	}
 }
+	
