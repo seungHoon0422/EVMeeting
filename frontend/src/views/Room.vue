@@ -42,6 +42,24 @@
         v-model="content"
         @keyup.enter="submitMessage"
       />
+<<<<<<< HEAD
+=======
+      <!-- <button @click="imgBtnClick">사진</button>
+      <button @click="videoBtnClick">동영상</button>
+      <v-file-input
+        id="img"
+        multiple
+        accept="image/jpeg,image/jpg,image/png"
+        style="display:none"
+        @change="uploadImg"
+      />
+      <v-file-input
+        id="video"
+        accept="video/*"
+        style="display:none"
+        @change="uploadVideo"
+      /> -->
+>>>>>>> e0f4c7a70d3eea268c01eff5ada2706727643937
       <div @click="submitMessage" class="form__submit">
         <svg
           width="30"
@@ -75,6 +93,7 @@
 </template>
 
 <script>
+<<<<<<< HEAD
 var pre_diffHeight = 0;
 var bottom_flag = true;
 import axios from "axios";
@@ -168,10 +187,108 @@ export default {
     submitMessage() {
       if (this.content.trim() != "" && this.stompClient != null) {
         let chatMessage = {
+=======
+import axios from 'axios'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+let preDiffHeight = 0
+let bottomFlag = true
+// import Compressor from "compressorjs";
+export default {
+  // eslint-disable-next-line vue/multi-word-component-names
+  name: 'Room',
+  data: () => {
+    return {
+      id: -1,
+      nickname: '',
+      title: '',
+      roomid: -1,
+      idx: 0,
+      msg: [],
+      content: '',
+      stompClient: null
+    }
+  },
+  updated () {
+    const objDiv = document.getElementById('chat__body')
+    if (bottomFlag) {
+      // 채팅창 스크롤 바닥 유지
+      objDiv.scrollTop = objDiv.scrollHeight
+    }
+  },
+  created () {
+    this.id = this.$route.params.id
+    this.roomid = this.$route.params.roomid
+    this.nickname = this.$route.params.nickname
+    // 방 제목 가져오기
+    axios({
+      method: 'get',
+      url: '/api/chat/room/' + this.roomid,
+      baseURL: 'http://localhost:8080/'
+    }).then(
+      res => {
+        this.title = res.data
+      },
+      err => {
+        console.log(err)
+        this.$router.push({ name: 'Home' })
+      }
+    )
+
+    // 채팅방 내용 불러오기
+    axios({
+      method: 'get',
+      url: '/api/chat/room/message/' + this.roomid + '?page=' + this.idx,
+      baseURL: 'http://localhost:8080/'
+    }).then(
+      res => {
+        this.msg = []
+        for (let i = res.data.length - 1; i > -1; i--) {
+          const m = {
+            senderNickname: res.data[i].senderNickname,
+            content: res.data[i].content,
+            style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
+          }
+          this.msg.push(m)
+        }
+      },
+      err => {
+        console.log(err)
+        alert('error : 새로고침하세요')
+      }
+    )
+    // socket 연결
+    const socket = new SockJS('http://localhost:8080/ws')
+    this.stompClient = Stomp.over(socket)
+    this.stompClient.connect(
+      {},
+      frame => {
+        console.log('success', frame)
+        this.stompClient.subscribe('/sub/' + this.roomid, res => {
+          const jsonBody = JSON.parse(res.body)
+          const m = {
+            senderNickname: jsonBody.senderNickname,
+            content: jsonBody.content,
+            style: jsonBody.senderId === this.id ? 'myMsg' : 'otherMsg'
+          }
+          this.msg.push(m)
+        })
+      },
+      err => {
+        console.log('fail', err)
+      }
+    )
+  },
+  methods: {
+    submitMessage () {
+      if (this.content.trim() !== '' && this.stompClient != null) {
+        const chatMessage = {
+>>>>>>> e0f4c7a70d3eea268c01eff5ada2706727643937
           content: this.content,
           chatroomId: this.roomid,
           senderNickname: this.nickname,
           senderId: this.id,
+<<<<<<< HEAD
           id: "0"
         };
         this.stompClient.send("/pub/message", JSON.stringify(chatMessage), {});
@@ -202,6 +319,82 @@ export default {
     },
   }
 };
+=======
+          id: '0'
+        }
+        this.stompClient.send('/pub/message', JSON.stringify(chatMessage), {})
+
+        this.content = ''
+      }
+    },
+    moveBack () {
+      axios({
+        method: 'post',
+        url: '/api/chat/login',
+        baseURL: 'http://localhost:8080/',
+        headers: { 'content-type': 'application/json' },
+        data: { id: this.id, nickname: this.nickname }
+      }).then(
+        res => {
+          this.nickname = res.data
+          this.$router.push({
+            name: 'Roomlist',
+            params: { id: this.id, nickname: this.nickname }
+          })
+        },
+        err => {
+          alert('id, nickname error')
+          console.log(err)
+        }
+      )
+    },
+    chat_on_scroll () {
+      const objDiv = document.getElementById('app_chat_list')
+
+      if (objDiv.scrollTop + objDiv.clientHeight === objDiv.scrollHeight) {
+        // 채팅창 전체높이 + 스크롤높이가 스크롤 전체높이와 같다면
+        // 이는 스크롤이 바닥을 향해있다는것이므로
+        // 스크롤 바닥을 유지하도록 플래그 설정
+        bottomFlag = true
+      }
+
+      if (preDiffHeight > objDiv.scrollTop + objDiv.clientHeight) {
+        // 스크롤이 한번이라도 바닥이 아닌 위로 상승하는 액션이 발생할 경우
+        // 스크롤 바닥유지 플래그 해제
+        bottomFlag = false
+      }
+      //
+      preDiffHeight = objDiv.scrollTop + objDiv.clientHeight
+    }
+    // imgBtnClick() {
+    //   document.getElementById("img").click();
+    // },
+    // videoBtnClick() {
+    //   document.getElementById("video").click();
+    // },
+    // uploadImg(e) {
+    //   if (e == undefined) {
+    //     alert("파일 오류");
+    //     return;
+    //   }
+    //   const formData = new FormData();
+    //   e.forEach(v => {
+    //     formData.append("file", v);
+    //   });
+    //   this.uploadImgToS3({ formData: formData, roomId: this.roomId });
+    // },
+    // uploadVideo(e) {
+    //   if (e == undefined) {
+    //     alert("파일 오류");
+    //     return;
+    //   }
+    //   const formData = new FormData();
+    //   formData.append("file", e);
+    //   this.uploadVideoToS3({ formData: formData, roomId: this.roomId });
+    // }
+  }
+}
+>>>>>>> e0f4c7a70d3eea268c01eff5ada2706727643937
 </script>
 <style scoped>
 .room {

@@ -102,7 +102,7 @@ export default {
       }).then(
         res => {
           this.$router.push({
-            name: "Room",
+            name: "Chat",
             params: { roomid: res.data, nickname: this.nickname, id: this.id }
           });
         },
@@ -143,12 +143,12 @@ h3 {
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px yellow solid;
+  border: 2px #F90A0A solid;
   height: 70px;
   max-width: 90%;
   border-radius: 10px;
   font-size: 20px;
-  background: rgb(255, 255, 172);
+  background: #FFFFEA;
   margin-bottom: 5px;
   text-align: center;
 }
