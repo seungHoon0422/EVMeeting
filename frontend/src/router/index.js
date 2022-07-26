@@ -12,6 +12,9 @@ import EditProfileView from '../views/EditProfileView.vue'
 import DeleteProfileView from '../views/DeleteProfileView.vue'
 import EditPhotoView from '../views/EditPhotoView.vue'
 
+import Room from '../views/Room.vue'
+import RoomList from '../views/RoomList.vue'
+
 Vue.use(VueRouter)
 
 const routes = [
@@ -69,11 +72,22 @@ const routes = [
     path: '/404',
     name: '404',
     component: NotFound404
-  }
+  },
   // {
   //   path: '*',
   //   redirect: '/404'
   // }
+
+  {
+    path: '/room',
+    name: 'Room',
+    component: Room
+  },
+  {
+    path: '/rooms',
+    name: 'Roomlist',
+    component: RoomList
+  }
 ]
 
 const router = new VueRouter({
