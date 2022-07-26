@@ -1,3 +1,9 @@
+<<<<<<< HEAD
+import { createRouter, createWebHashHistory } from "vue-router";
+import login from "../views/Login.vue";
+import Room from "../views/Room.vue";
+import RoomList from "../views/RoomList.vue";
+=======
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -13,19 +19,25 @@ import DeleteProfileView from '../views/DeleteProfileView.vue'
 import EditPhotoView from '../views/EditPhotoView.vue'
 
 Vue.use(VueRouter)
+>>>>>>> 18c6715a8ed890a0d0348b46b3cc1f61117d6914
 
 const routes = [
   {
-    path: '/',
-    name: 'home',
-    component: HomeView
+    path: "/",
+    name: "login",
+    component: login
   },
   {
-    path: '/login',
-    name: 'login',
-    component: LoginView
+    path: "/room",
+    name: "Room",
+    component : Room
   },
   {
+<<<<<<< HEAD
+    path: "/rooms",
+    name: "Roomlist",
+    component : RoomList
+=======
     path: '/logout',
     name: 'logout',
     component: LogoutView
@@ -69,17 +81,13 @@ const routes = [
     path: '/404',
     name: '404',
     component: NotFound404
+>>>>>>> 18c6715a8ed890a0d0348b46b3cc1f61117d6914
   }
-  // {
-  //   path: '*',
-  //   redirect: '/404'
-  // }
-]
+];
 
-const router = new VueRouter({
-  mode: 'history',
-  base: process.env.BASE_URL,
+const router = createRouter({
+  history: createWebHashHistory(),
   routes
-})
+});
 
-export default router
+export default router;
