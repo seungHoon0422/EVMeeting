@@ -1,6 +1,6 @@
 package com.ssafy.config;
 
-import com.ssafy.api.service.UserService;
+import com.ssafy.user.service.UserService;
 import com.ssafy.common.auth.JwtAuthenticationFilter;
 import com.ssafy.common.auth.SsafyUserDetailService;
 import org.springframework.beans.factory.annotation.Autowired;
