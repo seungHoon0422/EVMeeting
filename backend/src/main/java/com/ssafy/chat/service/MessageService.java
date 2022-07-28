@@ -18,7 +18,17 @@ public class MessageService implements IMessageService{
     }
 
     @Override
+    public List<Message> getAllMessagesByChatroomId(long id) {
+        return messageRepository.findAllByChatroomId(id);
+    }
+
     public List<Message> getMessagesByChatroomId(long id, long idx) {
         return messageRepository.findAllByChatroomId(id);
     }
+    @Override
+    public Message saveMessage(Message message) {
+        return messageRepository.save(message);
+    }
+
+
 }

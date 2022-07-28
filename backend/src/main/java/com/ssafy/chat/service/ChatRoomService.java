@@ -24,9 +24,23 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
-    public String getRoomTitle(long id) {
-        String value = chatroomRepository.findTitleById(id).getTitle();
-        System.out.println("value = " + value);
-        return value;
+    public List<ChatRoom> getAllChatRoomsByUserId1(long id) {
+        return chatroomRepository.findAllByUserid1(id);
     }
+    @Override
+    public List<ChatRoom> getAllChatRoomsByUserId2(long id) {
+        return chatroomRepository.findAllByUserid2(id);
+    }
+
+    //    @Override
+//    public List<ChatRoom> getAllChatRoomsByUserId(long id) {
+//        return null;
+//    }
+//    @Override
+//    public String getRoomTitle(long id) {
+//        String value = chatroomRepository.findTitleById(id).getTitle();
+//        System.out.println("value = " + value);
+//        return value;
+//    }
+
 }
