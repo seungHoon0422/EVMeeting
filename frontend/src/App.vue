@@ -11,11 +11,8 @@
 </template>
 
 <script>
-<<<<<<< HEAD
-=======
 import NavBar from './components/NavBar'
 
->>>>>>> 18c6715a8ed890a0d0348b46b3cc1f61117d6914
 export default {
   methods: {
     moveToHome() {
@@ -27,7 +24,6 @@ export default {
 </script>
 
 <style>
-<<<<<<< HEAD
 @import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
 
 
@@ -48,7 +44,7 @@ body {
   margin: 5rem auto 0rem;
   border-radius: 1.5rem;
   box-shadow: 0px 1px 20px #9c9cc855;
-=======
+}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -66,26 +62,6 @@ nav {
 nav a {
   font-weight: bold;
   /* color: #2c3e50; */
->>>>>>> 18c6715a8ed890a0d0348b46b3cc1f61117d6914
 }
 
-.app__brand {
-  display: flex;
-  flex-direction: column;
-  align-items: center;
-}
-
-.app__logo {
-  font-family: "Golden Plains - Demo";
-  font-size: 30px;
-  text-decoration: none;
-  margin-top: 10px;
-  margin-bottom: -5px;
-  color: #ffffff;
-}
-
-.app__copyright {
-  font-size: 10px;
-  color: #ffffff;
-}
 </style>
