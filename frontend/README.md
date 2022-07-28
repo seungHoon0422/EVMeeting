@@ -1,5 +1,5 @@
 # frontend_vue2
-# FE-accounts
+# FE-accounts (donghwan)
 ## Project setup
 ```
 npm install
