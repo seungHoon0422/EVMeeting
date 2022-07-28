@@ -76,8 +76,8 @@
               <!-- <input id="drink" v-model="credentials.drink" class="input-color rounded length height p-3" type="text" placeholder="주량"> -->
             </div>
             <div class="mt-3 d-flex justify-content-end">
-              <label for="sigarette" class="me-3 pt-3">흡연여부</label>
-              <select v-model="credentials.cigarette" name="sigarette" id="sigarette" class="length height">
+              <label for="cigarette" class="me-3 pt-3">흡연여부</label>
+              <select v-model="credentials.cigarette" name="cigarette" id="cigarette" class="length height">
                 <option value="">-- 흡연여부 --</option>
                 <option value="smoke">흡연</option>
                 <option value="nosmoke">비흡연</option>
@@ -121,7 +121,7 @@ export default {
         school: '',
         email: '',
         drink: '',
-        sigarette: '',
+        cigarette: '',
         description: ''
       }
     }
