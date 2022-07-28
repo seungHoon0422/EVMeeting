@@ -249,6 +249,19 @@ export default {
           dispatch('fetchCurrentUser')
         })
         .catch(err => console.log(err))
+    },
+
+    editProfile ({ dispatch }, credentials) {
+      axios({
+        url: api.accounts.editprofile(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          dispatch('fetchCurrentUser')
+        })
+        .catch(err => console.log(err))
     }
   }
 }
