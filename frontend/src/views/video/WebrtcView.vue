@@ -3,6 +3,7 @@
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
       <h1>Join a video session</h1>
+      {{currentUser}}
       <div class="form-group">
         <p>
           <label>Participant</label>
@@ -74,9 +75,9 @@
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
-import UserVideo from '@/components/UserVideo'
-import VideoBottom from '@/components/VideoBottom'
-import QuestionList from '@/components/QuestionList'
+import UserVideo from '@/views/video/components/UserVideo'
+import VideoBottom from '@/views/video/components/VideoBottom'
+import QuestionList from '@/views/video/components/QuestionList'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -106,13 +107,13 @@ export default {
       mySessionId: 'SessionA',
       audioEnabled: false,
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
-
     }
   },
   methods: {
     // hyomin start
     getSession () {
-      axios.post('https://localhost:8443/api/v1/call/join', { sessionid: this.myUserName }).then(res => {
+      axios.post('http://localhost:8080/api/v1/meeting/join', { sessionid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+        console.log(this.currentUser.gender)
         // sessionid 부분을 user정보로 바꾸면 된다
         // console.log(res);
         this.mySessionId = res.data
@@ -122,6 +123,7 @@ export default {
     },
     // hyomin end
     joinSession () {
+      this.getSession()
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
@@ -335,7 +337,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'authHeader']),
+    ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
     currentUserCount: function () {
       return this.subscribers.length
     }

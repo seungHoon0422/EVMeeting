@@ -24,7 +24,8 @@ public class MeetingQueueController {
     @ApiOperation(value = "화상통화 요청")
 //    @ApiResponse()
     public String join(@RequestBody @ApiParam(value="접속 정보", required = true) MeetingQueue meetingQueue){
-
+        System.out.println(meetingQueue.getGender());
+        System.out.println(meetingQueue.getSessionid());
         // callMeeting DB 리스트에 대기중인 세션이 있는지 확인
         List<MeetingQueue> list = callService.getCallMeetingByCategory(); // 테이블 전체를 읽어오는건 비효율적일듯하다
         // 필터링 만들지 의논 -> 필터링을 쓴다면 해당 값을 기준으로 검색한 뒤 limit 1 적용하면 될듯 (jpa findAllTopten... 참고)
