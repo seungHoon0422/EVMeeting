@@ -1,5 +1,5 @@
 # frontend_vue2
-
+# FE-accounts
 ## Project setup
 ```
 npm install
