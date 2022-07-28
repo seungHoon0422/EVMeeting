@@ -13,9 +13,12 @@ import lombok.Setter;
 @ApiModel("UserEditPWPutRequest")
 public class UserEditPWPutReq {
 	@ApiModelProperty(name="유저 ID", example="ssafy_web")
-	String id;
+	String userid;
 	@ApiModelProperty(name="유저 기존 Password", example="your_password")
 	String password;
-	@ApiModelProperty(name="유저 변경할 Password", example="your_password_new")
-	String passwordNew;
+	@ApiModelProperty(name="유저 변경할 Password1", example="your_password_new")
+	String newpassword1;
+	@ApiModelProperty(name="유저 변경할 Password2", example="your_password_new")
+	String newspassword2;
+
 }

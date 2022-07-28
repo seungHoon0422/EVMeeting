@@ -9,7 +9,8 @@ export default {
     currentUser: {},
     profile: {},
     authError: null,
-    kakaoLogin: false
+    kakaoLogin: false,
+    image1: ''
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -17,16 +18,22 @@ export default {
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
-    kakaoLogin: state => state.kakaoLogin
+    kakaoLogin: state => state.kakaoLogin,
+    image1: state => state.image1
   },
   mutations: {
     SET_TOKEN: (state, token) => (state.token = token),
     SET_CURRENT_USER: (state, user) => (state.currentUser = user),
     SET_PROFILE: (state, profile) => (state.profile = profile),
     SET_AUTH_ERROR: (state, error) => (state.authError = error),
-    SET_KAKAO_LOGIN: (state, kakao) => (state.kakaoLogin = kakao)
+    SET_KAKAO_LOGIN: (state, kakao) => (state.kakaoLogin = kakao),
+    SET_IMAGE: (state, image) => (state.image1 = image)
   },
   actions: {
+    saveImage ({ commit }, image) {
+      commit('SET_IMAGE', image)
+    },
+
     saveToken ({ commit }, token) {
       commit('SET_TOKEN', token)
       localStorage.setItem('token', token)
@@ -144,8 +151,8 @@ export default {
           headers: getters.authHeader
         })
           .then(res => {
-            console.log('cur', res)
-            console.log(state.currentUser)
+            // console.log('cur', res)
+            // console.log(state.currentUser)
             commit('SET_CURRENT_USER', res.data)
             console.log(state.currentUser)
           })
@@ -215,6 +222,33 @@ export default {
           console.log(error)
         }
       })
+    },
+
+    editPwd ({ dispatch }, credentials) {
+      axios({
+        url: api.accounts.editpwd(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          dispatch('fetchCurrentUser')
+          router.push({ name: 'profile' })
+        })
+        .catch(err => console.log(err))
+    },
+
+    deleteProfile ({ dispatch }, credentials) {
+      axios({
+        url: api.accounts.deleteprofile(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          dispatch('fetchCurrentUser')
+        })
+        .catch(err => console.log(err))
     }
   }
 }

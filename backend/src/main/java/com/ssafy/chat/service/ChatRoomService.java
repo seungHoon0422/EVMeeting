@@ -1,31 +1,32 @@
 package com.ssafy.chat.service;
 
-import com.querydsl.jpa.impl.JPAQueryFactory;
 import com.ssafy.chat.db.entity.ChatRoom;
-import com.ssafy.chat.db.repository.ChatRoomRepository;
+import com.ssafy.chat.db.repository.ChatroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
 @Service
-public class ChatRoomService implements IChatRoomService{
+public class ChatRoomService implements IChatRoomService {
 
 
     @Autowired
-    ChatRoomRepository chatRoomRepository;
+    ChatroomRepository chatroomRepository;
     @Override
     public long createRoom(ChatRoom newRoom) {
-        return chatRoomRepository.save(newRoom).getId();
+        return chatroomRepository.save(newRoom).getId();
     }
 
     @Override
     public List<ChatRoom> getAllChatRooms() {
-        return chatRoomRepository.findAll();
+        return chatroomRepository.findAll();
     }
 
     @Override
     public String getRoomTitle(long id) {
-        return chatRoomRepository.findTitleById(id);
+        String value = chatroomRepository.findTitleById(id).getTitle();
+        System.out.println("value = " + value);
+        return value;
     }
 }

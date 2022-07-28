@@ -1,37 +1,29 @@
 import Vue from 'vue'
 import VueRouter from 'vue-router'
-import HomeView from '../views/HomeView.vue'
-import LoginView from '../views/LoginView.vue'
-import LogoutView from '../views/LogoutView.vue'
-import SignupView from '../views/SignupView.vue'
-import NotFound404 from '../views/NotFound404.vue'
-import UploadPhotoView from '../views/UploadPhotoView.vue'
-import ProfileView from '../views/ProfileView.vue'
-import EditPasswordView from '../views/EditPasswordView.vue'
-import EditProfileView from '../views/EditProfileView.vue'
-import DeleteProfileView from '../views/DeleteProfileView.vue'
-import EditPhotoView from '../views/EditPhotoView.vue'
-
-import Room from '../views/Room.vue'
-import RoomList from '../views/RoomList.vue'
+import HomeView from '../views/accounts/HomeView.vue'
+import LoginView from '../views/accounts/LoginView.vue'
+import LogoutView from '../views/accounts/LogoutView.vue'
+import SignupView from '../views/accounts/SignupView.vue'
+import NotFound404 from '../views/accounts/NotFound404.vue'
+import UploadPhotoView from '../views/accounts/UploadPhotoView.vue'
+import ProfileView from '../views/accounts/ProfileView.vue'
+import EditPasswordView from '../views/accounts/EditPasswordView.vue'
+import EditProfileView from '../views/accounts/EditProfileView.vue'
+import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
+import EditPhotoView from '../views/accounts/EditPhotoView.vue'
 
 Vue.use(VueRouter)
 
 const routes = [
   {
-    path: "/",
-    name: "login",
-    component: login
+    path: '/',
+    name: 'home',
+    component: HomeView
   },
   {
-    path: "/room",
-    name: "Room",
-    component : Room
-  },
-  {
-    path: "/rooms",
-    name: "Roomlist",
-    component : RoomList
+    path: '/login',
+    name: 'login',
+    component: LoginView
   },
   {
     path: '/logout',
@@ -49,27 +41,27 @@ const routes = [
     component: UploadPhotoView
   },
   {
-    path: '/profile', // variable routing 해야함 :username
+    path: '/profile',
     name: 'profile',
     component: ProfileView
   },
   {
-    path: '/editpwd', // variable routing 해야함 :username
+    path: '/editpwd',
     name: 'editpwd',
     component: EditPasswordView
   },
   {
-    path: '/editprofile', // variable routing 해야함 :username
+    path: '/editprofile',
     name: 'editprofile',
     component: EditProfileView
   },
   {
-    path: '/deleteprofile', // variable routing 해야함 :username
+    path: '/deleteprofile',
     name: 'deleteprofile',
     component: DeleteProfileView
   },
   {
-    path: '/editphoto', // variable routing 해야함 :username
+    path: '/editphoto',
     name: 'editphoto',
     component: EditPhotoView
   },
@@ -77,27 +69,32 @@ const routes = [
     path: '/404',
     name: '404',
     component: NotFound404
-  },
+  }
+  // {
+  //   path: '/chat',
+  //   name: 'chat',
+  //   component: chat
+  // },
+  // {
+  //   path: '/chatlist',
+  //   name: 'chatlist',
+  //   component: chatList
+  // },
+  // {
+  //   path: '/cam',
+  //   name: 'cam',
+  //   component: cam
+  // }
   // {
   //   path: '*',
   //   redirect: '/404'
   // }
-
-  {
-    path: '/room',
-    name: 'Room',
-    component: Room
-  },
-  {
-    path: '/rooms',
-    name: 'Roomlist',
-    component: RoomList
-  }
 ]
 
-const router = createRouter({
-  history: createWebHashHistory(),
+const router = new VueRouter({
+  mode: 'history',
+  base: process.env.BASE_URL,
   routes
-});
+})
 
-export default router;
+export default router

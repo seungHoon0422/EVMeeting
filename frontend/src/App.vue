@@ -1,50 +1,21 @@
 <template id="back">
   <div id="app">
-    <router-view class="container"/>
-    <div class="app__brand">
-      <p @click="moveToHome" class="app__logo">
-        엘레베이터에서우린사랑을나누지
-      </p>
-      <div class="app__copyright"></div>
-    </div>
+    <nav-bar></nav-bar>
+    <router-view/>
   </div>
 </template>
 
 <script>
-import NavBar from './components/NavBar'
+import NavBar from '@/views/accounts/components/NavBar'
 
 export default {
-  methods: {
-    moveToHome() {
-      this.$router.push({ name: "login" });
-      //this.$router.go(this.$router.currentRoute);
-    },
-  },
-};
+  components: {
+    NavBar
+  }
+}
 </script>
 
 <style>
-@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
-
-
-* {
-  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
-    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
-    "Malgun Gothic", sans-serif;
-}
-
-body {
-  background-color: #f7ee73;
-}
-
-.container {
-  width: 375px;
-  height: 812px;
-  background-color: #ffffff;
-  margin: 5rem auto 0rem;
-  border-radius: 1.5rem;
-  box-shadow: 0px 1px 20px #9c9cc855;
-}
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -64,4 +35,7 @@ nav a {
   /* color: #2c3e50; */
 }
 
+nav a.router-link-exact-active {
+  color: #42b983;
+}
 </style>

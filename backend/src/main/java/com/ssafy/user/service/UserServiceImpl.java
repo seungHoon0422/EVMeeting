@@ -1,11 +1,15 @@
 package com.ssafy.user.service;
 
 import com.ssafy.user.request.*;
+import com.ssafy.user.request.UserEditImagePutReq;
+import com.ssafy.user.request.UserEditInforPutReq;
+import com.ssafy.user.request.UserEditPWPutReq;
+import com.ssafy.user.request.UserRegisterPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
-import com.ssafy.user.db.entitiy.User;
+import com.ssafy.user.db.entity.User;
 import com.ssafy.user.db.repository.UserRepository;
 import com.ssafy.user.db.repository.UserRepositorySupport;
 
@@ -69,8 +73,8 @@ public class UserServiceImpl implements UserService {
 	//사용자 비밀번호 변경
 	@Override
 	public User editUserPW(UserEditPWPutReq userEditPW){
-		User user = getUserByUserId(userEditPW.getId());
-		user.setPassword(passwordEncoder.encode(userEditPW.getPasswordNew()));
+		User user = getUserByUserId(userEditPW.getUserid());
+		user.setPassword(passwordEncoder.encode(userEditPW.getNewpassword1()));
 		return userRepository.save(user);
 	}
 

@@ -7,7 +7,7 @@ import org.springframework.security.core.userdetails.UsernameNotFoundException;
 import org.springframework.stereotype.Component;
 
 import com.ssafy.user.service.UserService;
-import com.ssafy.user.db.entitiy.User;
+import com.ssafy.user.db.entity.User;
 
 
 /**

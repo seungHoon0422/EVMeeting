@@ -1,20 +1,23 @@
 package com.ssafy.user.controller;
 
-import com.ssafy.user.request.*;
 import com.ssafy.user.db.repository.UserRepository;
+import com.ssafy.user.request.UserEditPWPutReq;
+import com.ssafy.user.request.UserLoginPostReq;
+import com.ssafy.user.request.UserRegisterPostReq;
+import com.ssafy.user.request.UserRemoveDeleteReq;
+import com.ssafy.user.response.UserLoginPostRes;
+import com.ssafy.user.response.UserRes;
+import com.ssafy.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.web.bind.annotation.*;
 
-import com.ssafy.user.response.UserLoginPostRes;
-import com.ssafy.user.response.UserRes;
-import com.ssafy.user.service.UserService;
 import com.ssafy.common.auth.SsafyUserDetails;
 import com.ssafy.common.model.response.BaseResponseBody;
 import com.ssafy.common.util.JwtTokenUtil;
-import com.ssafy.user.db.entitiy.User;
+import com.ssafy.user.db.entity.User;
 
 import io.swagger.annotations.Api;
 import io.swagger.annotations.ApiOperation;
@@ -99,8 +102,6 @@ public class UserController {
 	public ResponseEntity<? extends BaseResponseBody> logout(HttpServletRequest req) {
 		//세션을 받아오기
 		HttpSession session = req.getSession();
-
-		System.out.println("session : " + session);
 		session.invalidate();
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
@@ -121,26 +122,25 @@ public class UserController {
 		SsafyUserDetails userDetails = (SsafyUserDetails) authentication.getDetails();
 		String userId = userDetails.getUsername();
 		User user = userService.getUserByUserId(userId);
-
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
-	@PutMapping("/editInfor")
-	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> editInfor(
-			@RequestBody @ApiParam(value = "회원수정 정보 - 프로필", required = true) UserEditInforPutReq editInfo) {
-		//해당 유저의 정보들 변경하기
-		userService.editUserInfor(editInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SuccessChange"));
-	}
+//	@PutMapping("/editInfor")
+//	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
+//	@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공"),
+//			@ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public ResponseEntity<? extends BaseResponseBody> editInfor(
+//			@RequestBody @ApiParam(value = "회원수정 정보 - 프로필", required = true) UserEditInforPutReq editInfo) {
+//		//해당 유저의 정보들 변경하기
+//		userService.editUserInfor(editInfo);
+//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SuccessChange"));
+//	}
 
-	@PutMapping("/editPW")
+	@PostMapping("editpwd/")
 	@ApiOperation(value = "회원 비밀번호 수정", notes = "회원정보 중 비밀번호를 수정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -150,36 +150,46 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> editPW(
 			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserEditPWPutReq editInfo) {
-		String userId = editInfo.getId();
+		String userId = editInfo.getUserid();
 		String password = editInfo.getPassword();
+		String passwordnew1 = editInfo.getNewpassword1();
+		String passwordnew2 = editInfo.getNewspassword2();
 
 		User user = userService.getUserByUserId(userId);
-		// 로그인 요청한 유저로부터 입력된 패스워드 와 디비에 저장된 유저의 암호화된 패스워드가 같은지 확인.(유효한 패스워드인지 여부 확인)
+
+		// 해당 아이디의 패스워드가 맞는지 확인
 		if(passwordEncoder.matches(password, user.getPassword())) {
-			// 유효한 패스워드가 맞는 경우, 로그인 성공으로 응답.(액세스 토큰을 포함하여 응답값 전달)
-			userService.editUserPW(editInfo);
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			// 맞다면, 변경할 두 패스워드가 일치하는지 확인
+			if(passwordnew1.equals(passwordnew2)){
+				//두 패스워드가 일치하다면, 비밀번호 변경하기
+				userService.editUserPW(editInfo);
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			}
+			else {
+				return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid New Password"));
+			}
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
 	}
 
-	@PutMapping("/editImage")
-	@ApiOperation(value = "회원 사진 수정", notes = "회원 정보 중 사진을 수정한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> editImage(
-			@RequestBody @ApiParam(value = "회원수정 정보 - 사진", required = true) UserEditImagePutReq editInfo) {
-		//해당 유저의 정보들 변경하기
-		userService.editUserImage(editInfo);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-	}
 
-	@DeleteMapping()
+//	@PutMapping("/editImage")
+//	@ApiOperation(value = "회원 사진 수정", notes = "회원 정보 중 사진을 수정한다.")
+//	@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공"),
+//			@ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public ResponseEntity<? extends BaseResponseBody> editImage(
+//			@RequestBody @ApiParam(value = "회원수정 정보 - 사진", required = true) UserEditImagePutReq editInfo) {
+//		//해당 유저의 정보들 변경하기
+//		userService.editUserImage(editInfo);
+//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+//	}
+
+	@PostMapping("deleteprofile/")
 	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -187,20 +197,28 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> remove(
-			@RequestBody @ApiParam(value = "회원탈퇴 정보", required = true) UserRemoveDeleteReq removeInfo) {
+	public ResponseEntity<? extends BaseResponseBody> delete(
+			@RequestBody @ApiParam(value = "회원탈퇴 정보", required = true) UserRemoveDeleteReq removeInfo, HttpServletRequest req) {
 		String userId = removeInfo.getUserid();
-		String password = removeInfo.getPassword();
-
+		String password1 = removeInfo.getPassword1();
+		String password2 = removeInfo.getPassword2();
 		User user = userService.getUserByUserId(userId);
-		// 해당 ID의 비밀번호와 방금 입력한 비밀번호가 일치하는지 확인
-		if (passwordEncoder.matches(password, user.getPassword())) {
-			// 패스워드가 일치한다면 회원탈퇴를 진행한다.
-			userService.removeUser(userId);
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SuccessRemove"));
-			// 토큰도 지워야함
+		// 두 비밀번호가 일치하는지 확인
+		if(password1.equals(password2)) {
+			// 해당 ID의 비밀번호와 방금 입력한 비밀번호가 일치하는지 확인
+			if (passwordEncoder.matches(password1, user.getPassword())) {
+				// 패스워드가 일치한다면 회원탈퇴를 진행한다.
+				userService.removeUser(userId);
+				// 세션 초기화 진행
+				HttpSession session = req.getSession();
+				session.invalidate();
+				return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SuccessRemove"));
+			}
+			// 패스워드가 실제 유저 패스워드가 아니라면 진행하지 않는다.
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "password is not correct"));
 		}
-		// 패스워드가 일치하지 않는다면 진행하지 않는다.
-		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Fail"));
+		// 두 패스워드가 서로 일치하지 않는다면 진행하지 않는다.
+		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "passwords are not same"));
 	}
 }
+
