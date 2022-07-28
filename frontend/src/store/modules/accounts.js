@@ -246,7 +246,8 @@ export default {
       })
         .then(res => {
           console.log(res)
-          dispatch('fetchCurrentUser')
+          dispatch('removeToken')
+          router.push({ name: 'login' })
         })
         .catch(err => console.log(err))
     },
