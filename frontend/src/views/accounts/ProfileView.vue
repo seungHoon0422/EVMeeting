@@ -6,7 +6,7 @@
         <statistic-card></statistic-card>
         <profile-card></profile-card>
       </div>
-      <div class="button-style d-flex justify-content-between mt-3">
+      <div class="button-style d-flex justify-content-between">
         <router-link :to="{ name: 'editphoto' }"><button>사진 변경</button></router-link>
         <router-link :to="{ name: 'editprofile' }"><button>프로필 변경</button></router-link>
         <router-link :to="{ name: 'editpwd' }"><button>비밀번호 변경</button></router-link>
@@ -48,6 +48,8 @@ export default {
   width: 600px;
   position: absolute;
   right: 10px;
+  margin-top: 50px;
+  margin-right: 30px;
 }
 
 button {

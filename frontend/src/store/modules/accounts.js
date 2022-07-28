@@ -15,6 +15,7 @@ export default {
   getters: {
     isLoggedIn: state => !!state.token,
     currentUser: state => state.currentUser,
+    currentUserAge: state => state.currentUser.birth.split('-')[0],
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
