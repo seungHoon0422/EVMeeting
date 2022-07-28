@@ -74,9 +74,9 @@
 import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
-import UserVideo from '@/components/UserVideo'
-import VideoBottom from '@/components/VideoBottom'
-import QuestionList from '@/components/QuestionList'
+import UserVideo from '@/views/video/components/UserVideo'
+import VideoBottom from '@/views/video/components/VideoBottom'
+import QuestionList from '@/views/video/components/QuestionList'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 

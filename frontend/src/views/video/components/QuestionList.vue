@@ -1,26 +1,35 @@
 <template>
   <div>
     <h1>It's question List</h1>
-    <h1>{{questionList}}</h1>
+    <h1>{{currentUser.gender}}</h1>
+    <button @click="showProfile">profile</button>
   </div>
 </template>
 
 <script>
+import { mapGetters } from 'vuex'
 
 export default ({
   data () {
     return {
-      questionList: [
-        { question: 'ESFP' },
-        { question: '서울시 은평구' },
-        { question: '술 조금' },
-        { question: '재밌는 사람' }
+      pickProfile: '',
+      pickList: [
+        'mbti',
+        'height',
+        'bobby',
+        'drink',
+        'cigarette'
       ]
     }
   },
+  computed: {
+    ...mapGetters(['currentUser'])
+  },
   methods: {
-    ShowQuestion () {
-      console.log(this.questionList)
+    showProfile () {
+      this.pickprofile = this.pickList[0]
+      console.log(this.pickprofile)
+      console.log(this.currentUser[this.pickProfile])
     }
   }
 })
