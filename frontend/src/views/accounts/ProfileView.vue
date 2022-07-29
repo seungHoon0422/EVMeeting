@@ -1,9 +1,9 @@
 <template>
   <div>
     <div class="box">
-      <h1 class="font-style my-3">프로필</h1>
-      <div class="d-flex justify-content-between">
-        <statistic-card></statistic-card>
+      <!-- <h1 class="font-style my-3">프로필</h1> -->
+      <div class="d-flex justify-content-center my-3">
+        <!-- <statistic-card></statistic-card> -->
         <profile-card></profile-card>
       </div>
       <div class="button-style d-flex justify-content-between">
@@ -18,13 +18,13 @@
 
 <script>
 import ProfileCard from '@/views/accounts/components/ProfileCard'
-import StatisticCard from '@/views/accounts/components/StatisticCard'
+// import StatisticCard from '@/views/accounts/components/StatisticCard'
 
 export default {
   name: 'ProfileView',
   components: {
-    ProfileCard,
-    StatisticCard
+    ProfileCard
+    // StatisticCard
   }
 }
 </script>
@@ -32,7 +32,7 @@ export default {
 <style scoped>
 .box {
   width: 800px;
-  height: 850px;
+  height: 700px;
   border: 5px solid #F88F6D;
   border-radius: 10px;
   margin: 0 auto;
@@ -47,9 +47,8 @@ export default {
 .button-style {
   width: 600px;
   position: absolute;
-  right: 10px;
-  margin-top: 50px;
-  margin-right: 30px;
+  right: 100px;
+  margin-top: 300px;
 }
 
 button {
