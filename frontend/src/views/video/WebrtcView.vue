@@ -24,6 +24,8 @@
     <div>
       <button @click="startTimer" class="btn btn-primary">click</button><br>
       <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button>
+      <h1>{{this.userprofile}}</h1>
+      <h1>{{this.addcount}}</h1>
       <!-- <h1>{{tenseconds}}</h1> -->
     </div>
     <div id="session-header">
@@ -33,13 +35,6 @@
     <div>
       <h1>{{tenseconds}}</h1>
       <h1>{{currentUserCount}}</h1>
-      <div>
-        <button @click="question">click</button>
-        <!-- <question-list ref="QuestionList"></question-list> -->
-        <div v-if="question">
-          <question-list ref="QuestionList"></question-list>
-        </div>
-      </div>
     </div>
       <h1 id="session-title">{{ mySessionId }}</h1>
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
@@ -76,7 +71,7 @@ import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import VideoBottom from '@/views/video/components/VideoBottom'
-import QuestionList from '@/views/video/components/QuestionList'
+// import QuestionList from '@/views/video/components/QuestionList'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -85,8 +80,8 @@ const OPENVIDU_SERVER_SECRET = 'MY_SECRET'
 export default {
   components: {
     UserVideo,
-    VideoBottom,
-    QuestionList
+    VideoBottom
+    // QuestionList
   },
   data () {
     return {
@@ -98,11 +93,12 @@ export default {
       subscribers: [],
       tenseconds: 10,
       addcount: 0,
+      addflag: false,
       stopadd: false,
       autoleaveflag: false,
       sessionjoined: 0,
       autocountflag: false,
-      qustion: false,
+      userprofile: undefined,
       mySessionId: 'SessionA',
       audioEnabled: false,
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
@@ -113,11 +109,11 @@ export default {
     // hyomin start
     getSession () {
       axios.post('https://localhost:8443/api/v1/call/join', { sessionid: this.myUserName }).then(res => {
+        console.log(this.currentUser.gender)
         // sessionid 부분을 user정보로 바꾸면 된다
-        // console.log(res);
+        console.log(res)
         this.mySessionId = res.data
-        console.log('here########################################################')
-        console.log(this.mySessionId)
+        console.log('res.data########################################################')
       }).catch(err => {
         console.log(err)
       })
@@ -174,6 +170,10 @@ export default {
       this.session.on('signal:add', () => {
         this.addTime()
       })
+      // 질문 시그널
+      this.session.on('signal:profile', () => {
+        this.profileList()
+      })
 
       // --- Connect to the session with a valid user token ---
 
@@ -219,12 +219,13 @@ export default {
 
       this.sessionjoined = 0
       this.autocountflag = false
-      this.question = false
       this.session = undefined
       this.mainStreamManager = undefined
       this.publisher = undefined
       this.subscribers = []
       this.OV = undefined
+      this.userinfo = undefined
+      this.addflag = false
 
       window.removeEventListener('beforeunload', this.leaveSession)
       // this.$router.push({ name: 'home' })
@@ -305,6 +306,10 @@ export default {
       }
       this.tenseconds += 10
       this.addcount += 1
+      this.addflag = true
+      if (this.addflag === true) {
+        this.profileSignal()
+      }
     },
     // 타이머 시그널
     startTimer ({ timer }) {
@@ -328,16 +333,23 @@ export default {
       console.log(audio)
       this.publisher.publishAudio(audio)
     },
-    // 질문 출력
-    question () {
-      this.question = true
+    // 질문 출력 시그널
+    profileSignal () {
+      this.session.signal({
+        data: '',
+        to: [],
+        type: 'profile'
+      })
     },
-    questionList () {
-      this.$refs.QuestionList.ShowQuestion()
+    // 질문 출력
+    profileList () {
+      const values = Object.values(this.currentUser)
+      const prop = values[Math.floor(Math.random() * values.length)]
+      this.userprofile = prop
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'authHeader']),
+    ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
     currentUserCount: function () {
       return this.subscribers.length
     }
@@ -359,7 +371,6 @@ export default {
     sessionjoined (sessionjoined) {
       if (sessionjoined === 1) {
         // this.countTime()
-        console.log('here################################')
       }
     }
   }
