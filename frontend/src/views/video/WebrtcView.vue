@@ -116,12 +116,15 @@ export default {
         // sessionid 부분을 user정보로 바꾸면 된다
         // console.log(res);
         this.mySessionId = res.data
+        console.log('here########################################################')
+        console.log(this.mySessionId)
       }).catch(err => {
         console.log(err)
       })
     },
     // hyomin end
     joinSession () {
+      this.getSession()
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
@@ -137,7 +140,6 @@ export default {
         this.sessionjoined = 1
       }
       if (this.subscribers.length >= 2) {
-        console.log('here########################################################')
         console.log('more than 2')
       }
 
