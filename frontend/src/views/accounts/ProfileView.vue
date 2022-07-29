@@ -32,7 +32,7 @@ export default {
 <style scoped>
 .box {
   width: 800px;
-  height: 700px;
+  height: 900px;
   border: 5px solid #F88F6D;
   border-radius: 10px;
   margin: 0 auto;
@@ -48,7 +48,7 @@ export default {
   width: 600px;
   position: absolute;
   right: 100px;
-  margin-top: 300px;
+  margin-top: 500px;
 }
 
 button {

@@ -7,33 +7,41 @@
       </div>
       <table class="table">
         <thead>
-          <tr>
-            <th scope="col" class="fs-5">{{currentUser.username}}(32)</th>
+          <tr class="table-secondary">
+            <th scope="row" class="fs-5">{{currentUser.username}} ({{currentUserAge}})</th>
+            <td></td>
           </tr>
         </thead>
         <tbody>
-          <tr>
+          <tr class="table-primary">
             <th scope="row">키</th>
-            <td>{{currentUser.height}}</td>
-            <th scope="row">몸무게</th>
-            <td>{{currentUser.weight}}</td>
+            <td>{{currentUser.height}} cm</td>
           </tr>
-          <tr>
+          <tr class="table-success">
+            <th scope="row">몸무게</th>
+            <td>{{currentUser.weight}} kg</td>
+          </tr>
+          <tr class="table-danger">
             <th scope="row">관심사</th>
             <td>{{currentUser.hobby}}</td>
+          </tr>
+          <tr class="table-warning">
             <th scope="row">MBTI</th>
             <td>{{currentUser.mbti}}</td>
           </tr>
-          <tr>
+          <tr class="table-info">
             <th scope="row">음주</th>
-            <td>{{currentUser.drink}}</td>
-            <th scope="row">흡연</th>
-            <td>
-              <span v-if="currentUser.cigarette">{{currentUser.cigarette}}</span>
-              <span v-else> - </span>
-            </td>
+            <td v-if="currentUser.drink == 'nodrink'">아예 안 마심</td>
+            <td v-else-if="currentUser.drink == 'solodrink'">혼술할 정도로 좋아함</td>
+            <td v-else-if="currentUser.drink == 'frienddrink'">친구들 만날 때만</td>
+            <td v-else-if="currentUser.drink == 'nownodrink'">현재 금주 중</td>
           </tr>
-          <tr>
+          <tr class="table-light">
+            <th scope="row">흡연</th>
+            <td v-if="currentUser.cigarette == 'smoke'">흡연</td>
+            <td v-else-if="currentUser.cigarette == 'nosmoke'">비흡연</td>
+          </tr>
+          <tr class="table-dark">
             <th scope="row">자기소개</th>
             <td colspan="3">{{currentUser.description}}</td>
           </tr>
@@ -79,7 +87,7 @@ export default {
 .box {
   text-align: left;
   /* border: 3px solid #F88F6D; */
-  width: 350px;
+  width: 450px;
   height: 300px;
   margin-right: 10px;
 }
@@ -90,8 +98,8 @@ export default {
 }
 
 .img-box1 {
-  width: 350px;
-  height: 350px;
+  width: 450px;
+  height: 400px;
 }
 
 img {
@@ -106,7 +114,8 @@ img {
 }
 
 .table {
-  background-color: white;
+  background-color: #FFFFEA;
+  /* border: 1px solid #F88F6D; */
 }
 
 </style>

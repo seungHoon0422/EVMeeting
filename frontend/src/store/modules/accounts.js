@@ -15,7 +15,13 @@ export default {
   getters: {
     isLoggedIn: state => !!state.token,
     currentUser: state => state.currentUser,
-    currentUserAge: state => state.currentUser.birth.split('-')[0],
+    currentUserAge: state => {
+      const today = new Date()
+      const a = (state.currentUser.birth || '').split('-')
+      const birthDate = new Date(a[0], a[1], a[2])
+      const age = today.getFullYear() - birthDate.getFullYear()
+      return age
+    },
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
