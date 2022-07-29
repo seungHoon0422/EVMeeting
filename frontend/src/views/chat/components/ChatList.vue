@@ -3,7 +3,7 @@
     <div class="title">
       채팅 목록
       <img
-        src="../assets/trash.svg"
+        src="../img/trash.svg"
         @click="showdelete()"
         style="margin-left: 350px;  margin-right: 5px;"
       />
@@ -16,7 +16,7 @@
       v-model="title"
     />&nbsp;&nbsp;
     <img
-      src="../assets/add.svg"
+      src="../img/add.svg"
       @click="createRoom()"
       style="margin-left: 0px; margin-top: 5px"
     />
@@ -34,7 +34,7 @@
         >
           <img
             v-if="isShowing"
-            src="../assets/cross.svg"
+            src="../img/cross.svg"
             @click="deleteRoom()"
           />
         </div>
@@ -44,80 +44,80 @@
 </template>
 
 <script>
-import axios from "axios";
+import axios from 'axios'
 export default {
-  name: "ChatList",
+  name: 'ChatList',
   data: () => {
     return {
       id: -1,
-      nickname: "",
+      nickname: '',
       room_list: [1, 2, 3],
-      title: "",
+      title: '',
       isShowing: false
-    };
-  },
-  created() {
-    this.id = this.$route.params.id;
-    this.nickname = this.$route.params.nickname;
-    if (this.id == -1 || typeof this.id === "undefined") {
-      this.$router.push({ name: "Home" });
     }
-    alert("Hi ! " + this.$route.params.nickname);
+  },
+  created () {
+    this.id = this.$route.params.id
+    this.nickname = this.$route.params.nickname
+    if (this.id === -1 || typeof this.id === 'undefined') {
+      this.$router.push({ name: 'Home' })
+    }
+    alert('Hi ! ' + this.$route.params.nickname)
     axios({
-      method: "get",
-      url: "/api/chat/rooms",
-      baseURL: "http://localhost:8080/"
+      method: 'get',
+      url: '/api/chat/room/chatroomInfo/{id}',
+      baseURL: 'http://localhost:8080/'
     }).then(
       res => {
-        console.log(res);
-        this.room_list = [];
+        console.log(res)
+        this.room_list = []
         for (let i = 0; i < res.data.length; i++) {
-          let room = {
+          const room = {
             id: res.data[i].id,
             title: res.data[i].title
-          };
-          this.room_list.push(room);
+          }
+          this.room_list.push(room)
         }
       },
       err => {
-        console.log(err);
-        this.$router.push({ name: "Home" });
+        console.log(err)
+        this.$router.push({ name: 'Home' })
       }
-    );
+    )
   },
   methods: {
-    enterRoom(id) {
+    enterRoom (id) {
       this.$router.push({
-        name: "chat",
+        name: 'chat',
         params: { roomid: id, nickname: this.nickname, id: this.id }
-      });
+      })
     },
-    createRoom() {
+    createRoom () {
       axios({
-        method: "post",
-        url: "/api/chat/room",
-        baseURL: "http://localhost:8080/",
-        headers: { "content-type": "application/json" },
-        data: { id: this.id, title: this.title, masterId: this.id }
+        method: 'post',
+        url: '/api/v1/chat/room',
+        baseURL: 'http://localhost:8080/',
+        headers: { 'content-type': 'application/json' },
+        data: { id: this.id }
       }).then(
         res => {
           this.$router.push({
-            name: "chat",
-            params: { roomid: res.data, nickname: this.nickname, id: this.id }
-          });
+            name: 'chat',
+            params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
+          })
         },
         err => {
-          console.log(err);
-          this.$router.push({ name: "Home" });
+          console.log(err)
+          this.$router.push({ name: 'Home' })
         }
-      );
+      )
     },
-    showdelete() {
-      if (this.isShowing == false) this.isShowing = true;
-      else this.isShowing = false;
+    showdelete () {
+      if (this.isShowing === false) this.isShowing = true
+      else this.isShowing = false
     }
   }
-};
+}
 </script>
 <style scoped>
 .title {

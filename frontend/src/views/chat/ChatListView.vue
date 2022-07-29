@@ -5,13 +5,13 @@
 </template>
 
 <script>
-import ChatList from "@/components/ChatList";
+import ChatList from '@/components/ChatList'
 
 export default {
   components: {
-    ChatList: ChatList,
-  },
-};
+    ChatList: ChatList
+  }
+}
 </script>
 
 <style></style>

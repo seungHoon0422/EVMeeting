@@ -5,14 +5,13 @@
 </template>
 
 <script>
-import Chat from "@/components/Chat";
+import Chat from '@/components/Chat'
 
 export default {
   components: {
-    Chat: Chat,
-  },
-};
+    Chat: Chat
+  }
+}
 </script>
 
 <style></style>
-
