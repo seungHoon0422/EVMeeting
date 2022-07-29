@@ -24,6 +24,12 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
+    public ChatRoom getChatRoomByChatRoomId(long id) {
+        return chatroomRepository.findById(id).get();
+    }
+
+
+    @Override
     public List<ChatRoom> getAllChatRoomsByUserId1(long id) {
         return chatroomRepository.findAllByUserid1(id);
     }
