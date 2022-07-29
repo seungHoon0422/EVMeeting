@@ -125,7 +125,7 @@ public class UserController {
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
-//	@PutMapping("/editInfor")
+//	@PostMapping("editprofile/")
 //	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
 //	@ApiResponses({
 //			@ApiResponse(code = 200, message = "성공"),
@@ -133,7 +133,7 @@ public class UserController {
 //			@ApiResponse(code = 404, message = "사용자 없음"),
 //			@ApiResponse(code = 500, message = "서버 오류")
 //	})
-//	public ResponseEntity<? extends BaseResponseBody> editInfor(
+//	public ResponseEntity<? extends BaseResponseBody> editprofile(
 //			@RequestBody @ApiParam(value = "회원수정 정보 - 프로필", required = true) UserEditInforPutReq editInfo) {
 //		//해당 유저의 정보들 변경하기
 //		userService.editUserInfor(editInfo);
