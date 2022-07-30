@@ -24,6 +24,10 @@
     <div>
       <button @click="startTimer" class="btn btn-primary">click</button><br>
       <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button>
+      <br>
+      <div v-if="currentUser">
+        <button @click="addingTime" class="btn btn-success" :disabled="stopadd">NewAdd</button>
+      </div>
       <h1>{{this.userprofile}}</h1>
       <h1>{{this.addcount}}</h1>
       <!-- <h1>{{tenseconds}}</h1> -->
@@ -99,6 +103,8 @@ export default {
       sessionjoined: 0,
       autocountflag: false,
       userprofile: undefined,
+      profilecount: undefined,
+      profileopencount: undefined,
       mySessionId: 'SessionA',
       audioEnabled: false,
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
@@ -120,12 +126,12 @@ export default {
     },
     // hyomin end
     joinSession () {
-      this.getSession()
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
       this.tenseconds = 10
-      this.subscribers = []
+      this.profilecount = 0
+      this.profileopencount = 0
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -226,6 +232,7 @@ export default {
       this.OV = undefined
       this.userinfo = undefined
       this.addflag = false
+      this.profileopencount = undefined
 
       window.removeEventListener('beforeunload', this.leaveSession)
       // this.$router.push({ name: 'home' })
@@ -308,6 +315,11 @@ export default {
       this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
+        this.profilecount += 1
+        if (this.profilecount % 2 === 1) {
+          console.log('IaminIF##')
+          this.stopadd = true
+        }
         this.profileSignal()
       }
     },
@@ -346,6 +358,8 @@ export default {
       const values = Object.values(this.currentUser)
       const prop = values[Math.floor(Math.random() * values.length)]
       this.userprofile = prop
+      console.log('profilecount : ')
+      console.log(this.profilecount)
     }
   },
   computed: {
@@ -356,7 +370,8 @@ export default {
   },
   created () {
     if (this.isLoggedIn) {
-      console.log('hi')
+      // console.log('hi')
+      console.log(this.isLoggedIn)
     } else {
       alert('잘못된 접근')
       this.$router.back()
