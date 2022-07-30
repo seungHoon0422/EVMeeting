@@ -26,8 +26,8 @@
       <!-- <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button> -->
       <br>
       <div v-if="currentUser">
-        <button @click="addingTime" class="btn btn-success" :disabled="stopadd">NewAdd</button>
-        <h1>{{profileopencount}}</h1>
+        <h1>profile open count : {{profileopencount}}</h1>
+        <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
           @profileOnOff="profileOnOff"
           :profileopencount= "profileopencount"
@@ -35,8 +35,8 @@
 
         </adding-profile>
       </div>
-      <h1>{{this.userprofile}}</h1>
-      <h1>{{this.addcount}}</h1>
+      <h1>user's profile : {{this.userprofile}}</h1>
+      <h1>addcount : {{this.addcount}}</h1>
       <!-- <h1>{{tenseconds}}</h1> -->
     </div>
     <div id="session-header">
@@ -44,8 +44,8 @@
       <!-- <timer-compo @startTimer="startTimer" ref="TimerCompo"></timer-compo> -->
     </div>
     <div>
-      <h1>{{tenseconds}}</h1>
-      <h1>{{currentUserCount}}</h1>
+      <h1>남은 시간 : {{tenseconds}}</h1>
+      <h1>현재 세션에 접속중인 유저 : {{currentUserCount}}</h1>
     </div>
       <h1 id="session-title">{{ mySessionId }}</h1>
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
@@ -112,6 +112,7 @@ export default {
       userprofile: undefined,
       profilecount: undefined,
       profileopencount: undefined,
+      countTogether: 0,
       mySessionId: 'SessionA',
       audioEnabled: false,
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
@@ -139,6 +140,8 @@ export default {
       this.tenseconds = 10
       this.profilecount = 0
       this.profileopencount = 0
+      this.addcount = 0
+      this.countTogether = 0
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -187,7 +190,10 @@ export default {
       this.session.on('signal:profile', () => {
         this.profileList()
       })
-
+      // countTogether 시그널
+      this.session.on('signal:together', () => {
+        this.addCountTogether()
+      })
       // --- Connect to the session with a valid user token ---
 
       // 'getToken' method is simulating what your server-side should do.
@@ -316,10 +322,10 @@ export default {
     addTime () {
       if (this.addcount >= 3) {
         this.stopaddFunc()
-        this.addcount = 0
+        // this.addcount = 0
       }
       this.tenseconds += 10
-      this.addcount += 1
+      // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
         this.profileSignal()
@@ -355,6 +361,18 @@ export default {
         type: 'profile'
       })
     },
+    // countTogether 시그널
+    countTogetherSignal () {
+      this.session.signal({
+        data: '',
+        to: [],
+        type: 'together'
+      })
+    },
+    // addCountTogether
+    addCountTogether () {
+      this.countTogether += 1
+    },
     // 질문 출력
     profileList () {
       const values = Object.values(this.currentUser)
@@ -372,7 +390,12 @@ export default {
           this.profileSignal()
         }
       }
+    },
+    // addcount 1 증가
+    plusAddCount () {
+      this.addcount += 1
     }
+
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -399,6 +422,18 @@ export default {
       if (sessionjoined === 1) {
         // this.countTime()
       }
+    },
+    // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
+    profileopencount () {
+      if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
+        this.plusAddCount()
+        // 같이 값을 바꿀 수 있는 countTogether
+        this.countTogetherSignal()
+      }
+    },
+    // addcount가 1씩 증가할 때 마다 시간이 10초 증가 해야한다.
+    addcount () {
+      this.addTime()
     }
   }
 }
