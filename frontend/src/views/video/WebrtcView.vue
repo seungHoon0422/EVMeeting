@@ -23,10 +23,17 @@
   <div id="session" v-if="session">
     <div>
       <button @click="startTimer" class="btn btn-primary">click</button><br>
-      <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button>
+      <!-- <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button> -->
       <br>
       <div v-if="currentUser">
         <button @click="addingTime" class="btn btn-success" :disabled="stopadd">NewAdd</button>
+        <h1>{{profileopencount}}</h1>
+        <adding-profile
+          @profileOnOff="profileOnOff"
+          :profileopencount= "profileopencount"
+          >
+
+        </adding-profile>
       </div>
       <h1>{{this.userprofile}}</h1>
       <h1>{{this.addcount}}</h1>
@@ -75,7 +82,7 @@ import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import VideoBottom from '@/views/video/components/VideoBottom'
-// import QuestionList from '@/views/video/components/QuestionList'
+import AddingProfile from '@/views/video/components/AddingProfile'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -84,8 +91,8 @@ const OPENVIDU_SERVER_SECRET = 'MY_SECRET'
 export default {
   components: {
     UserVideo,
-    VideoBottom
-    // QuestionList
+    VideoBottom,
+    AddingProfile
   },
   data () {
     return {
@@ -315,11 +322,6 @@ export default {
       this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
-        this.profilecount += 1
-        if (this.profilecount % 2 === 1) {
-          console.log('IaminIF##')
-          this.stopadd = true
-        }
         this.profileSignal()
       }
     },
@@ -360,6 +362,16 @@ export default {
       this.userprofile = prop
       console.log('profilecount : ')
       console.log(this.profilecount)
+    },
+    // 프로필 보기 OnOFF
+    profileOnOff () {
+      console.log(this.profileOnOff)
+      if (this.profileOnOff) {
+        this.profileopencount += 1
+        if (this.profileopencount % 2 === 0) {
+          this.profileSignal()
+        }
+      }
     }
   },
   computed: {
