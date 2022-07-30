@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Want to see your profile</h1>
-    <button @click="profileOnOff" class="btn btn-danger" v-bind:disabled="showprofile==true">WantToSee</button>
+    <button @click="profileOnOff" class="btn btn-danger" v-bind:disabled="buttonOff==true">WantToSee</button>
   </div>
 </template>
 
@@ -15,7 +15,7 @@ export default {
   },
   data () {
     return {
-      buttonOnOff: 0
+      buttonOff: false
     }
   },
   name: 'adding-profile',
