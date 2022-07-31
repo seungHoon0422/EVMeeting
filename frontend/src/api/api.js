@@ -13,7 +13,9 @@ export default {
     profile: username => HOST + ACCOUNTS + 'profile/' + username,
     upload: username => HOST + ACCOUNTS + 'upload/' + username,
     editpwd: () => HOST + ACCOUNTS + 'editpwd/',
-    deleteprofile: () => HOST + ACCOUNTS + 'deleteprofile/'
+    deleteprofile: () => HOST + ACCOUNTS + 'deleteprofile/',
+    editprofile: () => HOST + ACCOUNTS + 'editprofile/',
+    uploadPhoto: () => HOST + ACCOUNTS + 'uploadphoto/'
   },
   chat: {},
   video: {}

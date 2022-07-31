@@ -16,7 +16,7 @@ export default {
 .box {
   border: 3px solid #F88F6D;
   width: 350px;
-  height: 400px;
+  height: 600px;
   margin-left: 10px;
 }
 

@@ -15,6 +15,13 @@ export default {
   getters: {
     isLoggedIn: state => !!state.token,
     currentUser: state => state.currentUser,
+    currentUserAge: state => {
+      const today = new Date()
+      const a = (state.currentUser.birth || '').split('-')
+      const birthDate = new Date(a[0], a[1], a[2])
+      const age = today.getFullYear() - birthDate.getFullYear()
+      return age
+    },
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
@@ -241,6 +248,20 @@ export default {
     deleteProfile ({ dispatch }, credentials) {
       axios({
         url: api.accounts.deleteprofile(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          dispatch('removeToken')
+          router.push({ name: 'login' })
+        })
+        .catch(err => console.log(err))
+    },
+
+    editProfile ({ dispatch }, credentials) {
+      axios({
+        url: api.accounts.editprofile(),
         method: 'post',
         data: credentials
       })
