@@ -5,7 +5,7 @@
 </template>
 
 <script>
-import ChatList from '@/components/ChatList'
+import ChatList from '@/views/chat/components/ChatList.vue'
 
 export default {
   components: {
@@ -14,4 +14,11 @@ export default {
 }
 </script>
 
-<style></style>
+<style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+* {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+}
+</style>

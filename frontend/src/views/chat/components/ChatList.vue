@@ -1,25 +1,24 @@
 <template>
-  <div class="room_list">
+  <div class="chat_list">
     <div class="title">
-      채팅 목록
+      ChatRoom
       <img
-        src="../img/trash.svg"
+        src="@/img/trash.svg"
         @click="showdelete()"
-        style="margin-left: 350px;  margin-right: 5px;"
+        style="margin-left: 330px;  margin-right: 5px; margin-top: 20px;"
       />
     </div>
-    <h3>{{ nickname }}님</h3>
-    <input
+    <!-- <input
       class="search_room"
       type="text"
       placeholder="방 제목"
       v-model="title"
     />&nbsp;&nbsp;
     <img
-      src="../img/add.svg"
+      src="@/img/add.svg"
       @click="createRoom()"
       style="margin-left: 0px; margin-top: 5px"
-    />
+    /> -->
     <hr />
     <div v-if="room_list.length == 0">
       방 없다
@@ -27,15 +26,16 @@
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
         <div id="rooms" class="rooms" @click="enterRoom(r.id)">
-          {{ r.title }}
+          {{ r.id }}
         </div>
         <div
-          style="float:right; margin-top:-50px; margin-right: 5px; background-color: red; border-radius: 30px;"
+          style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
         >
           <img
             v-if="isShowing"
-            src="../img/cross.svg"
+            src="@/img/cross.svg"
             @click="deleteRoom()"
+            style="margin-right: 7px; padding-left: 7px;"
           />
         </div>
       </div>
@@ -59,13 +59,13 @@ export default {
   created () {
     this.id = this.$route.params.id
     this.nickname = this.$route.params.nickname
-    if (this.id === -1 || typeof this.id === 'undefined') {
-      this.$router.push({ name: 'Home' })
-    }
+    // if (this.id === -1 || typeof this.id === 'undefined') {
+    //   this.$router.push({ name: 'home' })
+    // }
     alert('Hi ! ' + this.$route.params.nickname)
     axios({
       method: 'get',
-      url: '/api/chat/room/chatroomInfo/{id}',
+      url: '/api/v1/chat/room/chatroomInfo/{id}',
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
@@ -73,45 +73,44 @@ export default {
         this.room_list = []
         for (let i = 0; i < res.data.length; i++) {
           const room = {
-            id: res.data[i].id,
-            title: res.data[i].title
+            id: res.data[i].id
           }
           this.room_list.push(room)
         }
-      },
-      err => {
-        console.log(err)
-        this.$router.push({ name: 'Home' })
       }
+      // err => {
+      //   console.log(err)
+      //   this.$router.push({ name: 'home' })
+      // }
     )
   },
   methods: {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { roomid: id, nickname: this.nickname, id: this.id }
+        params: { nickname: this.nickname, id: this.id }
       })
     },
-    createRoom () {
-      axios({
-        method: 'post',
-        url: '/api/v1/chat/room',
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' },
-        data: { id: this.id }
-      }).then(
-        res => {
-          this.$router.push({
-            name: 'chat',
-            params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
-          })
-        },
-        err => {
-          console.log(err)
-          this.$router.push({ name: 'Home' })
-        }
-      )
-    },
+    // createRoom () {
+    //   axios({
+    //     method: 'post',
+    //     url: '/api/v1/chat/rooms',
+    //     baseURL: 'http://localhost:8080/',
+    //     headers: { 'content-type': 'application/json' },
+    //     data: { id: this.id }
+    //   }).then(
+    //     res => {
+    //       this.$router.push({
+    //         name: 'chat',
+    //         params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
+    //       })
+    //     },
+    //     err => {
+    //       console.log(err)
+    //       this.$router.push({ name: 'home' })
+    //     }
+    //   )
+    // },
     showdelete () {
       if (this.isShowing === false) this.isShowing = true
       else this.isShowing = false
@@ -120,11 +119,20 @@ export default {
 }
 </script>
 <style scoped>
+.chat_list{
+  width: 505px;
+  height: 712px;
+  background-color: #bad8da;
+  margin: 5rem auto 0rem;
+  border-radius: 1.5rem;
+  box-shadow: 0px 1px 20px #9c9cc855;
+}
 .title {
-  margin-top: 10px;
-  text-align: center;
+  margin-top: 20px;
+  margin-left: 10px;
   font-size: large;
-  font: bold;
+  font-family: "Golden Plains - Demo";
+  color: #FFFFEA;
 }
 h3 {
   margin-left: 15px;
@@ -133,17 +141,17 @@ h3 {
 .roomList {
   margin-left: 15px;
 }
-.search_room {
+/* .search_room {
   margin-left: 15px;
   margin-bottom: 30px;
   height: 20px;
-}
+} */
 .rooms {
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  border: 2px #f90a0a solid;
+  border: 2px #fefefe solid;
   height: 70px;
   max-width: 90%;
   border-radius: 10px;

@@ -1,13 +1,12 @@
 <template>
-  <div class="room">
+  <div class="chat">
     <div class="chat__header">
       <img
-        src="../assets/angle-circle-left.svg"
+        src="@/img/angle-circle-left.svg"
         alt=""
         @click="moveBack"
-        style="margin-left: 0px; margin-top: 5px"
+        style="margin-left:-450px; margin-top: 5px"
       />
-      <span class="chat__header__greetings">{{ title }}</span>
     </div>
     <div class="chat__body" id="chat__body" onscroll="chat_on_scroll()">
       <chat-message
@@ -17,15 +16,12 @@
         :prev="[idx == 0 ? null : msg[idx - 1]]"
       >
         <div v-bind:class="m.style">
-          <div v-if="m.senderNickname == nickname" class="chat__mymessage">
-            <!-- <h5 class="chat__mymessage__user" style="margin:3px">
-              {{ m.senderNickname }}
-            </h5> -->
+          <div v-if="m.senderId == id" class="chat__mymessage">
             <p class="chat__mymessage__paragraph">{{ m.content }}</p>
           </div>
           <div v-else class="chat__yourmessage">
             <h5 class="chat__yourmessage__user" style="margin:3px">
-              {{ m.senderNickname }}
+              {{ m.senderId }}
             </h5>
             <div class="chat__yourmessage__p">
               <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
@@ -49,7 +45,7 @@
         style="display:none"
         @change="uploadVideo"
     /> -->
-    <chat-form></chat-form>
+    <chat-form ></chat-form>
   </div>
 </template>
 
@@ -60,7 +56,7 @@ import SockJS from 'sockjs-client'
 import ChatForm from './ChatForm.vue'
 let preDiffHeight = 0
 let bottomFlag = true
-// import Compressor from "compressorjs";
+
 export default {
   components: { ChatForm },
   name: 'ChatView',
@@ -105,14 +101,14 @@ export default {
     // 채팅방 내용 불러오기
     axios({
       method: 'get',
-      url: '/api/chat/room/message/' + this.roomid + '?page=' + this.idx,
+      url: '/api/v1/chat/room/message/' + this.id + '?page=' + this.idx,
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
         this.msg = []
         for (let i = res.data.length - 1; i > -1; i--) {
           const m = {
-            senderNickname: res.data[i].senderNickname,
+            senderId: res.data[i].senderId,
             content: res.data[i].content,
             style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
           }
@@ -162,25 +158,7 @@ export default {
       }
     },
     moveBack () {
-      axios({
-        method: 'post',
-        url: '/api/chat/login',
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' },
-        data: { id: this.id, nickname: this.nickname }
-      }).then(
-        res => {
-          this.nickname = res.data
-          this.$router.push({
-            name: 'chatList',
-            params: { id: this.id, nickname: this.nickname }
-          })
-        },
-        err => {
-          alert('id, nickname error')
-          console.log(err)
-        }
-      )
+      this.$router.push({ name: 'chatlist' })
     },
     chat_on_scroll () {
       const objDiv = document.getElementById('app_chat_list')
@@ -230,6 +208,14 @@ export default {
 }
 </script>
 <style scoped>
+.chat{
+  width: 505px;
+  height: 712px;
+  background-color: #bad8da;
+  margin: 5rem auto 0rem;
+  border-radius: 1.5rem;
+  box-shadow: 0px 1px 20px #9c9cc855;
+}
 .room {
   display: flex;
   flex-direction: column;
