@@ -11,6 +11,9 @@ export default {
   props: {
     profileopencount: {
       type: Number
+    },
+    session: {
+      type: String
     }
   },
   data () {
@@ -31,6 +34,12 @@ export default {
         state.showprofile = true
       }
       console.log(state.showprofile)
+      // Sending Signal
+      props.session.signal({
+        data: '',
+        to: [],
+        type: 'profileopencount'
+      })
       emit('profileOnOff', {
         showprofile: state.showprofile
       })

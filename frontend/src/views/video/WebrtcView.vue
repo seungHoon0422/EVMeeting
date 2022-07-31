@@ -31,6 +31,7 @@
         <adding-profile
           @profileOnOff="profileOnOff"
           :profileopencount= "profileopencount"
+          :session="session"
           >
 
         </adding-profile>
@@ -193,6 +194,10 @@ export default {
       // countTogether 시그널
       this.session.on('signal:together', () => {
         this.addCountTogether()
+      })
+      // profileopencount 시그널
+      this.session.on('signal:profileopencount', () => {
+        this.profileopencount += 1
       })
       // --- Connect to the session with a valid user token ---
 
@@ -385,7 +390,7 @@ export default {
     profileOnOff () {
       console.log(this.profileOnOff)
       if (this.profileOnOff) {
-        this.profileopencount += 1
+        // this.profileopencount += 1
         if (this.profileopencount % 2 === 0) {
           this.profileSignal()
         }
