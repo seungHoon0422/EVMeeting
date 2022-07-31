@@ -52,7 +52,6 @@ export default {
       id: -1,
       nickname: '',
       room_list: [1, 2, 3],
-      title: '',
       isShowing: false
     }
   },

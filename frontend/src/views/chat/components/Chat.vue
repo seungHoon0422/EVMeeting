@@ -64,7 +64,6 @@ export default {
     return {
       id: -1,
       nickname: '',
-      title: '',
       roomid: -1,
       idx: 0,
       msg: [],
@@ -101,14 +100,14 @@ export default {
     // 채팅방 내용 불러오기
     axios({
       method: 'get',
-      url: '/api/v1/chat/room/message/' + this.id + '?page=' + this.idx,
+      url: '/api/v1/chat/room/message/' + this.roomid + '?page=' + this.idx,
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
         this.msg = []
         for (let i = res.data.length - 1; i > -1; i--) {
           const m = {
-            senderId: res.data[i].senderId,
+            senderNickname: res.data[i].senderNickname,
             content: res.data[i].content,
             style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
           }
