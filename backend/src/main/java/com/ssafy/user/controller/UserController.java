@@ -1,10 +1,7 @@
 package com.ssafy.user.controller;
 
 import com.ssafy.user.db.repository.UserRepository;
-import com.ssafy.user.request.UserEditPWPutReq;
-import com.ssafy.user.request.UserLoginPostReq;
-import com.ssafy.user.request.UserRegisterPostReq;
-import com.ssafy.user.request.UserRemoveDeleteReq;
+import com.ssafy.user.request.*;
 import com.ssafy.user.response.UserLoginPostRes;
 import com.ssafy.user.response.UserRes;
 import com.ssafy.user.service.UserService;
@@ -125,20 +122,20 @@ public class UserController {
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
-//	@PostMapping("editprofile/")
-//	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<? extends BaseResponseBody> editprofile(
-//			@RequestBody @ApiParam(value = "회원수정 정보 - 프로필", required = true) UserEditInforPutReq editInfo) {
-//		//해당 유저의 정보들 변경하기
-//		userService.editUserInfor(editInfo);
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SuccessChange"));
-//	}
+	@PostMapping("editprofile/")
+	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> editprofile(
+			@RequestBody @ApiParam(value = "회원수정 정보 - 프로필", required = true) UserEditInforPutReq editInfo) {
+		//해당 유저의 정보들 변경하기
+		userService.editUserInfor(editInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "SuccessChange"));
+	}
 
 	@PostMapping("editpwd/")
 	@ApiOperation(value = "회원 비밀번호 수정", notes = "회원정보 중 비밀번호를 수정한다.")
