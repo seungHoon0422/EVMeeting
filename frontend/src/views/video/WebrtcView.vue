@@ -32,6 +32,7 @@
           @profileOnOff="profileOnOff"
           :profileopencount= "profileopencount"
           :session="session"
+          :countTogether = "countTogether"
           >
 
         </adding-profile>

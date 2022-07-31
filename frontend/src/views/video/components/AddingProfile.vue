@@ -1,7 +1,8 @@
 <template>
   <div>
     <h1>Want to see your profile</h1>
-    <button @click="profileOnOff" class="btn btn-danger" v-bind:disabled="buttonOff==true">WantToSee</button>
+    <button @click="[profileOnOff(),buttonSwitch()]" class="btn btn-danger"  v-bind:disabled="buttonOff==true">WantToSee</button>
+    <!-- <button @click="buttonSwitch" class="btn btn-primary" v-bind:disabled="buttonOff==true">Checking</button> -->
   </div>
 </template>
 
@@ -14,11 +15,28 @@ export default {
     },
     session: {
       type: String
+    },
+    countTogether: {
+      type: Number
     }
   },
   data () {
     return {
       buttonOff: false
+    }
+  },
+  methods: {
+    buttonSwitch () {
+      if (this.profileopencount % 2 === 0) {
+        this.buttonOff = true
+      }
+    }
+  },
+  watch: {
+    countTogether () {
+      if (this.countTogether !== 0) {
+        this.buttonOff = false
+      }
     }
   },
   name: 'adding-profile',
