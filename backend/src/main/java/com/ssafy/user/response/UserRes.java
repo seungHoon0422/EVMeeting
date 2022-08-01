@@ -15,7 +15,7 @@ import lombok.Setter;
 @ApiModel("UserResponse")
 public class UserRes{
 	@ApiModelProperty(name="ID")
-	String id;
+	Long id;
 	@ApiModelProperty(name="User ID")
 	String userid;
 	@ApiModelProperty(name="유저 닉네임")
