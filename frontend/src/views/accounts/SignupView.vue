@@ -13,7 +13,7 @@
               <label for="userid" class="me-3 pt-3">아이디</label>
               <input id="userid"  @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
             </div>
-            <p class="guide">중복/사용가능 메시지랑 outline색으로 표시</p>
+            <p class="badge bg-danger bg-margin" v-if="!availableId">이미 사용중인 아이디입니다.</p>
             <div class="mt-3 d-flex justify-content-end">
               <label for="password1" class="me-3 pt-3">비밀번호</label>
               <input id="password1" v-model="credentials.password1" class="input-color rounded length height p-3" type="password" placeholder="비밀번호" required>
@@ -131,7 +131,7 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authError', 'availableEmail'])
+    ...mapGetters(['authError', 'availableEmail', 'availableId'])
   },
   methods: {
     ...mapActions(['signup', 'checkDuplicateId', 'checkDuplicateEmail'])
@@ -189,5 +189,11 @@ input, textarea, select {
 
 .head {
   margin-left:500px !important;
+}
+
+.bg-margin {
+  margin-left: 60px;
+  font-size:10px;
+  margin-bottom: 0px;
 }
 </style>

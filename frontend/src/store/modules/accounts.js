@@ -10,7 +10,7 @@ export default {
     profile: {},
     authError: null,
     kakaoLogin: false,
-    availableId: true,
+    availableId: false,
     availableEmail: true,
     image1: ''
   },
