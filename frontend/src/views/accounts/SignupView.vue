@@ -3,7 +3,7 @@
   <div class="signup-form">
     <div class="mt-5 p-3 mb-5 rounded form-style">
       <h1>입주민 등록</h1>
-
+      <p class="guide head">*모든 항목 기입해주시기 바랍니다</p>
       <!-- <account-error-list v-if="authError"></account-error-list> -->
 
       <form @submit.prevent="signup(credentials)" class="mt-5">
@@ -13,10 +13,12 @@
               <label for="userid" class="me-3 pt-3">아이디</label>
               <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
             </div>
+            <p class="guide">중복/사용가능 메시지랑 outline색으로 표시</p>
             <div class="mt-3 d-flex justify-content-end">
               <label for="password1" class="me-3 pt-3">비밀번호</label>
               <input id="password1" v-model="credentials.password1" class="input-color rounded length height p-3" type="password" placeholder="비밀번호" required>
             </div>
+            <p class="guide">-영어/숫자/특수문자 중 2가지 이상 조합 8자 이상</p>
             <div class="mt-3 d-flex justify-content-end">
               <label for="password2" class="me-3 pt-3">비밀번호 확인</label>
               <input id="password2" v-model="credentials.password2" class="input-color rounded length height p-3" type="password"  placeholder="비밀번호 확인" required>
@@ -172,5 +174,18 @@ select {
   background-color: #FFFFEA;
   font-size: 14px;
   padding: 0 10px;
+}
+
+input, textarea, select {
+  outline-color: yellowgreen;
+}
+
+.guide {
+  font-size: 10px;
+  margin-left: 100px;
+}
+
+.head {
+  margin-left:500px !important;
 }
 </style>

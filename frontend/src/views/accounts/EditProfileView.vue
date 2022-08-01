@@ -11,7 +11,7 @@
           <div class="ms-3">
             <div class="d-flex justify-content-end">
               <label for="userid" class="me-3 pt-3">아이디</label>
-              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" :placeholder="currentUser.userid" required>
+              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" :placeholder="currentUser.userid" required disabled>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="height" class="me-3 pt-3">키</label>
@@ -123,6 +123,11 @@ export default {
   },
   methods: {
     ...mapActions(['signup', 'editProfile'])
+  },
+  mounted () {
+    if (this.currentUser.userid) {
+      this.userid = this.currentUser.userid
+    }
   }
 }
 </script>
@@ -169,5 +174,9 @@ select {
 input[type='date']::before {
   content: attr(data-placeholder);
   width: 100%;
+}
+
+input, textarea, select {
+  outline-color: yellowgreen;
 }
 </style>
