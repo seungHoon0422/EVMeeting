@@ -11,15 +11,15 @@
           <div class="ms-3">
             <div class="d-flex justify-content-end">
               <label for="userid" class="me-3 pt-3">아이디</label>
-              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" :placeholder="currentUser.userid" required disabled>
+              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" required disabled>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="height" class="me-3 pt-3">키</label>
-              <input id="height" v-model="credentials.height" class="input-color rounded length height p-3" type="number" min=140 :placeholder="currentUser.height" required>
+              <input id="height" v-model="credentials.height" class="input-color rounded length height p-3" type="number" min=0 :placeholder="currentUser.height" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="weight" class="me-3 pt-3">몸무게</label>
-              <input id="weight" v-model="credentials.weight" class="input-color rounded length height p-3" type="number" min=30 :placeholder="currentUser.weight" required>
+              <input id="weight" v-model="credentials.weight" class="input-color rounded length height p-3" type="number" min=0 :placeholder="currentUser.weight" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="gender" class="me-3 pt-3">성별</label>
@@ -101,8 +101,6 @@ export default {
       credentials: {
         userid: '',
         username: '',
-        password1: '',
-        password2: '',
         height: '',
         weight: '',
         gender: '',
@@ -121,11 +119,26 @@ export default {
     ...mapGetters(['authError', 'currentUser'])
   },
   methods: {
-    ...mapActions(['signup', 'editProfile'])
+    ...mapActions(['signup', 'editProfile']),
+    test (e) {
+      console.log(e.target.value)
+    }
   },
-  mounted () {
-    if (this.currentUser.userid) {
-      this.userid = this.currentUser.userid
+  created () {
+    if (this.currentUser) {
+      this.credentials.userid = this.currentUser.userid
+      this.credentials.username = this.currentUser.username
+      this.credentials.height = this.currentUser.height
+      this.credentials.weight = this.currentUser.weight
+      this.credentials.gender = this.currentUser.gender
+      this.credentials.birth = this.currentUser.birth
+      this.credentials.hobby = this.currentUser.hobby
+      this.credentials.mbti = this.currentUser.mbti
+      this.credentials.school = this.currentUser.school
+      this.credentials.email = this.currentUser.email
+      this.credentials.drink = this.currentUser.drink
+      this.credentials.cigarette = this.currentUser.cigarette
+      this.credentials.description = this.currentUser.description
     }
   }
 }

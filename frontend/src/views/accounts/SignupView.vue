@@ -11,7 +11,7 @@
           <div class="ms-3">
             <div class="d-flex justify-content-end">
               <label for="userid" class="me-3 pt-3">아이디</label>
-              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
+              <input id="userid"  @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="아이디" required>
             </div>
             <p class="guide">중복/사용가능 메시지랑 outline색으로 표시</p>
             <div class="mt-3 d-flex justify-content-end">
@@ -64,8 +64,10 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="email" class="me-3 pt-3">이메일</label>
-              <input id="email" v-model="credentials.email" class="input-color rounded length height p-3" type="email" placeholder="이메일" required>
+              <input id="email" v-model="credentials.email" class="input-color rounded length height p-3" type="email" placeholder="이메일을 입력해주세요" @blur="checkDuplicateEmail(credentials.email)" required>
+              <!-- <span class="badge badge-danger mt-1" v-if="!availableEmailForm">이메일 형식이 다릅니다.</span> -->
             </div>
+            <p class="badge bg-danger ms-5" v-if="!availableEmail">이미 사용중인 이메일입니다.</p>
             <div class="mt-3 d-flex justify-content-end">
               <label for="drink" class="me-3 pt-3">주량</label>
               <select v-model="credentials.drink" name="drink" id="drink" class="length height" required>
@@ -129,10 +131,10 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['authError'])
+    ...mapGetters(['authError', 'availableEmail'])
   },
   methods: {
-    ...mapActions(['signup'])
+    ...mapActions(['signup', 'checkDuplicateId', 'checkDuplicateEmail'])
   }
 }
 </script>
