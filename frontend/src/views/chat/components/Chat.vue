@@ -80,6 +80,8 @@ export default {
   },
   created () {
     this.id = this.$route.params.id
+    this.roomid = this.id
+    console.log(this.roomid)
     // this.roomId = this.$route.params.roomid
     // this.nickname = this.$route.params.nickname
     // 방 제목 가져오기
@@ -100,7 +102,7 @@ export default {
     // 채팅방 내용 불러오기
     axios({
       method: 'get',
-      url: `/api/v1/chat/room/allMessage/${this.id}`,
+      url: `/api/v1/chat/room/allMessages/${this.id}`,
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {

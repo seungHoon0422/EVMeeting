@@ -13,12 +13,12 @@
       type="text"
       placeholder="방 제목"
       v-model="title"
-    />&nbsp;&nbsp;
+    />&nbsp;&nbsp; -->
     <img
       src="@/img/add.svg"
       @click="createRoom()"
       style="margin-left: 0px; margin-top: 5px"
-    /> -->
+    />
     <hr />
     <div v-if="room_list.length == 0">
       방 없다
@@ -68,7 +68,7 @@ export default {
     alert('Hi ! ' + this.currentUser.userid)
     axios({
       method: 'get',
-      url: '/api/v1/chat/room/chatroomInfo/1',
+      url: '/api/v1/chat/rooms/1',
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
@@ -95,26 +95,26 @@ export default {
         params: { id: id }
       })
     },
-    // createRoom () {
-    //   axios({
-    //     method: 'post',
-    //     url: '/api/v1/chat/rooms',
-    //     baseURL: 'http://localhost:8080/',
-    //     headers: { 'content-type': 'application/json' },
-    //     data: { id: this.id }
-    //   }).then(
-    //     res => {
-    //       this.$router.push({
-    //         name: 'chat',
-    //         params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
-    //       })
-    //     },
-    //     err => {
-    //       console.log(err)
-    //       this.$router.push({ name: 'home' })
-    //     }
-    //   )
-    // },
+    createRoom () {
+      axios({
+        method: 'post',
+        url: '/api/v1/chat/room',
+        baseURL: 'http://localhost:8080/',
+        headers: { 'content-type': 'application/json' },
+        data: { userid1: 1, userid2: 2 }
+      }).then(
+        res => {
+          this.$router.push({
+            name: 'chat',
+            params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
+          })
+        },
+        err => {
+          console.log(err)
+          this.$router.push({ name: 'home' })
+        }
+      )
+    },
     showdelete () {
       if (this.isShowing === false) this.isShowing = true
       else this.isShowing = false
