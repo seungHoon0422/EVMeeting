@@ -1,8 +1,10 @@
 package com.ssafy.chat.db.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -19,5 +21,15 @@ public class ChatRoom {
     Long userid1;
 
     Long userid2;
+
+
+    @ColumnDefault("true")
+    Boolean alive;
+
+    Long recentMessageId;
+
+    String recentMessage;
+
+    LocalDateTime recentMessageTime;
 
 }

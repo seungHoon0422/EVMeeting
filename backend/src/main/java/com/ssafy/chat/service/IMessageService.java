@@ -9,7 +9,5 @@ public interface IMessageService {
 
     List<Message> getAllMessagesByChatroomId(long id);
 
-    List<Message> getMessagesByChatroomId(long id, long idx);
-
     Message saveMessage(Message message);
 }
