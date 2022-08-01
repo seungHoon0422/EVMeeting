@@ -82,8 +82,7 @@
           <p class="text-start self-margin">자기소개</p>
           <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color p-3" :placeholder="currentUser.description"></textarea>
         </div>
-        <!-- <button type="submit" class="btn rounded length mt-4">변경 사항 저장</button> -->
-        <router-link :to="{ name: 'profile' }" class="btn rounded length mt-4">변경 사항 저장</router-link>
+        <button type="submit" class="btn rounded length mt-4">변경 사항 저장</button>
       </form>
     </div>
   </div>
