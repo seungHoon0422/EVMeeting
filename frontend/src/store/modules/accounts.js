@@ -28,6 +28,7 @@ export default {
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
     kakaoLogin: state => state.kakaoLogin,
+    availableId: state => state.availableId,
     availableEmail: state => state.availableEmail,
     image1: state => state.image1
   },
