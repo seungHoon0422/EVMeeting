@@ -14,7 +14,7 @@ export default {
       type: Number
     },
     session: {
-      type: String
+      type: Object
     },
     countTogether: {
       type: Number

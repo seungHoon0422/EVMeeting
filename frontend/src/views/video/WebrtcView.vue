@@ -124,7 +124,7 @@ export default {
   methods: {
     // hyomin start
     getSession () {
-      axios.post('https://localhost:8443/api/v1/call/join', { sessionid: this.myUserName }).then(res => {
+      axios.post('http://localhost:8080/api/v1/meeting/join', { sessionid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
         console.log(this.currentUser.gender)
         // sessionid 부분을 user정보로 바꾸면 된다
         console.log(res)
@@ -136,6 +136,7 @@ export default {
     },
     // hyomin end
     joinSession () {
+      this.getSession()
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
@@ -425,8 +426,14 @@ export default {
     },
     // 입장과 동시에 시간 Count
     sessionjoined (sessionjoined) {
+      // this.startTimer()
+      // if (this.currentUserCount === 1) {
+      //   // this.startTimer()
+      // }
       if (sessionjoined === 1) {
-        // this.countTime()
+        if (this.currentUserCount === 1) {
+          this.startTimer()
+        }
       }
     },
     // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
