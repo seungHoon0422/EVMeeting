@@ -92,7 +92,7 @@ export default {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { id: id }
+        params: { id: id, name: this.currentUser.username }
       })
     },
     createRoom () {
