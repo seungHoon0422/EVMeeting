@@ -24,7 +24,22 @@
   <div id="session" v-if="session">
     <div>
       <button @click="startTimer" class="btn btn-primary">click</button><br>
-      <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button>
+      <!-- <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button> -->
+      <br>
+      <div v-if="currentUser">
+        <h1>profile open count : {{profileopencount}}</h1>
+        <h1>countTogether : {{countTogether}}</h1>
+        <adding-profile
+          @profileOnOff="profileOnOff"
+          :profileopencount= "profileopencount"
+          :session="session"
+          :countTogether = "countTogether"
+          >
+
+        </adding-profile>
+      </div>
+      <h1>user's profile : {{this.userprofile}}</h1>
+      <h1>addcount : {{this.addcount}}</h1>
       <!-- <h1>{{tenseconds}}</h1> -->
     </div>
     <div id="session-header">
@@ -32,15 +47,8 @@
       <!-- <timer-compo @startTimer="startTimer" ref="TimerCompo"></timer-compo> -->
     </div>
     <div>
-      <h1>{{tenseconds}}</h1>
-      <h1>{{currentUserCount}}</h1>
-      <div>
-        <button @click="question">click</button>
-        <!-- <question-list ref="QuestionList"></question-list> -->
-        <div v-if="question">
-          <question-list ref="QuestionList"></question-list>
-        </div>
-      </div>
+      <h1>남은 시간 : {{tenseconds}}</h1>
+      <h1>현재 세션에 접속중인 유저 : {{currentUserCount}}</h1>
     </div>
       <h1 id="session-title">{{ mySessionId }}</h1>
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
@@ -77,7 +85,8 @@ import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import VideoBottom from '@/views/video/components/VideoBottom'
-import QuestionList from '@/views/video/components/QuestionList'
+// import QuestionList from '@/views/video/components/QuestionList'
+import AddingProfile from '@/views/video/components/AddingProfile'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -87,7 +96,7 @@ export default {
   components: {
     UserVideo,
     VideoBottom,
-    QuestionList
+    AddingProfile
   },
   data () {
     return {
@@ -99,11 +108,15 @@ export default {
       subscribers: [],
       tenseconds: 10,
       addcount: 0,
+      addflag: false,
       stopadd: false,
       autoleaveflag: false,
       sessionjoined: 0,
       autocountflag: false,
-      qustion: false,
+      userprofile: undefined,
+      profilecount: undefined,
+      profileopencount: undefined,
+      countTogether: 0,
       mySessionId: 'SessionA',
       audioEnabled: false,
       myUserName: 'Participant' + Math.floor(Math.random() * 100)
@@ -112,11 +125,12 @@ export default {
   methods: {
     // hyomin start
     getSession () {
-      axios.post('http://localhost:8080/api/v1/meeting/join', { sessionid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+      axios.post('http://localhost:8080/api/v1/meeting/join', { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
         console.log(this.currentUser.gender)
         // sessionid 부분을 user정보로 바꾸면 된다
-        // console.log(res);
+        console.log(res)
         this.mySessionId = res.data
+        console.log('res.data########################################################')
       }).catch(err => {
         console.log(err)
       })
@@ -128,7 +142,10 @@ export default {
       this.autoleaveflag = false
       this.autocountflag = true
       this.tenseconds = 10
-      this.subscribers = []
+      this.profilecount = 0
+      this.profileopencount = 0
+      this.addcount = 0
+      this.countTogether = 0
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -139,7 +156,6 @@ export default {
         this.sessionjoined = 1
       }
       if (this.subscribers.length >= 2) {
-        console.log('here########################################################')
         console.log('more than 2')
       }
 
@@ -174,7 +190,18 @@ export default {
       this.session.on('signal:add', () => {
         this.addTime()
       })
-
+      // 질문 시그널
+      this.session.on('signal:profile', () => {
+        this.profileList()
+      })
+      // countTogether 시그널
+      this.session.on('signal:together', () => {
+        this.addCountTogether()
+      })
+      // profileopencount 시그널
+      this.session.on('signal:profileopencount', () => {
+        this.profileopencount += 1
+      })
       // --- Connect to the session with a valid user token ---
 
       // 'getToken' method is simulating what your server-side should do.
@@ -219,12 +246,14 @@ export default {
 
       this.sessionjoined = 0
       this.autocountflag = false
-      this.question = false
       this.session = undefined
       this.mainStreamManager = undefined
       this.publisher = undefined
       this.subscribers = []
       this.OV = undefined
+      this.userinfo = undefined
+      this.addflag = false
+      this.profileopencount = undefined
 
       window.removeEventListener('beforeunload', this.leaveSession)
       // this.$router.push({ name: 'home' })
@@ -301,10 +330,14 @@ export default {
     addTime () {
       if (this.addcount >= 3) {
         this.stopaddFunc()
-        this.addcount = 0
+        // this.addcount = 0
       }
       this.tenseconds += 10
-      this.addcount += 1
+      // this.addcount += 1
+      this.addflag = true
+      if (this.addflag === true) {
+        this.profileSignal()
+      }
     },
     // 타이머 시그널
     startTimer ({ timer }) {
@@ -328,13 +361,49 @@ export default {
       console.log(audio)
       this.publisher.publishAudio(audio)
     },
-    // 질문 출력
-    question () {
-      this.question = true
+    // 질문 출력 시그널
+    profileSignal () {
+      this.session.signal({
+        data: '',
+        to: [],
+        type: 'profile'
+      })
     },
-    questionList () {
-      this.$refs.QuestionList.ShowQuestion()
+    // countTogether 시그널
+    countTogetherSignal () {
+      this.session.signal({
+        data: '',
+        to: [],
+        type: 'together'
+      })
+    },
+    // addCountTogether
+    addCountTogether () {
+      this.countTogether += 1
+    },
+    // 질문 출력
+    profileList () {
+      const values = Object.values(this.currentUser)
+      const prop = values[Math.floor(Math.random() * values.length)]
+      this.userprofile = prop
+      console.log('profilecount : ')
+      console.log(this.profilecount)
+    },
+    // 프로필 보기 OnOFF
+    profileOnOff () {
+      console.log(this.profileOnOff)
+      if (this.profileOnOff) {
+        // this.profileopencount += 1
+        if (this.profileopencount % 2 === 0) {
+          this.profileSignal()
+        }
+      }
+    },
+    // addcount 1 증가
+    plusAddCount () {
+      this.addcount += 1
     }
+
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -344,7 +413,8 @@ export default {
   },
   created () {
     if (this.isLoggedIn) {
-      console.log('hi')
+      // console.log('hi')
+      console.log(this.isLoggedIn)
     } else {
       alert('잘못된 접근')
       this.$router.back()
@@ -359,8 +429,19 @@ export default {
     sessionjoined (sessionjoined) {
       if (sessionjoined === 1) {
         // this.countTime()
-        console.log('here################################')
       }
+    },
+    // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
+    profileopencount () {
+      if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
+        this.plusAddCount()
+        // 같이 값을 바꿀 수 있는 countTogether
+        this.countTogetherSignal()
+      }
+    },
+    // addcount가 1씩 증가할 때 마다 시간이 10초 증가 해야한다.
+    addcount () {
+      this.addTime()
     }
   }
 }

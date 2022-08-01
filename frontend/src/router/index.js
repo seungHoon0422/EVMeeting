@@ -11,7 +11,7 @@ import EditPasswordView from '../views/accounts/EditPasswordView.vue'
 import EditProfileView from '../views/accounts/EditProfileView.vue'
 import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
-// import WebrtcView from '../views/video/WebrtcView.vue'
+import WebrtcView from '../views/video/WebrtcView.vue'
 
 Vue.use(VueRouter)
 
@@ -70,7 +70,7 @@ const routes = [
     path: '/404',
     name: '404',
     component: NotFound404
-  }
+  },
   // {
   //   path: '/chat',
   //   name: 'chat',
@@ -81,11 +81,11 @@ const routes = [
   //   name: 'chatlist',
   //   component: chatList
   // },
-  // {
-  //   path: '/cam',
-  //   name: 'cam',
-  //   component: WebrtcView
-  // }
+  {
+    path: '/cam',
+    name: 'cam',
+    component: WebrtcView
+  }
   // {
   //   path: '*',
   //   redirect: '/404'
