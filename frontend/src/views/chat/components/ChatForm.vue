@@ -47,11 +47,12 @@ export default {
   },
   methods: {
     submitMessage () {
+      console.log(this.roomid)
       if (this.content.trim() !== '' && this.stompClient != null) {
         const chatMessage = {
           content: this.content,
           chatroomId: this.roomid,
-          senderName: this.username,
+          senderName: this.name,
           senderId: this.id,
           id: '0'
         }
