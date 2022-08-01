@@ -10,15 +10,26 @@ export default {
     profile: {},
     authError: null,
     kakaoLogin: false,
+    availableId: true,
+    availableEmail: true,
     image1: ''
   },
   getters: {
     isLoggedIn: state => !!state.token,
     currentUser: state => state.currentUser,
+    currentUserAge: state => {
+      const today = new Date()
+      const a = (state.currentUser.birth || '').split('-')
+      const birthDate = new Date(a[0], a[1], a[2])
+      const age = today.getFullYear() - birthDate.getFullYear()
+      return age
+    },
     profile: state => state.profile,
     authError: state => state.authError,
     authHeader: state => ({ Authorization: `Bearer ${state.token}` }),
     kakaoLogin: state => state.kakaoLogin,
+    availableId: state => state.availableId,
+    availableEmail: state => state.availableEmail,
     image1: state => state.image1
   },
   mutations: {
@@ -27,7 +38,9 @@ export default {
     SET_PROFILE: (state, profile) => (state.profile = profile),
     SET_AUTH_ERROR: (state, error) => (state.authError = error),
     SET_KAKAO_LOGIN: (state, kakao) => (state.kakaoLogin = kakao),
-    SET_IMAGE: (state, image) => (state.image1 = image)
+    SET_IMAGE: (state, image) => (state.image1 = image),
+    SET_AVAILABLEEMAIL: (state, bool) => (state.availableEmail = bool),
+    SET_AVAILABLEID: (state, bool) => (state.availableId = bool)
   },
   actions: {
     saveImage ({ commit }, image) {
@@ -246,7 +259,53 @@ export default {
       })
         .then(res => {
           console.log(res)
+          dispatch('removeToken')
+          router.push({ name: 'login' })
+        })
+        .catch(err => console.log(err))
+    },
+
+    editProfile ({ dispatch }, credentials) {
+      axios({
+        url: api.accounts.editprofile(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
           dispatch('fetchCurrentUser')
+        })
+        .catch(err => console.log(err))
+    },
+
+    // Input: userId
+    // Output: boolean(중복여부) => 중복이면 false, 사용가능 true
+    checkDuplicateId ({ commit }, userId) {
+      console.log(userId)
+      axios({
+        url: api.accounts.checkDuplicateId(),
+        method: 'post',
+        data: userId
+      })
+        .then(res => {
+          // console.log(res)
+          commit('SET_AVAILABLEID', res.data)
+        })
+        .catch(err => console.log(err))
+    },
+
+    // Input: email
+    // Output: boolean(중복여부) => 중복이면 false, 사용가능 true
+    checkDuplicateEmail ({ commit }, email) {
+      console.log(email)
+      axios({
+        url: api.accounts.checkDuplicateEmail(),
+        method: 'post',
+        data: email
+      })
+        .then(res => {
+          // console.log(res)
+          commit('SET_AVAILABLEEMAIL', res.data)
         })
         .catch(err => console.log(err))
     }

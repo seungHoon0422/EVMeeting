@@ -71,6 +71,8 @@
 
 <script>
 import { mapActions } from 'vuex'
+import api from '@/api/api'
+import axios from 'axios'
 
 export default {
   name: 'UploadPhotoView',
@@ -89,10 +91,22 @@ export default {
   methods: {
     ...mapActions(['uploadPhotos']),
     upload1 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      console.log(url)
-      this.images.image1 = url
+      const frm = new FormData()
+      const photoFile = document.getElementById('imgUpload1')
+      console.log(photoFile.files[0])
+      frm.append('imgUpload1', photoFile.files[0])
+      axios({
+        url: api.accounts.uploadPhoto(),
+        method: 'post',
+        data: frm,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err))
     },
     upload2 (e) {
       const file = e.target.files

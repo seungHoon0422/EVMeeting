@@ -1,5 +1,5 @@
 # frontend_vue2
-# BE-chat psuh
+# FE-accounts (heejo)
 ## Project setup
 ```
 npm install
