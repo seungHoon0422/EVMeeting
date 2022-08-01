@@ -80,8 +80,8 @@ export default {
   },
   created () {
     this.id = this.$route.params.id
-    this.roomid = this.$route.params.roomid
-    this.nickname = this.$route.params.nickname
+    // this.roomId = this.$route.params.roomid
+    // this.nickname = this.$route.params.nickname
     // 방 제목 가져오기
     // axios({
     //   method: 'get',
@@ -100,14 +100,14 @@ export default {
     // 채팅방 내용 불러오기
     axios({
       method: 'get',
-      url: '/api/v1/chat/room/message/' + this.roomid + '?page=' + this.idx,
+      url: `/api/v1/chat/room/allMessage/${this.id}`,
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
         this.msg = []
         for (let i = res.data.length - 1; i > -1; i--) {
           const m = {
-            senderNickname: res.data[i].senderNickname,
+            senderId: res.data[i].senderId,
             content: res.data[i].content,
             style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
           }
@@ -129,7 +129,7 @@ export default {
         this.stompClient.subscribe('/sub/' + this.roomid, res => {
           const jsonBody = JSON.parse(res.body)
           const m = {
-            senderNickname: jsonBody.senderNickname,
+            senderId: jsonBody.senderId,
             content: jsonBody.content,
             style: jsonBody.senderId === this.id ? 'myMsg' : 'otherMsg'
           }
