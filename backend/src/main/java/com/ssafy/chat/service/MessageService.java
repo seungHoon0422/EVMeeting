@@ -6,6 +6,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
+import java.util.Optional;
 
 @Service
 public class MessageService implements IMessageService{
@@ -18,7 +19,14 @@ public class MessageService implements IMessageService{
     }
 
     @Override
-    public List<Message> getMessagesByChatroomId(long id, long idx) {
-        return messageRepository.findAllByChatroomId(id);
+    public List<Message> getAllMessagesByChatroomId(long id) {
+        return messageRepository.findAllByChatroomId(id).orElse(null);
     }
+
+    @Override
+    public Message saveMessage(Message message) {
+        return messageRepository.save(message);
+    }
+
+
 }

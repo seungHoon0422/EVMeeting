@@ -22,4 +22,6 @@ public class Message {
     Long senderId;
 
     Long chatroomId;
+
+//    last message id?
 }

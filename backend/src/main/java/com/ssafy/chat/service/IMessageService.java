@@ -6,5 +6,8 @@ import java.util.List;
 
 public interface IMessageService {
     Long insertMessage(Message chatMessage);
-    List<Message> getMessagesByChatroomId(long id, long idx);
+
+    List<Message> getAllMessagesByChatroomId(long id);
+
+    Message saveMessage(Message message);
 }

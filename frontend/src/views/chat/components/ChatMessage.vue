@@ -38,31 +38,31 @@
 
 <script>
 export default {
-  props: ["m", "prev"],
-  data() {
+  props: ['m', 'prev'],
+  data () {
     return {
       isSame: false,
-      avatar: require("../assets/avatar.svg"),
-    };
+      avatar: require('@/img/avatar.svg')
+    }
   },
   methods: {
-    isSamePerson(m, prev) {
+    isSamePerson (m, prev) {
       if (prev === null) {
-        return false;
-      } else if (prev[0]?.senderNickname == m?.senderNickname) {
-        return true;
+        return false
+      } else if (prev[0]?.senderNickname === m?.senderNickname) {
+        return true
       } else {
-        return false;
+        return false
       }
-    },
+    }
   },
-  created() {
-    this.isSame = this.isSamePerson(this.m, this.prev);
+  created () {
+    this.isSame = this.isSamePerson(this.m, this.prev)
     // if (this.m?.from.avatar) {
     //   this.avatar = this.m?.from.avatar;
     // }
-  },
-};
+  }
+}
 </script>
 
 <style>

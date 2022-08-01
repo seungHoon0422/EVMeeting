@@ -40,28 +40,28 @@
 
 <script>
 export default {
-  data() {
+  data () {
     return {
-      content: ""
-    };
+      content: ''
+    }
   },
   methods: {
-    submitMessage() {
-      if (this.content.trim() != "" && this.stompClient != null) {
-        let chatMessage = {
+    submitMessage () {
+      if (this.content.trim() !== '' && this.stompClient != null) {
+        const chatMessage = {
           content: this.content,
           chatroomId: this.roomid,
-          senderNickname: this.nickname,
+          senderName: this.username,
           senderId: this.id,
-          id: "0"
-        };
-        this.stompClient.send("/pub/message", JSON.stringify(chatMessage), {});
+          id: '0'
+        }
+        this.stompClient.send('/pub/message', JSON.stringify(chatMessage), {})
 
-        this.content = "";
+        this.content = ''
       }
     }
   }
-};
+}
 </script>
 
 <style scoped>

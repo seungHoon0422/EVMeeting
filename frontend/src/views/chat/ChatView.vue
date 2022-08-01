@@ -1,18 +1,24 @@
 <template>
-  <div>
+  <div style="margin-top:-20px;">
     <chat></chat>
   </div>
 </template>
 
 <script>
-import Chat from "@/components/Chat";
+import Chat from '@/views/chat/components/Chat.vue'
 
 export default {
   components: {
-    Chat: Chat,
-  },
-};
+    Chat: Chat
+  }
+}
 </script>
 
-<style></style>
-
+<style>
+@import url("https://cdn.jsdelivr.net/gh/orioncactus/pretendard/dist/web/static/pretendard.css");
+* {
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif;
+}
+</style>

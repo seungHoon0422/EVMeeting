@@ -1,8 +1,10 @@
 package com.ssafy.chat.db.entity;
 
 import lombok.*;
+import org.hibernate.annotations.ColumnDefault;
 
 import javax.persistence.*;
+import java.time.LocalDateTime;
 
 @Entity
 @Getter
@@ -16,8 +18,18 @@ public class ChatRoom {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id = null;
 
-    String title;
+    Long userid1;
 
-    Long masterId;
+    Long userid2;
+
+
+    @ColumnDefault("true")
+    Boolean alive;
+
+    Long recentMessageId;
+
+    String recentMessage;
+
+    LocalDateTime recentMessageTime;
 
 }
