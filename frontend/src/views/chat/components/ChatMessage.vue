@@ -42,7 +42,7 @@ export default {
   data () {
     return {
       isSame: false,
-      avatar: require('../assets/avatar.svg')
+      avatar: require('@/img/avatar.svg')
     }
   },
   methods: {

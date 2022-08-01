@@ -45,6 +45,7 @@
 
 <script>
 import axios from 'axios'
+import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'ChatList',
   data: () => {
@@ -52,20 +53,22 @@ export default {
       id: -1,
       nickname: '',
       room_list: [1, 2, 3],
-      title: '',
       isShowing: false
     }
   },
+  computed: {
+    ...mapGetters(['isLoggedIn', 'currentUser'])
+  },
   created () {
-    this.id = this.$route.params.id
-    this.nickname = this.$route.params.nickname
+    this.fetchCurrentUser()
+    this.name = this.currentUser.username
     // if (this.id === -1 || typeof this.id === 'undefined') {
     //   this.$router.push({ name: 'home' })
     // }
-    alert('Hi ! ' + this.$route.params.nickname)
+    alert('Hi ! ' + this.currentUser.userid)
     axios({
       method: 'get',
-      url: '/api/v1/chat/room/chatroomInfo/{id}',
+      url: '/api/v1/chat/room/chatroomInfo/1',
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
@@ -85,10 +88,11 @@ export default {
     )
   },
   methods: {
+    ...mapActions(['fetchCurrentUser']),
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { nickname: this.nickname, id: this.id }
+        params: { id: id }
       })
     },
     // createRoom () {

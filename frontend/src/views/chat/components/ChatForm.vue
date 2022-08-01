@@ -51,7 +51,7 @@ export default {
         const chatMessage = {
           content: this.content,
           chatroomId: this.roomid,
-          senderNickname: this.nickname,
+          senderName: this.username,
           senderId: this.id,
           id: '0'
         }
