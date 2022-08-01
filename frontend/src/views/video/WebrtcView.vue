@@ -23,6 +23,9 @@
   <div id="session" v-if="session">
     <div>
       <button @click="startTimer" class="btn btn-primary">click</button><br>
+      <div>
+        <auto-timer></auto-timer>
+      </div>
       <!-- <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button> -->
       <br>
       <div v-if="currentUser">
@@ -85,6 +88,7 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import VideoBottom from '@/views/video/components/VideoBottom'
 import AddingProfile from '@/views/video/components/AddingProfile'
+import AutoTimer from '@/views/video/components/AutoTimer'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -94,7 +98,8 @@ export default {
   components: {
     UserVideo,
     VideoBottom,
-    AddingProfile
+    AddingProfile,
+    AutoTimer
   },
   data () {
     return {
