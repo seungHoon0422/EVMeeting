@@ -7,29 +7,29 @@
       </div>
       <table class="table">
         <thead>
-          <tr class="table-secondary">
-            <th scope="row" class="fs-5">{{currentUser.username}} ({{currentUserAge}})</th>
-            <td></td>
+          <tr class="table-light">
+            <th scope="row" class="fs-5" colspan="2">{{currentUser.username}} ({{currentUserAge}})</th>
+            <!-- <td></td> -->
           </tr>
         </thead>
         <tbody>
-          <tr class="table-primary">
+          <tr class="table-light">
             <th scope="row">키</th>
             <td>{{currentUser.height}} cm</td>
           </tr>
-          <tr class="table-success">
+          <tr class="table-light">
             <th scope="row">몸무게</th>
             <td>{{currentUser.weight}} kg</td>
           </tr>
-          <tr class="table-danger">
+          <tr class="table-light">
             <th scope="row">관심사</th>
             <td>{{currentUser.hobby}}</td>
           </tr>
-          <tr class="table-warning">
+          <tr class="table-light">
             <th scope="row">MBTI</th>
             <td>{{currentUser.mbti}}</td>
           </tr>
-          <tr class="table-info">
+          <tr class="table-light">
             <th scope="row">음주</th>
             <td v-if="currentUser.drink == 'nodrink'">아예 안 마심</td>
             <td v-else-if="currentUser.drink == 'solodrink'">혼술할 정도로 좋아함</td>
@@ -41,7 +41,7 @@
             <td v-if="currentUser.cigarette == 'smoke'">흡연</td>
             <td v-else-if="currentUser.cigarette == 'nosmoke'">비흡연</td>
           </tr>
-          <tr class="table-dark">
+          <tr class="table-light">
             <th scope="row">자기소개</th>
             <td colspan="3">{{currentUser.description}}</td>
           </tr>
@@ -118,4 +118,8 @@ img {
   /* border: 1px solid #F88F6D; */
 }
 
+table, tr, td, th {
+ border:none;
+ text-align: center;
+}
 </style>
