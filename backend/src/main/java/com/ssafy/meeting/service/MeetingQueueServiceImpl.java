@@ -2,12 +2,13 @@ package com.ssafy.meeting.service;
 
 import com.ssafy.meeting.db.entitiy.MeetingQueue;
 import com.ssafy.meeting.db.repository.MeetingQueueRepository;
+import com.ssafy.user.db.entity.User;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-@Service("callService")
+@Service("meetingQueueService")
 public class MeetingQueueServiceImpl implements MeetingQueueService {
 
     @Autowired
@@ -27,4 +28,7 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
     public void deleteMatch(MeetingQueue meetingQueue) {
         meetingQueueRepository.delete(meetingQueue);
     }
+
+    @Override
+    public User joinUserid(String userid){return meetingQueueRepository.findByUserId(userid);}
 }
