@@ -14,6 +14,8 @@ import lombok.Setter;
 @Setter
 @ApiModel("UserResponse")
 public class UserRes{
+	@ApiModelProperty(name="ID")
+	String id;
 	@ApiModelProperty(name="User ID")
 	String userid;
 	@ApiModelProperty(name="유저 닉네임")
@@ -43,6 +45,7 @@ public class UserRes{
 	
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
+		res.setId(user.getId());
 		res.setUserid(user.getUserid());
 		res.setUsername(user.getUsername());
 		res.setHeight(user.getHeight());

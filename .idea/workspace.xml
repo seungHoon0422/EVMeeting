@@ -5,14 +5,12 @@
   </component>
   <component name="ChangeListManager">
     <list default="true" id="6caf2e33-c5bf-45a1-81a8-b34a3e57e5c6" name="Changes" comment="">
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/service/MeetingQueueService.java" afterDir="false" />
-      <change afterPath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/service/MeetingQueueServiceImpl.java" afterDir="false" />
+      <change afterPath="$PROJECT_DIR$/backend/ssafy-web.log.2022-07-31.0.gz" afterDir="false" />
       <change beforePath="$PROJECT_DIR$/.idea/workspace.xml" beforeDir="false" afterPath="$PROJECT_DIR$/.idea/workspace.xml" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/controller/CallController.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/controller/MeetingQueueController.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/db/entitiy/CallMeeting.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/db/entitiy/MeetingQueue.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/db/repository/CallRepository.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/db/repository/MeetingQueueRepository.java" afterDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/service/CallService.java" beforeDir="false" />
-      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/meeting/service/CallServiceImpl.java" beforeDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/.gitignore" beforeDir="false" afterPath="$PROJECT_DIR$/backend/.gitignore" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/user/response/UserRes.java" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/java/com/ssafy/user/response/UserRes.java" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/src/main/resources/application.properties" beforeDir="false" afterPath="$PROJECT_DIR$/backend/src/main/resources/application.properties" afterDir="false" />
+      <change beforePath="$PROJECT_DIR$/backend/ssafy-web.log.2022-07-22.0.gz" beforeDir="false" />
     </list>
     <option name="SHOW_DIALOG" value="false" />
     <option name="HIGHLIGHT_CONFLICTS" value="true" />
@@ -38,7 +36,7 @@
     "ASKED_ADD_EXTERNAL_FILES": "true",
     "RunOnceActivity.OpenProjectViewOnStart": "true",
     "RunOnceActivity.ShowReadmeOnStart": "true",
-    "last_opened_file_path": "C:/Users/SSAFY/Desktop/gitlab/week2/backend"
+    "last_opened_file_path": "C:/SSAFY_A708/S07P12A708"
   }
 }]]></component>
   <component name="RecentsManager">
