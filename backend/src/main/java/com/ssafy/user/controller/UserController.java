@@ -66,6 +66,31 @@ public class UserController {
 		}
 	}
 
+	@PostMapping("checkduplicateid/")
+	@ApiOperation(value = "회원 가입 중 아이디 중복검사", notes = "아이디 중복 체크 여부를 확인한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> registerIdCheck(
+			@RequestBody @ApiParam(value = "회원가입 정보", required = true) String userid) {
+		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
+		System.out.println("@@@@@@ : " + userid);
+		//userid에 =이 함께 들어옴.
+		//=가 있다면 삭제하고, 판별해보기
+		userid = userid.replace("=", "");
+		if (userRepository.existsByUserid(userid)) {
+			System.out.println("ID ALREADY EXISTS!");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "false"));
+		}
+		else{
+			System.out.println("YOU CAN USE THIS ID!");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "true"));
+		}
+	}
+
 	@PostMapping("login/")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
 	@ApiResponses({
