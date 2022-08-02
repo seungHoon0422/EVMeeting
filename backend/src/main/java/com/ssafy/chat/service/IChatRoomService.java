@@ -12,8 +12,6 @@ public interface IChatRoomService {
 
     ChatRoom getChatRoomByChatRoomId(long id);
 
-    List<ChatRoom> getAllChatRoomsByUserId1(long id);
-    List<ChatRoom> getAllChatRoomsByUserId2(long id);
     List<ChatRoom> findChatRoomByUserid(long id);
 
 

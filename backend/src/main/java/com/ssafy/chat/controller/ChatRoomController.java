@@ -84,12 +84,9 @@ public class ChatRoomController {
         List<ChatRoom> rooms = chatroomService.findChatRoomByUserid(id);
         if(rooms == null || rooms.size() == 0)
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        else {
-            rooms.forEach(data -> {
-                System.out.println("data = " + data);
-            });
+        else
             return ResponseEntity.status(HttpStatus.OK).body(rooms);
-        }
+
     }
 
     // 특정 채팅방의 모든 메세지
@@ -103,14 +100,9 @@ public class ChatRoomController {
     public ResponseEntity<List<Message>> roomInfos(@PathVariable long id) {
 
         ChatRoom chatRoom = chatroomService.getChatRoomByChatRoomId(id);
-        System.out.println("chat room id : " + chatRoom.getId());
 
         Long userid1 = chatRoom.getUserid1();
         Long userid2 = chatRoom.getUserid2();
-//        System.out.println("userid1 = " + userid1);
-//        System.out.println("userid2 = " + userid2);
-//        User user1 = userService.getUserByUserId(String.valueOf(userid1));
-//        User user2 = userService.getUserByUserId(String.valueOf(userid2));
 
         List<Message> msgList = messageService.getAllMessagesByChatroomId(id);
         if(msgList == null || msgList.size() == 0)

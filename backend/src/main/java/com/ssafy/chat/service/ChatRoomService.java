@@ -6,7 +6,11 @@ import com.ssafy.chat.db.repository.ChatroomRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.sql.Time;
 import java.time.LocalDateTime;
+import java.util.Collection;
+import java.util.Collections;
+import java.util.Comparator;
 import java.util.List;
 
 @Service
@@ -17,32 +21,33 @@ public class ChatRoomService implements IChatRoomService {
     ChatroomRepository chatroomRepository;
     @Override
     public long createRoom(ChatRoom newRoom) {
+        newRoom.setRecentMessageTime(LocalDateTime.now().toString());
         return chatroomRepository.save(newRoom).getId();
     }
-
     @Override
     public List<ChatRoom> getAllChatRooms() {
         return chatroomRepository.findAll();
     }
-
     @Override
     public ChatRoom getChatRoomByChatRoomId(long id) {
         return chatroomRepository.findById(id).orElse(null);
     }
 
-
-    @Override
-    public List<ChatRoom> getAllChatRoomsByUserId1(long id) {
-        return chatroomRepository.findAllByUserid1(id);
-    }
-    @Override
-    public List<ChatRoom> getAllChatRoomsByUserId2(long id) {
-        return chatroomRepository.findAllByUserid2(id);
-    }
-
     @Override
     public List<ChatRoom> findChatRoomByUserid(long id) {
-        return chatroomRepository.findChatRoomByUserid(id);
+
+        List<ChatRoom> chatRooms = chatroomRepository.findChatRoomByUserid(id);
+        Collections.sort(chatRooms, new Comparator<ChatRoom>() {
+            @Override
+            public int compare(ChatRoom o1, ChatRoom o2) {
+                if(o1.getRecentMessageTime()!=null && o2.getRecentMessageTime()!=null) {
+                    return o2.getRecentMessageTime().compareTo(o1.getRecentMessageTime());
+                } else {
+                    return (int) (o1.getId() - o2.getId());
+                }
+            }
+        });
+        return chatRooms;
     }
 
 
