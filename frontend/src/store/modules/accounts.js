@@ -282,15 +282,17 @@ export default {
     // Input: userId
     // Output: boolean(중복여부) => 중복이면 false, 사용가능 true
     checkDuplicateId ({ commit }, userId) {
-      console.log(userId)
       axios({
         url: api.accounts.checkDuplicateId(),
         method: 'post',
         data: userId
       })
         .then(res => {
-          // console.log(res)
-          commit('SET_AVAILABLEID', res.data)
+          if (res.data.message === 'false') {
+            commit('SET_AVAILABLEID', false)
+          } else {
+            commit('SET_AVAILABLEID', true)
+          }
         })
         .catch(err => console.log(err))
     },
