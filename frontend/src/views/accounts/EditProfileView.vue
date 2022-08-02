@@ -69,10 +69,10 @@
               <label for="drink" class="me-3 pt-3">주량</label>
               <select name="drink" id="drink" class="length height">
                 <option value="">-- 주량 --</option>
-                <option value="nodrink" :selected="currentUser.drink=='nodrink'?true:false">아예 안 마심</option>
-                <option value="solodrink" :selected="currentUser.drink=='solodrink'?true:false">혼술할 정도로 좋아함</option>
-                <option value="frienddrink" :selected="currentUser.drink=='frienddrink'?true:false">친구들 만날 때만</option>
-                <option value="nownodrink" :selected="currentUser.drink=='nownodrink'?true:false">현재 금주 중</option>
+                <option value="zero" :selected="currentUser.drink=='zero'?true:false">소주 한 잔</option>
+                <option value="under1" :selected="currentUser.drink=='under1'?true:false">소주 1병 미만</option>
+                <option value="under3" :selected="currentUser.drink=='under3'?true:false">소주 1-3병</option>
+                <option value="over3" :selected="currentUser.drink=='over3'?true:false">소주 3병 이상</option>
               </select>
               <!-- <input id="drink" v-model="credentials.drink" class="input-color rounded length height p-3" type="text" placeholder="주량"> -->
             </div>

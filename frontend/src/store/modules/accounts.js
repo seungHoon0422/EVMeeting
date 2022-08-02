@@ -274,6 +274,7 @@ export default {
         .then(res => {
           console.log(res)
           dispatch('fetchCurrentUser')
+          router.push({ name: 'profile' })
         })
         .catch(err => console.log(err))
     },
