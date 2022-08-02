@@ -5,6 +5,15 @@
       <h1>입주민 등록</h1>
       <p class="guide head">*모든 항목 기입해주시기 바랍니다</p>
       <!-- <account-error-list v-if="authError"></account-error-list> -->
+      <!-- <form @submit.prevent="uploadPhotos(photo)">
+        <div class="img-box">
+              <input id="imgUpload1" @change="upload" type="file" accept="image/*" style="display:none;">
+              <label for="imgUpload1" v-if="!photoUrl">
+                <i class="fa-solid fa-circle-plus icon-color"></i>
+              </label>
+              <img :src="photoUrl" alt=".." v-if="photoUrl" class="img">
+        </div>
+      </form> -->
 
       <form @submit.prevent="signup(credentials)" class="mt-5">
         <div class="d-flex justify-content-between">
@@ -124,6 +133,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import axios from 'axios'
+import api from '@/api/api'
 // import AccountErrorList from '@/components/AccountErrorList'
 
 export default {
@@ -151,14 +162,15 @@ export default {
       passwordHasError: false,
       passwordHasError2: false,
       usernameHasError: false,
-      useridHasError: false
+      useridHasError: false,
+      photoUrl: ''
     }
   },
   computed: {
     ...mapGetters(['authError', 'availableEmail', 'availableId'])
   },
   methods: {
-    ...mapActions(['signup', 'checkDuplicateId', 'checkDuplicateEmail']),
+    ...mapActions(['signup', 'checkDuplicateId', 'checkDuplicateEmail', 'uploadPhotos']),
     checkPassword () {
       const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
 
@@ -189,6 +201,28 @@ export default {
         this.useridHasError = true
         return
       } this.useridHasError = false
+    },
+    upload (e) {
+      const file = e.target.files
+      const url = URL.createObjectURL(file[0])
+      // console.log(url)
+      this.photoUrl = url
+      const frm = new FormData()
+      const photoFile = document.getElementById('imgUpload1')
+      console.log(photoFile.files[0])
+      frm.append('photo', photoFile.files[0])
+      axios({
+        url: api.accounts.uploadPhoto(),
+        method: 'post',
+        data: frm,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err))
     }
   },
   watch: {

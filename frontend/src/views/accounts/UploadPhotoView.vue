@@ -1,19 +1,19 @@
 <template>
   <div class="box">
     <h1 class="font-style mt-3">사진 등록</h1>
-    <form  @submit.prevent="uploadPhotos(images)">
-      <div class="container container-position">
-      <div class="row my-3">
-        <div class="col">
+    <form  @submit.prevent="uploadPhoto">
+      <!-- <div class="container container-position"> -->
+      <!-- <div class="row my-3"> -->
+        <!-- <div class="col"> -->
           <div class="img-box">
             <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;">
-            <label for="imgUpload1" v-if="!images.image1">
+            <label for="imgUpload1" v-if="!photoUrl">
               <i class="fa-solid fa-circle-plus icon-color"></i>
             </label>
-            <img :src="images.image1" alt=".." v-if="images.image1" class="img">
+            <img :src="photoUrl" alt=".." v-if="photoUrl" class="img">
           </div>
-        </div>
-        <div class="col">
+        <!-- </div> -->
+        <!-- <div class="col">
           <div class="img-box">
           <input id="imgUpload2" @change="upload2" type="file" accept="image/*" style="display:none;">
           <label for="imgUpload2" v-if="!images.image2">
@@ -60,10 +60,10 @@
             <img :src="images.image6" alt=".." v-if="images.image6" class="img">
           </div>
         </div>
-      </div>
-      </div>
-      <!-- <button class="upload-button" type="submit">등록 완료</button> -->
-      <router-link :to="{ name: 'home' }" class="btn rounded length mt-4">등록 완료</router-link>
+      </div> -->
+      <!-- </div> -->
+      <button class="upload-button" type="submit">등록 완료</button>
+      <!-- <router-link :to="{ name: 'home' }" class="btn rounded length mt-4">등록 완료</router-link> -->
     </form>
   </div>
 
@@ -85,12 +85,19 @@ export default {
         image4: '',
         image5: '',
         image6: ''
-      }
+      },
+      photoUrl: ''
     }
   },
   methods: {
     ...mapActions(['uploadPhotos']),
     upload1 (e) {
+      const file = e.target.files
+      const url = URL.createObjectURL(file[0])
+      // console.log(url)
+      this.photoUrl = url
+    },
+    uploadPhoto () {
       const frm = new FormData()
       const photoFile = document.getElementById('imgUpload1')
       console.log(photoFile.files[0])
