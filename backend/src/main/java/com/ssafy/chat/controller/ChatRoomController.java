@@ -49,9 +49,9 @@ public class ChatRoomController {
     public ResponseEntity<Long> createRoom(@RequestBody ChatRoom newRoom) {
 
         long resultOfCreation = chatroomService.createRoom(newRoom);
-        if (resultOfCreation >= 0)
+        if (resultOfCreation >= 0)          // 채팅방 생성 성공
             return ResponseEntity.status(HttpStatus.OK).body(resultOfCreation);
-        else
+        else                                // 채팅방 생성 실패
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Long.MIN_VALUE);
     }
 
@@ -64,16 +64,19 @@ public class ChatRoomController {
             @ApiResponse(code = 500, message = "서버 오류")
     })
     public ResponseEntity<List<ChatRoom>> room() {
+
+        // 생성되어있는 모든 채팅방 리스트
         List<ChatRoom> rooms = chatroomService.getAllChatRooms();
-        if (rooms == null || rooms.size() == 0)
+
+        if (rooms == null || rooms.size() == 0)         // 생성된 채팅방이 없는 경우
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        else
+        else                                            // 모든 채팅방 목록을 리턴합니다.
             return ResponseEntity.status(HttpStatus.OK).body(rooms);
     }
 
     // 유저가 포함된 채팅방 목록 반환
     @GetMapping("/rooms/{id}")
-    @ApiOperation(value = "유저가 포함된 채팅방 목록", notes = "접속 유저가 속해있는 채팅방 목록을 반환합니다.")
+    @ApiOperation(value = "특정 유저의 채팅 목록", notes = "user의 id를 통해 포함되어있는 모든 채팅방 목록을 반환합니다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 404, message = "채팅방 없음"),
@@ -81,53 +84,34 @@ public class ChatRoomController {
     })
     public ResponseEntity<List<ChatRoom>> roomsByUserid(@PathVariable long id) {
 
+        // 유저가 포함된 모든 채팅방 목록
         List<ChatRoom> rooms = chatroomService.findChatRoomByUserid(id);
-        if(rooms == null || rooms.size() == 0)
+
+        if(rooms == null || rooms.size() == 0)  // 채팅목록이 없는 경우
             return ResponseEntity.status(HttpStatus.OK).body(null);
-        else
+        else                                    // 유저가 포함된 채팅방 목록을 리턴합니다.
             return ResponseEntity.status(HttpStatus.OK).body(rooms);
 
     }
 
     // 특정 채팅방의 모든 메세지
     @GetMapping("/room/allMessages/{id}")
-    @ApiOperation(value = "채팅방의 전체 채팅 목록", notes = "chatroomId를 사용하여 특정 채팅방의 전체 채팅 목록을 반환합니다.")
+    @ApiOperation(value = "채팅방의 전체 채팅 목록", notes = "chatroomId를 사용하여 채팅방의 전체 채팅 목록을 반환합니다.")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
             @ApiResponse(code = 404, message = "채팅방 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<Message>> roomInfos(@PathVariable long id) {
+    public ResponseEntity<List<MessageVO>> roomInfos(@PathVariable long id) {
 
-        ChatRoom chatRoom = chatroomService.getChatRoomByChatRoomId(id);
 
-        Long userid1 = chatRoom.getUserid1();
-        Long userid2 = chatRoom.getUserid2();
-
-        List<Message> msgList = messageService.getAllMessagesByChatroomId(id);
+        List<MessageVO> msgList = messageService.getAllMessagesByChatroomId(id);
         if(msgList == null || msgList.size() == 0)
             return ResponseEntity.status(HttpStatus.OK).body(null);
-
-        List<MessageVO> MessageVoList = new ArrayList<>();
-        for(Message message : msgList) {
-
-            MessageVO vo = new MessageVO();
-            vo.setId(message.getId());
-            vo.setContent(message.getContent());
-            vo.setChatroomId(message.getChatroomId());
-            vo.setSenderId(message.getSenderId());
-            System.out.println("vo = " + vo);
-//            if(message.getSenderId().equals(user1.getId())){
-//                vo.setUserId(user1.getUserid());
-//            } else{
-//                vo.setUserId(user2.getUserid());
-//            }
-            MessageVoList.add(vo);
-        }
         return ResponseEntity.status(HttpStatus.OK).body(msgList);
     }
 
-    // <추가> 채팅방 삭제
+    // 채팅방 삭제
     // 채팅방 테이블에 삭제여부 표시
     @PutMapping("/room/delete/{chatroomId}")
     public ResponseEntity<Long> deleteRoom(@PathVariable long chatroomId) {
