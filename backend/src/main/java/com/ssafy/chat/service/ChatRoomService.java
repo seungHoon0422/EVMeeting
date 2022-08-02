@@ -53,7 +53,7 @@ public class ChatRoomService implements IChatRoomService {
                 .map(chatroom -> {
                     chatroom.setRecentMessageId(message.getId());
                     chatroom.setRecentMessage(message.getContent());
-                    chatroom.setRecentMessageTime(LocalDateTime.now());
+                    chatroom.setRecentMessageTime(LocalDateTime.now().toString());
                     return chatroomRepository.save(chatroom);
                 });
     }

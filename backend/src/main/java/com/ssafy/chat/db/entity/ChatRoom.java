@@ -30,6 +30,5 @@ public class ChatRoom {
 
     String recentMessage;
 
-    LocalDateTime recentMessageTime;
-
+    String recentMessageTime;
 }

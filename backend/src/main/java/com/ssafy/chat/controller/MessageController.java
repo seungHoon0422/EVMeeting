@@ -1,6 +1,7 @@
 package com.ssafy.chat.controller;
 
 import com.ssafy.chat.db.entity.Message;
+import com.ssafy.chat.service.IChatRoomService;
 import com.ssafy.chat.service.IMessageService;
 import com.ssafy.chat.service.MessageService;
 import io.swagger.annotations.ApiOperation;
@@ -22,13 +23,15 @@ import org.springframework.web.bind.annotation.*;
 
 public class MessageController {
     private final IMessageService messageService;
+    private final IChatRoomService chatRoomService;
     private final SimpMessagingTemplate template;
 
     @MessageMapping("/message")
     public void sendMessage(@Payload Message chatMessage) {
-        //	log.info("전달 메세지 : " + chatMessage);
 
         long id = messageService.insertMessage(chatMessage);
+        // 채팅방의 최신 메세지 id 저장
+        chatRoomService.UpdateRecentMessage(chatMessage);
 
         template.convertAndSend("/sub/" + chatMessage.getChatroomId(), chatMessage);
     }
