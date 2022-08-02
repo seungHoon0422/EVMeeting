@@ -103,7 +103,7 @@ export default {
       })
         .then(res => {
           dispatch('fetchCurrentUser')
-          router.push({ name: 'home' })
+          // router.push({ name: 'home' })
         })
         .catch(err => {
           console.error(err.response.data)
@@ -274,6 +274,7 @@ export default {
         .then(res => {
           console.log(res)
           dispatch('fetchCurrentUser')
+          router.push({ name: 'profile' })
         })
         .catch(err => console.log(err))
     },
