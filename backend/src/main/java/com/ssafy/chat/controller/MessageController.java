@@ -1,5 +1,6 @@
 package com.ssafy.chat.controller;
 
+import com.ssafy.chat.db.entity.ChatRoom;
 import com.ssafy.chat.db.entity.Message;
 import com.ssafy.chat.service.IChatRoomService;
 import com.ssafy.chat.service.IMessageService;
@@ -31,8 +32,10 @@ public class MessageController {
 
         long id = messageService.insertMessage(chatMessage);
         // 채팅방의 최신 메세지 id 저장
+        chatMessage.setId(id);
         chatRoomService.UpdateRecentMessage(chatMessage);
-
+        ChatRoom chatRoomByChatRoomId = chatRoomService.getChatRoomByChatRoomId(chatMessage.getChatroomId());
+        System.out.println("chatRoomByChatRoomId = " + chatRoomByChatRoomId);
         template.convertAndSend("/sub/" + chatMessage.getChatroomId(), chatMessage);
     }
 
