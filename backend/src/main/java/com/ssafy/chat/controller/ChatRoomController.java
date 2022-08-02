@@ -34,9 +34,6 @@ public class ChatRoomController {
     private final IChatRoomService chatroomService;
     @Autowired
     private final IMessageService messageService;
-    @Autowired
-    private final UserService userService;
-//    final int PAGE = 10;
 
     // 채팅방 생성
     @PostMapping("/room")
