@@ -12,6 +12,7 @@ import EditProfileView from '../views/accounts/EditProfileView.vue'
 import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
 import WebrtcView from '../views/video/WebrtcView.vue'
+import WebrtcViewPractice from '../views/video/WebrtcViewPractice.vue'
 
 Vue.use(VueRouter)
 
@@ -85,6 +86,11 @@ const routes = [
     path: '/cam',
     name: 'cam',
     component: WebrtcView
+  },
+  {
+    path: '/practice',
+    name: 'practice',
+    component: WebrtcViewPractice
   }
   // {
   //   path: '*',
