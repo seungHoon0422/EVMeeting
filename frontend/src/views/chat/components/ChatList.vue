@@ -1,11 +1,17 @@
 <template>
   <div class="chat_list">
     <div class="title">
-      ChatRoom
+      <img
+        src="@/img/angle-circle-left.svg"
+        alt=""
+        @click="moveBack"
+        style="margin-left:-45px; margin-top: -5px;"
+      />
+      {{name}}님의 ChatRoom
       <img
         src="@/img/trash.svg"
         @click="showdelete()"
-        style="margin-left: 330px;  margin-right: 5px; margin-top: 20px;"
+        style="margin-left: 480px; margin-top: -50px;"
       />
     </div>
     <!-- <input
@@ -14,19 +20,22 @@
       placeholder="방 제목"
       v-model="title"
     />&nbsp;&nbsp; -->
-    <img
+    <!-- <img
       src="@/img/add.svg"
       @click="createRoom()"
       style="margin-left: 0px; margin-top: 5px"
-    />
+    /> -->
     <hr />
     <div v-if="room_list.length == 0">
       방 없다
     </div>
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
-        <div id="rooms" class="rooms" @click="enterRoom(r.id)">
-          {{ r.id }}
+        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.userid1">
+          {{ r.userid2 }}
+        </div>
+        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
+          {{ r.userid1 }}
         </div>
         <div
           style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
@@ -44,14 +53,14 @@
 </template>
 
 <script>
-import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
+import axios from 'axios'
 export default {
   name: 'ChatList',
   data: () => {
     return {
       id: -1,
-      nickname: '',
+      name: '',
       room_list: [1, 2, 3],
       isShowing: false
     }
@@ -61,14 +70,15 @@ export default {
   },
   created () {
     this.fetchCurrentUser()
-    this.name = this.currentUser.username
-    // if (this.id === -1 || typeof this.id === 'undefined') {
-    //   this.$router.push({ name: 'home' })
-    // }
-    alert('Hi ! ' + this.currentUser.userid)
+    this.id = this.$route.params.id
+    this.name = this.$route.params.name
+    console.log(this.id)
+    if (this.id === -1 || typeof this.id === 'undefined') {
+      this.$router.push({ name: 'home' })
+    }
     axios({
       method: 'get',
-      url: '/api/v1/chat/rooms/1',
+      url: `/api/v1/chat/rooms/${this.id}`,
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
@@ -76,15 +86,17 @@ export default {
         this.room_list = []
         for (let i = 0; i < res.data.length; i++) {
           const room = {
-            id: res.data[i].id
+            id: res.data[i].id,
+            userid1: res.data[i].userid1,
+            userid2: res.data[i].userid2
           }
           this.room_list.push(room)
         }
+      },
+      err => {
+        console.log(err)
+        this.$router.push({ name: 'home' })
       }
-      // err => {
-      //   console.log(err)
-      //   this.$router.push({ name: 'home' })
-      // }
     )
   },
   methods: {
@@ -92,7 +104,12 @@ export default {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { id: id, name: this.currentUser.username }
+        params: { roomid: id, id: this.id, name: this.name }
+      })
+    },
+    moveBack () {
+      this.$router.push({
+        name: 'home'
       })
     },
     createRoom () {
@@ -132,8 +149,11 @@ export default {
   box-shadow: 0px 1px 20px #9c9cc855;
 }
 .title {
-  margin-top: 20px;
-  margin-left: 10px;
+  padding-top: 5px;
+  padding-bottom: 5px;
+  margin-left: -5px;
+  width:250px;
+  height:25px;
   font-size: large;
   font-family: "Golden Plains - Demo";
   color: #FFFFEA;
@@ -152,8 +172,8 @@ h3 {
 } */
 .rooms {
   display: flex;
-  flex-direction: column;
-  justify-content: center;
+  flex-direction: row;
+  justify-content: left;
   align-items: center;
   border: 2px #fefefe solid;
   height: 70px;
@@ -162,6 +182,6 @@ h3 {
   font-size: 20px;
   background: #ffffea;
   margin-bottom: 5px;
-  text-align: center;
+  padding: 10px;
 }
 </style>
