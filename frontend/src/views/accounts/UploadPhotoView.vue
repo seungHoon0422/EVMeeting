@@ -114,36 +114,6 @@ export default {
           console.log(res)
         })
         .catch(err => console.log(err))
-    },
-    upload2 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image2 = url
-    },
-    upload3 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image3 = url
-    },
-    upload4 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image4 = url
-    },
-    upload5 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image5 = url
-    },
-    upload6 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image6 = url
     }
   }
 }
@@ -152,10 +122,11 @@ export default {
 
 <style scoped>
 .img-box {
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  height: 400px;
   border: 5px solid #F88F6D;
   border-radius: 10px;
+  margin: 20px auto;
 }
 
 .img {
