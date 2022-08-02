@@ -14,6 +14,7 @@ import EditPhotoView from '../views/accounts/EditPhotoView.vue'
 
 import chat from '../views/chat/ChatView.vue'
 import chatList from '../views/chat/ChatListView.vue'
+import chatrooms from '../views/chat/ChattingRoomView.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -81,6 +82,11 @@ const routes = [
     path: '/chatlist',
     name: 'chatlist',
     component: chatList
+  },
+  {
+    path: '/chatrooms',
+    name: 'chatrooms',
+    component: chatrooms
   }
   // {
   //   path: '/cam',
