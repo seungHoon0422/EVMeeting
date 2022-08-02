@@ -10,18 +10,18 @@
         <div class="d-flex justify-content-between">
           <div class="ms-3">
             <div class="d-flex justify-content-end">
-              <label for="userid" class="me-3 pt-3">아이디</label>
-              <input id="userid"  @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 조합 4-12자" required>
+              <label for="userid" :class="{ 'title-danger': useridHasError }" class="me-3 pt-3">아이디</label>
+              <input id="userid"  :class="{ 'input-danger': useridHasError }" @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 조합 4-12자" required>
             </div>
             <p class="badge bg-danger bg-margin" v-if="!availableId">이미 사용중인 아이디입니다.</p>
             <div class="mt-3 d-flex justify-content-end">
-              <label for="password1" class="me-3 pt-3">비밀번호</label>
-              <input id="password1" v-model="credentials.password1" :class="{ 'input-danger': passwordHasError }" class="input-color rounded length height p-3" type="password" placeholder="영문,숫자,특수문자 조합 8-16자" required>
+              <label for="password1" :class="{'title-danger': passwordHasError}" class="me-3 pt-3">비밀번호</label>
+              <input id="password1" v-model="credentials.password1" :class="{ 'input-danger': passwordHasError }" class="input-color rounded length height p-3" type="password" placeholder="영문,숫자,특수문자 포함 8-16자" required>
             </div>
             <!-- <p class="guide">-영어/숫자/특수문자 중 2가지 이상 조합 8자 이상</p> -->
             <div class="mt-3 d-flex justify-content-end">
-              <label for="password2" class="me-3 pt-3">비밀번호 확인</label>
-              <input id="password2" v-model="credentials.password2" class="input-color rounded length height p-3" type="password"  placeholder="영문,숫자,특수문자 조합 8-16자" required>
+              <label for="password2" :class="{'title-danger': passwordHasError2}" class="me-3 pt-3">비밀번호 확인</label>
+              <input id="password2" v-model="credentials.password2" :class="{ 'input-danger': passwordHasError2 }" class="input-color rounded length height p-3" type="password"  placeholder="영문,숫자,특수문자 포함 8-16자" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="height" class="me-3 pt-3">키</label>
@@ -47,12 +47,12 @@
           </div>
           <div class="me-5">
             <div class="d-flex justify-content-end">
-              <label for="username" class="me-3 pt-3">닉네임</label>
-              <input id="username" v-model="credentials.username" class="input-color rounded length height p-3" type="text" placeholder="한글,숫자,영문 조합 4-12자" required>
+              <label for="username" :class="{'title-danger': usernameHasError}" class="me-3 pt-3">닉네임</label>
+              <input id="username" v-model="credentials.username" :class="{'input-danger':usernameHasError}" class="input-color rounded length height p-3" type="text" placeholder="한글,숫자,영문 조합 2-12자" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="mbti" class="me-3 pt-3">MBTI</label>
-              <select v-model="credentials.drink" name="drink" id="drink" class="length height" required>
+              <select v-model="credentials.mbti" name="mbti" id="mbti" class="length height" required>
                 <option value=""> 선택하세요 </option>
                 <option value="XXXX">잘 모름</option>
                 <option value="ISTJ">ISTJ</option>
@@ -148,10 +148,10 @@ export default {
         cigarette: '',
         description: ''
       },
-      valid: {
-        password: false
-      },
-      passwordHasError: false
+      passwordHasError: false,
+      passwordHasError2: false,
+      usernameHasError: false,
+      useridHasError: false
     }
   },
   computed: {
@@ -163,16 +163,46 @@ export default {
       const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
 
       if (!validatePassword.test(this.credentials.password1) || !this.credentials.password1) {
-        this.valid.password = true
         this.passwordHasError = true
         return
-      } this.valid.password = false
-      this.passwordHasError = false
+      } this.passwordHasError = false
+    },
+    checkPassword2 () {
+      const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
+
+      if (!validatePassword.test(this.credentials.password2) || !this.credentials.password2) {
+        // this.valid.password2 = true
+        this.passwordHasError2 = true
+        return
+      } this.passwordHasError2 = false
+    },
+    checkUsername () {
+      const validateUsername = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,12}$/
+      if (!validateUsername.test(this.credentials.username) || !this.credentials.username) {
+        this.usernameHasError = true
+        return
+      } this.usernameHasError = false
+    },
+    checkUserid () {
+      const validateUserid = /^[a-z|A-Z|0-9|].{3,12}$/
+      if (!validateUserid.test(this.credentials.userid) || !this.credentials.userid) {
+        this.useridHasError = true
+        return
+      } this.useridHasError = false
     }
   },
   watch: {
     'credentials.password1': function () {
       this.checkPassword()
+    },
+    'credentials.password2': function () {
+      this.checkPassword2()
+    },
+    'credentials.username': function () {
+      this.checkUsername()
+    },
+    'credentials.userid': function () {
+      this.checkUserid()
     }
   }
 }
@@ -241,6 +271,10 @@ input, textarea, select {
 }
 
 .input-danger {
-    border-bottom: 1px solid red !important;
+    outline-color: red !important;
+}
+
+.title-danger {
+  color: red;
 }
 </style>

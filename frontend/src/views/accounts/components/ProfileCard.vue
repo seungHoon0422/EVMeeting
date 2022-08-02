@@ -31,10 +31,10 @@
           </tr>
           <tr class="table-light">
             <th scope="row">음주</th>
-            <td v-if="currentUser.drink == 'nodrink'">아예 안 마심</td>
-            <td v-else-if="currentUser.drink == 'solodrink'">혼술할 정도로 좋아함</td>
-            <td v-else-if="currentUser.drink == 'frienddrink'">친구들 만날 때만</td>
-            <td v-else-if="currentUser.drink == 'nownodrink'">현재 금주 중</td>
+            <td v-if="currentUser.drink == 'zero'">소주 한 잔</td>
+            <td v-else-if="currentUser.drink == 'under1'">소주 1병 미만</td>
+            <td v-else-if="currentUser.drink == 'under3'">소주 1-3병</td>
+            <td v-else-if="currentUser.drink == 'over3'">소주 3병 이상</td>
           </tr>
           <tr class="table-light">
             <th scope="row">흡연</th>
