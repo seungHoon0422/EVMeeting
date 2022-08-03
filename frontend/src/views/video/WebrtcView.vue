@@ -21,56 +21,6 @@
     </div>
   </div>
 
-  <!-- 화상 채팅  -->
-  <!-- <div id="session" v-if="session">
-    <div>
-      <button @click="startTimer" class="btn btn-primary">click</button><br>
-      <div>
-        <auto-timer></auto-timer>
-      </div>
-      <br>
-      <div v-if="currentUser">
-        <h1>profile open count : {{profileopencount}}</h1>
-        <h1>countTogether : {{countTogether}}</h1>
-        <adding-profile
-          @profileOnOff="profileOnOff"
-          :profileopencount= "profileopencount"
-          :session="session"
-          :countTogether = "countTogether"
-          >
-
-        </adding-profile>
-      </div>
-      <h1>user's profile : {{this.userprofile}}</h1>
-      <h1>addcount : {{this.addcount}}</h1>
-    </div>
-    <div id="session-header">
-    <div>
-    </div>
-    <div>
-      <h1>남은 시간 : {{tenseconds}}</h1>
-      <h1>현재 세션에 접속중인 유저 : {{currentUserCount}}</h1>
-    </div>
-      <h1 id="session-title">{{ mySessionId }}</h1>
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
-    </div>
-    <div class="container d-flex justify-content-">
-      <br>
-      <div id="video-container" class="container">
-        <div class="d-flex">
-          <div class="mx-3">
-            <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-          </div>
-          <div >
-            <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-          </div>
-        </div>
-      </div>
-    </div>
-    <div>
-      <video-bottom @audioOnOff="audioOnOff"></video-bottom>
-    </div>
-  </div> -->
   <div id="session" v-if="session">
     <!-- 세션 1 => 상대방 프로필 확인 -->
     <div id="session_1" v-if="sessionLevel===1">
@@ -252,6 +202,7 @@ export default {
       this.countTogether = 0
       this.sessionLevel = 1
       this.levelOneCount = 0
+      this.StrangerProfile = false
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
