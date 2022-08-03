@@ -32,10 +32,11 @@
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
         <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.userid1">
-          {{ r.userid2 }}
+          <div class="other"> {{ r.userid2 }}</div><div v-if="id==recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+          <div v-else class="msg">{{ r.recentMessage }}</div>
         </div>
         <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-          {{ r.userid1 }}
+          <div class="other">{{ r.userid1 }}</div><div class="msg">{{ r.recentMessage }}</div>
         </div>
         <div
           style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
@@ -88,7 +89,9 @@ export default {
           const room = {
             id: res.data[i].id,
             userid1: res.data[i].userid1,
-            userid2: res.data[i].userid2
+            userid2: res.data[i].userid2,
+            recentMessage: res.data[i].recentMessage,
+            recentMessageId: res.data[i].recentMessageId
           }
           this.room_list.push(room)
         }
@@ -171,10 +174,10 @@ h3 {
   height: 20px;
 } */
 .rooms {
-  display: flex;
+  /* display: flex;
   flex-direction: row;
   justify-content: left;
-  align-items: center;
+  align-items: center; */
   border: 2px #fefefe solid;
   height: 70px;
   max-width: 90%;
@@ -183,5 +186,23 @@ h3 {
   background: #ffffea;
   margin-bottom: 5px;
   padding: 10px;
+}
+.other {
+  display: flex;
+  flex-direction: row;
+  justify-content: left;
+  align-items: center;
+}
+.msg {
+  display: flex;
+  flex-direction: row;
+  justify-content: right;
+  align-items: center;
+  overflow: hidden;
+  text-overflow: ellipsis;
+  white-space: nowrap;
+  margin-left: 260px;
+  width: 150px;
+  height: 20px;
 }
 </style>
