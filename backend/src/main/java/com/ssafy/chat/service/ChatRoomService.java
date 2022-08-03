@@ -3,15 +3,15 @@ package com.ssafy.chat.service;
 import com.ssafy.chat.db.entity.ChatRoom;
 import com.ssafy.chat.db.entity.Message;
 import com.ssafy.chat.db.repository.ChatroomRepository;
+import com.ssafy.chat.db.repository.MessageRepository;
+import com.ssafy.chat.model.ChatRoomVO;
+import com.ssafy.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import java.sql.Time;
 import java.time.LocalDateTime;
-import java.util.Collection;
-import java.util.Collections;
-import java.util.Comparator;
-import java.util.List;
+import java.util.*;
 
 @Service
 public class ChatRoomService implements IChatRoomService {
@@ -19,6 +19,10 @@ public class ChatRoomService implements IChatRoomService {
 
     @Autowired
     ChatroomRepository chatroomRepository;
+    @Autowired
+    UserRepository userRepository;
+    @Autowired
+    MessageRepository messageRepository;
     @Override
     public long createRoom(ChatRoom newRoom) {
         newRoom.setRecentMessageTime(LocalDateTime.now().toString());
@@ -34,7 +38,7 @@ public class ChatRoomService implements IChatRoomService {
     }
 
     @Override
-    public List<ChatRoom> findChatRoomByUserid(long id) {
+    public List<ChatRoomVO> findChatRoomByUserid(long id) {
 
         List<ChatRoom> chatRooms = chatroomRepository.findChatRoomByUserid(id);
         Collections.sort(chatRooms, new Comparator<ChatRoom>() {
@@ -47,7 +51,27 @@ public class ChatRoomService implements IChatRoomService {
                 }
             }
         });
-        return chatRooms;
+
+        List<ChatRoomVO> chatroomResult = new ArrayList<>();
+        for(ChatRoom room : chatRooms) {
+            ChatRoomVO vo = new ChatRoomVO();
+            vo.setId(room.getId());
+            vo.setUserid1(room.getUserid1());
+            vo.setUserid2(room.getUserid2());
+            vo.setAlive(room.getAlive());
+            vo.setRecentMessage(room.getRecentMessage());
+            vo.setRecentMessageTime(room.getRecentMessageTime());
+
+
+//            Optional<Message> message = messageRepository.findById(room.getRecentMessageId());
+//            Long senderId = message.get().getSenderId();
+//            vo.setSendUserId(userRepository.findById(senderId).get().getUserid());
+
+            chatroomResult.add(vo);
+        }
+
+
+        return chatroomResult;
     }
 
 
