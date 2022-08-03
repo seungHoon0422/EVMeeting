@@ -1,10 +1,9 @@
 package com.ssafy.user.service;
 
-import com.ssafy.user.request.*;
 import com.ssafy.user.db.entity.User;
-import com.ssafy.user.request.UserEditImagePutReq;
 import com.ssafy.user.request.UserEditInforPutReq;
 import com.ssafy.user.request.UserEditPWPutReq;
+import com.ssafy.user.request.UserPhotoPostReq;
 import com.ssafy.user.request.UserRegisterPostReq;
 
 /**
@@ -16,5 +15,5 @@ public interface UserService {
 	void removeUser(String userId);
 	User editUserInfor(UserEditInforPutReq userEditInfo);
 	User editUserPW(UserEditPWPutReq userEditPW);
-	User editUserImage(UserEditImagePutReq userEditImage);
+	User editUserPhoto(UserPhotoPostReq userPhoto);
 }
