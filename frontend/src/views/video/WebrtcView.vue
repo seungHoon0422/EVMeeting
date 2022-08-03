@@ -3,6 +3,7 @@
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
       <h1>Join a video session</h1>
+      {{currentUser}}
       <div class="form-group">
         <h1>hi {{currentUserName}}</h1>
         <p>
@@ -132,8 +133,9 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import LikeYou from '@/views/video/components/LikeYou'
 import UserProfile from '@/views/video/components/UserProfile'
-import AddingProfile from '@/views/video/components/AddingProfile'
 import VideoBottom from '@/views/video/components/VideoBottom'
+// import QuestionList from '@/views/video/components/QuestionList'
+import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
@@ -179,13 +181,14 @@ export default {
   methods: {
     // hyomin start
     getSession () {
-      axios.post('http://localhost:8080/api/v1/meeting/join', { sessionid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+      axios.post('http://localhost:8080/api/v1/meeting/join', { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
         console.log(this.currentUser.gender)
         // sessionid 부분을 user정보로 바꾸면 된다
         console.log(res)
         this.mySessionId = res.data
-        this.joinSession()
         console.log('res.data########################################################')
+      }).then(res => {
+        this.joinSession()
       }).catch(err => {
         console.log(err)
       })
