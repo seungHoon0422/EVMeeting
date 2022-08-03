@@ -83,9 +83,9 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log('1', res)
+          // console.log('1', res)
           const token = res.data.accessToken
-          console.log('2', token)
+          // console.log('2', token)
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
           router.push({ name: 'upload' })
