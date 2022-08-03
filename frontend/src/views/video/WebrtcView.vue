@@ -4,9 +4,10 @@
     <div id="join-dialog" class="jumbotron vertical-center">
       <h1>Join a video session</h1>
       <div class="form-group">
+        <h1>hi {{currentUserName}}</h1>
         <p>
           <label>Participant</label>
-          <input v-model="myUserName" class="form-control" type="text" required>
+          <input v-model="currentUserName" class="form-control" type="text" required>
         </p>
         <p>
           <label>Session</label>
@@ -21,33 +22,30 @@
   </div>
 
   <!-- 화상 채팅  -->
-  <div id="session" v-if="session">
+  <!-- <div id="session" v-if="session">
     <div>
       <button @click="startTimer" class="btn btn-primary">click</button><br>
       <div>
         <auto-timer></auto-timer>
       </div>
-      <!-- <button @click="addingTime" class="btn btn-success" :disabled="stopadd">Add</button> -->
       <br>
       <div v-if="currentUser">
         <h1>profile open count : {{profileopencount}}</h1>
         <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
           @profileOnOff="profileOnOff"
-          :profileopencount="profileopencount"
+          :profileopencount= "profileopencount"
           :session="session"
-          :countTogether="countTogether"
+          :countTogether = "countTogether"
           >
 
         </adding-profile>
       </div>
       <h1>user's profile : {{this.userprofile}}</h1>
       <h1>addcount : {{this.addcount}}</h1>
-      <!-- <h1>{{tenseconds}}</h1> -->
     </div>
     <div id="session-header">
     <div>
-      <!-- <timer-compo @startTimer="startTimer" ref="TimerCompo"></timer-compo> -->
     </div>
     <div>
       <h1>남은 시간 : {{tenseconds}}</h1>
@@ -57,9 +55,6 @@
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
     </div>
     <div class="container d-flex justify-content-">
-      <!-- <div id="main-video" class="col-md-6">
-        <user-video :stream-manager="mainStreamManager"/>
-      </div> -->
       <br>
       <div id="video-container" class="container">
         <div class="d-flex">
@@ -68,15 +63,113 @@
           </div>
           <div >
             <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-            <!-- <div v-for="sub in subscribers" :key="sub.stream.connection.connectionId">
-              <user-video :streamManager  = "publisher" @click.native="updateMainVideoStreamManager(sub)"></user-video>
-            </div> -->
           </div>
         </div>
       </div>
     </div>
     <div>
       <video-bottom @audioOnOff="audioOnOff"></video-bottom>
+    </div>
+  </div> -->
+  <div id="session" v-if="session">
+    <!-- 세션 1 => 상대방 프로필 확인 -->
+    <div id="session_1" v-if="sessionLevel===1">
+      <h1>Hi I'm session_1</h1>
+      <h1>세션 ID : {{this.mySessionId}}</h1>
+      <!-- <button @click="sessionLevelPlus">levelUp</button> -->
+      <h1> 프로필 들어가야함 : {{currentUser.username}}</h1>
+
+      <!-- 상대방의 프로필이 보여야 함 -->
+      <!-- <button @click="showProfilePicture">Show</button> -->
+      <div id="profile-container" class="container">
+        <!-- <div>
+          <user-profile :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"></user-profile>
+        </div> -->
+        <div>
+          <user-profile v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+          :stranger="sub.stream.connection.data"
+          :currentUser ="currentUser"
+          @click.native="updateMainVideoStreamManager(sub)">
+          </user-profile>
+        </div>
+      </div>
+      <!-- 상대방이 마음에 든다는 신호 -->
+      <like-you
+      :levelOneCount="levelOneCount"
+      :session="session"
+      >
+      </like-you>
+      <!-- 세션 종료 -->
+      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘">
+    </div>
+
+    <!-- 세션 2 => 상대방 얼굴 확인 10초 카운트 및 질문 -->
+    <div id="session_2" v-if="sessionLevel===2">
+      <h1>Hi I'm session_2</h1>
+      <h1>세션 ID : {{this.mySessionId}}</h1>
+      <button @click="sessionLevelPlus">levelUp</button>
+      <button @click="startTimer" class="btn btn-primary">click</button><br>
+      <div v-if="currentUser">
+        <h1>profile open count : {{profileopencount}}</h1>
+        <h1>countTogether : {{countTogether}}</h1>
+        <adding-profile
+          @profileOnOff="profileOnOff"
+          :profileopencount= "profileopencount"
+          :session="session"
+          :countTogether = "countTogether"
+          >
+
+        </adding-profile>
+      </div>
+       <div>
+        <!-- 상대방의 정보 확인 -->
+        <div v-if="this.strangerProfileCheck()===true">
+          <stranger-profile v-for="sub in subscribers"
+          :key="sub.stream.connection.connectionId"
+          :stranger="sub.stream.connection.data"
+          @click.native="updateMainVideoStreamManager(sub)">
+          </stranger-profile>
+        </div>
+        <h1>남은 시간 : {{tenseconds}}</h1>
+      </div>
+      <!-- 비디오 출력 부분  -->
+      <div id="video-container" class="container">
+        <div class="d-flex">
+          <div class="mx-3">
+            <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+          </div>
+          <div >
+            <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+          </div>
+        </div>
+      </div>
+      <!-- 세션 종료 -->
+      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+      <div>
+        <video-bottom @audioOnOff="audioOnOff"></video-bottom>
+      </div>
+    </div>
+
+    <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
+    <div id="session_3" v-if="sessionLevel===3">
+      <h1>Hi I'm session_3</h1>
+      <h1>세션 ID : {{this.mySessionId}}</h1>
+      <button @click="sessionLevelPlus">levelUp</button>
+      <h1> MBTI : {{currentUser.mbti}}</h1>
+      <!-- 비디오 출력 부분  -->
+      <div id="video-container" class="container">
+        <div class="d-flex">
+          <div class="mx-3">
+            <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+          </div>
+          <div >
+            <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+          </div>
+        </div>
+      </div>
+       <!-- 세션 종료 -->
+      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
     </div>
   </div>
 </div>
@@ -87,9 +180,11 @@ import axios from 'axios'
 import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
-import VideoBottom from '@/views/video/components/VideoBottom'
+import LikeYou from '@/views/video/components/LikeYou'
+import UserProfile from '@/views/video/components/UserProfile'
 import AddingProfile from '@/views/video/components/AddingProfile'
-import AutoTimer from '@/views/video/components/AutoTimer'
+import VideoBottom from '@/views/video/components/VideoBottom'
+import StrangerProfile from '@/views/video/components/StrangerProfile'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -98,9 +193,11 @@ const OPENVIDU_SERVER_SECRET = 'MY_SECRET'
 export default {
   components: {
     UserVideo,
-    VideoBottom,
+    LikeYou,
+    UserProfile,
     AddingProfile,
-    AutoTimer
+    VideoBottom,
+    StrangerProfile
   },
   data () {
     return {
@@ -123,7 +220,9 @@ export default {
       countTogether: 0,
       mySessionId: 'SessionA',
       audioEnabled: false,
-      myUserName: 'Participant' + Math.floor(Math.random() * 100)
+      sessionLevel: 1,
+      levelOneCount: 0,
+      StrangerProfile: false
 
     }
   },
@@ -143,7 +242,6 @@ export default {
     },
     // hyomin end
     joinSession () {
-      // this.getSession()
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
@@ -152,6 +250,8 @@ export default {
       this.profileopencount = 0
       this.addcount = 0
       this.countTogether = 0
+      this.sessionLevel = 1
+      this.levelOneCount = 0
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -208,12 +308,16 @@ export default {
       this.session.on('signal:profileopencount', () => {
         this.profileopencount += 1
       })
+      // levelOne 시그널
+      this.session.on('signal:levelOne', () => {
+        this.levelOneCount += 1
+      })
       // --- Connect to the session with a valid user token ---
 
       // 'getToken' method is simulating what your server-side should do.
       // 'token' parameter should be retrieved and returned by your own backend
       this.getToken(this.mySessionId).then(token => {
-        this.session.connect(token, { clientData: this.myUserName })
+        this.session.connect(token, { clientData: this.currentUserName })
           .then(() => {
             console.log(this.mySessionId)
             console.log('my Session Id : #################################################')
@@ -264,7 +368,8 @@ export default {
       this.profileopencount = undefined
 
       window.removeEventListener('beforeunload', this.leaveSession)
-      // this.$router.push({ name: 'home' })
+      // 사용자 UX 고려 해야할 부분
+      // this.$router.back('practice')
     },
 
     updateMainVideoStreamManager (stream) {
@@ -410,6 +515,25 @@ export default {
     // addcount 1 증가
     plusAddCount () {
       this.addcount += 1
+    },
+    showProfilePicture () {
+      console.log(this.subscribers)
+    },
+    // 세션 레벨 증가
+    sessionLevelPlus () {
+      this.sessionLevel += 1
+    },
+    // 상대방 프로필 확인
+    strangerProfileCheck () {
+      if (this.countTogether % 2 === 0) {
+        this.StrangerProfile = true
+        console.log('Im here')
+        return this.StrangerProfile
+      } else {
+        this.StrangerProfile = false
+        console.log('Im there')
+        return this.StrangerProfile
+      }
     }
 
   },
@@ -417,6 +541,9 @@ export default {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
     currentUserCount: function () {
       return this.subscribers.length
+    },
+    currentUserName: function () {
+      return this.currentUser.userid
     }
   },
   created () {
@@ -456,6 +583,11 @@ export default {
     // addcount가 1씩 증가할 때 마다 시간이 10초 증가 해야한다.
     addcount () {
       this.addTime()
+    },
+    levelOneCount () {
+      if (this.levelOneCount === 2) {
+        this.sessionLevel += 1
+      }
     }
   }
 }
