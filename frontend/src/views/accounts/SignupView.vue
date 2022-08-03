@@ -15,22 +15,22 @@
         </div>
       </form> -->
 
-      <form @submit.prevent="signup(credentials)" class="mt-5">
+      <form @submit.prevent="signup({credentials, valid})" class="mt-5">
         <div class="d-flex justify-content-between">
           <div class="ms-3">
             <div class="d-flex justify-content-end">
-              <label for="userid" :class="{ 'title-danger': useridHasError }" class="me-3 pt-3">아이디</label>
-              <input id="userid"  :class="{ 'input-danger': useridHasError }" @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 조합 4-12자(첫문자는 영문)" required>
+              <label for="userid" :class="{ 'title-danger': valid.useridHasError }" class="me-3 pt-3">아이디</label>
+              <input id="userid"  :class="{ 'input-danger': valid.useridHasError }" @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 포함 4-12자" required>
             </div>
             <p class="badge bg-danger bg-margin" v-if="!availableId">이미 사용중인 아이디입니다.</p>
             <div class="mt-3 d-flex justify-content-end">
-              <label for="password1" :class="{'title-danger': passwordHasError}" class="me-3 pt-3">비밀번호</label>
-              <input id="password1" v-model="credentials.password1" :class="{ 'input-danger': passwordHasError }" class="input-color rounded length height p-3" type="password" placeholder="영문,숫자,특수문자 포함 8-16자" required>
+              <label for="password1" :class="{'title-danger': valid.passwordHasError}" class="me-3 pt-3">비밀번호</label>
+              <input id="password1" v-model="credentials.password1" :class="{ 'input-danger': valid.passwordHasError }" class="input-color rounded length height p-3" type="password" placeholder="영문,숫자,특수문자 포함 8-16자" required>
             </div>
             <!-- <p class="guide">-영어/숫자/특수문자 중 2가지 이상 조합 8자 이상</p> -->
             <div class="mt-3 d-flex justify-content-end">
-              <label for="password2" :class="{'title-danger': passwordHasError2}" class="me-3 pt-3">비밀번호 확인</label>
-              <input id="password2" v-model="credentials.password2" :class="{ 'input-danger': passwordHasError2 }" class="input-color rounded length height p-3" type="password"  placeholder="영문,숫자,특수문자 포함 8-16자" required>
+              <label for="password2" :class="{'title-danger': valid.passwordHasError2}" class="me-3 pt-3">비밀번호 확인</label>
+              <input id="password2" v-model="credentials.password2" :class="{ 'input-danger': valid.passwordHasError2 }" class="input-color rounded length height p-3" type="password"  placeholder="영문,숫자,특수문자 포함 8-16자" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="height" class="me-3 pt-3">키</label>
@@ -56,8 +56,8 @@
           </div>
           <div class="me-5">
             <div class="d-flex justify-content-end">
-              <label for="username" :class="{'title-danger': usernameHasError}" class="me-3 pt-3">닉네임</label>
-              <input id="username" v-model="credentials.username" :class="{'input-danger':usernameHasError}" class="input-color rounded length height p-3" type="text" placeholder="한글,숫자,영문 조합 2-12자" required>
+              <label for="username" :class="{'title-danger': valid.usernameHasError}" class="me-3 pt-3">닉네임</label>
+              <input id="username" v-model="credentials.username" :class="{'input-danger': valid.usernameHasError}" class="input-color rounded length height p-3" type="text" placeholder="한글,숫자,영문 조합 2-12자" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="mbti" class="me-3 pt-3">MBTI</label>
@@ -159,10 +159,12 @@ export default {
         cigarette: '',
         description: ''
       },
-      passwordHasError: false,
-      passwordHasError2: false,
-      usernameHasError: false,
-      useridHasError: false,
+      valid: {
+        passwordHasError: false,
+        passwordHasError2: false,
+        usernameHasError: false,
+        useridHasError: false
+      },
       photoUrl: ''
     }
   },
@@ -175,32 +177,32 @@ export default {
       const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
 
       if (!validatePassword.test(this.credentials.password1) || !this.credentials.password1) {
-        this.passwordHasError = true
+        this.valid.passwordHasError = true
         return
-      } this.passwordHasError = false
+      } this.valid.passwordHasError = false
     },
     checkPassword2 () {
       const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
 
       if (!validatePassword.test(this.credentials.password2) || !this.credentials.password2) {
         // this.valid.password2 = true
-        this.passwordHasError2 = true
+        this.valid.passwordHasError2 = true
         return
-      } this.passwordHasError2 = false
+      } this.valid.passwordHasError2 = false
     },
     checkUsername () {
       const validateUsername = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,12}$/
       if (!validateUsername.test(this.credentials.username) || !this.credentials.username) {
-        this.usernameHasError = true
+        this.valid.usernameHasError = true
         return
-      } this.usernameHasError = false
+      } this.valid.usernameHasError = false
     },
     checkUserid () {
-      const validateUserid = /^[a-z|A-z][a-z|A-Z|0-9|].{2,12}$/
+      const validateUserid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,12}$/
       if (!validateUserid.test(this.credentials.userid) || !this.credentials.userid) {
-        this.useridHasError = true
+        this.valid.useridHasError = true
         return
-      } this.useridHasError = false
+      } this.valid.useridHasError = false
     },
     upload (e) {
       const file = e.target.files
@@ -309,6 +311,7 @@ input, textarea, select {
 }
 
 .title-danger {
+  font-weight: 900;
   color: red;
 }
 </style>

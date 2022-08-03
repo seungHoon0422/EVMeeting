@@ -76,7 +76,23 @@ export default {
         })
     },
 
-    signup ({ commit, dispatch }, credentials) {
+    signup ({ commit, dispatch }, { credentials, valid }) {
+      const errNames = {
+        passwordHasError: '비밀번호',
+        passwordHasError2: '비밀번호 확인',
+        usernameHasError: '닉네임',
+        useridHasError: '아이디'
+      }
+      if (Object.values(valid).includes(true)) {
+        const invalid = []
+        for (const err in valid) {
+          if (valid[err] === true) {
+            invalid.push(errNames[err])
+          }
+        }
+        alert(`${invalid} 다시 확인해주세요. 조건에 맞지 않습니다.`)
+        return
+      }
       axios({
         url: api.accounts.signup(),
         method: 'post',
@@ -92,6 +108,9 @@ export default {
         })
         .catch(err => {
           console.error(err.response.data)
+          if (err.response.data.message === 'Passwords are not same') {
+            alert('비밀번호가 일치하지 않습니다.')
+          }
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
