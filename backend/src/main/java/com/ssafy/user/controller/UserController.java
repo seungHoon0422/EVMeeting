@@ -6,6 +6,7 @@ import com.ssafy.user.response.UserLoginPostRes;
 import com.ssafy.user.response.UserRes;
 import com.ssafy.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.MediaType;
 import org.springframework.http.ResponseEntity;
 import org.springframework.security.core.Authentication;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -21,6 +22,7 @@ import io.swagger.annotations.ApiOperation;
 import io.swagger.annotations.ApiParam;
 import io.swagger.annotations.ApiResponse;
 import io.swagger.annotations.ApiResponses;
+import org.springframework.web.multipart.MultipartFile;
 import springfox.documentation.annotations.ApiIgnore;
 
 import javax.servlet.http.HttpServletRequest;
@@ -150,7 +152,27 @@ public class UserController {
 		}
 	}
 
-//	@PostMapping("/uploadphoto")
+	@PostMapping(value = "uploadphoto/", consumes = "multipart/form-data")
+	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> editImage(
+			@RequestBody() UserPhotoPostReq photoInfo) {
+		//해당 유저의 정보들 변경하기
+		System.out.println("ACCESS!!!");
+		System.out.println("!!! : " + photoInfo);
+		System.out.println("!!! : " + photoInfo.getUserid());
+		System.out.println("!!! : " + photoInfo.getFrm());
+		userService.editUserPhoto(photoInfo);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+
+
+	//	@PostMapping(value = "uploadphoto/", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
 //	@ApiResponses({
 //			@ApiResponse(code = 200, message = "성공"),
@@ -159,12 +181,15 @@ public class UserController {
 //			@ApiResponse(code = 500, message = "서버 오류")
 //	})
 //	public ResponseEntity<? extends BaseResponseBody> editImage(
-//			@RequestBody @ApiParam(value = "회원수정 정보 - 사진", required = true) UserPhotoPostReq photoInfo) {
+//			@RequestParam("imgUpload1") MultipartFile file) {
+//		System.out.println("ACCESS!!!");
 //		//해당 유저의 정보들 변경하기
-//		userService.editUserPhoto(photoInfo);
+////		System.out.println("!!! : " + photoInfo);
+////		System.out.println("!!! : " + photoInfo.getUserid());
+////		System.out.println("!!! : " + photoInfo.getFrm());
+////		userService.editUserPhoto(photoInfo);
 //		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 //	}
-
 	@PostMapping("editprofile/")
 	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
 	@ApiResponses({

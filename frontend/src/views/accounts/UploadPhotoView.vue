@@ -111,7 +111,12 @@ export default {
       axios({
         url: api.accounts.uploadPhoto(userid),
         method: 'post',
+<<<<<<< Updated upstream
         data: { frm: frm },
+=======
+        data: { frm: frm, userid: this.currentUser.userid },
+        // data: frm,
+>>>>>>> Stashed changes
         headers: {
           'Content-Type': 'multipart/form-data'
         }

@@ -15,6 +15,8 @@ import org.springframework.web.multipart.MultipartFile;
 public class UserPhotoPostReq {
 	@ApiModelProperty(name="유저 ID", example="ssafy_web")
 	String userid;
-	@ApiModelProperty(name="유저 프로필 사진", example="")
-	MultipartFile photo;
+	@ApiModelProperty(name="유저 프로필 사진", example="photo")
+	MultipartFile frm;
+
+	MultipartFile imgUpload1;
 }

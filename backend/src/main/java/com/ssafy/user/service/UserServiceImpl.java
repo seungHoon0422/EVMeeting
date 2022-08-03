@@ -121,7 +121,7 @@ public class UserServiceImpl implements UserService {
 	public User editUserPhoto(UserPhotoPostReq userPhotoInfo){
 		System.out.println("@@@@ LETS ADD PHOTO!!");
 		User user = getUserByUserId(userPhotoInfo.getUserid());
-		MultipartFile file = userPhotoInfo.getPhoto();
+		MultipartFile file = userPhotoInfo.getFrm();
 		byte[] bytes;
 		try {
 			bytes = file.getBytes();
