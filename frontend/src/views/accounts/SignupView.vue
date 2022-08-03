@@ -20,7 +20,7 @@
           <div class="ms-3">
             <div class="d-flex justify-content-end">
               <label for="userid" :class="{ 'title-danger': useridHasError }" class="me-3 pt-3">아이디</label>
-              <input id="userid"  :class="{ 'input-danger': useridHasError }" @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 조합 4-12자" required>
+              <input id="userid"  :class="{ 'input-danger': useridHasError }" @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 조합 4-12자(첫문자는 영문)" required>
             </div>
             <p class="badge bg-danger bg-margin" v-if="!availableId">이미 사용중인 아이디입니다.</p>
             <div class="mt-3 d-flex justify-content-end">
@@ -196,7 +196,7 @@ export default {
       } this.usernameHasError = false
     },
     checkUserid () {
-      const validateUserid = /^[a-z|A-Z|0-9|].{3,12}$/
+      const validateUserid = /^[a-z|A-z][a-z|A-Z|0-9|].{2,12}$/
       if (!validateUserid.test(this.credentials.userid) || !this.credentials.userid) {
         this.useridHasError = true
         return
