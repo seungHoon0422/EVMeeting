@@ -70,7 +70,7 @@
 </template>
 
 <script>
-import { mapActions } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import api from '@/api/api'
 import axios from 'axios'
 
@@ -89,6 +89,9 @@ export default {
       photoUrl: ''
     }
   },
+  computed: {
+    ...mapGetters(['currentUser'])
+  },
   methods: {
     ...mapActions(['uploadPhotos']),
     upload1 (e) {
@@ -101,11 +104,12 @@ export default {
       const frm = new FormData()
       const photoFile = document.getElementById('imgUpload1')
       console.log(photoFile.files[0])
+      console.log({ frm: frm, userid: this.currentUser.userid })
       frm.append('imgUpload1', photoFile.files[0])
       axios({
         url: api.accounts.uploadPhoto(),
         method: 'post',
-        data: frm,
+        data: { frm: frm, userid: this.currentUser.userid },
         headers: {
           'Content-Type': 'multipart/form-data'
         }
