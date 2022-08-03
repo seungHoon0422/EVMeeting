@@ -588,6 +588,11 @@ export default {
       if (this.levelOneCount === 2) {
         this.sessionLevel += 1
       }
+    },
+    countTogether () {
+      if (this.countTogether === 8) {
+        this.sessionLevel += 1
+      }
     }
   }
 }
