@@ -5,11 +5,11 @@
       src="@/img/angle-circle-left.svg"
       alt=""
       @click="moveBack"
-      style="margin-left:-450px; margin-top: 5px"
+      style="margin-left:-450px; margin-top: -15px"
     />
         </div>
         <!-- 메시지 보여주는 부분 -->
-        <div class="chat__body" id="chat__body" onscroll="chat_on_scroll()">
+        <div class="chat__body" id="chat__body">
           <div
             v-for="(m, idx) in msg"
             :key="idx"
@@ -91,8 +91,6 @@
 import axios from 'axios'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
-import { mapMutations, mapState } from 'vuex'
-import Constant from '@/Constant'
 let preDiffHeight = 0
 let bottomFlag = true
 
@@ -109,38 +107,11 @@ export default {
       stompClient: null
     }
   },
-  computed: {
-    ...mapState({
-      msgData: (state) => state.socket.msgData
-    })
-  },
-  updated () {
-    const objDiv = document.getElementById('chat__body')
-    if (bottomFlag) {
-      // 채팅창 스크롤 바닥 유지
-      objDiv.scrollTop = objDiv.scrollHeight
-    }
-  },
   created () {
     this.id = this.$route.params.id
     this.roomid = this.$route.params.roomid
     this.name = this.$route.params.name
-    // 방 제목 가져오기
-    // axios({
-    //   method: 'get',
-    //   url: '/api/v1/chat/room/' + this.roomid,
-    //   baseURL: 'http://localhost:8080/'
-    // }).then(
-    //   res => {
-    //     this.title = res.data
-    //   },
-    //   err => {
-    //     console.log(err)
-    //     this.$router.push({ name: 'Home' })
-    //   }
-    // )
-
-    // 채팅방 내용 불러오기
+    // 대화 불러오기
     axios({
       method: 'get',
       url: `/api/v1/chat/room/allMessages/${this.roomid}`,
@@ -185,10 +156,14 @@ export default {
       }
     )
   },
+  updated () {
+    const objDiv = document.getElementById('chat__body')
+    if (bottomFlag) {
+      // 채팅창 스크롤 바닥 유지
+      objDiv.scrollTop = objDiv.scrollHeight
+    }
+  },
   methods: {
-    ...mapMutations({
-      pushMsgData: Constant.PUSH_MSG_DATA
-    }),
     submitMessage () {
       if (this.content.trim() !== '' && this.stompClient != null) {
         const chatMessage = {
@@ -210,6 +185,7 @@ export default {
       })
     },
     chat_on_scroll () {
+      document.getElementById('chat__body').scrollTop(0)
       const objDiv = document.getElementById('chat__body')
 
       if (objDiv.scrollTop + objDiv.clientHeight === objDiv.scrollHeight) {
@@ -282,6 +258,7 @@ export default {
   padding: 1.8rem;
   font-size: 16px;
   font-weight: 700;
+  height:50px
 }
 .chat__header__greetings {
   color: #292929;
@@ -291,6 +268,9 @@ export default {
   padding: 2rem;
   overflow: scroll;
   scroll-behavior: smooth;
+  display:flex;
+  flex-direction: column;
+  height: 80%;
 }
 
 .chat__body::-webkit-scrollbar {
