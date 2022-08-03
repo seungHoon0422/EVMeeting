@@ -20,7 +20,7 @@ public class User {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id = null;
 
-//    Blob photo;
+    Blob photo;
 
     String userid;
     String username;

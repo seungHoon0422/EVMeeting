@@ -41,55 +41,6 @@ public class UserController {
 	@Autowired
 	UserRepository userRepository;
 
-	@PostMapping("signup/")
-	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드, 이름</strong>를 통해 회원가입 한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> register(
-			@RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
-		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
-		if (userRepository.existsByUserid(registerInfo.getUserid())) {
-			return ResponseEntity.status(405).body(BaseResponseBody.of(405, "ID already exists"));
-		}
-		//두 비밀번호가 일치하는지, 아닌지 확인
-		else if(!registerInfo.getPassword1().equals(registerInfo.getPassword2())){
-			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Passwords are not same"));
-		}
-		//모두 괜찮다면 회원가입 실행
-		else {
-			User user = userService.createUser(registerInfo);
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-		}
-	}
-
-	@PostMapping("checkduplicateid/")
-	@ApiOperation(value = "회원 가입 중 아이디 중복검사", notes = "아이디 중복 체크 여부를 확인한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> registerIdCheck(
-			@RequestBody @ApiParam(value = "회원가입 정보", required = true) String userid) {
-		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
-		System.out.println("@@@@@@ : " + userid);
-		//userid에 =이 함께 들어옴.
-		//=가 있다면 삭제하고, 판별해보기
-		userid = userid.replace("=", "");
-		if (userRepository.existsByUserid(userid)) {
-			System.out.println("ID ALREADY EXISTS!");
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "false"));
-		}
-		else{
-			System.out.println("YOU CAN USE THIS ID!");
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "true"));
-		}
-	}
 
 	@PostMapping("login/")
 	@ApiOperation(value = "로그인", notes = "<strong>아이디와 패스워드</strong>를 통해 로그인 한다.")
@@ -147,6 +98,73 @@ public class UserController {
 		return ResponseEntity.status(200).body(UserRes.of(user));
 	}
 
+	@PostMapping("signup/")
+	@ApiOperation(value = "회원 가입", notes = "<strong>아이디와 패스워드, 이름</strong>를 통해 회원가입 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> register(
+			@RequestBody @ApiParam(value = "회원가입 정보", required = true) UserRegisterPostReq registerInfo) {
+		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
+		if (userRepository.existsByUserid(registerInfo.getUserid())) {
+			return ResponseEntity.status(405).body(BaseResponseBody.of(405, "ID already exists"));
+		}
+		//두 비밀번호가 일치하는지, 아닌지 확인
+		else if(!registerInfo.getPassword1().equals(registerInfo.getPassword2())){
+			return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Passwords are not same"));
+		}
+		//모두 괜찮다면 회원가입 실행
+		else {
+			User user = userService.createUser(registerInfo);
+			System.out.println("@@@@@ USER ID : " + user.getUserid());
+			System.out.println("@@@@@ TOKEN : " + JwtTokenUtil.getToken(user.getUserid()));
+			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserid())));
+		}
+	}
+
+	@PostMapping("checkduplicateid/")
+	@ApiOperation(value = "회원 가입 중 아이디 중복검사", notes = "아이디 중복 체크 여부를 확인한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> registerIdCheck(
+			@RequestBody @ApiParam(value = "회원가입 정보", required = true) String userid) {
+		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
+		System.out.println("@@@@@@ : " + userid);
+		//userid에 =이 함께 들어옴.
+		//=가 있다면 삭제하고, 판별해보기
+		userid = userid.replace("=", "");
+		if (userRepository.existsByUserid(userid)) {
+			System.out.println("ID ALREADY EXISTS!");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "false"));
+		}
+		else{
+			System.out.println("YOU CAN USE THIS ID!");
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "true"));
+		}
+	}
+
+//	@PostMapping("/uploadphoto")
+//	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
+//	@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공"),
+//			@ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public ResponseEntity<? extends BaseResponseBody> editImage(
+//			@RequestBody @ApiParam(value = "회원수정 정보 - 사진", required = true) UserPhotoPostReq photoInfo) {
+//		//해당 유저의 정보들 변경하기
+//		userService.editUserPhoto(photoInfo);
+//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+//	}
+
 	@PostMapping("editprofile/")
 	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
 	@ApiResponses({
@@ -194,22 +212,6 @@ public class UserController {
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
 	}
-
-
-//	@PutMapping("/editImage")
-//	@ApiOperation(value = "회원 사진 수정", notes = "회원 정보 중 사진을 수정한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<? extends BaseResponseBody> editImage(
-//			@RequestBody @ApiParam(value = "회원수정 정보 - 사진", required = true) UserEditImagePutReq editInfo) {
-//		//해당 유저의 정보들 변경하기
-//		userService.editUserImage(editInfo);
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//	}
 
 	@PostMapping("deleteprofile/")
 	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
