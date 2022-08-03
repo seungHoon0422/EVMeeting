@@ -236,15 +236,15 @@ export default {
         // sessionid 부분을 user정보로 바꾸면 된다
         console.log(res)
         this.mySessionId = res.data
-        this.joinSession()
         console.log('res.data########################################################')
+      }).then(res => {
+        this.joinSession()
       }).catch(err => {
         console.log(err)
       })
     },
     // hyomin end
     joinSession () {
-      this.getSession()
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
