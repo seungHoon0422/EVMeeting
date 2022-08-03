@@ -124,7 +124,7 @@
       </div>
        <div>
         <!-- 상대방의 정보 확인 -->
-        <div v-if="this.strangerProfileCheck()===true">
+        <div v-if="StrangerProfile===true">
           <stranger-profile v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
           :stranger="sub.stream.connection.data"
@@ -592,6 +592,11 @@ export default {
     countTogether () {
       if (this.countTogether === 8) {
         this.sessionLevel += 1
+      }
+      if (this.countTogether % 2 === 0) {
+        this.StrangerProfile = true
+      } else {
+        this.StrangerProfile = false
       }
     }
   }
