@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <h1 class="font-style mt-3">사진 등록</h1>
+    <h1 class="font-style mt-3">사진 등록 {{currentUser}}</h1>
     <form  @submit.prevent="uploadPhoto">
       <!-- <div class="container container-position"> -->
       <!-- <div class="row my-3"> -->
@@ -92,8 +92,12 @@ export default {
   computed: {
     ...mapGetters(['currentUser'])
   },
+  created () {
+    this.fetchCurrentUser()
+    console.log(this.currentUser.userid)
+  },
   methods: {
-    ...mapActions(['uploadPhotos']),
+    ...mapActions(['uploadPhotos', 'fetchCurrentUser']),
     upload1 (e) {
       const file = e.target.files
       const url = URL.createObjectURL(file[0])
