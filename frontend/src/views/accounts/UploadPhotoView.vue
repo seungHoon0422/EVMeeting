@@ -1,7 +1,7 @@
 <template>
   <div class="box">
     <h1 class="font-style mt-3">사진 등록</h1>
-    <form  @submit.prevent="uploadPhoto">
+    <form  @submit.prevent="uploadPhoto(currentUser.userid)">
       <!-- <div class="container container-position"> -->
       <!-- <div class="row my-3"> -->
         <!-- <div class="col"> -->
@@ -100,16 +100,18 @@ export default {
       // console.log(url)
       this.photoUrl = url
     },
-    uploadPhoto () {
+    uploadPhoto (userid) {
       const frm = new FormData()
       const photoFile = document.getElementById('imgUpload1')
       console.log(photoFile.files[0])
-      console.log({ frm: frm, userid: this.currentUser.userid })
+      // console.log({ frm: frm, userid: this.currentUser.userid })
+      // console.log('0', userid)
+      // console.log('1', api.accounts.uploadPhoto(userid))
       frm.append('imgUpload1', photoFile.files[0])
       axios({
-        url: api.accounts.uploadPhoto(),
+        url: api.accounts.uploadPhoto(userid),
         method: 'post',
-        data: { frm: frm, userid: this.currentUser.userid },
+        data: { frm: frm },
         headers: {
           'Content-Type': 'multipart/form-data'
         }
