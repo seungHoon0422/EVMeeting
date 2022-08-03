@@ -32,11 +32,11 @@
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
         <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.userid1">
-          <div class="other"> {{ r.userid2 }}</div><div v-if="id==recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+          <div class="other"> {{ r.userid2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
           <div v-else class="msg">{{ r.recentMessage }}</div>
         </div>
         <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-          <div class="other">{{ r.userid1 }}</div><div class="msg">{{ r.recentMessage }}</div>
+          <div class="other">{{ r.userid1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
         </div>
         <div
           style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
@@ -54,8 +54,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions } from 'vuex'
+import { mapGetters, mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
+
 export default {
   name: 'ChatList',
   data: () => {
@@ -67,13 +68,15 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'currentUser'])
+    ...mapGetters(['isLoggedIn', 'currentUser', 'getFlag'])
+  },
+  watch: {
+    ...mapMutations(['SET_FLAG'])
   },
   created () {
     this.fetchCurrentUser()
     this.id = this.$route.params.id
     this.name = this.$route.params.name
-    console.log(this.id)
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -194,15 +197,15 @@ h3 {
   align-items: center;
 }
 .msg {
-  display: flex;
+  display: block;
   flex-direction: row;
   justify-content: right;
-  align-items: center;
+  margin-top: -10px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
-  margin-left: 260px;
+  margin-left: 280px;
   width: 150px;
-  height: 20px;
+  height: 40px;
 }
 </style>
