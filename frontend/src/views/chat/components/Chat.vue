@@ -91,6 +91,8 @@
 import axios from 'axios'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import { mapMutations, mapState } from 'vuex'
+import Constant from '@/Constant'
 let preDiffHeight = 0
 let bottomFlag = true
 
@@ -106,6 +108,11 @@ export default {
       content: '',
       stompClient: null
     }
+  },
+  computed: {
+    ...mapState({
+      msgData: (state) => state.socket.msgData
+    })
   },
   updated () {
     const objDiv = document.getElementById('chat__body')
@@ -157,7 +164,7 @@ export default {
     )
     // socket 연결
     const socket = new SockJS('http://localhost:8080/ws')
-    var options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
+    const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
     this.stompClient = Stomp.over(socket, options)
     this.stompClient.connect(
       {},
@@ -179,6 +186,9 @@ export default {
     )
   },
   methods: {
+    ...mapMutations({
+      pushMsgData: Constant.PUSH_MSG_DATA
+    }),
     submitMessage () {
       if (this.content.trim() !== '' && this.stompClient != null) {
         const chatMessage = {
