@@ -3,7 +3,6 @@
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
       <h1>Join a video session</h1>
-      {{currentUser}}
       <div class="form-group">
         <h1>hi {{currentUserName}}</h1>
         <p>
