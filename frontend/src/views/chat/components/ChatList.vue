@@ -31,7 +31,7 @@
     </div>
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
-        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.senderId1">
+        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="userId === r.senderId1">
           <div class="other"> {{ r.senderId2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
           <div v-else class="msg">{{ r.recentMessage }}</div>
         </div>
@@ -64,7 +64,8 @@ export default {
       id: -1,
       name: '',
       room_list: [1, 2, 3],
-      isShowing: false
+      isShowing: false,
+      userId: -1
     }
   },
   computed: {
@@ -77,6 +78,7 @@ export default {
     this.fetchCurrentUser()
     this.id = this.$route.params.id
     this.name = this.$route.params.name
+    this.userId = this.$route.params.userId
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -96,7 +98,7 @@ export default {
             recentMessage: res.data[i].recentMessage,
             recentMessageId: res.data[i].recentMessageId,
             senderId1: res.data[i].senderId1,
-            serderId2: res.data[i].senderId2
+            senderId2: res.data[i].senderId2
           }
           this.room_list.push(room)
         }
@@ -112,7 +114,7 @@ export default {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { roomid: id, id: this.id, name: this.name }
+        params: { roomid: id, id: this.id, name: this.name, userId: this.userId }
       })
     },
     moveBack () {
@@ -131,7 +133,7 @@ export default {
         res => {
           this.$router.push({
             name: 'chat',
-            params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
+            params: { userid1: this.userid1, userid2: this.userid2, id: this.id, senderId1: this.senderId1, senderId2: this.senderId2 }
           })
         },
         err => {

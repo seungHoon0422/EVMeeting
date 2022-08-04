@@ -23,13 +23,14 @@ export default {
     this.fetchCurrentUser()
     this.id = this.currentUser.id
     this.name = this.currentUser.username
+    this.userid = this.currentUser.userid
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),
     callMyRoomList () {
       this.$router.push({
         name: 'chatlist',
-        params: { id: this.currentUser.id, name: this.currentUser.username }
+        params: { id: this.currentUser.id, name: this.currentUser.username, userId: this.currentUser.userid }
       })
     }
   }

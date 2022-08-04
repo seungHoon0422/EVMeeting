@@ -111,6 +111,7 @@ export default {
     this.id = this.$route.params.id
     this.roomid = this.$route.params.roomid
     this.name = this.$route.params.name
+    this.userId = this.$route.params.userId
     // 대화 불러오기
     axios({
       method: 'get',
@@ -183,7 +184,7 @@ export default {
     moveBack () {
       this.$router.push({
         name: 'chatlist',
-        params: { id: this.id, name: this.name }
+        params: { id: this.id, name: this.name, userId: this.userId }
       })
     },
     chat_on_scroll () {
