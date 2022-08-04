@@ -155,23 +155,23 @@ public class UserController {
 	}
 
 
-//	@PostMapping(value = "uploadphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<? extends BaseResponseBody> editImage(
-//			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
-//		System.out.println("ACCESS!!!");
-//		System.out.println("userid : " + userid);
-//		System.out.println("ACCESS!!!");
-//		//해당 유저의 정보들 변경하기
-//		userService.editUserPhoto(file, userid);
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//	}
+	@PostMapping(value = "uploadphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> editImage(
+			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
+		System.out.println("ACCESS!!!");
+		System.out.println("userid : " + userid);
+		System.out.println("ACCESS!!!");
+		//해당 유저의 정보들 변경하기
+		userService.editUserPhoto(file, userid);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 
 //	@PostMapping(value = "showphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
 //	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
