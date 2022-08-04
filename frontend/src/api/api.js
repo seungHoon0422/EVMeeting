@@ -15,7 +15,7 @@ export default {
     editpwd: () => HOST + ACCOUNTS + 'editpwd/',
     deleteprofile: () => HOST + ACCOUNTS + 'deleteprofile/',
     editprofile: () => HOST + ACCOUNTS + 'editprofile/',
-    uploadPhoto: () => HOST + ACCOUNTS + 'uploadphoto/',
+    uploadPhoto: userid => HOST + ACCOUNTS + 'uploadphoto/' + userid,
     checkDuplicateId: () => HOST + ACCOUNTS + 'checkduplicateid/',
     checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/'
   },
