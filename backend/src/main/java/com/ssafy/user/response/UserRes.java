@@ -44,6 +44,9 @@ public class UserRes{
 	String cigarette;
 	@ApiModelProperty(name="유저 자기소개")
 	String description;
+	@ApiModelProperty(name="유저 사진")
+	Blob photo;
+	byte[] blob;
 	
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
@@ -61,6 +64,7 @@ public class UserRes{
 		res.setDrink(user.getDrink());
 		res.setCigarette(user.getCigarette());
 		res.setDescription(user.getDescription());
+		res.setPhoto(user.getPhoto());
 		return res;
 	}
 }
