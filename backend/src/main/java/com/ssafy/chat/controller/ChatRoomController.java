@@ -2,6 +2,7 @@ package com.ssafy.chat.controller;
 
 import com.ssafy.chat.db.entity.ChatRoom;
 import com.ssafy.chat.db.entity.Message;
+import com.ssafy.chat.model.ChatRoomVO;
 import com.ssafy.chat.model.MessageVO;
 import com.ssafy.chat.service.IChatRoomService;
 import com.ssafy.chat.service.IMessageService;
@@ -79,10 +80,10 @@ public class ChatRoomController {
             @ApiResponse(code = 404, message = "채팅방 없음"),
             @ApiResponse(code = 500, message = "서버 오류")
     })
-    public ResponseEntity<List<ChatRoom>> roomsByUserid(@PathVariable long id) {
+    public ResponseEntity<List<ChatRoomVO>> roomsByUserid(@PathVariable long id) {
 
         // 유저가 포함된 모든 채팅방 목록
-        List<ChatRoom> rooms = chatroomService.findChatRoomByUserid(id);
+        List<ChatRoomVO> rooms = chatroomService.findChatRoomByUserid(id);
 
         if(rooms == null || rooms.size() == 0)  // 채팅목록이 없는 경우
             return ResponseEntity.status(HttpStatus.OK).body(null);
