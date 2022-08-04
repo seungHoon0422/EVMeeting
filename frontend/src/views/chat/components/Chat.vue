@@ -22,7 +22,7 @@
               </div>
               <div v-else class="chat__yourmessage">
                 <h5 class="chat__yourmessage__user" style="margin:3px">
-                  {{ m.senderId }}
+                  {{ m.userId }}
                 </h5>
                 <div class="chat__yourmessage__p">
                   <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
@@ -123,6 +123,7 @@ export default {
           const m = {
             senderId: res.data[i].senderId,
             content: res.data[i].content,
+            userId: res.data[i].userId,
             style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
           }
           this.msg.push(m)
@@ -171,6 +172,7 @@ export default {
           chatroomId: this.roomid,
           senderName: this.name,
           senderId: this.id,
+          userId: this.userId,
           id: '0'
         }
         this.stompClient.send('/pub/message', JSON.stringify(chatMessage), {})

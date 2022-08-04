@@ -31,12 +31,12 @@
     </div>
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
-        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.userid1">
-          <div class="other"> {{ r.userid2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.senderId1">
+          <div class="other"> {{ r.senderId2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
           <div v-else class="msg">{{ r.recentMessage }}</div>
         </div>
         <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-          <div class="other">{{ r.userid1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+          <div class="other">{{ r.senderId1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
         </div>
         <div
           style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
@@ -94,7 +94,9 @@ export default {
             userid1: res.data[i].userid1,
             userid2: res.data[i].userid2,
             recentMessage: res.data[i].recentMessage,
-            recentMessageId: res.data[i].recentMessageId
+            recentMessageId: res.data[i].recentMessageId,
+            senderId1: res.data[i].senderId1,
+            serderId2: res.data[i].senderId2
           }
           this.room_list.push(room)
         }
