@@ -125,6 +125,7 @@ public class UserServiceImpl implements UserService {
 		try {
 			bytes = file.getBytes();
 			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+			System.out.println(blob);
 			user.setPhoto(blob);
 			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO SUCCESS!!!!");
 		}
