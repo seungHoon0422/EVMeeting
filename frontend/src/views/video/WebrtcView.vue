@@ -29,6 +29,10 @@
       <!-- <button @click="sessionLevelPlus">levelUp</button> -->
       <h1> 프로필 들어가야함 : {{currentUser.username}}</h1>
 
+      <div v-if="currentUserCount==0">
+        <h1>대기중..</h1>
+      </div>
+
       <!-- 상대방의 프로필이 보여야 함 -->
       <!-- <button @click="showProfilePicture">Show</button> -->
       <div id="profile-container" class="container">
@@ -63,9 +67,9 @@
         <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
           @profileOnOff="profileOnOff"
-          :profileopencount= "profileopencount"
+          :profileopencount="profileopencount"
           :session="session"
-          :countTogether = "countTogether"
+          :countTogether ="countTogether"
           >
 
         </adding-profile>
@@ -76,6 +80,7 @@
           <stranger-profile v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
           :stranger="sub.stream.connection.data"
+          :countTogether ="countTogether"
           @click.native="updateMainVideoStreamManager(sub)">
           </stranger-profile>
         </div>
@@ -203,6 +208,7 @@ export default {
       this.sessionLevel = 1
       this.levelOneCount = 0
       this.StrangerProfile = false
+      this.profileCount = 0
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
