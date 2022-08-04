@@ -16,5 +16,6 @@ public interface UserService {
 	void removeUser(String userId);
 	User editUserInfor(UserEditInforPutReq userEditInfo);
 	User editUserPW(UserEditPWPutReq userEditPW);
-	User editUserPhoto(MultipartFile file, String userid);
+	User uploadPhoto(MultipartFile multipartFile, String userid);
+	User deletePhoto(String userid);
 }

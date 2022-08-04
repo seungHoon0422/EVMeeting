@@ -44,9 +44,8 @@ public class UserRes{
 	String cigarette;
 	@ApiModelProperty(name="유저 자기소개")
 	String description;
-	@ApiModelProperty(name="유저 사진")
-	Blob photo;
-	byte[] blob;
+	@ApiModelProperty(name="유저 사진 URL")
+	String photo;
 	
 	public static UserRes of(User user) {
 		UserRes res = new UserRes();
