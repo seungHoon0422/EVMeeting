@@ -1,7 +1,7 @@
 <template>
   <div>
     <h1>Stranger : {{this.strangerName}}</h1>
-    <h2>{{StrangerProfile}}</h2>
+    <h1>{{StrangerProfile}}</h1>
   </div>
 </template>
 <script>
