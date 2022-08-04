@@ -58,8 +58,6 @@
     <div id="session_2" v-if="sessionLevel===2">
       <h1>Hi I'm session_2</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <button @click="sessionLevelPlus">levelUp</button>
-      <button @click="startTimer" class="btn btn-primary">click</button><br>
       <div v-if="currentUser">
         <h1>profile open count : {{profileopencount}}</h1>
         <h1>countTogether : {{countTogether}}</h1>
@@ -105,8 +103,8 @@
     <div id="session_3" v-if="sessionLevel===3">
       <h1>Hi I'm session_3</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <button @click="sessionLevelPlus">levelUp</button>
       <h1> MBTI : {{currentUser.mbti}}</h1>
+      <h1>남은 시간 : {{tenseconds}}</h1>
       <!-- 비디오 출력 부분  -->
       <div id="video-container" class="container">
         <div class="d-flex">
@@ -383,7 +381,7 @@ export default {
         this.autoleaveflag = true
       } else if (this.tenseconds > 0) {
         setTimeout(() => {
-          this.tenseconds -= 1
+          this.tenseconds -= 0.5
           this.countTime()
         }, 1000)
       }
@@ -406,7 +404,7 @@ export default {
       }
     },
     // 타이머 시그널
-    startTimer ({ timer }) {
+    startTimer () {
       this.session.signal({
         data: '',
         to: [],
@@ -550,6 +548,15 @@ export default {
         this.StrangerProfile = true
       } else {
         this.StrangerProfile = false
+      }
+    },
+    sessionLevel () {
+      if (this.sessionLevel === 2) {
+        this.startTimer()
+      }
+      if (this.sessionLevel === 3) {
+        console.log('Its Level 3')
+        this.tenseconds = 100000
       }
     }
   }
