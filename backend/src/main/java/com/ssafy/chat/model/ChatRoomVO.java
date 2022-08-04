@@ -21,8 +21,8 @@ public class ChatRoomVO {
 
     Long userid2;
 
-    String sendId1;
-    String sendId2;
+    String senderId1;
+    String senderId2;
     @ColumnDefault("true")
     Boolean alive;
 
