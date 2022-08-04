@@ -118,20 +118,19 @@ public class UserServiceImpl implements UserService {
 
 	//사용자 프로필 사진 변경
 	@Override
-	public User editUserPhoto(UserPhotoPostReq userPhotoInfo){
+	public User editUserPhoto(MultipartFile file, String userid){
 		System.out.println("@@@@ LETS ADD PHOTO!!");
-		User user = getUserByUserId(userPhotoInfo.getUserid());
-		MultipartFile file = userPhotoInfo.getFrm();
+		User user = getUserByUserId(userid);
 		byte[] bytes;
 		try {
 			bytes = file.getBytes();
 			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
 			user.setPhoto(blob);
-			System.out.println("@@@@@@@@@@@@@SUCCESS!!!!");
+			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO SUCCESS!!!!");
 		}
 		catch (Exception e2) {
 			e2.printStackTrace();
-			System.out.println("@@@@@@@@@@@@@FAIL!!!!");
+			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO FAIL!!!!");
 		}
 		//디비저장
 		return userRepository.save(user);
