@@ -11,6 +11,7 @@ import EditPasswordView from '../views/accounts/EditPasswordView.vue'
 import EditProfileView from '../views/accounts/EditProfileView.vue'
 import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
+import WebrtcView from '../views/video/WebrtcView.vue'
 
 import chat from '../views/chat/ChatView.vue'
 import chatList from '../views/chat/ChatListView.vue'
@@ -87,12 +88,12 @@ const routes = [
     path: '/chatrooms',
     name: 'chatrooms',
     component: chatrooms
+  },
+  {
+    path: '/cam',
+    name: 'cam',
+    component: WebrtcView
   }
-  // {
-  //   path: '/cam',
-  //   name: 'cam',
-  //   component: cam
-  // }
   // {
   //   path: '*',
   //   redirect: '/404'
