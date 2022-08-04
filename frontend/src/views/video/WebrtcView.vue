@@ -15,7 +15,9 @@
         </p> -->
         <p class="text-center">
           <!-- <button class="btn btn-lg btn-success" @click="joinSession()">Join!</button> -->
-          <button class="btn btn-lg btn-success" @click="getSession()">호출</button>
+          <button class="btn btn-lg btn-success" @click="getSession()">
+            <i class="fa-solid fa-circle-sort">호출</i>
+          </button>
         </p>
       </div>
     </div>
@@ -183,7 +185,7 @@ export default {
       levelOneCount: 0,
       StrangerProfile: false,
       strangerId: undefined,
-      id: 0
+      roomid: -1
 
     }
   },
@@ -520,7 +522,7 @@ export default {
         res => {
           this.$router.push({
             name: 'chat',
-            params: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
+            params: { userid1: this.currentUser.id, userid2: this.strangerId, roomid: this.roomid }
           })
         },
         err => {
