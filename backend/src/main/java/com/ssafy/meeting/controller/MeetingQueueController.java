@@ -48,9 +48,9 @@ public class MeetingQueueController {
     @PostMapping("/userinfo")
     @ApiOperation(value = "상대방 정보 검색")
     public User userinfo(@RequestBody @ApiParam(value = "상대방 유저 아이디", required = true) String userid){
+        System.out.println(userid);
         return meetingQueueService.joinUserid(userid).get(0);
     }
-
 
     @PostMapping("/exit")
     @ApiOperation(value = "화상통화 종료")
@@ -59,10 +59,15 @@ public class MeetingQueueController {
         // 프로필을 보고 닫힘버튼을 눌렀을 때 두 사용자의 정보를 테이블에 다시 올려줘야된다
         MeetingQueue temp = meetingQueueService.createMeeting(meetingQueue);
 
+        // 닫힘버튼을 눌렀을 때 미팅큐에 세션방이 존재하는지 조회하고
+        // 있으면 삭제
+        
+        // 없으면 그냥 종료
+        
+        // 미팅큐에 다시 등록하는 과정은 필요없다
+
         // 블랙리스트에 추가하는 로직 구현
-
     }
-
     @PostMapping("/endservice")
     @ApiOperation(value = "서비스 종료")
     public void endservice(@RequestBody @ApiParam(value = "접속 정보", required = true) MeetingQueue meetingQueue){
