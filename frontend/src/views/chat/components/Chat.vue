@@ -119,6 +119,7 @@ export default {
       baseURL: 'http://localhost:8080/'
     }).then(
       res => {
+        console.log(res)
         this.msg = []
         for (let i = 0; i <= res.data.length - 1; i++) {
           const m = {
@@ -148,6 +149,7 @@ export default {
           const m = {
             senderId: jsonBody.senderId,
             content: jsonBody.content,
+            userId: jsonBody.userId,
             style: jsonBody.senderId === this.id ? 'myMsg' : 'otherMsg'
           }
           this.msg.push(m)
@@ -171,7 +173,6 @@ export default {
         const chatMessage = {
           content: this.content,
           chatroomId: this.roomid,
-          senderName: this.name,
           senderId: this.id,
           userId: this.userId,
           id: '0'
