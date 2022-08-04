@@ -61,16 +61,11 @@ public class ChatRoomService implements IChatRoomService {
             vo.setAlive(room.getAlive());
             vo.setRecentMessage(room.getRecentMessage());
             vo.setRecentMessageTime(room.getRecentMessageTime());
-
-
-//            Optional<Message> message = messageRepository.findById(room.getRecentMessageId());
-//            Long senderId = message.get().getSenderId();
-//            vo.setSendUserId(userRepository.findById(senderId).get().getUserid());
+            vo.setSendId1(userRepository.findById(room.getUserid1()).get().getUserid());
+            vo.setSendId2(userRepository.findById(room.getUserid2()).get().getUserid());
 
             chatroomResult.add(vo);
         }
-
-
         return chatroomResult;
     }
 

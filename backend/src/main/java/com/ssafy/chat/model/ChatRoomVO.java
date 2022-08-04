@@ -21,7 +21,8 @@ public class ChatRoomVO {
 
     Long userid2;
 
-
+    String sendId1;
+    String sendId2;
     @ColumnDefault("true")
     Boolean alive;
 
@@ -31,5 +32,4 @@ public class ChatRoomVO {
 
     String recentMessageTime;
 
-    String sendUserId;
 }
