@@ -13,6 +13,9 @@ import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
 import WebrtcView from '../views/video/WebrtcView.vue'
 
+import chat from '../views/chat/ChatView.vue'
+import chatList from '../views/chat/ChatListView.vue'
+import chatrooms from '../views/chat/ChattingRoomView.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -71,16 +74,21 @@ const routes = [
     name: '404',
     component: NotFound404
   },
-  // {
-  //   path: '/chat',
-  //   name: 'chat',
-  //   component: chat
-  // },
-  // {
-  //   path: '/chatlist',
-  //   name: 'chatlist',
-  //   component: chatList
-  // },
+  {
+    path: '/chat',
+    name: 'chat',
+    component: chat
+  },
+  {
+    path: '/chatlist',
+    name: 'chatlist',
+    component: chatList
+  },
+  {
+    path: '/chatrooms',
+    name: 'chatrooms',
+    component: chatrooms
+  },
   {
     path: '/cam',
     name: 'cam',

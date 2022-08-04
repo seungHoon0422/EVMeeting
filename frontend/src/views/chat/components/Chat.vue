@@ -1,204 +1,209 @@
 <template>
-  <div class="room">
-    <div class="chat__header">
-      <img
-        src="../assets/angle-circle-left.svg"
-        alt=""
-        @click="moveBack"
-        style="margin-left: 0px; margin-top: 5px"
-      />
-      <span class="chat__header__greetings">{{ title }}</span>
-    </div>
-    <div class="chat__body" id="chat__body" onscroll="chat_on_scroll()">
-      <chat-message
-        v-for="(m, idx) in msg"
-        :key="idx"
-        :m="m"
-        :prev="[idx == 0 ? null : msg[idx - 1]]"
-      >
-        <div v-bind:class="m.style">
-          <div v-if="m.senderNickname == nickname" class="chat__mymessage">
-            <!-- <h5 class="chat__mymessage__user" style="margin:3px">
-              {{ m.senderNickname }}
-            </h5> -->
-            <p class="chat__mymessage__paragraph">{{ m.content }}</p>
-          </div>
-          <div v-else class="chat__yourmessage">
-            <h5 class="chat__yourmessage__user" style="margin:3px">
-              {{ m.senderNickname }}
-            </h5>
-            <div class="chat__yourmessage__p">
-              <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
+    <div class="chat">
+        <div class="chat__header">
+    <img
+      src="@/img/angle-circle-left.svg"
+      alt=""
+      @click="moveBack"
+      style="margin-left:-450px; margin-top: -15px"
+    />
+        </div>
+        <!-- 메시지 보여주는 부분 -->
+        <div class="chat__body" id="chat__body">
+          <div
+            v-for="(m, idx) in msg"
+            :key="idx"
+            :m="m"
+            :prev="[idx == 0 ? null : msg[idx - 1]]"
+          >
+            <div v-bind:class="m.style">
+              <div v-if="m.senderId == id" class="chat__mymessage">
+                <p class="chat__mymessage__paragraph">{{ m.content }}</p>
+              </div>
+              <div v-else class="chat__yourmessage">
+                <h5 class="chat__yourmessage__user" style="margin:3px">
+                  {{ m.userId }}
+                </h5>
+                <div class="chat__yourmessage__p">
+                  <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
+                </div>
+              </div>
             </div>
           </div>
         </div>
-      </chat-message>
+        <!-- 메시지 전송하는 부분 -->
+        <!-- <button @click="imgBtnClick">사진</button>
+          <button @click="videoBtnClick">동영상</button>
+          <v-file-input
+            id="img"
+            multiple
+            accept="image/jpeg,image/jpg,image/png"
+            style="display:none"
+            @change="uploadImg"
+          />
+          <v-file-input
+            id="video"
+            accept="video/*"
+            style="display:none"
+            @change="uploadVideo"
+        /> -->
+        <div class="form">
+        <input
+          class="form__input"
+          type="text"
+          placeholder="메세지를 입력하세요."
+          v-model="content"
+          @keyup.enter="submitMessage"
+        />
+        <div @click="submitMessage" class="form__submit">
+          <svg
+            width="30"
+            height="30"
+            viewBox="0 0 68 68"
+            fill="#CCCCCC"
+            xmlns="http://www.w3.org/2000/svg"
+          >
+            <g clip-path="url(#clip0_26_10)">
+              <path
+                fill-rule="evenodd"
+                clip-rule="evenodd"
+                d="M48.0833 19.799C48.619 20.3347 48.806 21.127 48.5665 21.8457L35.8385 60.0294C35.5946 60.7614 34.9513 61.2877 34.1855 61.382C33.4198 61.4763 32.6681 61.1217 32.2539 60.4707L22.593 45.2893L7.41158 35.6285C6.76065 35.2142 6.40604 34.4625 6.50031 33.6968C6.59458 32.931 7.12092 32.2878 7.85287 32.0438L46.0366 19.3159C46.7553 19.0763 47.5476 19.2633 48.0833 19.799ZM26.5903 44.1204L33.3726 54.7782L42.0926 28.6181L26.5903 44.1204ZM39.2642 25.7897L23.7619 41.292L13.1041 34.5097L39.2642 25.7897Z"
+                fill=""
+              />
+            </g>
+            <defs>
+              <clipPath id="clip0_26_10">
+                <rect
+                  width="48"
+                  height="48"
+                  fill="white"
+                  transform="translate(33.9412) rotate(45)"
+                />
+              </clipPath>
+            </defs>
+          </svg>
+        </div>
+        </div>
     </div>
-    <!-- <button @click="imgBtnClick">사진</button>
-      <button @click="videoBtnClick">동영상</button>
-      <v-file-input
-        id="img"
-        multiple
-        accept="image/jpeg,image/jpg,image/png"
-        style="display:none"
-        @change="uploadImg"
-      />
-      <v-file-input
-        id="video"
-        accept="video/*"
-        style="display:none"
-        @change="uploadVideo"
-    /> -->
-    <chat-form></chat-form>
-  </div>
 </template>
 
 <script>
-var pre_diffHeight = 0;
-var bottom_flag = true;
-import axios from "axios";
-import Stomp from "webstomp-client";
-import SockJS from "sockjs-client";
-import ChatForm from "./ChatForm.vue";
-//import Compressor from "compressorjs";
+import axios from 'axios'
+import Stomp from 'webstomp-client'
+import SockJS from 'sockjs-client'
+let preDiffHeight = 0
+let bottomFlag = true
+
 export default {
-  components: { ChatForm },
-  name: "Chat",
+  name: 'ChatView',
   data: () => {
     return {
       id: -1,
-      nickname: "",
-      title: "",
+      name: '',
       roomid: -1,
       idx: 0,
       msg: [],
-      content: "",
+      content: '',
       stompClient: null
-    };
-  },
-  updated() {
-    var objDiv = document.getElementById("chat__body");
-    if (bottom_flag) {
-      // 채팅창 스크롤 바닥 유지
-      objDiv.scrollTop = objDiv.scrollHeight;
     }
   },
-  created() {
-    this.id = this.$route.params.id;
-    this.roomid = this.$route.params.roomid;
-    this.nickname = this.$route.params.nickname;
-    // 방 제목 가져오기
+  created () {
+    this.id = this.$route.params.id
+    this.roomid = this.$route.params.roomid
+    this.name = this.$route.params.name
+    // 대화 불러오기
     axios({
-      method: "get",
-      url: "/api/chat/room/" + this.roomid,
-      baseURL: "http://localhost:8080/"
+      method: 'get',
+      url: `/api/v1/chat/room/allMessages/${this.roomid}`,
+      baseURL: 'http://localhost:8080/'
     }).then(
       res => {
-        this.title = res.data;
-      },
-      err => {
-        console.log(err);
-        this.$router.push({ name: "Home" });
-      }
-    );
-
-    // 채팅방 내용 불러오기
-    axios({
-      method: "get",
-      url: "/api/chat/room/message/" + this.roomid + "?page=" + this.idx,
-      baseURL: "http://localhost:8080/"
-    }).then(
-      res => {
-        this.msg = [];
-        for (let i = res.data.length - 1; i > -1; i--) {
-          let m = {
-            senderNickname: res.data[i].senderNickname,
+        this.msg = []
+        for (let i = 0; i <= res.data.length - 1; i++) {
+          const m = {
+            senderId: res.data[i].senderId,
             content: res.data[i].content,
-            style: res.data[i].senderId == this.id ? "myMsg" : "otherMsg"
-          };
-          this.msg.push(m);
+            userId: res.data[i].userId,
+            style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
+          }
+          this.msg.push(m)
         }
       },
       err => {
-        console.log(err);
-        alert("error : 새로고침하세요");
+        console.log(err)
+        alert('error : 새로고침하세요')
       }
-    );
+    )
     // socket 연결
-    let socket = new SockJS("http://localhost:8080/ws");
-    this.stompClient = Stomp.over(socket);
+    const socket = new SockJS('http://localhost:8080/ws')
+    const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
+    this.stompClient = Stomp.over(socket, options)
     this.stompClient.connect(
       {},
       frame => {
-        console.log("success", frame);
-        this.stompClient.subscribe("/sub/" + this.roomid, res => {
-          let jsonBody = JSON.parse(res.body);
-          let m = {
-            senderNickname: jsonBody.senderNickname,
+        console.log('success', frame)
+        this.stompClient.subscribe('/sub/' + this.roomid, res => {
+          const jsonBody = JSON.parse(res.body)
+          const m = {
+            senderId: jsonBody.senderId,
             content: jsonBody.content,
-            style: jsonBody.senderId == this.id ? "myMsg" : "otherMsg"
-          };
-          this.msg.push(m);
-        });
+            style: jsonBody.senderId === this.id ? 'myMsg' : 'otherMsg'
+          }
+          this.msg.push(m)
+        })
       },
       err => {
-        console.log("fail", err);
+        console.log('fail', err)
       }
-    );
+    )
+  },
+  updated () {
+    const objDiv = document.getElementById('chat__body')
+    if (bottomFlag) {
+      // 채팅창 스크롤 바닥 유지
+      objDiv.scrollTop = objDiv.scrollHeight
+    }
   },
   methods: {
-    submitMessage() {
-      if (this.content.trim() != "" && this.stompClient != null) {
-        let chatMessage = {
+    submitMessage () {
+      if (this.content.trim() !== '' && this.stompClient != null) {
+        const chatMessage = {
           content: this.content,
           chatroomId: this.roomid,
-          senderNickname: this.nickname,
+          senderName: this.name,
           senderId: this.id,
-          id: "0"
-        };
-        this.stompClient.send("/pub/message", JSON.stringify(chatMessage), {});
+          userId: this.userId,
+          id: '0'
+        }
+        this.stompClient.send('/pub/message', JSON.stringify(chatMessage), {})
 
-        this.content = "";
+        this.content = ''
       }
     },
-    moveBack() {
-      axios({
-        method: "post",
-        url: "/api/chat/login",
-        baseURL: "http://localhost:8080/",
-        headers: { "content-type": "application/json" },
-        data: { id: this.id, nickname: this.nickname }
-      }).then(
-        res => {
-          this.nickname = res.data;
-          this.$router.push({
-            name: "chatList",
-            params: { id: this.id, nickname: this.nickname }
-          });
-        },
-        err => {
-          alert("id, nickname error");
-          console.log(err);
-        }
-      );
+    moveBack () {
+      this.$router.push({
+        name: 'chatlist',
+        params: { id: this.id, name: this.name }
+      })
     },
-    chat_on_scroll() {
-      var objDiv = document.getElementById("app_chat_list");
+    chat_on_scroll () {
+      document.getElementById('chat__body').scrollTop(0)
+      const objDiv = document.getElementById('chat__body')
 
-      if (objDiv.scrollTop + objDiv.clientHeight == objDiv.scrollHeight) {
+      if (objDiv.scrollTop + objDiv.clientHeight === objDiv.scrollHeight) {
         // 채팅창 전체높이 + 스크롤높이가 스크롤 전체높이와 같다면
         // 이는 스크롤이 바닥을 향해있다는것이므로
         // 스크롤 바닥을 유지하도록 플래그 설정
-        bottom_flag = true;
+        bottomFlag = true
       }
 
-      if (pre_diffHeight > objDiv.scrollTop + objDiv.clientHeight) {
+      if (preDiffHeight > objDiv.scrollTop + objDiv.clientHeight) {
         // 스크롤이 한번이라도 바닥이 아닌 위로 상승하는 액션이 발생할 경우
         // 스크롤 바닥유지 플래그 해제
-        bottom_flag = false;
+        bottomFlag = false
       }
       //
-      pre_diffHeight = objDiv.scrollTop + objDiv.clientHeight;
+      preDiffHeight = objDiv.scrollTop + objDiv.clientHeight
     }
     // imgBtnClick() {
     //   document.getElementById("img").click();
@@ -227,13 +232,19 @@ export default {
     //   this.uploadVideoToS3({ formData: formData, roomId: this.roomId });
     // }
   }
-};
+}
 </script>
 <style scoped>
-.room {
+.chat {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
+  width: 505px;
+  height: 712px;
+  background-color: #bad8da;
+  margin: 5rem auto 0rem;
+  border-radius: 1.5rem;
+  box-shadow: 0px 1px 20px #9c9cc855;
 }
 .myMsg {
   text-align: right;
@@ -249,6 +260,7 @@ export default {
   padding: 1.8rem;
   font-size: 16px;
   font-weight: 700;
+  height:50px
 }
 .chat__header__greetings {
   color: #292929;
@@ -258,6 +270,9 @@ export default {
   padding: 2rem;
   overflow: scroll;
   scroll-behavior: smooth;
+  display:flex;
+  flex-direction: column;
+  height: 80%;
 }
 
 .chat__body::-webkit-scrollbar {
@@ -316,7 +331,7 @@ export default {
   padding: 0.8rem;
   font-size: 14px;
 }
-
+/* 메시지 전송 input */
 .form {
   display: flex;
   justify-content: space-between;
@@ -324,7 +339,6 @@ export default {
   background: #ffffff;
   border-radius: 30px 30px 24px 24px;
   box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.05);
-  margin-top: 80px;
 }
 .form__input {
   border: none;

@@ -1,9 +1,8 @@
 package com.ssafy.user.service;
 
-import com.ssafy.user.request.*;
-import com.ssafy.user.request.UserEditImagePutReq;
 import com.ssafy.user.request.UserEditInforPutReq;
 import com.ssafy.user.request.UserEditPWPutReq;
+import com.ssafy.user.request.UserPhotoPostReq;
 import com.ssafy.user.request.UserRegisterPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.crypto.password.PasswordEncoder;
@@ -12,6 +11,9 @@ import org.springframework.stereotype.Service;
 import com.ssafy.user.db.entity.User;
 import com.ssafy.user.db.repository.UserRepository;
 import com.ssafy.user.db.repository.UserRepositorySupport;
+import org.springframework.web.multipart.MultipartFile;
+
+import java.sql.Blob;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -65,8 +67,44 @@ public class UserServiceImpl implements UserService {
 	//사용자 프로필 정보 변경
 	@Override
 	public User editUserInfor(UserEditInforPutReq userEditInfo){
-		User user = getUserByUserId(userEditInfo.getId());
-		user.setUsername(userEditInfo.getUsername());
+		User user = getUserByUserId(userEditInfo.getUserid());
+		//입력값이 없다면 설정하지 않고, 입력값이 있는 경우에만 새롭게 변경한다.
+		if(userEditInfo.getUsername() != null){
+			user.setUsername(userEditInfo.getUsername());
+		}
+		if(userEditInfo.getHeight() != null){
+			user.setHeight(userEditInfo.getHeight());
+		}
+		if(userEditInfo.getWeight() != null){
+			user.setWeight(userEditInfo.getWeight());
+		}
+		if(userEditInfo.getGender() != null){
+			user.setGender(userEditInfo.getGender());
+		}
+		if(userEditInfo.getBirth() != null){
+			user.setBirth(userEditInfo.getBirth());
+		}
+		if(userEditInfo.getHobby() != null){
+			user.setHobby(userEditInfo.getHobby());
+		}
+		if(userEditInfo.getMbti() != null){
+			user.setMbti(userEditInfo.getMbti());
+		}
+		if(userEditInfo.getSchool() != null){
+			user.setSchool(userEditInfo.getSchool());
+		}
+		if(userEditInfo.getEmail() != null){
+			user.setEmail(userEditInfo.getEmail());
+		}
+		if(userEditInfo.getDrink() != null){
+			user.setDrink(userEditInfo.getDrink());
+		}
+		if(userEditInfo.getCigarette() != null){
+			user.setCigarette(userEditInfo.getCigarette());
+		}
+		if(userEditInfo.getDescription() != null){
+			user.setDescription(userEditInfo.getDescription());
+		}
 		return userRepository.save(user);
 	}
 
@@ -80,11 +118,22 @@ public class UserServiceImpl implements UserService {
 
 	//사용자 프로필 사진 변경
 	@Override
-	public User editUserImage(UserEditImagePutReq userEditImage){
-		/**
-		 * TODO
-		 * 프로필 사진을 DB에 저장하고 불러오는 과정 구현 예정
-		 */
-		return null;
+	public User editUserPhoto(MultipartFile file, String userid){
+		System.out.println("@@@@ LETS ADD PHOTO!!");
+		User user = getUserByUserId(userid);
+		byte[] bytes;
+		try {
+			bytes = file.getBytes();
+			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
+			System.out.println(blob);
+			user.setPhoto(blob);
+			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO SUCCESS!!!!");
+		}
+		catch (Exception e2) {
+			e2.printStackTrace();
+			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO FAIL!!!!");
+		}
+		//디비저장
+		return userRepository.save(user);
 	}
 }
