@@ -76,21 +76,41 @@ export default {
         })
     },
 
-    signup ({ commit, dispatch }, credentials) {
+    signup ({ commit, dispatch }, { credentials, valid }) {
+      const errNames = {
+        passwordHasError: '비밀번호',
+        passwordHasError2: '비밀번호 확인',
+        usernameHasError: '닉네임',
+        useridHasError: '아이디'
+      }
+      if (Object.values(valid).includes(true)) {
+        const invalid = []
+        for (const err in valid) {
+          if (valid[err] === true) {
+            invalid.push(errNames[err])
+          }
+        }
+        alert(`${invalid} 다시 확인해주세요. 조건에 맞지 않습니다.`)
+        return
+      }
       axios({
         url: api.accounts.signup(),
         method: 'post',
         data: credentials
       })
         .then(res => {
-          console.log(res)
-          const token = res.data.key
+          // console.log('1', res)
+          const token = res.data.accessToken
+          // console.log('2', token)
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
           router.push({ name: 'upload' })
         })
         .catch(err => {
           console.error(err.response.data)
+          if (err.response.data.message === 'Passwords are not same') {
+            alert('비밀번호가 일치하지 않습니다.')
+          }
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
@@ -274,6 +294,7 @@ export default {
         .then(res => {
           console.log(res)
           dispatch('fetchCurrentUser')
+          router.push({ name: 'profile' })
         })
         .catch(err => console.log(err))
     },
@@ -281,15 +302,17 @@ export default {
     // Input: userId
     // Output: boolean(중복여부) => 중복이면 false, 사용가능 true
     checkDuplicateId ({ commit }, userId) {
-      console.log(userId)
       axios({
         url: api.accounts.checkDuplicateId(),
         method: 'post',
         data: userId
       })
         .then(res => {
-          // console.log(res)
-          commit('SET_AVAILABLEID', res.data)
+          if (res.data.message === 'false') {
+            commit('SET_AVAILABLEID', false)
+          } else {
+            commit('SET_AVAILABLEID', true)
+          }
         })
         .catch(err => console.log(err))
     },

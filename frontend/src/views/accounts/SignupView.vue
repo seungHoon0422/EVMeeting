@@ -5,23 +5,32 @@
       <h1>입주민 등록</h1>
       <p class="guide head">*모든 항목 기입해주시기 바랍니다</p>
       <!-- <account-error-list v-if="authError"></account-error-list> -->
+      <!-- <form @submit.prevent="uploadPhotos(photo)">
+        <div class="img-box">
+              <input id="imgUpload1" @change="upload" type="file" accept="image/*" style="display:none;">
+              <label for="imgUpload1" v-if="!photoUrl">
+                <i class="fa-solid fa-circle-plus icon-color"></i>
+              </label>
+              <img :src="photoUrl" alt=".." v-if="photoUrl" class="img">
+        </div>
+      </form> -->
 
-      <form @submit.prevent="signup(credentials)" class="mt-5">
+      <form @submit.prevent="signup({credentials, valid})" class="mt-5">
         <div class="d-flex justify-content-between">
           <div class="ms-3">
             <div class="d-flex justify-content-end">
-              <label for="userid" class="me-3 pt-3">아이디</label>
-              <input id="userid"  @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 조합 4-12자" required>
+              <label for="userid" :class="{ 'title-danger': valid.useridHasError }" class="me-3 pt-3">아이디</label>
+              <input id="userid"  :class="{ 'input-danger': valid.useridHasError }" @blur="checkDuplicateId(credentials.userid)" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" placeholder="영문,숫자 포함 4-12자" required>
             </div>
             <p class="badge bg-danger bg-margin" v-if="!availableId">이미 사용중인 아이디입니다.</p>
             <div class="mt-3 d-flex justify-content-end">
-              <label for="password1" class="me-3 pt-3">비밀번호</label>
-              <input id="password1" v-model="credentials.password1" :class="{ 'input-danger': passwordHasError }" class="input-color rounded length height p-3" type="password" placeholder="영문,숫자,특수문자 조합 8-16자" required>
+              <label for="password1" :class="{'title-danger': valid.passwordHasError}" class="me-3 pt-3">비밀번호</label>
+              <input id="password1" v-model="credentials.password1" :class="{ 'input-danger': valid.passwordHasError }" class="input-color rounded length height p-3" type="password" placeholder="영문,숫자,특수문자 포함 8-16자" required>
             </div>
             <!-- <p class="guide">-영어/숫자/특수문자 중 2가지 이상 조합 8자 이상</p> -->
             <div class="mt-3 d-flex justify-content-end">
-              <label for="password2" class="me-3 pt-3">비밀번호 확인</label>
-              <input id="password2" v-model="credentials.password2" class="input-color rounded length height p-3" type="password"  placeholder="영문,숫자,특수문자 조합 8-16자" required>
+              <label for="password2" :class="{'title-danger': valid.passwordHasError2}" class="me-3 pt-3">비밀번호 확인</label>
+              <input id="password2" v-model="credentials.password2" :class="{ 'input-danger': valid.passwordHasError2 }" class="input-color rounded length height p-3" type="password"  placeholder="영문,숫자,특수문자 포함 8-16자" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="height" class="me-3 pt-3">키</label>
@@ -47,12 +56,12 @@
           </div>
           <div class="me-5">
             <div class="d-flex justify-content-end">
-              <label for="username" class="me-3 pt-3">닉네임</label>
-              <input id="username" v-model="credentials.username" class="input-color rounded length height p-3" type="text" placeholder="한글,숫자,영문 조합 4-12자" required>
+              <label for="username" :class="{'title-danger': valid.usernameHasError}" class="me-3 pt-3">닉네임</label>
+              <input id="username" v-model="credentials.username" :class="{'input-danger': valid.usernameHasError}" class="input-color rounded length height p-3" type="text" placeholder="한글,숫자,영문 조합 2-12자" required>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="mbti" class="me-3 pt-3">MBTI</label>
-              <select v-model="credentials.drink" name="drink" id="drink" class="length height" required>
+              <select v-model="credentials.mbti" name="mbti" id="mbti" class="length height" required>
                 <option value=""> 선택하세요 </option>
                 <option value="XXXX">잘 모름</option>
                 <option value="ISTJ">ISTJ</option>
@@ -84,7 +93,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="email" class="me-3 pt-3">이메일</label>
-              <input id="email" v-model="credentials.email" class="input-color rounded length height p-3" type="email" placeholder="ex) elsa@elsa.com" @blur="checkDuplicateEmail(credentials.email)" required>
+              <input id="email" v-model="credentials.email" class="input-color rounded length height p-3" type="email" placeholder="ex) elsa@elsa.com" required>
               <!-- <span class="badge badge-danger mt-1" v-if="!availableEmailForm">이메일 형식이 다릅니다.</span> -->
             </div>
             <p class="badge bg-danger ms-5" v-if="!availableEmail">이미 사용중인 이메일입니다.</p>
@@ -124,6 +133,8 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
+import axios from 'axios'
+import api from '@/api/api'
 // import AccountErrorList from '@/components/AccountErrorList'
 
 export default {
@@ -149,30 +160,85 @@ export default {
         description: ''
       },
       valid: {
-        password: false
+        passwordHasError: false,
+        passwordHasError2: false,
+        usernameHasError: false,
+        useridHasError: false
       },
-      passwordHasError: false
+      photoUrl: ''
     }
   },
   computed: {
     ...mapGetters(['authError', 'availableEmail', 'availableId'])
   },
   methods: {
-    ...mapActions(['signup', 'checkDuplicateId', 'checkDuplicateEmail']),
+    ...mapActions(['signup', 'checkDuplicateId', 'checkDuplicateEmail', 'uploadPhotos']),
     checkPassword () {
       const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
 
       if (!validatePassword.test(this.credentials.password1) || !this.credentials.password1) {
-        this.valid.password = true
-        this.passwordHasError = true
+        this.valid.passwordHasError = true
         return
-      } this.valid.password = false
-      this.passwordHasError = false
+      } this.valid.passwordHasError = false
+    },
+    checkPassword2 () {
+      const validatePassword = /^(?=.*[a-zA-z])(?=.*[0-9])(?=.*[$`~!@$!%*#^?&\\(\\)\-_=+]).{8,16}$/
+
+      if (!validatePassword.test(this.credentials.password2) || !this.credentials.password2) {
+        // this.valid.password2 = true
+        this.valid.passwordHasError2 = true
+        return
+      } this.valid.passwordHasError2 = false
+    },
+    checkUsername () {
+      const validateUsername = /^[ㄱ-ㅎ|가-힣|a-z|A-Z|0-9|].{1,12}$/
+      if (!validateUsername.test(this.credentials.username) || !this.credentials.username) {
+        this.valid.usernameHasError = true
+        return
+      } this.valid.usernameHasError = false
+    },
+    checkUserid () {
+      const validateUserid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,12}$/
+      if (!validateUserid.test(this.credentials.userid) || !this.credentials.userid) {
+        this.valid.useridHasError = true
+        return
+      } this.valid.useridHasError = false
+    },
+    upload (e) {
+      const file = e.target.files
+      const url = URL.createObjectURL(file[0])
+      // console.log(url)
+      this.photoUrl = url
+      const frm = new FormData()
+      const photoFile = document.getElementById('imgUpload1')
+      console.log(photoFile.files[0])
+      frm.append('photo', photoFile.files[0])
+      axios({
+        url: api.accounts.uploadPhoto(),
+        method: 'post',
+        data: frm,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then(res => {
+          console.log(res)
+        })
+        .catch(err => console.log(err))
     }
   },
   watch: {
     'credentials.password1': function () {
       this.checkPassword()
+    },
+    'credentials.password2': function () {
+      this.checkPassword2()
+    },
+    'credentials.username': function () {
+      this.checkUsername()
+    },
+    'credentials.userid': function () {
+      this.checkUserid()
     }
   }
 }
@@ -241,6 +307,11 @@ input, textarea, select {
 }
 
 .input-danger {
-    border-bottom: 1px solid red !important;
+    outline-color: red !important;
+}
+
+.title-danger {
+  font-weight: 900;
+  color: red;
 }
 </style>
