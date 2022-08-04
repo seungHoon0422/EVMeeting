@@ -2,7 +2,6 @@
   <div>
     <h1>Want to see your profile</h1>
     <button @click="[profileOnOff(),buttonSwitch()]" class="btn btn-danger"  v-bind:disabled="buttonOff==true">WantToSee</button>
-    <!-- <button @click="buttonSwitch" class="btn btn-primary" v-bind:disabled="buttonOff==true">Checking</button> -->
   </div>
 </template>
 
