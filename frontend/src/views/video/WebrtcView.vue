@@ -507,14 +507,8 @@ export default {
       console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       console.log(this.currentUser.id)
       console.log(this.strangerName)
-      axios({
-        method: 'post',
-        url: '/api/v1/chat/room',
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' },
-        // userid 1 - > 자기 , 2 -> 상대방
-        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
-      }).then(
+      axios.post(api.chat.createRoom(), { 'content-type': 'application/json' }, { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
+      ).then(
         res => {},
         err => {
           console.log(err)

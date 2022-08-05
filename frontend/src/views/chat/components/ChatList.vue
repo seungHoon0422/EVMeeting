@@ -58,6 +58,7 @@
 <script>
 import { mapGetters, mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
+import api from '@/api/api'
 
 export default {
   name: 'ChatList',
@@ -86,8 +87,7 @@ export default {
     }
     axios({
       method: 'get',
-      url: `/api/v1/chat/rooms/${this.id}`,
-      baseURL: 'http://localhost:8080/'
+      url: api.chat.getRooms() + `${this.id}`
     }).then(
       res => {
         console.log(res)
@@ -126,13 +126,8 @@ export default {
       })
     },
     createRoom () {
-      axios({
-        method: 'post',
-        url: '/api/v1/chat/room',
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' },
-        data: { userid1: 1, userid2: 2 }
-      }).then(
+      axios.post(api.chat.createRoom(), { 'content-type': 'application/json' }, { userid1: 1, userid2: 2 }
+      ).then(
         res => {
           this.$router.push({
             name: 'chat',
@@ -146,16 +141,16 @@ export default {
       )
     },
     deleteRoom (id) {
-      axios({
-        method: 'put',
-        url: `/api/v1/chat/room/delete/${id}`,
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' }
-      }).then(
-        res => {
-          alert('채팅을정말로나가시겠습니까?')
-        }
-      ).catch({})
+      if (confirm('정말 삭제하시겠습니까??') === true) {
+        axios.put(api.chat.deleteRoom() + `${id}`, { 'content-type': 'application/json' }
+        ).then(
+          res => {
+            this.$router.push({ name: 'chatlist' })
+          }
+        ).catch({})
+      } else {
+        return false
+      }
     },
     showdelete () {
       if (this.isShowing === false) this.isShowing = true
