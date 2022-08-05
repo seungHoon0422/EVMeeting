@@ -91,6 +91,7 @@
 import axios from 'axios'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import api from '@/api/api'
 let preDiffHeight = 0
 let bottomFlag = true
 
@@ -113,11 +114,7 @@ export default {
     this.name = this.$route.params.name
     this.userId = this.$route.params.userId
     // 대화 불러오기
-    axios({
-      method: 'get',
-      url: `/api/v1/chat/room/allMessages/${this.roomid}`,
-      baseURL: 'http://localhost:8080/'
-    }).then(
+    axios.get(api.chat.getMessage() + `${this.roomid}`).then(
       res => {
         console.log(res)
         this.msg = []
