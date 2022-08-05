@@ -3,7 +3,7 @@ const HOST = 'http://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 // const CHAT = 'chat/'
-// const VIDEO = 'video/'
+const VIDEO = 'meeting/'
 
 export default {
   accounts: {
@@ -21,5 +21,8 @@ export default {
     checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/'
   },
   chat: {},
-  video: {}
+  video: {
+    getSessionJoin: () => HOST + VIDEO + 'join',
+    getStrangerProfile: () => HOST + VIDEO + 'userinfo'
+  }
 }

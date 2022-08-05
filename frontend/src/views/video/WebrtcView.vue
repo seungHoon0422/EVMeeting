@@ -2,23 +2,18 @@
 <div id="main-container" class="container">
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
-      <h1>엘리베이터 호출 하기</h1>
-      <div class="form-group">
-        <h1>hi {{currentUserName}}</h1>
-        <!-- <p>
-          <label>Participant</label>
-          <input v-model="currentUserName" class="form-control" type="text" required>
-        </p>
-        <p>
-          <label>Session</label>
-          <input v-model="mySessionId" class="form-control" type="text" required>
-        </p> -->
-        <p class="text-center">
-          <!-- <button class="btn btn-lg btn-success" @click="joinSession()">Join!</button> -->
-          <button class="btn btn-lg btn-success" @click="getSession()">
-            <i class="fa-solid fa-circle-sort">호출</i>
-          </button>
-        </p>
+      <div class="d-flex justify-content-center">
+        <div class="row text-align center">
+          <h1>엘리베이터 호출 하기</h1>
+          <div class="form-group">
+            <h1> 내 사진 들어가야 해 {{currentUserName}}</h1>
+          </div>
+          <div>
+            <p class="text-center">
+              <button class="btn btn-lg btn-success" @click="getSession()">호출</button>
+            </p>
+          </div>
+        </div>
       </div>
     </div>
   </div>
@@ -135,6 +130,7 @@
 
 <script>
 import axios from 'axios'
+import api from '@/api/api'
 import { mapGetters } from 'vuex'
 import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
@@ -192,7 +188,7 @@ export default {
   methods: {
     // hyomin start
     getSession () {
-      axios.post('http://localhost:8080/api/v1/meeting/join', { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+      axios.post(api.video.getSessionJoin(), { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
         console.log(this.currentUser.gender)
         // sessionid 부분을 user정보로 바꾸면 된다
         console.log(res)

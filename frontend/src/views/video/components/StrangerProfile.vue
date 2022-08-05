@@ -8,6 +8,7 @@
 </template>
 <script>
 import axios from 'axios'
+import api from '@/api/api'
 
 export default {
   props: {
@@ -38,7 +39,7 @@ export default {
   },
   methods: {
     getProfile () {
-      axios.post('http://localhost:8080/api/v1/meeting/userinfo', this.strangerName).then(res => {
+      axios.post(api.video.getStrangerProfile, this.strangerName).then(res => {
         const number = this.ProfileCount - 3
         const pick = this.profileList[number]
         this.strangerProfile = res.data[pick]

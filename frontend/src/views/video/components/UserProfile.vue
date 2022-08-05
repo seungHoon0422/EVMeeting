@@ -8,6 +8,7 @@
 
 <script>
 import axios from 'axios'
+import api from '@/api/api'
 
 export default {
   props: {
@@ -27,8 +28,7 @@ export default {
   },
   methods: {
     getProfile () {
-      axios.post('http://localhost:8080/api/v1/meeting/userinfo', this.strangerName).then(res => {
-        console.log('hereeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+      axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
         console.log(res)
         this.strangerId = res.data.id
         this.$emit('sendStarngerId', this.strangerId)
