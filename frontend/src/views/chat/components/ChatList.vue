@@ -31,22 +31,24 @@
     </div>
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
-        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="id === r.senderId1">
-          <div class="other"> {{ r.senderId2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
-          <div v-else class="msg">{{ r.recentMessage }}</div>
-        </div>
-        <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-          <div class="other">{{ r.senderId1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
-        </div>
-        <div
-          style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
-        >
-          <img
-            v-if="isShowing"
-            src="@/img/cross.svg"
-            @click="deleteRoom()"
-            style="margin-right: 7px; padding-left: 7px;"
-          />
+        <div v-if="r.alive == true">
+          <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="userId === r.senderId1">
+            <div class="other"> {{ r.senderId2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+            <div v-else class="msg">{{ r.recentMessage }}</div>
+          </div>
+          <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
+            <div class="other">{{ r.senderId1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+          </div>
+          <div
+            style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
+          >
+            <img
+              v-if="isShowing"
+              src="@/img/cross.svg"
+              @click="deleteRoom(r.id)"
+              style="margin-right: 7px; padding-left: 7px;"
+            />
+          </div>
         </div>
       </div>
     </div>
@@ -64,7 +66,8 @@ export default {
       id: -1,
       name: '',
       room_list: [1, 2, 3],
-      isShowing: false
+      isShowing: false,
+      userId: -1
     }
   },
   computed: {
@@ -77,6 +80,7 @@ export default {
     this.fetchCurrentUser()
     this.id = this.$route.params.id
     this.name = this.$route.params.name
+    this.userId = this.$route.params.userId
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -96,7 +100,8 @@ export default {
             recentMessage: res.data[i].recentMessage,
             recentMessageId: res.data[i].recentMessageId,
             senderId1: res.data[i].senderId1,
-            serderId2: res.data[i].senderId2
+            senderId2: res.data[i].senderId2,
+            alive: res.data[i].alive
           }
           this.room_list.push(room)
         }
@@ -112,7 +117,7 @@ export default {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { roomid: id, id: this.id, name: this.name }
+        params: { roomid: id, id: this.id, name: this.name, userId: this.userId }
       })
     },
     moveBack () {
@@ -131,7 +136,7 @@ export default {
         res => {
           this.$router.push({
             name: 'chat',
-            params: { userid1: this.userid1, userid2: this.userid2, id: this.id }
+            params: { userid1: this.userid1, userid2: this.userid2, id: this.id, senderId1: this.senderId1, senderId2: this.senderId2 }
           })
         },
         err => {
@@ -139,6 +144,18 @@ export default {
           this.$router.push({ name: 'home' })
         }
       )
+    },
+    deleteRoom (id) {
+      axios({
+        method: 'put',
+        url: `/api/v1/chat/room/delete/${id}`,
+        baseURL: 'http://localhost:8080/',
+        headers: { 'content-type': 'application/json' }
+      }).then(
+        res => {
+          alert('채팅을정말로나가시겠습니까?')
+        }
+      ).catch({})
     },
     showdelete () {
       if (this.isShowing === false) this.isShowing = true

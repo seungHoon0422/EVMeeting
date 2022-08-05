@@ -54,6 +54,7 @@ public class ChatRoomService implements IChatRoomService {
 
         List<ChatRoomVO> chatroomResult = new ArrayList<>();
         for(ChatRoom room : chatRooms) {
+            if(!room.getAlive()) continue; // 삭제된 채팅방은 건너뛴다.
             ChatRoomVO vo = new ChatRoomVO();
             vo.setId(room.getId());
             vo.setUserid1(room.getUserid1());
