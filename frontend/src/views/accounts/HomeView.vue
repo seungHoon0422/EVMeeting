@@ -6,7 +6,8 @@
       <p class="text-right">멈춰있는 시간 10초</p>
       <p class="text-left mt-5">상대방을 판단하기에</p>
       <p class="text-right">충분하지 않을까..?</p>
-      <button class="mt-5 home-btn">엘리베이터 타러 가기</button>
+      <button class="mt-5 home-btn" @click="ToCam">엘리베이터 타러 가기</button>
+      <chatting-room-view style="margin-top: 10px"></chatting-room-view>
     </div>
     <img class="elevator-img" src="@/img/elevator.jpg" alt="..">
     <!-- <p v-if="isLoggedIn">Hi, {{ currentUser.userid }}</p> -->
@@ -17,14 +18,19 @@
 // @ is an alias to /src
 // import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
+import ChattingRoomView from '../chat/ChattingRoomView.vue'
 
 export default {
+  components: { ChattingRoomView },
   name: 'HomeView',
   computed: {
     ...mapGetters(['currentUser', 'isLoggedIn'])
   },
   methods: {
-    ...mapActions(['fetchCurrentUser'])
+    ...mapActions(['fetchCurrentUser']),
+    ToCam () {
+      this.$router.push('/cam')
+    }
   },
   created () {
     this.fetchCurrentUser()

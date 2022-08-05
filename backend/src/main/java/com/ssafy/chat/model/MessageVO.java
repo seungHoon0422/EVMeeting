@@ -1,11 +1,13 @@
 package com.ssafy.chat.model;
 
 
-import lombok.Setter;
-import lombok.ToString;
+import lombok.*;
 
 @Setter
+@Getter
 @ToString
+@NoArgsConstructor
+@AllArgsConstructor
 public class MessageVO {
 
     Long id = null;

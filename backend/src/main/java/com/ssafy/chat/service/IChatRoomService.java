@@ -3,6 +3,7 @@ package com.ssafy.chat.service;
 
 import com.ssafy.chat.db.entity.ChatRoom;
 import com.ssafy.chat.db.entity.Message;
+import com.ssafy.chat.model.ChatRoomVO;
 
 import java.util.List;
 
@@ -12,9 +13,7 @@ public interface IChatRoomService {
 
     ChatRoom getChatRoomByChatRoomId(long id);
 
-    List<ChatRoom> getAllChatRoomsByUserId1(long id);
-    List<ChatRoom> getAllChatRoomsByUserId2(long id);
-    List<ChatRoom> findChatRoomByUserid(long id);
+    List<ChatRoomVO> findChatRoomByUserid(long id);
 
 
     void UpdateRecentMessage(Message message);

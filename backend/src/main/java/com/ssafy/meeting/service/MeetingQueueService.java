@@ -2,6 +2,7 @@ package com.ssafy.meeting.service;
 
 
 import com.ssafy.meeting.db.entitiy.MeetingQueue;
+import com.ssafy.user.db.entity.User;
 
 import java.util.List;
 
@@ -17,7 +18,9 @@ public interface MeetingQueueService {
     // advanced, recording...
     MeetingQueue createMeeting(MeetingQueue meetingQueueDto);
 
-    List<MeetingQueue> getCallMeetingByCategory();
+    MeetingQueue getCallMeetingByCategory();
 
     void deleteMatch(MeetingQueue meetingQueue);
+
+    List<User> joinUserid(String userid);
 }
