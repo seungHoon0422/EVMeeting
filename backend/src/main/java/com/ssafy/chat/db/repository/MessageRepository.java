@@ -16,4 +16,6 @@ public interface MessageRepository extends JpaRepository<Message, Long> {
 
     Optional<List<Message>> findAllByChatroomId(long id);
 
+    Message findById(long id);
+
 }

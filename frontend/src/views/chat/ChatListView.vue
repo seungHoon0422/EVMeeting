@@ -1,5 +1,5 @@
 <template>
-  <div style="margin-top:-20px;">
+  <div style="margin-top:-70px">
     <chat-list></chat-list>
   </div>
 </template>

@@ -331,6 +331,21 @@ export default {
           commit('SET_AVAILABLEEMAIL', res.data)
         })
         .catch(err => console.log(err))
+    },
+
+    findPassword ({ commit }, credentials) {
+      // console.log(credentials)
+      axios({
+        url: api.accounts.findPassword(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          // case1. id와 email이 일치하지 않습니다.
+          // case2. email로 임시 비밀번호가 발송되었습니다. 비밀번호 변경을 통해 새로운 비밀번호를 등록해주세요.
+        })
+        .catch(err => console.log(err))
     }
   }
 }
