@@ -3,7 +3,7 @@
     <div class="box">
       <!-- <h1 class="font-style">profileCard</h1> -->
       <div class="img-box1">
-        <img src="@/img/iu.jpg" alt="..">
+        <img :src="currentUser.photo" alt="..">
       </div>
       <table class="table">
         <thead>

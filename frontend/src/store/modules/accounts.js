@@ -64,7 +64,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const token = res.data.accessToken
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
@@ -159,7 +159,7 @@ export default {
         dispatch('removeToken')
         router.push({ name: 'login' })
       } else {
-        console.log(getters.authHeader)
+        // console.log(getters.authHeader)
         axios({
           url: api.accounts.logout(),
           method: 'post',
@@ -264,7 +264,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           dispatch('fetchCurrentUser')
           router.push({ name: 'profile' })
         })
@@ -278,7 +278,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           dispatch('removeToken')
           router.push({ name: 'login' })
         })
@@ -292,7 +292,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           dispatch('fetchCurrentUser')
           router.push({ name: 'profile' })
         })
@@ -320,7 +320,7 @@ export default {
     // Input: email
     // Output: boolean(중복여부) => 중복이면 false, 사용가능 true
     checkDuplicateEmail ({ commit }, email) {
-      console.log(email)
+      // console.log(email)
       axios({
         url: api.accounts.checkDuplicateEmail(),
         method: 'post',

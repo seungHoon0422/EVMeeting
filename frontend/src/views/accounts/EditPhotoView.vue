@@ -1,168 +1,61 @@
 <template>
   <div class="box">
     <h1 class="font-style mt-3">사진 변경</h1>
-    <form  @submit.prevent="uploadPhotos(images)">
-      <div class="container container-position">
-      <div class="row my-3">
-        <div v-for="(img, idx) in images" :key="img.id">
-          <!-- {{img}} -->
-          <div class="col">
-            <!-- <div class="img-box">
-              <div>{{idx}}</div>
-              <input id="imgUpload" @click="changeIdx(idx)" @change="upload" type="file" accept="image/*" style="display:none;">
-              <label for="imgUpload" v-if="!images[idx]">
-                <i class="fa-solid fa-circle-plus icon-color"></i>
-              </label>
-              <img :src="images[idx]" alt=".." v-if="images[idx]" class="img">
-              <div>{{images[idx]}}</div>
-            </div> -->
-            <photo-box :idx="idx" @child-image-url="getImgUrl"></photo-box>
-            <img :src="images[idx]" alt=".." v-if="images[idx]" class="img">
-          </div>
-        </div>
-        <!-- <div class="col"> -->
-          <!-- <photo-box></photo-box> -->
-          <!-- <div class="img-box">
+    <form  @submit.prevent="editPhoto(currentUser.userid)">
+          <div class="img-box">
             <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;">
-            <label for="imgUpload1" v-if="!images.image1">
+            <label for="imgUpload1" v-if="!photoUrl">
               <i class="fa-solid fa-circle-plus icon-color"></i>
             </label>
-            <img :src="images.image1" alt=".." v-if="images.image1" class="img">
-          </div> -->
-        <!-- </div> -->
-        <!-- <div class="col"> -->
-          <!-- <photo-box></photo-box> -->
-          <!-- <div class="img-box">
-          <input id="imgUpload2" @change="upload2" type="file" accept="image/*" style="display:none;">
-          <label for="imgUpload2" v-if="!images.image2">
-            <i class="fa-solid fa-circle-plus icon-color"></i>
-          </label>
-          <img :src="images.image2" alt=".." v-if="images.image2" class="img">
-          </div> -->
-        <!-- </div> -->
-        <!-- <div class="col"> -->
-          <!-- <photo-box></photo-box> -->
-          <!-- <div class="img-box">
-          <input id="imgUpload3" @change="upload3" type="file" accept="image/*" style="display:none;">
-          <label for="imgUpload3" v-if="!images.image3">
-            <i class="fa-solid fa-circle-plus icon-color"></i>
-          </label>
-          <img :src="images.image3" alt=".." v-if="images.image3" class="img">
-          </div> -->
-        <!-- </div> -->
-      <!-- </div> -->
-      <!-- <div class="row"> -->
-        <!-- <div class="col"> -->
-          <!-- <photo-box></photo-box> -->
-          <!-- <div class="img-box">
-            <input id="imgUpload4" @change="upload4" type="file" accept="image/*" style="display:none;">
-            <label for="imgUpload4" v-if="!images.image4">
-              <i class="fa-solid fa-circle-plus icon-color"></i>
-            </label>
-            <img :src="images.image4" alt=".." v-if="images.image4" class="img">
-          </div> -->
-        <!-- </div>
-        <div class="col">
-          <photo-box></photo-box> -->
-          <!-- <div class="img-box">
-            <input id="imgUpload5" @change="upload5" type="file" accept="image/*" style="display:none;">
-            <label for="imgUpload5" v-if="!images.image5">
-              <i class="fa-solid fa-circle-plus icon-color"></i>
-            </label>
-            <img :src="images.image5" alt=".." v-if="images.image5" class="img">
-          </div> -->
-        <!-- </div>
-        <div class="col">
-          <photo-box></photo-box> -->
-          <!-- <div class="img-box">
-            <input id="imgUpload6" @change="upload6" type="file" accept="image/*" style="display:none;">
-            <label for="imgUpload6" v-if="!images.image6">
-              <i class="fa-solid fa-circle-plus icon-color"></i>
-            </label>
-            <img :src="images.image6" alt=".." v-if="images.image6" class="img">
-          </div> -->
-        <!-- </div> -->
-      </div>
-      </div>
-      <!-- <button class="upload-button" type="submit">변경 사항 저장</button> -->
-      <router-link :to="{ name: 'profile' }" class="btn rounded length mt-4">변경 사항 저장</router-link>
+            <img :src="photoUrl" alt=".." v-if="photoUrl" class="img">
+          </div>
+      <button class="upload-button" type="submit">변경 완료</button>
     </form>
   </div>
 
 </template>
 
 <script>
-import { mapActions } from 'vuex'
-import PhotoBox from '@/views/accounts/components/PhotoBox.vue'
+import { mapGetters } from 'vuex'
+import api from '@/api/api'
+import axios from 'axios'
+import router from '@/router'
 
 export default {
   name: 'EditPhotoView',
-  components: { PhotoBox },
   data () {
     return {
-      images: ['', '', '', '', '', ''],
-      idx: ''
-      // images: {
-      //   image1: '',
-      //   image2: '',
-      //   image3: '',
-      //   image4: '',
-      //   image5: '',
-      //   image6: ''
-      // }
+      photoUrl: ''
     }
   },
+  computed: {
+    ...mapGetters(['currentUser'])
+  },
   methods: {
-    ...mapActions(['uploadPhotos']),
-    getImageUrl (imgUrl, idx) {
-      console.log(imgUrl, idx)
-    },
-    upload (e) {
-      console.log(e)
-      // console.log(idx)
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(imgUrl, idx)
-      console.log(this.idx)
-      this.images[this.idx] = url
-      console.log(this.images)
-    },
     upload1 (e) {
       const file = e.target.files
       const url = URL.createObjectURL(file[0])
-      console.log(url)
-      this.images.image1 = url
+      this.photoUrl = url
     },
-    upload2 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image2 = url
-    },
-    upload3 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image3 = url
-    },
-    upload4 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image4 = url
-    },
-    upload5 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image5 = url
-    },
-    upload6 (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.images.image6 = url
+    editPhoto (userid) {
+      const frm = new FormData()
+      const photoFile = document.getElementById('imgUpload1')
+      frm.append('imgUpload1', photoFile.files[0])
+      axios({
+        url: api.accounts.editPhoto(userid),
+        method: 'post',
+        data: frm,
+        headers: {
+          'Content-Type': 'multipart/form-data'
+        }
+      })
+        .then(res => {
+          console.log(res)
+          router.push({ name: 'home' })
+        })
+        .catch(err => console.log(err))
     }
+
   }
 }
 
@@ -170,10 +63,11 @@ export default {
 
 <style scoped>
 .img-box {
-  width: 200px;
-  height: 200px;
+  width: 400px;
+  height: 400px;
   border: 5px solid #F88F6D;
   border-radius: 10px;
+  margin: 20px auto;
 }
 
 .img {
