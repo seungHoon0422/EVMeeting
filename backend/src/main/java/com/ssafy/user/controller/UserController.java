@@ -187,25 +187,7 @@ public class UserController {
 		userService.uploadPhoto(file, userid);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
 	}
-
-
-
-	@PostMapping(value = "deletephoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-	@ApiOperation(value = "회원 사진 삭제", notes = "회원 정보 중 사진을 삭제한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
-	public ResponseEntity<? extends BaseResponseBody> deletePhoto(
-			@PathVariable String userid) {
-		//해당 유저의 프로필 사진을 삭제하기
-		userService.deletePhoto(userid);
-		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-	}
-
-
+	
 	@PostMapping("editprofile/")
 	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
 	@ApiResponses({
@@ -273,7 +255,13 @@ public class UserController {
 			// 해당 ID의 비밀번호와 방금 입력한 비밀번호가 일치하는지 확인
 			if (passwordEncoder.matches(password1, user.getPassword())) {
 				// 패스워드가 일치한다면 회원탈퇴를 진행한다.
+
+				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
+				userService.deletePhoto(userId);
+
+				// 그 다음으로 DB에 저장되어있는 회원 정보를 완전히 삭제한다.
 				userService.removeUser(userId);
+
 				// 세션 초기화 진행
 				HttpSession session = req.getSession();
 				session.invalidate();
