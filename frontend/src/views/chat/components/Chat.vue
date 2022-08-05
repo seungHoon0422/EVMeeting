@@ -127,12 +127,8 @@ export default {
           }
           this.msg.push(m)
         }
-      },
-      err => {
-        console.log(err)
-        alert('error : 새로고침하세요')
       }
-    )
+    ).catch(() => {})
     // socket 연결
     const socket = new SockJS('http://localhost:8080/ws')
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }

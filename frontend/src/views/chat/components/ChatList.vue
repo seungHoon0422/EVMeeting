@@ -72,7 +72,11 @@ export default {
     }
   },
   computed: {
-    ...mapGetters(['isLoggedIn', 'currentUser', 'getFlag'])
+    ...mapGetters(['isLoggedIn', 'currentUser', 'getFlag']),
+    reload () {
+      console.log(this.$store.state.id)
+      return this.$store.state.id
+    }
   },
   watch: {
     ...mapMutations(['SET_FLAG'])
@@ -114,6 +118,12 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),
+    callMyRoomList () {
+      this.$router.push({
+        name: 'chatlist',
+        params: { id: this.currentUser.id, name: this.currentUser.username, userId: this.currentUser.userid }
+      })
+    },
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
@@ -124,21 +134,6 @@ export default {
       this.$router.push({
         name: 'home'
       })
-    },
-    createRoom () {
-      axios.post(api.chat.createRoom(), { 'content-type': 'application/json' }, { userid1: 1, userid2: 2 }
-      ).then(
-        res => {
-          this.$router.push({
-            name: 'chat',
-            params: { userid1: this.userid1, userid2: this.userid2, id: this.id, senderId1: this.senderId1, senderId2: this.senderId2 }
-          })
-        },
-        err => {
-          console.log(err)
-          this.$router.push({ name: 'home' })
-        }
-      )
     },
     deleteRoom (id) {
       if (confirm('정말 삭제하시겠습니까??') === true) {

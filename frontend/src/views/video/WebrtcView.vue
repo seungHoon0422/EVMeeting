@@ -506,9 +506,13 @@ export default {
     createRoom () {
       console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       console.log(this.currentUser.id)
-      console.log(this.strangerName)
-      axios.post(api.chat.createRoom(), { 'content-type': 'application/json' }, { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
-      ).then(
+      console.log(this.strangerId)
+      axios({
+        method: 'post',
+        url: api.chat.createRoom(),
+        headers: { 'content-type': 'application/json' },
+        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id, alive: true }
+      }).then(
         res => {},
         err => {
           console.log(err)
