@@ -11,9 +11,11 @@ import EditPasswordView from '../views/accounts/EditPasswordView.vue'
 import EditProfileView from '../views/accounts/EditProfileView.vue'
 import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
+import WebrtcView from '../views/video/WebrtcView.vue'
 
 import chat from '../views/chat/ChatView.vue'
 import chatList from '../views/chat/ChatListView.vue'
+import chatrooms from '../views/chat/ChattingRoomView.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -81,12 +83,17 @@ const routes = [
     path: '/chatlist',
     name: 'chatlist',
     component: chatList
+  },
+  {
+    path: '/chatrooms',
+    name: 'chatrooms',
+    component: chatrooms
+  },
+  {
+    path: '/cam',
+    name: 'cam',
+    component: WebrtcView
   }
-  // {
-  //   path: '/cam',
-  //   name: 'cam',
-  //   component: cam
-  // }
   // {
   //   path: '*',
   //   redirect: '/404'
