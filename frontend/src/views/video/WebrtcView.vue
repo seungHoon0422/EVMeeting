@@ -2,20 +2,22 @@
 <div id="main-container" class="container">
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
-      <h1>Join a video session</h1>
+      <h1>엘리베이터 호출 하기</h1>
       <div class="form-group">
         <h1>hi {{currentUserName}}</h1>
-        <p>
+        <!-- <p>
           <label>Participant</label>
           <input v-model="currentUserName" class="form-control" type="text" required>
         </p>
         <p>
           <label>Session</label>
           <input v-model="mySessionId" class="form-control" type="text" required>
-        </p>
+        </p> -->
         <p class="text-center">
           <!-- <button class="btn btn-lg btn-success" @click="joinSession()">Join!</button> -->
-          <button class="btn btn-lg btn-success" @click="getSession()">Join!</button>
+          <button class="btn btn-lg btn-success" @click="getSession()">
+            <i class="fa-solid fa-circle-sort">호출</i>
+          </button>
         </p>
       </div>
     </div>
@@ -29,6 +31,10 @@
       <!-- <button @click="sessionLevelPlus">levelUp</button> -->
       <h1> 프로필 들어가야함 : {{currentUser.username}}</h1>
 
+      <div v-if="currentUserCount==0">
+        <h1>대기중..</h1>
+      </div>
+
       <!-- 상대방의 프로필이 보여야 함 -->
       <!-- <button @click="showProfilePicture">Show</button> -->
       <div id="profile-container" class="container">
@@ -40,9 +46,11 @@
           :key="sub.stream.connection.connectionId"
           :stranger="sub.stream.connection.data"
           :currentUser ="currentUser"
-          @click.native="updateMainVideoStreamManager(sub)">
+          @click.native="updateMainVideoStreamManager(sub)"
+          @sendStarngerId="sendStarngerId">
           </user-profile>
         </div>
+        <h1>IT's strangerId : {{this.strangerId}}</h1>
       </div>
       <!-- 상대방이 마음에 든다는 신호 -->
       <like-you
@@ -63,9 +71,9 @@
         <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
           @profileOnOff="profileOnOff"
-          :profileopencount= "profileopencount"
+          :profileopencount="profileopencount"
           :session="session"
-          :countTogether = "countTogether"
+          :countTogether ="countTogether"
           >
 
         </adding-profile>
@@ -76,6 +84,7 @@
           <stranger-profile v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
           :stranger="sub.stream.connection.data"
+          :countTogether ="countTogether"
           @click.native="updateMainVideoStreamManager(sub)">
           </stranger-profile>
         </div>
@@ -116,8 +125,9 @@
           </div>
         </div>
       </div>
+      <chat-view></chat-view>
        <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"/>
     </div>
   </div>
 </div>
@@ -134,6 +144,7 @@ import VideoBottom from '@/views/video/components/VideoBottom'
 // import QuestionList from '@/views/video/components/QuestionList'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
+import ChatView from '@/views/chat/ChatInMeeting'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -146,7 +157,8 @@ export default {
     UserProfile,
     AddingProfile,
     VideoBottom,
-    StrangerProfile
+    StrangerProfile,
+    ChatView
   },
   data () {
     return {
@@ -171,7 +183,9 @@ export default {
       audioEnabled: false,
       sessionLevel: 1,
       levelOneCount: 0,
-      StrangerProfile: false
+      StrangerProfile: false,
+      strangerId: undefined,
+      id: 1
 
     }
   },
@@ -203,6 +217,8 @@ export default {
       this.sessionLevel = 1
       this.levelOneCount = 0
       this.StrangerProfile = false
+      this.profileCount = 0
+      this.strangerId = undefined
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -485,8 +501,31 @@ export default {
         console.log('Im there')
         return this.StrangerProfile
       }
+    },
+    sendStarngerId (data) {
+      this.strangerId = data
+      console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
+      console.log(data)
+    },
+    createRoom () {
+      console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+      console.log(this.currentUser.id)
+      console.log(this.strangerName)
+      axios({
+        method: 'post',
+        url: '/api/v1/chat/room',
+        baseURL: 'http://localhost:8080/',
+        headers: { 'content-type': 'application/json' },
+        // userid 1 - > 자기 , 2 -> 상대방
+        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
+      }).then(
+        res => {},
+        err => {
+          console.log(err)
+          this.$router.push({ name: 'home' })
+        }
+      )
     }
-
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -556,6 +595,9 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
+        console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
+        console.log(this.currentUser.id)
+        console.log(this.strangerId)
         this.tenseconds = 100000
       }
     }
