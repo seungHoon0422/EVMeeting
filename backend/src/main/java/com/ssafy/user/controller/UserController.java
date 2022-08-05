@@ -236,6 +236,35 @@ public class UserController {
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
 	}
 
+	@PostMapping("findpwd/")
+	@ApiOperation(value = "회원 비밀번호 찾기", notes = "잊어버린 비밀번호를 재설정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> findPW(
+			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserFindPWPostReq findInfo) {
+		String userId = findInfo.getUserid();
+		String email = findInfo.getEmail();
+
+		User user = userService.getUserByUserId(userId);
+
+		// 해당 아이디의 이메일이 맞는지 확인
+		if(user.getEmail().equals(email)) {
+			// 맞다면, 비밀번호 재설정 진행
+			// 임시 비밀번호를 발급받는다.
+			// [조건] 특수문자, 영어 대문자, 소문자, 숫자
+			String tempPassword;
+			// 발급받은 임시 비밀번호를 user 계정에 암호화하여 저장한다.
+			// 임시 비밀번호를 이메일로 전송한다.
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
+		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
+	}
+
 	@PostMapping("deleteprofile/")
 	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
 	@ApiResponses({

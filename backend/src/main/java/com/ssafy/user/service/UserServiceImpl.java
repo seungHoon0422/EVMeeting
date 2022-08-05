@@ -8,7 +8,6 @@ import com.amazonaws.services.s3.model.PutObjectRequest;
 import com.amazonaws.util.IOUtils;
 import com.ssafy.user.request.UserEditInforPutReq;
 import com.ssafy.user.request.UserEditPWPutReq;
-import com.ssafy.user.request.UserPhotoPostReq;
 import com.ssafy.user.request.UserRegisterPostReq;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -25,7 +24,6 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
-import java.sql.Blob;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.

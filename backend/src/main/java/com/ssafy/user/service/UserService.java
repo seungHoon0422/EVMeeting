@@ -3,7 +3,6 @@ package com.ssafy.user.service;
 import com.ssafy.user.db.entity.User;
 import com.ssafy.user.request.UserEditInforPutReq;
 import com.ssafy.user.request.UserEditPWPutReq;
-import com.ssafy.user.request.UserPhotoPostReq;
 import com.ssafy.user.request.UserRegisterPostReq;
 import org.springframework.web.multipart.MultipartFile;
 
