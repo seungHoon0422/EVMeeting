@@ -15,9 +15,7 @@
         </p> -->
         <p class="text-center">
           <!-- <button class="btn btn-lg btn-success" @click="joinSession()">Join!</button> -->
-          <button class="btn btn-lg btn-success" @click="getSession()">
-            <i class="fa-solid fa-circle-sort">호출</i>
-          </button>
+          <button class="btn btn-lg btn-success" @click="getSession()">호출</button>
         </p>
       </div>
     </div>
