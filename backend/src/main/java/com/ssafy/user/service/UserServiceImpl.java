@@ -1,10 +1,18 @@
 package com.ssafy.user.service;
 
+import com.amazonaws.services.s3.AmazonS3Client;
+import com.amazonaws.services.s3.model.CannedAccessControlList;
+import com.amazonaws.services.s3.model.DeleteObjectRequest;
+import com.amazonaws.services.s3.model.ObjectMetadata;
+import com.amazonaws.services.s3.model.PutObjectRequest;
+import com.amazonaws.util.IOUtils;
 import com.ssafy.user.request.UserEditInforPutReq;
 import com.ssafy.user.request.UserEditPWPutReq;
-import com.ssafy.user.request.UserPhotoPostReq;
 import com.ssafy.user.request.UserRegisterPostReq;
+import lombok.RequiredArgsConstructor;
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.security.crypto.password.PasswordEncoder;
 import org.springframework.stereotype.Service;
 
@@ -13,11 +21,16 @@ import com.ssafy.user.db.repository.UserRepository;
 import com.ssafy.user.db.repository.UserRepositorySupport;
 import org.springframework.web.multipart.MultipartFile;
 
-import java.sql.Blob;
+import java.io.ByteArrayInputStream;
+import java.io.IOException;
+import java.io.InputStream;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
  */
+
+@Slf4j
+@RequiredArgsConstructor
 @Service("userService")
 public class UserServiceImpl implements UserService {
 	@Autowired
@@ -117,23 +130,54 @@ public class UserServiceImpl implements UserService {
 	}
 
 	//사용자 프로필 사진 변경
+	private final AmazonS3Client amazonS3Client;
+
+	@Value("${S3.BUCKETNAME}")
+	private String bucketName;
+
+	@Value("${S3.URL}")
+	private String bucketUrl;
+
+
+
 	@Override
-	public User editUserPhoto(MultipartFile file, String userid){
-		System.out.println("@@@@ LETS ADD PHOTO!!");
+	public User uploadPhoto(MultipartFile multipartFile, String userid) {
+		//파일 이름을 설정
+		int fileExtensionIndex = multipartFile.getOriginalFilename().lastIndexOf(".");
+		String fileExtension = multipartFile.getOriginalFilename().substring(fileExtensionIndex);	//확장자명
+		String now = String.valueOf(System.currentTimeMillis());	//현재날짜와시각
+		String fileName = "profile/" + userid + "_" + now + fileExtension;	//새로운 파일명
+
+		//S3에 파일을 저장하고
+		ObjectMetadata objectMetadata = new ObjectMetadata();
+		objectMetadata.setContentType(multipartFile.getContentType());
+		try (InputStream inputStream = multipartFile.getInputStream()) {
+			byte[] bytes = IOUtils.toByteArray(inputStream);
+			objectMetadata.setContentLength(bytes.length);
+			ByteArrayInputStream byteArrayInputStream = new ByteArrayInputStream(bytes);
+			PutObjectRequest putObjectRequest = new PutObjectRequest(bucketName, fileName, byteArrayInputStream, objectMetadata)
+					.withCannedAcl(CannedAccessControlList.PublicRead);
+			amazonS3Client.putObject(putObjectRequest);
+		} catch (IOException e) {
+		}
+		//DB에 해당 파일 경로를 저장한다
 		User user = getUserByUserId(userid);
-		byte[] bytes;
-		try {
-			bytes = file.getBytes();
-			Blob blob = new javax.sql.rowset.serial.SerialBlob(bytes);
-			System.out.println(blob);
-			user.setPhoto(blob);
-			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO SUCCESS!!!!");
-		}
-		catch (Exception e2) {
-			e2.printStackTrace();
-			System.out.println("@@@@@@@@@@@@@EDITUSERPHOTO FAIL!!!!");
-		}
-		//디비저장
+		user.setPhoto(bucketUrl + fileName);
+		return userRepository.save(user);
+	}
+	@Override
+	public User deletePhoto(String userid) {
+		System.out.println("LETS DELETE");
+		//경로를 찾기
+		User user = getUserByUserId(userid);
+		String location = user.getPhoto();
+		System.out.println("I FOUND THE LOCATION");
+		System.out.println(location.replace(bucketUrl, ""));
+		//S3에 저장된 파일을 삭제한다
+		amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, location.replace(bucketUrl, "")));
+		System.out.println("I ERASED THE S3 FILE");
+		//DB에 해당 사진 경로를 삭제한다
+		user.setPhoto(null);
 		return userRepository.save(user);
 	}
 }

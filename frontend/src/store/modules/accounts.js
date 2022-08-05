@@ -64,7 +64,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           const token = res.data.accessToken
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
@@ -159,7 +159,7 @@ export default {
         dispatch('removeToken')
         router.push({ name: 'login' })
       } else {
-        console.log(getters.authHeader)
+        // console.log(getters.authHeader)
         axios({
           url: api.accounts.logout(),
           method: 'post',
@@ -264,7 +264,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           dispatch('fetchCurrentUser')
           router.push({ name: 'profile' })
         })
@@ -278,7 +278,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           dispatch('removeToken')
           router.push({ name: 'login' })
         })
@@ -292,7 +292,7 @@ export default {
         data: credentials
       })
         .then(res => {
-          console.log(res)
+          // console.log(res)
           dispatch('fetchCurrentUser')
           router.push({ name: 'profile' })
         })
@@ -320,7 +320,7 @@ export default {
     // Input: email
     // Output: boolean(중복여부) => 중복이면 false, 사용가능 true
     checkDuplicateEmail ({ commit }, email) {
-      console.log(email)
+      // console.log(email)
       axios({
         url: api.accounts.checkDuplicateEmail(),
         method: 'post',
@@ -329,6 +329,21 @@ export default {
         .then(res => {
           // console.log(res)
           commit('SET_AVAILABLEEMAIL', res.data)
+        })
+        .catch(err => console.log(err))
+    },
+
+    findPassword ({ commit }, credentials) {
+      // console.log(credentials)
+      axios({
+        url: api.accounts.findPassword(),
+        method: 'post',
+        data: credentials
+      })
+        .then(res => {
+          console.log(res)
+          // case1. id와 email이 일치하지 않습니다.
+          // case2. email로 임시 비밀번호가 발송되었습니다. 비밀번호 변경을 통해 새로운 비밀번호를 등록해주세요.
         })
         .catch(err => console.log(err))
     }

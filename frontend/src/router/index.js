@@ -11,6 +11,7 @@ import EditPasswordView from '../views/accounts/EditPasswordView.vue'
 import EditProfileView from '../views/accounts/EditProfileView.vue'
 import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
+import FindPasswordView from '../views/accounts/FindPasswordView.vue'
 import WebrtcView from '../views/video/WebrtcView.vue'
 
 import chat from '../views/chat/ChatView.vue'
@@ -68,6 +69,11 @@ const routes = [
     path: '/editphoto',
     name: 'editphoto',
     component: EditPhotoView
+  },
+  {
+    path: '/findpassword',
+    name: 'findpassword',
+    component: FindPasswordView
   },
   {
     path: '/404',

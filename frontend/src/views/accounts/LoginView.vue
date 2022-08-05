@@ -28,7 +28,7 @@
         <!-- <button @click="client.requestAccessToken()">Authorize me</button>
         <button @click="fetchinfo">fetchinfo</button> -->
       <div class="mt-3 d-flex justify-content-center">
-        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'home' }">비밀번호 찾기</router-link>
+        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'findpassword' }">비밀번호 찾기</router-link>
         <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'signup' }">회원가입</router-link>
       </div>
     </div>

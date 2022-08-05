@@ -154,44 +154,40 @@ public class UserController {
 		}
 	}
 
+	@PostMapping(value = "uploadphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	@ApiOperation(value = "회원 사진 추가", notes = "회원 정보 중 사진을 추가한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> uploadPhoto(
+			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
+		//해당 유저의 프로필 사진을 추가하기
+		userService.uploadPhoto(file, userid);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
 
-//	@PostMapping(value = "uploadphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<? extends BaseResponseBody> editImage(
-//			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
-//		System.out.println("ACCESS!!!");
-//		System.out.println("userid : " + userid);
-//		System.out.println("ACCESS!!!");
-//		//해당 유저의 정보들 변경하기
-//		userService.editUserPhoto(file, userid);
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//	}
 
-//	@PostMapping(value = "showphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
-//	@ApiOperation(value = "회원 사진 추가/수정", notes = "회원 정보 중 사진을 수정한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
-//	public ResponseEntity<? extends BaseResponseBody> showImage(
-//			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
-//		Map<String,Object> resultMap = Service.selectImg();
-//
-//		byte[] arr = (byte[]) resultMap.get("base64");
-//		String base64ToString = new String(arr);
-//
-//		model.addAttribute("imgSrc",base64ToString);
-//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
-//	}
 
+	@PostMapping(value = "editphoto/{userid}", consumes = {MediaType.MULTIPART_FORM_DATA_VALUE})
+	@ApiOperation(value = "회원 사진 수정", notes = "회원 정보 중 사진을 수정한다. (삭제 후 추가)")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> editPhoto(
+			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
+		//해당 유저의 프로필 사진을 삭제하기
+		userService.deletePhoto(userid);
+		//해당 유저의 프로필 사진을 추가하기
+		userService.uploadPhoto(file, userid);
+		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+	}
+	
 	@PostMapping("editprofile/")
 	@ApiOperation(value = "회원 정보 수정", notes = "회원정보 중 정보들을 수정한다.")
 	@ApiResponses({
@@ -240,6 +236,35 @@ public class UserController {
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
 	}
 
+	@PostMapping("findpwd/")
+	@ApiOperation(value = "회원 비밀번호 찾기", notes = "잊어버린 비밀번호를 재설정한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
+	public ResponseEntity<? extends BaseResponseBody> findPW(
+			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserFindPWPostReq findInfo) {
+		String userId = findInfo.getUserid();
+		String email = findInfo.getEmail();
+
+		User user = userService.getUserByUserId(userId);
+
+		// 해당 아이디의 이메일이 맞는지 확인
+		if(user.getEmail().equals(email)) {
+			// 맞다면, 비밀번호 재설정 진행
+			// 임시 비밀번호를 발급받는다.
+			// [조건] 특수문자, 영어 대문자, 소문자, 숫자
+			String tempPassword;
+			// 발급받은 임시 비밀번호를 user 계정에 암호화하여 저장한다.
+			// 임시 비밀번호를 이메일로 전송한다.
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+		}
+		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
+		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
+	}
+
 	@PostMapping("deleteprofile/")
 	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
 	@ApiResponses({
@@ -259,7 +284,13 @@ public class UserController {
 			// 해당 ID의 비밀번호와 방금 입력한 비밀번호가 일치하는지 확인
 			if (passwordEncoder.matches(password1, user.getPassword())) {
 				// 패스워드가 일치한다면 회원탈퇴를 진행한다.
+
+				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
+				userService.deletePhoto(userId);
+
+				// 그 다음으로 DB에 저장되어있는 회원 정보를 완전히 삭제한다.
 				userService.removeUser(userId);
+
 				// 세션 초기화 진행
 				HttpSession session = req.getSession();
 				session.invalidate();

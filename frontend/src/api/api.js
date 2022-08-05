@@ -17,8 +17,10 @@ export default {
     deleteprofile: () => HOST + ACCOUNTS + 'deleteprofile/',
     editprofile: () => HOST + ACCOUNTS + 'editprofile/',
     uploadPhoto: userid => HOST + ACCOUNTS + 'uploadphoto/' + userid,
+    editPhoto: userid => HOST + ACCOUNTS + 'editphoto/' + userid,
     checkDuplicateId: () => HOST + ACCOUNTS + 'checkduplicateid/',
-    checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/'
+    checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/',
+    findPassword: () => HOST + ACCOUNTS + 'findpassword/'
   },
   chat: {},
   video: {}
