@@ -125,7 +125,7 @@
       </div>
       <chat-view></chat-view>
        <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"/>
     </div>
   </div>
 </div>
@@ -142,7 +142,7 @@ import VideoBottom from '@/views/video/components/VideoBottom'
 // import QuestionList from '@/views/video/components/QuestionList'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
-import ChatView from '@/views/chat/ChatView'
+import ChatView from '@/views/chat/ChatInMeeting'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -183,7 +183,7 @@ export default {
       levelOneCount: 0,
       StrangerProfile: false,
       strangerId: undefined,
-      id: 0
+      id: 1
 
     }
   },
@@ -515,21 +515,15 @@ export default {
         baseURL: 'http://localhost:8080/',
         headers: { 'content-type': 'application/json' },
         // userid 1 - > 자기 , 2 -> 상대방
-        data: { userid1: this.currentUser.id, userid2: this.strangerId }
+        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
       }).then(
-        res => {
-          this.$router.push({
-            name: 'chat',
-            params: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
-          })
-        },
+        res => {},
         err => {
           console.log(err)
           this.$router.push({ name: 'home' })
         }
       )
     }
-
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
