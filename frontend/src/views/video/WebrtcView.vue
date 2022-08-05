@@ -6,12 +6,18 @@
         <div class="row text-align center">
           <h1>엘리베이터 호출 하기</h1>
           <div class="form-group">
-            <h1> 내 사진 들어가야 해 {{currentUserName}}</h1>
+            <h1>Hello ! {{currentUser.username}}</h1>
+            <img :src="`${currentUser.photo}`" id="myProfile">
           </div>
           <div>
-            <p class="text-center">
-              <button class="btn btn-lg btn-success" @click="getSession()">호출</button>
-            </p>
+            <!-- <i class="fa-solid fa-elevator fa-5x"></i>
+            <i class='bx bxs-chevron-up-circle' style="font-size: 50px"></i>
+            <i class='bx bxs-chevron-down-circle' style="font-size: 50px" ></i> -->
+            <h5>엘리베이터 부르기</h5>
+            <button id="buttonIcon" @click="getSession()">
+              <i class="fa-solid fa-elevator fa-5x"></i>
+            </button>
+            <!-- <elevator-animation></elevator-animation> -->
           </div>
         </div>
       </div>
@@ -25,7 +31,6 @@
       <h1>세션 ID : {{this.mySessionId}}</h1>
       <!-- <button @click="sessionLevelPlus">levelUp</button> -->
       <h1> 프로필 들어가야함 : {{currentUser.username}}</h1>
-
       <div v-if="currentUserCount==0">
         <h1>대기중..</h1>
       </div>
@@ -33,9 +38,6 @@
       <!-- 상대방의 프로필이 보여야 함 -->
       <!-- <button @click="showProfilePicture">Show</button> -->
       <div id="profile-container" class="container">
-        <!-- <div>
-          <user-profile :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"></user-profile>
-        </div> -->
         <div>
           <user-profile v-for="sub in subscribers"
           :key="sub.stream.connection.connectionId"
@@ -75,14 +77,19 @@
       </div>
        <div>
         <!-- 상대방의 정보 확인 -->
-        <div v-if="StrangerProfile===true">
-          <stranger-profile v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stranger="sub.stream.connection.data"
-          :countTogether ="countTogether"
-          @click.native="updateMainVideoStreamManager(sub)">
-          </stranger-profile>
-        </div>
+        <transition
+        enter-active-class="animate__animated animate__fadeIn"
+        leave-active-class="animate__animated animate__fadeOut"
+        >
+          <div v-if="StrangerProfile===true">
+            <stranger-profile v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stranger="sub.stream.connection.data"
+            :countTogether ="countTogether"
+            @click.native="updateMainVideoStreamManager(sub)">
+            </stranger-profile>
+          </div>
+        </transition>
         <h1>남은 시간 : {{tenseconds}}</h1>
       </div>
       <!-- 비디오 출력 부분  -->
@@ -137,10 +144,10 @@ import UserVideo from '@/views/video/components/UserVideo'
 import LikeYou from '@/views/video/components/LikeYou'
 import UserProfile from '@/views/video/components/UserProfile'
 import VideoBottom from '@/views/video/components/VideoBottom'
-// import QuestionList from '@/views/video/components/QuestionList'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 import ChatView from '@/views/chat/ChatInMeeting'
+// import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -155,6 +162,7 @@ export default {
     VideoBottom,
     StrangerProfile,
     ChatView
+    // ElevatorAnimation
   },
   data () {
     return {
@@ -490,18 +498,14 @@ export default {
     strangerProfileCheck () {
       if (this.countTogether % 2 === 0) {
         this.StrangerProfile = true
-        console.log('Im here')
         return this.StrangerProfile
       } else {
         this.StrangerProfile = false
-        console.log('Im there')
         return this.StrangerProfile
       }
     },
     sendStarngerId (data) {
       this.strangerId = data
-      console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
-      console.log(data)
     },
     createRoom () {
       console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
@@ -591,10 +595,12 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
-        console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-        console.log(this.currentUser.id)
-        console.log(this.strangerId)
-        this.tenseconds = 100000
+        this.tenseconds = 600
+      }
+    },
+    tenseconds () {
+      if (this.sessionLevel === 3 && this.tenseconds === 1) {
+        this.createRoom()
       }
     }
   }
@@ -602,5 +608,14 @@ export default {
 </script>
 
 <style>
+#myProfile{
+  width: 50%;
+  height: 70%;
+}
 
+#buttonIcon{
+  background-color:transparent;
+  border: 0;
+  outline: 0;
+}
 </style>
