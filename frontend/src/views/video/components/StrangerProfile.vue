@@ -39,7 +39,7 @@ export default {
   },
   methods: {
     getProfile () {
-      axios.post(api.video.getStrangerProfile, this.strangerName).then(res => {
+      axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
         const number = this.ProfileCount - 3
         const pick = this.profileList[number]
         this.strangerProfile = res.data[pick]
