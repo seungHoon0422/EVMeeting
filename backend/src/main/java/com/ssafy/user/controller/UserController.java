@@ -4,6 +4,7 @@ import com.ssafy.user.db.repository.UserRepository;
 import com.ssafy.user.request.*;
 import com.ssafy.user.response.UserLoginPostRes;
 import com.ssafy.user.response.UserRes;
+import com.ssafy.user.service.EmailService;
 import com.ssafy.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,6 +29,8 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.Random;
+
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 /**
@@ -40,6 +43,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	EmailService emailService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Autowired
@@ -244,25 +250,30 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> findPW(
-			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserFindPWPostReq findInfo) {
-		String userId = findInfo.getUserid();
-		String email = findInfo.getEmail();
+	public ResponseEntity<? extends BaseResponseBody> resetPW(
+			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserResetPWPostReq resetInfo) {
+		String userId = resetInfo.getUserid();
+		String email = resetInfo.getEmail();
 
+		//해당 유저 찾기
 		User user = userService.getUserByUserId(userId);
 
-		// 해당 아이디의 이메일이 맞는지 확인
+		// 해당 아이디의 이메일이 맞다면, 비밀번호 재설정 진행
 		if(user.getEmail().equals(email)) {
-			// 맞다면, 비밀번호 재설정 진행
-			// 임시 비밀번호를 발급받는다.
-			// [조건] 특수문자, 영어 대문자, 소문자, 숫자
-			String tempPassword;
-			// 발급받은 임시 비밀번호를 user 계정에 암호화하여 저장한다.
-			// 임시 비밀번호를 이메일로 전송한다.
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			String tempPassword = "";
+			Random random = new Random();
+			for(int i =0; i<10; i++){
+				int tempNum = random.nextInt(92); // 0~99
+				tempNum += 33;
+				tempPassword = tempPassword.concat((char) tempNum + "");
+			}
+			System.out.println("tempPassword is : " + tempPassword);
+			userService.resetUserPW(user, tempPassword);
+			emailService.sendMail(user, tempPassword);
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 		}
 		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
-		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
+		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "fail"));
 	}
 
 	@PostMapping("deleteprofile/")

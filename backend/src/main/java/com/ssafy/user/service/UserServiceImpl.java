@@ -24,6 +24,7 @@ import org.springframework.web.multipart.MultipartFile;
 import java.io.ByteArrayInputStream;
 import java.io.IOException;
 import java.io.InputStream;
+import java.util.Random;
 
 /**
  *	유저 관련 비즈니스 로직 처리를 위한 서비스 구현 정의.
@@ -178,6 +179,12 @@ public class UserServiceImpl implements UserService {
 		System.out.println("I ERASED THE S3 FILE");
 		//DB에 해당 사진 경로를 삭제한다
 		user.setPhoto(null);
+		return userRepository.save(user);
+	}
+
+	@Override
+	public User resetUserPW(User user, String tempPassword){
+		user.setPassword(passwordEncoder.encode(tempPassword));
 		return userRepository.save(user);
 	}
 }

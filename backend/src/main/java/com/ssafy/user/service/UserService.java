@@ -17,4 +17,5 @@ public interface UserService {
 	User editUserPW(UserEditPWPutReq userEditPW);
 	User uploadPhoto(MultipartFile multipartFile, String userid);
 	User deletePhoto(String userid);
+	User resetUserPW(User user, String tempPassword);
 }
