@@ -109,10 +109,10 @@ export default {
     }
   },
   created () {
-    this.id = this.$route.params.id
-    this.roomid = this.$route.params.roomid
-    this.name = this.$route.params.name
-    this.userId = this.$route.params.userId
+    this.id = this.$route.query.id
+    this.roomid = this.$route.query.roomid
+    this.name = this.$route.query.name
+    this.userId = this.$route.query.userId
     // 대화 불러오기
     axios.get(api.chat.getMessage() + `${this.roomid}`).then(
       res => {
@@ -127,12 +127,8 @@ export default {
           }
           this.msg.push(m)
         }
-      },
-      err => {
-        console.log(err)
-        alert('error : 새로고침하세요')
       }
-    )
+    ).catch(() => {})
     // socket 연결
     const socket = new SockJS('http://localhost:8080/ws')
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
@@ -182,7 +178,7 @@ export default {
     moveBack () {
       this.$router.push({
         name: 'chatlist',
-        params: { id: this.id, name: this.name, userId: this.userId }
+        query: { id: this.id, name: this.name, userId: this.userId }
       })
     },
     chat_on_scroll () {

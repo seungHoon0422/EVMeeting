@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
 import api from '@/api/api'
 
@@ -71,17 +71,14 @@ export default {
       userId: -1
     }
   },
-  computed: {
-    ...mapGetters(['isLoggedIn', 'currentUser', 'getFlag'])
-  },
   watch: {
     ...mapMutations(['SET_FLAG'])
   },
   created () {
     this.fetchCurrentUser()
-    this.id = this.$route.params.id
-    this.name = this.$route.params.name
-    this.userId = this.$route.params.userId
+    this.id = this.$route.query.id
+    this.name = this.$route.query.name
+    this.userId = this.$route.query.userId
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -117,7 +114,7 @@ export default {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { roomid: id, id: this.id, name: this.name, userId: this.userId }
+        query: { roomid: id, id: this.id, name: this.name, userId: this.userId }
       })
     },
     moveBack () {
@@ -125,27 +122,12 @@ export default {
         name: 'home'
       })
     },
-    createRoom () {
-      axios.post(api.chat.createRoom(), { 'content-type': 'application/json' }, { userid1: 1, userid2: 2 }
-      ).then(
-        res => {
-          this.$router.push({
-            name: 'chat',
-            params: { userid1: this.userid1, userid2: this.userid2, id: this.id, senderId1: this.senderId1, senderId2: this.senderId2 }
-          })
-        },
-        err => {
-          console.log(err)
-          this.$router.push({ name: 'home' })
-        }
-      )
-    },
     deleteRoom (id) {
       if (confirm('정말 삭제하시겠습니까??') === true) {
         axios.put(api.chat.deleteRoom() + `${id}`, { 'content-type': 'application/json' }
         ).then(
           res => {
-            this.$router.push({ name: 'chatlist' })
+            this.$router.go(this.$router.currentRoute)
           }
         ).catch({})
       } else {
