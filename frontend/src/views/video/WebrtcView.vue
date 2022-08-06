@@ -5,19 +5,24 @@
       <div class="d-flex justify-content-center">
         <div class="row text-align center">
           <h1>엘리베이터 호출 하기</h1>
-          <div class="form-group">
-            <h1>Hello ! {{currentUser.username}}</h1>
-            <img :src="`${currentUser.photo}`" id="myProfile">
-          </div>
-          <div>
-            <!-- <i class="fa-solid fa-elevator fa-5x"></i>
-            <i class='bx bxs-chevron-up-circle' style="font-size: 50px"></i>
-            <i class='bx bxs-chevron-down-circle' style="font-size: 50px" ></i> -->
-            <h5>엘리베이터 부르기</h5>
-            <button id="buttonIcon" @click="getSession()">
-              <i class="fa-solid fa-elevator fa-5x"></i>
-            </button>
-            <!-- <elevator-animation></elevator-animation> -->
+          <h1>안녕하세요 ! {{currentUser.username}} 님</h1>
+          <div class="d-flex justify-content-center">
+            <div class="form-group">
+              <img :src="`${currentUser.photo}`" id="myProfile">
+            </div>
+            <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-right">
+                  <button id="buttonIcon" @click="playAnimation">
+                    <i class="fa-solid fa-elevator fa-3x"></i>
+                  </button>
+              </div>
+              <div>
+                <!-- 엘리베이터 애니메이션 -->
+                <div class="container" id="elevatorAnimation" style="width: 300px; height: 300px">
+                  <elevator-animation v-if="animationFlag===true"></elevator-animation>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -30,33 +35,48 @@
       <h1>Hi I'm session_1</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
       <!-- <button @click="sessionLevelPlus">levelUp</button> -->
-      <h1> 프로필 들어가야함 : {{currentUser.username}}</h1>
-      <div v-if="currentUserCount==0">
-        <h1>대기중..</h1>
+      <h1> 안녕하세요 ! {{currentUser.username}} 님</h1>
+      <div>
+        <div v-if="currentUserCount==0">
+          <h1>대기중..</h1>
+        </div>
+        <div v-else>
+          <!-- 상대방의 호감 표시 확인 -->
+          <div v-if="this.levelOneCount === 0  || this.currentUserCount === 0">
+            <i class='bx bxs-heart' style="font-size:  50px;"></i>
+          </div>
+          <div v-else-if="this.levelOneCount === 1">
+            <i class='bx bxs-heart' style="font-size: 50px; color: red;"></i>
+          </div>
+        </div>
+        <!-- 상대방의 프로필이 보여야 함 -->
+        <!-- <button @click="showProfilePicture">Show</button> -->
+        <div id="profile-container" class="container">
+          <div>
+            <user-profile v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stranger="sub.stream.connection.data"
+            :currentUser ="currentUser"
+            @click.native="updateMainVideoStreamManager(sub)"
+            @sendStarngerId="sendStarngerId">
+            </user-profile>
+          </div>
+        </div>
+        <div class="d-flex justify-content-center">
+          <!-- 상대방이 마음에 든다는 신호 -->
+          <like-you
+          :levelOneCount="levelOneCount"
+          :session="session"
+          >
+          </like-you>
+          <!-- 세션 종료 -->
+          <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+          <button id="buttonIcon" @click="leaveSession">
+            <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
+          </button>
+        </div>
       </div>
 
-      <!-- 상대방의 프로필이 보여야 함 -->
-      <!-- <button @click="showProfilePicture">Show</button> -->
-      <div id="profile-container" class="container">
-        <div>
-          <user-profile v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stranger="sub.stream.connection.data"
-          :currentUser ="currentUser"
-          @click.native="updateMainVideoStreamManager(sub)"
-          @sendStarngerId="sendStarngerId">
-          </user-profile>
-        </div>
-        <h1>IT's strangerId : {{this.strangerId}}</h1>
-      </div>
-      <!-- 상대방이 마음에 든다는 신호 -->
-      <like-you
-      :levelOneCount="levelOneCount"
-      :session="session"
-      >
-      </like-you>
-      <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘">
     </div>
 
     <!-- 세션 2 => 상대방 얼굴 확인 10초 카운트 및 질문 -->
@@ -147,7 +167,7 @@ import VideoBottom from '@/views/video/components/VideoBottom'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 import ChatView from '@/views/chat/ChatInMeeting'
-// import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
+import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -161,8 +181,8 @@ export default {
     AddingProfile,
     VideoBottom,
     StrangerProfile,
-    ChatView
-    // ElevatorAnimation
+    ChatView,
+    ElevatorAnimation
   },
   data () {
     return {
@@ -189,8 +209,8 @@ export default {
       levelOneCount: 0,
       StrangerProfile: false,
       strangerId: undefined,
+      animationFlag: false,
       id: 1
-
     }
   },
   methods: {
@@ -223,6 +243,7 @@ export default {
       this.StrangerProfile = false
       this.profileCount = 0
       this.strangerId = undefined
+      this.animationFlag = false
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -525,6 +546,13 @@ export default {
           this.$router.push({ name: 'home' })
         }
       )
+    },
+    // setTimeout
+    playAnimation () {
+      this.animationFlag = true
+      setTimeout(() => {
+        this.getSession()
+      }, 5000)
     }
   },
   computed: {
@@ -609,8 +637,8 @@ export default {
 
 <style>
 #myProfile{
-  width: 50%;
-  height: 70%;
+  width: 300px;
+  height: 200px;
 }
 
 #buttonIcon{
@@ -618,4 +646,5 @@ export default {
   border: 0;
   outline: 0;
 }
+
 </style>

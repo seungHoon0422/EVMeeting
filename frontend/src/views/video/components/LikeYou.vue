@@ -1,8 +1,10 @@
 <template>
   <div>
-    <button class="btn btn-primary"
+    <button class="" id="buttonIcon"
     @click="[likeYouButton(),buttonSwitch()]"
-    v-bind:disabled="buttonOff==true">열림</button>
+    v-bind:disabled="buttonOff==true">
+    <i class='bx bxs-chevron-up-circle' style="font-size: 50px; color : blue;"></i>
+    </button>
   </div>
 </template>
 
@@ -58,3 +60,11 @@ export default {
   }
 }
 </script>
+
+<style>
+#buttonIcon{
+  background-color:transparent;
+  border: 0;
+  outline: 0;
+}
+</style>
