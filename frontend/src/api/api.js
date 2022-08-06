@@ -1,5 +1,5 @@
-// const HOST = 'http://i7a708.p.ssafy.io/api/v1/'
-const HOST = 'http://localhost:8080/api/v1/'
+const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
+// const HOST = 'http://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 // const CHAT = 'chat/'
