@@ -30,7 +30,7 @@ export default {
     callMyRoomList () {
       this.$router.push({
         name: 'chatlist',
-        params: { id: this.currentUser.id, name: this.currentUser.username, userId: this.currentUser.userid }
+        query: { id: this.currentUser.id, name: this.currentUser.username, userId: this.currentUser.userid }
       })
     }
   }
