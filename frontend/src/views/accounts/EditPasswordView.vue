@@ -26,7 +26,7 @@
 </template>
 
 <script>
-import { mapActions, mapGetters } from 'vuex'
+import { mapActions } from 'vuex'
 
 export default {
   data () {
@@ -41,9 +41,6 @@ export default {
   },
   methods: {
     ...mapActions(['editPwd'])
-  },
-  computed: {
-    ...mapGetters(['currentUser'])
   }
 }
 </script>

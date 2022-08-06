@@ -1,8 +1,9 @@
+// const HOST = 'http://i7a708.p.ssafy.io/api/v1/'
 const HOST = 'http://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 // const CHAT = 'chat/'
-// const VIDEO = 'video/'
+const VIDEO = 'meeting/'
 
 export default {
   accounts: {
@@ -18,8 +19,12 @@ export default {
     uploadPhoto: userid => HOST + ACCOUNTS + 'uploadphoto/' + userid,
     editPhoto: userid => HOST + ACCOUNTS + 'editphoto/' + userid,
     checkDuplicateId: () => HOST + ACCOUNTS + 'checkduplicateid/',
-    checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/'
+    checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/',
+    findPassword: () => HOST + ACCOUNTS + 'findpassword/'
   },
   chat: {},
-  video: {}
+  video: {
+    getSessionJoin: () => HOST + VIDEO + 'join',
+    getStrangerProfile: () => HOST + VIDEO + 'userinfo'
+  }
 }
