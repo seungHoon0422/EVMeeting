@@ -242,7 +242,7 @@ public class UserController {
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
 	}
 
-	@PostMapping("findpwd/")
+	@PostMapping("findpassword/")
 	@ApiOperation(value = "회원 비밀번호 찾기", notes = "잊어버린 비밀번호를 재설정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -267,23 +267,42 @@ public class UserController {
 				tempNum += 33;
 				tempPassword = tempPassword.concat((char) tempNum + "");
 			}
-			System.out.println("tempPassword is : " + tempPassword);
+			//해당 user의 비밀번호를 임시 비밀번호로 변경
 			userService.resetUserPW(user, tempPassword);
-			emailService.sendMail(user, tempPassword);
+
+			//해당 user의 이메일 주소로 임시 비밀번호를 보낸다.
+			emailService.sendResetPwMail(user, tempPassword);
+
+			// 모든 절차가 성공적으로 진행되었음
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 		}
-		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
+		// 계정이 일치하지 않다면, 실패
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "fail"));
 	}
 
-	@PostMapping("deleteprofile/")
-	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
-	@ApiResponses({
-			@ApiResponse(code = 200, message = "성공"),
-			@ApiResponse(code = 401, message = "인증 실패"),
-			@ApiResponse(code = 404, message = "사용자 없음"),
-			@ApiResponse(code = 500, message = "서버 오류")
-	})
+//	@PostMapping("checkemail/")
+//	@ApiOperation(value = "이메일 인증하기", notes = "입력하는 이메일이 유효한지 확인한다.")
+//	@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공"),
+//			@ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//	})
+//	public ResponseEntity<? extends BaseResponseBody> checkValidMail(
+//			@RequestParam("email") String email) {
+//		emailService.sendResetPwMail(email);
+//		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
+//	}
+//
+//	@PostMapping("deleteprofile/")
+//	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
+//	@ApiResponses({
+//			@ApiResponse(code = 200, message = "성공"),
+//			@ApiResponse(code = 401, message = "인증 실패"),
+//			@ApiResponse(code = 404, message = "사용자 없음"),
+//			@ApiResponse(code = 500, message = "서버 오류")
+//	})
+
 	public ResponseEntity<? extends BaseResponseBody> delete(
 			@RequestBody @ApiParam(value = "회원탈퇴 정보", required = true) UserRemoveDeleteReq removeInfo, HttpServletRequest req) {
 		String userId = removeInfo.getUserid();
