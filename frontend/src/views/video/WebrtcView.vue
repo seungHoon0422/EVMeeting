@@ -513,7 +513,7 @@ export default {
         headers: { 'content-type': 'application/json' },
         data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id, alive: true }
       }).then(
-        res => {},
+        res => { alert('Matching Success!!') },
         err => {
           console.log(err)
           this.$router.push({ name: 'home' })

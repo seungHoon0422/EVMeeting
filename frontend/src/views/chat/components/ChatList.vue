@@ -56,7 +56,7 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
 import api from '@/api/api'
 
@@ -71,21 +71,14 @@ export default {
       userId: -1
     }
   },
-  computed: {
-    ...mapGetters(['isLoggedIn', 'currentUser', 'getFlag']),
-    reload () {
-      console.log(this.$store.state.id)
-      return this.$store.state.id
-    }
-  },
   watch: {
     ...mapMutations(['SET_FLAG'])
   },
   created () {
     this.fetchCurrentUser()
-    this.id = this.$route.params.id
-    this.name = this.$route.params.name
-    this.userId = this.$route.params.userId
+    this.id = this.$route.query.id
+    this.name = this.$route.query.name
+    this.userId = this.$route.query.userId
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -118,16 +111,10 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),
-    callMyRoomList () {
-      this.$router.push({
-        name: 'chatlist',
-        params: { id: this.currentUser.id, name: this.currentUser.username, userId: this.currentUser.userid }
-      })
-    },
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { roomid: id, id: this.id, name: this.name, userId: this.userId }
+        query: { roomid: id, id: this.id, name: this.name, userId: this.userId }
       })
     },
     moveBack () {
@@ -140,7 +127,7 @@ export default {
         axios.put(api.chat.deleteRoom() + `${id}`, { 'content-type': 'application/json' }
         ).then(
           res => {
-            this.$router.push({ name: 'chatlist' })
+            this.$router.go(this.$router.currentRoute)
           }
         ).catch({})
       } else {
