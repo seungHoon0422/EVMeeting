@@ -130,7 +130,7 @@ export default {
       }
     ).catch(() => {})
     // socket 연결
-    const socket = new SockJS('http://localhost:8080/ws')
+    const socket = new SockJS(api.chat.connectionSock())
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
     this.stompClient = Stomp.over(socket, options)
     this.stompClient.connect(
