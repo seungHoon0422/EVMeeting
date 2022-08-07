@@ -5,7 +5,7 @@
         src="@/img/angle-circle-left.svg"
         alt=""
         @click="moveBack"
-        style="margin-left:-45px; margin-top: -5px;"
+        style="margin-left:-25px; margin-top: -5px;"
       />
       {{name}}님의 ChatRoom
       <img
@@ -33,20 +33,19 @@
       <div v-for="(r, idx) in room_list" :key="idx">
         <div v-if="r.alive == true">
           <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="userId === r.senderId1">
-            <div class="other"> {{ r.senderId2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
-            <div v-else class="msg">{{ r.recentMessage }}</div>
+            <div class="other">{{ r.senderId2 }} <img src=""/></div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-            <div class="other">{{ r.senderId1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+            <div class="other">{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }} <br/> {{r.recentTime}} </div><div style="margin-bottom:30px; font-size: 3px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div
-            style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
+            style="float:right; margin-top:-90px; margin-right: 8px; background-color: red; border-radius: 30px; height: 70px;"
           >
             <img
               v-if="isShowing"
               src="@/img/cross.svg"
               @click="deleteRoom(r.id)"
-              style="margin-right: 7px; padding-left: 7px;"
+              style="margin-right: 7px; padding-left: 7px; padding-top: 25px;"
             />
           </div>
         </div>
@@ -98,7 +97,8 @@ export default {
             recentMessageId: res.data[i].recentMessageId,
             senderId1: res.data[i].senderId1,
             senderId2: res.data[i].senderId2,
-            alive: res.data[i].alive
+            alive: res.data[i].alive,
+            recentTime: res.data[i].recentMessageTime
           }
           this.room_list.push(room)
         }
@@ -178,7 +178,7 @@ h3 {
   justify-content: left;
   align-items: center; */
   border: 2px #fefefe solid;
-  height: 70px;
+  height: 100px;
   max-width: 90%;
   border-radius: 10px;
   font-size: 20px;
