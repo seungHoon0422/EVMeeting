@@ -23,11 +23,10 @@ export default {
     findPassword: () => HOST + ACCOUNTS + 'findpassword/'
   },
   chat: {
-    createRoom: () => HOST + CHAT + 'room/',
+    createRoom: () => HOST + CHAT + 'rooms/',
     getMessage: () => HOST + CHAT + 'room/allMessages/',
     getRooms: () => HOST + CHAT + 'rooms/',
-    deleteRoom: () => HOST + CHAT + 'room/delete/',
-    connectionSock: () => HOST + CHAT + 'ws/'
+    deleteRoom: () => HOST + CHAT + 'room/delete/'
 
   },
   video: {
