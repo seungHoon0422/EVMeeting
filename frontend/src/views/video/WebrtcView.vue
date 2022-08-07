@@ -42,7 +42,7 @@
         </div>
         <div v-else>
           <!-- 상대방의 호감 표시 확인 -->
-          <div v-if="this.levelOneCount === 0  || this.currentUserCount === 0">
+          <div v-if="this.levelOneCount === 0">
             <i class='bx bxs-heart' style="font-size:  50px;"></i>
           </div>
           <div v-else-if="this.levelOneCount === 1">
@@ -210,6 +210,7 @@ export default {
       StrangerProfile: false,
       strangerId: undefined,
       animationFlag: false,
+      strangerLeaveFlag: false,
       id: 1
     }
   },
@@ -360,6 +361,7 @@ export default {
       this.profileopencount = undefined
 
       window.removeEventListener('beforeunload', this.leaveSession)
+      this.$router.go('/cam')
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -629,6 +631,18 @@ export default {
     tenseconds () {
       if (this.sessionLevel === 3 && this.tenseconds === 1) {
         this.createRoom()
+      }
+    },
+    currentUserCount () {
+      if (this.currentUserCount === 0) {
+        console.log(this.strangerLeaveFlag)
+        this.strangerLeaveFlag = true
+      }
+    },
+    strangerLeaveFlag () {
+      if (this.strangerLeaveFlag === true) {
+        console.log(this.strangerLeaveFlag)
+        this.leaveSession()
       }
     }
   }
