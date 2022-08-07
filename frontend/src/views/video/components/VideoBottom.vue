@@ -1,7 +1,9 @@
 <template>
   <div>
     <h1>AudioControl</h1>
-    <button @click="audioOnOff">audio</button>
+    <div v-if="this.sessionLevel===3">
+      <button @click="audioOnOff">audio</button>
+    </div>
   </div>
 </template>
 
@@ -9,6 +11,11 @@
 import { reactive } from 'vue'
 export default {
   name: 'video-bottom',
+  props: {
+    sessionLevel: {
+      type: Number
+    }
+  },
   setup (props, { emit }) {
     const state = reactive({
       audio: true
@@ -29,6 +36,9 @@ export default {
     return {
       audioOnOff
     }
+  },
+  mounted () {
+    this.audioOnOff()
   }
 }
 </script>

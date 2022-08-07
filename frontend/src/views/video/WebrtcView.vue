@@ -4,7 +4,7 @@
     <div id="join-dialog" class="jumbotron vertical-center">
       <div class="d-flex justify-content-center">
         <div class="row text-align center">
-          <h1>엘리베이터 호출 하기</h1>
+          <h4>엘리베이터 호출 하기</h4>
           <h1>안녕하세요 ! {{currentUser.username}} 님</h1>
           <div class="d-flex justify-content-center">
             <div class="form-group">
@@ -20,6 +20,25 @@
                 <!-- 엘리베이터 애니메이션 -->
                 <div class="container" id="elevatorAnimation" style="width: 300px; height: 300px">
                   <elevator-animation v-if="animationFlag===true"></elevator-animation>
+                  <div v-else>
+                    <div class="container">
+                      <h1> How To Use</h1>
+                      <ul>
+                        <li>1 단계 : 상대방의 프로필을 확인하세요!</li>
+                        <ul>
+                          <li> 마음에 들면 열림 버튼을 눌러주세요. </li>
+                        </ul>
+                        <li>2 단계 : 얼굴을 마주하고 판단해요 </li>
+                        <ul>
+                          <li> 10 초 동안 상대방의 얼굴을 마주보고 </li>
+                          <li> 마음에 들면 정보를 확인하세요 </li>
+                        </ul>
+                        <li>
+                          3 단계: 상대방과 자유롭게 대화 하세요
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
                 </div>
               </div>
             </div>
@@ -126,7 +145,11 @@
       <!-- 세션 종료 -->
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
       <div>
-        <video-bottom @audioOnOff="audioOnOff"></video-bottom>
+        <video-bottom
+        @audioOnOff="audioOnOff"
+        :sessionLevel="sessionLevel"
+        >
+        </video-bottom>
       </div>
     </div>
 
@@ -148,6 +171,12 @@
         </div>
       </div>
       <chat-view></chat-view>
+      <div>
+        <video-bottom
+        @audioOnOff="audioOnOff"
+        :sessionLevel="sessionLevel"
+        ></video-bottom>
+      </div>
        <!-- 세션 종료 -->
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"/>
     </div>
@@ -635,13 +664,11 @@ export default {
     },
     currentUserCount () {
       if (this.currentUserCount === 0) {
-        console.log(this.strangerLeaveFlag)
         this.strangerLeaveFlag = true
       }
     },
     strangerLeaveFlag () {
       if (this.strangerLeaveFlag === true) {
-        console.log(this.strangerLeaveFlag)
         this.leaveSession()
       }
     }
