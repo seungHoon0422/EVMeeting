@@ -28,7 +28,6 @@ export default {
     getRooms: () => HOST + CHAT + 'rooms/',
     deleteRoom: () => HOST + CHAT + 'room/delete/',
     connectionSock: () => HOST + CHAT + 'ws/'
-
   },
   video: {
     getSessionJoin: () => HOST + VIDEO + 'join',
