@@ -10,7 +10,6 @@ import com.ssafy.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -100,5 +99,14 @@ public class ChatRoomService implements IChatRoomService {
                     chatroom.setAlive(false);
                     return chatroomRepository.save(chatroom);
                 });
+    }
+
+    @Override
+    public void removeRoom(long chatroomId) {
+        chatroomRepository.deleteById(chatroomId);
+        Optional<List<Message>> messages = messageRepository.findAllByChatroomId(chatroomId);
+        messages.get().forEach(message -> {
+            messageRepository.delete(message);
+        });
     }
 }
