@@ -31,8 +31,8 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
         }
     }
     @Override
-    public void deleteMatch(MeetingQueue meetingQueue) {
-        meetingQueueRepository.deleteByUserid(meetingQueue.getUserid());
+    public void deleteMatch(String userid) {
+        meetingQueueRepository.deleteByUserid(userid);
     }
     @Override
     public List<User> joinUserid(String userid){
