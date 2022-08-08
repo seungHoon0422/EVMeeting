@@ -3,7 +3,7 @@
     <h1 class="font-style mt-3">사진 등록</h1>
     <form  @submit.prevent="uploadPhoto(currentUser.userid)">
           <div class="img-box">
-            <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;">
+            <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;" required>
             <label for="imgUpload1" v-if="!photoUrl">
               <i class="fa-solid fa-circle-plus icon-color"></i>
             </label>
