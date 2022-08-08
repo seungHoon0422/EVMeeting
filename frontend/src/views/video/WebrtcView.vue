@@ -2,14 +2,14 @@
 <div id="main-container" class="container">
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
-      <div class="d-flex justify-content-center">
-        <div class="row text-align center">
+      <div class="">
+        <div class="container">
           <h4>엘리베이터 호출 하기</h4>
           <h1>안녕하세요 ! {{currentUser.username}} 님</h1>
+          <div class="form-group my-5">
+            <img :src="`${currentUser.photo}`" id="myProfile">
+          </div>
           <div class="d-flex justify-content-center">
-            <div class="form-group">
-              <img :src="`${currentUser.photo}`" id="myProfile">
-            </div>
             <div class="d-flex justify-content-center">
               <div class="d-flex justify-content-right">
                   <button id="buttonIcon" @click="playAnimation">
@@ -22,8 +22,8 @@
                   <elevator-animation v-if="animationFlag===true"></elevator-animation>
                   <div v-else>
                     <div class="container">
-                      <h1> How To Use</h1>
                       <ul>
+                        <h3>How to Use</h3>
                         <li>1 단계 : 상대방의 프로필을 확인하세요!</li>
                         <ul>
                           <li> 마음에 들면 열림 버튼을 눌러주세요. </li>
@@ -43,6 +43,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <!-- 엘리베이터 같은 느낌 테스트 -->
+        <div class="container my-5" id="elevatorLobby" style="background-color: black;">
+          <h1>Hello</h1>
         </div>
       </div>
     </div>
@@ -79,7 +83,8 @@
             :stranger="sub.stream.connection.data"
             :currentUser ="currentUser"
             @click.native="updateMainVideoStreamManager(sub)"
-            @sendStarngerId="sendStarngerId">
+            @sendStarngerId="sendStarngerId"
+            @sendStrangerObject="sendStrangerObject">
             </user-profile>
           </div>
         </div>
@@ -108,7 +113,8 @@
           <!-- #ff8585 -->
           <div class="text-align-center">
             <b-progress height="2rem" show-progress :max="8" class="mb-3">
-            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress>
+            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress
+            style="background-color : #BE7292 !important">
               <span v-if="profileopencount===7">
                 <h3>엘리베이터에서 나갈까요?</h3>
               </span>
@@ -259,9 +265,11 @@ export default {
       levelOneCount: 0,
       StrangerProfile: false,
       strangerId: undefined,
+      strangerObject: undefined,
       animationFlag: false,
       strangerLeaveFlag: false,
-      id: 1
+      id: 1,
+      canLeaveSite: true
     }
   },
   methods: {
@@ -283,7 +291,7 @@ export default {
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
-      this.tenseconds = 1000000
+      this.tenseconds = 10
       this.profilecount = 0
       this.profileopencount = 0
       this.addcount = 0
@@ -395,7 +403,8 @@ export default {
     },
 
     leaveSession () {
-      axios.post(api.video.userLeaveSession(), { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+      // strangerId: this.strangerId
+      axios.post(api.video.userLeaveSession(), { userFrom: this.currentUser.userid, userTo: this.strangerObject }).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -416,7 +425,7 @@ export default {
 
       this.$router.go('/cam')
 
-      window.removeEventListener('beforeunload', this.leaveSession)
+      // window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -494,7 +503,7 @@ export default {
         this.stopaddFunc()
         // this.addcount = 0
       }
-      this.tenseconds += 10
+      this.tenseconds = 10
       // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
@@ -585,8 +594,10 @@ export default {
     sendStarngerId (data) {
       this.strangerId = data
     },
+    sendStrangerObject (data) {
+      this.strangerObject = data
+    },
     createRoom () {
-      console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       console.log(this.currentUser.id)
       console.log(this.strangerId)
       axios({
@@ -609,6 +620,30 @@ export default {
         this.getSession()
       }, 5000)
     }
+    // Really? leave?
+    // reallyLeave () {
+    //   this.boxTwo = ''
+    //   this.$bvModal.msgBoxConfirm('정말 나가시겠습니까?', {
+    //     title: '알림',
+    //     size: 'sm',
+    //     buttonSize: 'sm',
+    //     okVariant: 'primary',
+    //     okTitle: '네',
+    //     cancelTitle: '아니요',
+    //     cancleVariant: 'danger',
+    //     footerClass: 'p-2',
+    //     hideHeaderClose: false,
+    //     centered: true
+    //   })
+    //     .then(value => {
+    //       if (value === true) {
+    //         this.leaveSession()
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -623,6 +658,13 @@ export default {
     if (this.isLoggedIn) {
       // console.log('hi')
       console.log(this.isLoggedIn)
+      window.addEventListener('beforeunload', (event) => {
+        this.leaveSession()
+        this.$router.push('/')
+        // window.location.reload(true)
+        // event.preventDefault()
+        event.returnValue = 'TEST'
+      })
     } else {
       alert('잘못된 접근')
       this.$router.back()
@@ -678,6 +720,7 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
+        this.createRoom()
         this.tenseconds = 600
       }
     },
@@ -702,8 +745,8 @@ export default {
 
 <style>
 #myProfile{
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
 }
 
 #buttonIcon{

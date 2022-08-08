@@ -5,6 +5,7 @@ import com.ssafy.chat.db.entity.Message;
 import com.ssafy.chat.db.repository.ChatroomRepository;
 import com.ssafy.chat.db.repository.MessageRepository;
 import com.ssafy.chat.model.ChatRoomVO;
+import com.ssafy.user.db.entity.User;
 import com.ssafy.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
@@ -62,8 +63,14 @@ public class ChatRoomService implements IChatRoomService {
             vo.setAlive(room.getAlive());
             vo.setRecentMessage(room.getRecentMessage());
             vo.setRecentMessageTime(room.getRecentMessageTime());
-            vo.setSenderId1(userRepository.findById(room.getUserid1()).get().getUserid());
-            vo.setSenderId2(userRepository.findById(room.getUserid2()).get().getUserid());
+
+            User user1 = userRepository.findById(room.getUserid1()).get();
+            User user2 = userRepository.findById(room.getUserid2()).get();
+
+            vo.setSenderId1(user1.getUserid());
+            vo.setSenderId2(user2.getUserid());
+            vo.setPhotoUrl1(user1.getPhoto());
+            vo.setPhotoUrl2(user2.getPhoto());
 
             chatroomResult.add(vo);
         }
