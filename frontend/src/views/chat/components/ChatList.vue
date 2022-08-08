@@ -32,11 +32,11 @@
     <div class="roomList" v-else-if="room_list.length > 0">
       <div v-for="(r, idx) in room_list" :key="idx">
         <div v-if="r.alive == true">
-          <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="userId === r.senderId1">
-            <div class="other">{{ r.senderId2 }} <img src=""/></div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
+          <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo2)" v-if="userId === r.senderId1">
+            <div class="other"><img src="${r.photo2}"/>{{ r.senderId2 }} <img src=""/></div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
-          <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-            <div class="other">{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }} <br/> {{r.recentTime}} </div><div style="margin-bottom:30px; font-size: 3px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
+          <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo1)" v-else>
+            <div class="other"><img src="${r.photo1}"/>{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div
             style="float:right; margin-top:-90px; margin-right: 8px; background-color: red; border-radius: 30px; height: 70px;"
@@ -98,7 +98,9 @@ export default {
             senderId1: res.data[i].senderId1,
             senderId2: res.data[i].senderId2,
             alive: res.data[i].alive,
-            recentTime: res.data[i].recentMessageTime
+            recentTime: res.data[i].recentMessageTime,
+            photo1: res.data[i].photoUrl1,
+            photo2: res.data[i].photoUrl2
           }
           this.room_list.push(room)
         }
@@ -111,10 +113,10 @@ export default {
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),
-    enterRoom (id) {
+    enterRoom (id, photo) {
       this.$router.push({
         name: 'chat',
-        query: { roomid: id, id: this.id, name: this.name, userId: this.userId }
+        query: { roomid: id, id: this.id, name: this.name, userId: this.userId, photo: photo }
       })
     },
     moveBack () {
