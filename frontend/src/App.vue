@@ -20,6 +20,8 @@ export default {
   created () {
     if (document.location.pathname === '/') {
       this.isChecked = true
+    } else {
+      this.isChecked = false
     }
   }
 }
