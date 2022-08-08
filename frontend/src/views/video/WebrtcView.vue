@@ -108,7 +108,8 @@
           <!-- #ff8585 -->
           <div class="text-align-center">
             <b-progress height="2rem" show-progress :max="8" class="mb-3">
-            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress>
+            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress
+            style="background-color : #ff8585 !important">
               <span v-if="profileopencount===7">
                 <h3>엘리베이터에서 나갈까요?</h3>
               </span>
@@ -261,7 +262,8 @@ export default {
       strangerId: undefined,
       animationFlag: false,
       strangerLeaveFlag: false,
-      id: 1
+      id: 1,
+      canLeaveSite: true
     }
   },
   methods: {
@@ -395,6 +397,7 @@ export default {
     },
 
     leaveSession () {
+      // strangerId: this.strangerId
       axios.post(api.video.userLeaveSession(), { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
         console.log(res)
       }).catch(err => {
@@ -416,7 +419,7 @@ export default {
 
       this.$router.go('/cam')
 
-      window.removeEventListener('beforeunload', this.leaveSession)
+      // window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -494,7 +497,7 @@ export default {
         this.stopaddFunc()
         // this.addcount = 0
       }
-      this.tenseconds += 10
+      this.tenseconds = 10
       // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
@@ -586,7 +589,6 @@ export default {
       this.strangerId = data
     },
     createRoom () {
-      console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       console.log(this.currentUser.id)
       console.log(this.strangerId)
       axios({
@@ -609,6 +611,30 @@ export default {
         this.getSession()
       }, 5000)
     }
+    // Really? leave?
+    // reallyLeave () {
+    //   this.boxTwo = ''
+    //   this.$bvModal.msgBoxConfirm('정말 나가시겠습니까?', {
+    //     title: '알림',
+    //     size: 'sm',
+    //     buttonSize: 'sm',
+    //     okVariant: 'primary',
+    //     okTitle: '네',
+    //     cancelTitle: '아니요',
+    //     cancleVariant: 'danger',
+    //     footerClass: 'p-2',
+    //     hideHeaderClose: false,
+    //     centered: true
+    //   })
+    //     .then(value => {
+    //       if (value === true) {
+    //         this.leaveSession()
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -623,6 +649,13 @@ export default {
     if (this.isLoggedIn) {
       // console.log('hi')
       console.log(this.isLoggedIn)
+      window.addEventListener('beforeunload', (event) => {
+        this.leaveSession()
+        this.$router.push('/')
+        // window.location.reload(true)
+        // event.preventDefault()
+        event.returnValue = 'TEST'
+      })
     } else {
       alert('잘못된 접근')
       this.$router.back()
@@ -678,6 +711,7 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
+        this.createRoom()
         this.tenseconds = 600
       }
     },
