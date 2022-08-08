@@ -186,7 +186,10 @@ dependencies {
     testCompile('org.springframework.boot:spring-boot-starter-test')
 
     // S3 Bucket
-    implementation 'io.awspring.cloud:spring-cloud-starter-aws:2.3.1'
+    implementation ('io.awspring.cloud:spring-cloud-starter-aws:2.3.1')
+
+    // GOOGLE EMAIL
+    implementation 'org.springframework.boot:spring-boot-starter-mail'
 }
 
 test {

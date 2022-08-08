@@ -3,7 +3,7 @@
     <h1 class="font-style mt-3">사진 등록</h1>
     <form  @submit.prevent="uploadPhoto(currentUser.userid)">
           <div class="img-box">
-            <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;">
+            <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;" required>
             <label for="imgUpload1" v-if="!photoUrl">
               <i class="fa-solid fa-circle-plus icon-color"></i>
             </label>
@@ -18,7 +18,7 @@
 import { mapGetters } from 'vuex'
 import api from '@/api/api'
 import axios from 'axios'
-import router from '@/router'
+// import router from '@/router'
 
 export default {
   name: 'UploadPhotoView',
@@ -50,7 +50,8 @@ export default {
       })
         .then(res => {
           console.log(res)
-          router.push({ name: 'home' })
+          window.location.href = '/'
+          // router.push({ name: 'home' })
         })
         .catch(err => console.log(err))
     }

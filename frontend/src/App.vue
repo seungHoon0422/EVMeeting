@@ -1,6 +1,6 @@
 <template id="back">
   <div id="app">
-    <nav-bar></nav-bar>
+    <nav-bar v-if="!isChecked"></nav-bar>
     <router-view/>
   </div>
 </template>
@@ -11,6 +11,16 @@ import NavBar from '@/views/accounts/components/NavBar'
 export default {
   components: {
     NavBar
+  },
+  data () {
+    return {
+      isChecked: false
+    }
+  },
+  created () {
+    if (document.location.pathname === '/') {
+      this.isChecked = true
+    }
   }
 }
 </script>
@@ -23,7 +33,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   background-color: #FFFFEA;
-  height: 1500px;
+  height: 1200px;
 }
 
 nav {
