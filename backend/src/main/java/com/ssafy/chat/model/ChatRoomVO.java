@@ -31,5 +31,6 @@ public class ChatRoomVO {
     String recentMessage;
 
     String recentMessageTime;
-
+    String photoUrl1;
+    String photoUrl2;
 }
