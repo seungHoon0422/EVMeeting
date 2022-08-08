@@ -2,14 +2,14 @@
 <div id="main-container" class="container">
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
-      <div class="d-flex justify-content-center">
-        <div class="row text-align center">
+      <div class="">
+        <div class="container">
           <h4>엘리베이터 호출 하기</h4>
           <h1>안녕하세요 ! {{currentUser.username}} 님</h1>
+          <div class="form-group my-5">
+            <img :src="`${currentUser.photo}`" id="myProfile">
+          </div>
           <div class="d-flex justify-content-center">
-            <div class="form-group">
-              <img :src="`${currentUser.photo}`" id="myProfile">
-            </div>
             <div class="d-flex justify-content-center">
               <div class="d-flex justify-content-right">
                   <button id="buttonIcon" @click="playAnimation">
@@ -22,8 +22,8 @@
                   <elevator-animation v-if="animationFlag===true"></elevator-animation>
                   <div v-else>
                     <div class="container">
-                      <h1> How To Use</h1>
                       <ul>
+                        <h3>How to Use</h3>
                         <li>1 단계 : 상대방의 프로필을 확인하세요!</li>
                         <ul>
                           <li> 마음에 들면 열림 버튼을 눌러주세요. </li>
@@ -43,6 +43,10 @@
               </div>
             </div>
           </div>
+        </div>
+        <!-- 엘리베이터 같은 느낌 테스트 -->
+        <div class="container my-5" id="elevatorLobby" style="background-color: black;">
+          <h1>Hello</h1>
         </div>
       </div>
     </div>
@@ -79,7 +83,8 @@
             :stranger="sub.stream.connection.data"
             :currentUser ="currentUser"
             @click.native="updateMainVideoStreamManager(sub)"
-            @sendStarngerId="sendStarngerId">
+            @sendStarngerId="sendStarngerId"
+            @sendStrangerObject="sendStrangerObject">
             </user-profile>
           </div>
         </div>
@@ -109,7 +114,7 @@
           <div class="text-align-center">
             <b-progress height="2rem" show-progress :max="8" class="mb-3">
             <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress
-            style="background-color : #ff8585 !important">
+            style="background-color : #BE7292 !important">
               <span v-if="profileopencount===7">
                 <h3>엘리베이터에서 나갈까요?</h3>
               </span>
@@ -260,6 +265,7 @@ export default {
       levelOneCount: 0,
       StrangerProfile: false,
       strangerId: undefined,
+      strangerObject: undefined,
       animationFlag: false,
       strangerLeaveFlag: false,
       id: 1,
@@ -285,7 +291,7 @@ export default {
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
-      this.tenseconds = 1000000
+      this.tenseconds = 10
       this.profilecount = 0
       this.profileopencount = 0
       this.addcount = 0
@@ -398,7 +404,7 @@ export default {
 
     leaveSession () {
       // strangerId: this.strangerId
-      axios.post(api.video.userLeaveSession(), { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+      axios.post(api.video.userLeaveSession(), { userFrom: this.currentUser.userid, userTo: this.strangerObject }).then(res => {
         console.log(res)
       }).catch(err => {
         console.log(err)
@@ -588,6 +594,9 @@ export default {
     sendStarngerId (data) {
       this.strangerId = data
     },
+    sendStrangerObject (data) {
+      this.strangerObject = data
+    },
     createRoom () {
       console.log(this.currentUser.id)
       console.log(this.strangerId)
@@ -736,8 +745,8 @@ export default {
 
 <style>
 #myProfile{
-  width: 300px;
-  height: 200px;
+  width: 400px;
+  height: 300px;
 }
 
 #buttonIcon{
