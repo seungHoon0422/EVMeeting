@@ -53,19 +53,21 @@
     <div id="session_1" v-if="sessionLevel===1">
       <h1>Hi I'm session_1</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <!-- <button @click="sessionLevelPlus">levelUp</button> -->
+      <button @click="sessionLevelPlus">levelUp</button>
       <h1> 안녕하세요 ! {{currentUser.username}} 님</h1>
-      <div>
-        <div v-if="currentUserCount==0">
-          <h1>대기중..</h1>
-        </div>
-        <div v-else>
-          <!-- 상대방의 호감 표시 확인 -->
-          <div v-if="this.levelOneCount === 0">
-            <i class='bx bxs-heart' style="font-size:  50px;"></i>
+      <div class="container">
+        <div>
+          <div v-if="currentUserCount==0">
+            <h3>대기중..</h3>
           </div>
-          <div v-else-if="this.levelOneCount === 1">
-            <i class='bx bxs-heart' style="font-size: 50px; color: red;"></i>
+          <div v-else>
+            <!-- 상대방의 호감 표시 확인 -->
+            <div v-if="this.levelOneCount === 0">
+              <i class='bx bxs-heart' style="font-size:  50px;"></i>
+            </div>
+            <div v-else-if="this.levelOneCount === 1">
+              <i class='bx bxs-heart' style="font-size: 50px; color: red;"></i>
+            </div>
           </div>
         </div>
         <!-- 상대방의 프로필이 보여야 함 -->
@@ -81,7 +83,7 @@
             </user-profile>
           </div>
         </div>
-        <div class="d-flex justify-content-center">
+        <div>
           <!-- 상대방이 마음에 든다는 신호 -->
           <like-you
           :levelOneCount="levelOneCount"
@@ -103,6 +105,22 @@
       <h1>Hi I'm session_2</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
       <div v-if="currentUser">
+          <!-- #ff8585 -->
+          <div class="text-align-center">
+            <b-progress height="2rem" show-progress :max="8" class="mb-3">
+            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress>
+              <span v-if="profileopencount===7">
+                <h3>엘리베이터에서 나갈까요?</h3>
+              </span>
+              <span v-else-if="profileopencount%2===1">
+                <h3>보고싶어요!</h3>
+              </span>
+              <span v-else-if="profileopencount%2===0">
+                <h3>10초 추가!</h3>
+              </span>
+            </b-progress-bar>
+          </b-progress>
+          </div>
         <h1>profile open count : {{profileopencount}}</h1>
         <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
@@ -132,24 +150,26 @@
         <h1>남은 시간 : {{tenseconds}}</h1>
       </div>
       <!-- 비디오 출력 부분  -->
-      <div id="video-container" class="container">
-        <div class="d-flex">
-          <div class="mx-3">
+      <div>
+        <div id="video-container" class="container d-flex justify-content-center">
+          <div class="container mx-5" id="publisher_container">
             <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
           </div>
-          <div >
+          <div class="container mx-5" id="subscriber_container">
             <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
           </div>
         </div>
       </div>
       <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
       <div>
-        <video-bottom
-        @audioOnOff="audioOnOff"
-        :sessionLevel="sessionLevel"
-        >
-        </video-bottom>
+        <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+        <div>
+          <video-bottom
+          @audioOnOff="audioOnOff"
+          :sessionLevel="sessionLevel"
+          >
+          </video-bottom>
+        </div>
       </div>
     </div>
 
@@ -251,7 +271,6 @@ export default {
         // sessionid 부분을 user정보로 바꾸면 된다
         console.log(res)
         this.mySessionId = res.data
-        console.log('res.data########################################################')
       }).then(res => {
         this.joinSession()
       }).catch(err => {
@@ -263,7 +282,7 @@ export default {
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
-      this.tenseconds = 10
+      this.tenseconds = 1000000
       this.profilecount = 0
       this.profileopencount = 0
       this.addcount = 0
@@ -375,6 +394,11 @@ export default {
     },
 
     leaveSession () {
+      axios.post(api.video.userLeaveSession(), { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) this.session.disconnect()
 
@@ -389,8 +413,9 @@ export default {
       this.addflag = false
       this.profileopencount = undefined
 
-      window.removeEventListener('beforeunload', this.leaveSession)
       this.$router.go('/cam')
+
+      window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },

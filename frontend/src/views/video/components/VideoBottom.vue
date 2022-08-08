@@ -1,7 +1,7 @@
 <template>
   <div>
-    <h1>AudioControl</h1>
     <div v-if="this.sessionLevel===3">
+      <h1>AudioControl</h1>
       <button @click="audioOnOff">audio</button>
     </div>
   </div>

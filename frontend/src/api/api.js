@@ -25,6 +25,7 @@ export default {
   chat: {},
   video: {
     getSessionJoin: () => HOST + VIDEO + 'join',
-    getStrangerProfile: () => HOST + VIDEO + 'userinfo'
+    getStrangerProfile: () => HOST + VIDEO + 'userinfo',
+    userLeaveSession: () => HOST + VIDEO + 'endservice'
   }
 }
