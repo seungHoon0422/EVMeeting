@@ -4,14 +4,44 @@
     <div id="join-dialog" class="jumbotron vertical-center">
       <div class="d-flex justify-content-center">
         <div class="row text-align center">
-          <h1>엘리베이터 호출 하기</h1>
-          <div class="form-group">
-            <h1> 내 사진 들어가야 해 {{currentUserName}}</h1>
-          </div>
-          <div>
-            <p class="text-center">
-              <button class="btn btn-lg btn-success" @click="getSession()">호출</button>
-            </p>
+          <h4>엘리베이터 호출 하기</h4>
+          <h1>안녕하세요 ! {{currentUser.username}} 님</h1>
+          <div class="d-flex justify-content-center">
+            <div class="form-group">
+              <img :src="`${currentUser.photo}`" id="myProfile">
+            </div>
+            <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-right">
+                  <button id="buttonIcon" @click="playAnimation">
+                    <i class="fa-solid fa-elevator fa-3x"></i>
+                  </button>
+              </div>
+              <div>
+                <!-- 엘리베이터 애니메이션 -->
+                <div class="container" id="elevatorAnimation" style="width: 300px; height: 300px">
+                  <elevator-animation v-if="animationFlag===true"></elevator-animation>
+                  <div v-else>
+                    <div class="container">
+                      <h1> How To Use</h1>
+                      <ul>
+                        <li>1 단계 : 상대방의 프로필을 확인하세요!</li>
+                        <ul>
+                          <li> 마음에 들면 열림 버튼을 눌러주세요. </li>
+                        </ul>
+                        <li>2 단계 : 얼굴을 마주하고 판단해요 </li>
+                        <ul>
+                          <li> 10 초 동안 상대방의 얼굴을 마주보고 </li>
+                          <li> 마음에 들면 정보를 확인하세요 </li>
+                        </ul>
+                        <li>
+                          3 단계: 상대방과 자유롭게 대화 하세요
+                        </li>
+                      </ul>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
           </div>
         </div>
       </div>
@@ -23,38 +53,51 @@
     <div id="session_1" v-if="sessionLevel===1">
       <h1>Hi I'm session_1</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <!-- <button @click="sessionLevelPlus">levelUp</button> -->
-      <h1> 프로필 들어가야함 : {{currentUser.username}}</h1>
-
-      <div v-if="currentUserCount==0">
-        <h1>대기중..</h1>
-      </div>
-
-      <!-- 상대방의 프로필이 보여야 함 -->
-      <!-- <button @click="showProfilePicture">Show</button> -->
-      <div id="profile-container" class="container">
-        <!-- <div>
-          <user-profile :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"></user-profile>
-        </div> -->
+      <button @click="sessionLevelPlus">levelUp</button>
+      <h1> 안녕하세요 ! {{currentUser.username}} 님</h1>
+      <div class="container">
         <div>
-          <user-profile v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stranger="sub.stream.connection.data"
-          :currentUser ="currentUser"
-          @click.native="updateMainVideoStreamManager(sub)"
-          @sendStarngerId="sendStarngerId">
-          </user-profile>
+          <div v-if="currentUserCount==0">
+            <h3>대기중..</h3>
+          </div>
+          <div v-else>
+            <!-- 상대방의 호감 표시 확인 -->
+            <div v-if="this.levelOneCount === 0">
+              <i class='bx bxs-heart' style="font-size:  50px;"></i>
+            </div>
+            <div v-else-if="this.levelOneCount === 1">
+              <i class='bx bxs-heart' style="font-size: 50px; color: red;"></i>
+            </div>
+          </div>
         </div>
-        <h1>IT's strangerId : {{this.strangerId}}</h1>
+        <!-- 상대방의 프로필이 보여야 함 -->
+        <!-- <button @click="showProfilePicture">Show</button> -->
+        <div id="profile-container" class="container">
+          <div>
+            <user-profile v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stranger="sub.stream.connection.data"
+            :currentUser ="currentUser"
+            @click.native="updateMainVideoStreamManager(sub)"
+            @sendStarngerId="sendStarngerId">
+            </user-profile>
+          </div>
+        </div>
+        <div>
+          <!-- 상대방이 마음에 든다는 신호 -->
+          <like-you
+          :levelOneCount="levelOneCount"
+          :session="session"
+          >
+          </like-you>
+          <!-- 세션 종료 -->
+          <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+          <button id="buttonIcon" @click="leaveSession">
+            <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
+          </button>
+        </div>
       </div>
-      <!-- 상대방이 마음에 든다는 신호 -->
-      <like-you
-      :levelOneCount="levelOneCount"
-      :session="session"
-      >
-      </like-you>
-      <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘">
+
     </div>
 
     <!-- 세션 2 => 상대방 얼굴 확인 10초 카운트 및 질문 -->
@@ -62,6 +105,23 @@
       <h1>Hi I'm session_2</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
       <div v-if="currentUser">
+          <!-- #ff8585 -->
+          <div class="text-align-center">
+            <b-progress height="2rem" show-progress :max="8" class="mb-3">
+            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress
+            style="background-color : #ff8585 !important">
+              <span v-if="profileopencount===7">
+                <h3>엘리베이터에서 나갈까요?</h3>
+              </span>
+              <span v-else-if="profileopencount%2===1">
+                <h3>보고싶어요!</h3>
+              </span>
+              <span v-else-if="profileopencount%2===0">
+                <h3>10초 추가!</h3>
+              </span>
+            </b-progress-bar>
+          </b-progress>
+          </div>
         <h1>profile open count : {{profileopencount}}</h1>
         <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
@@ -75,31 +135,42 @@
       </div>
        <div>
         <!-- 상대방의 정보 확인 -->
-        <div v-if="StrangerProfile===true">
-          <stranger-profile v-for="sub in subscribers"
-          :key="sub.stream.connection.connectionId"
-          :stranger="sub.stream.connection.data"
-          :countTogether ="countTogether"
-          @click.native="updateMainVideoStreamManager(sub)">
-          </stranger-profile>
-        </div>
+        <transition
+        enter-active-class="animate__animated animate__fadeIn"
+        leave-active-class="animate__animated animate__fadeOut"
+        >
+          <div v-if="StrangerProfile===true">
+            <stranger-profile v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stranger="sub.stream.connection.data"
+            :countTogether ="countTogether"
+            @click.native="updateMainVideoStreamManager(sub)">
+            </stranger-profile>
+          </div>
+        </transition>
         <h1>남은 시간 : {{tenseconds}}</h1>
       </div>
       <!-- 비디오 출력 부분  -->
-      <div id="video-container" class="container">
-        <div class="d-flex">
-          <div class="mx-3">
+      <div>
+        <div id="video-container" class="container d-flex justify-content-center">
+          <div class="container mx-5" id="publisher_container">
             <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
           </div>
-          <div >
+          <div class="container mx-5" id="subscriber_container">
             <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
           </div>
         </div>
       </div>
       <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
       <div>
-        <video-bottom @audioOnOff="audioOnOff"></video-bottom>
+        <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+        <div>
+          <video-bottom
+          @audioOnOff="audioOnOff"
+          :sessionLevel="sessionLevel"
+          >
+          </video-bottom>
+        </div>
       </div>
     </div>
 
@@ -121,6 +192,12 @@
         </div>
       </div>
       <chat-view></chat-view>
+      <div>
+        <video-bottom
+        @audioOnOff="audioOnOff"
+        :sessionLevel="sessionLevel"
+        ></video-bottom>
+      </div>
        <!-- 세션 종료 -->
       <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"/>
     </div>
@@ -137,14 +214,15 @@ import UserVideo from '@/views/video/components/UserVideo'
 import LikeYou from '@/views/video/components/LikeYou'
 import UserProfile from '@/views/video/components/UserProfile'
 import VideoBottom from '@/views/video/components/VideoBottom'
-// import QuestionList from '@/views/video/components/QuestionList'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 import ChatView from '@/views/chat/ChatInMeeting'
+import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
+// const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
+const OPENVIDU_SERVER_URL = 'https://' + 'i7a708.p.ssafy.io' + ':4443'
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET'
 export default {
   components: {
@@ -154,7 +232,8 @@ export default {
     AddingProfile,
     VideoBottom,
     StrangerProfile,
-    ChatView
+    ChatView,
+    ElevatorAnimation
   },
   data () {
     return {
@@ -181,8 +260,10 @@ export default {
       levelOneCount: 0,
       StrangerProfile: false,
       strangerId: undefined,
-      id: 1
-
+      animationFlag: false,
+      strangerLeaveFlag: false,
+      id: 1,
+      canLeaveSite: true
     }
   },
   methods: {
@@ -193,7 +274,6 @@ export default {
         // sessionid 부분을 user정보로 바꾸면 된다
         console.log(res)
         this.mySessionId = res.data
-        console.log('res.data########################################################')
       }).then(res => {
         this.joinSession()
       }).catch(err => {
@@ -205,7 +285,7 @@ export default {
       // async 작업을 통해 순차적으로 코드가 동작하도록 해야된다
       this.autoleaveflag = false
       this.autocountflag = true
-      this.tenseconds = 10
+      this.tenseconds = 1000000
       this.profilecount = 0
       this.profileopencount = 0
       this.addcount = 0
@@ -215,6 +295,7 @@ export default {
       this.StrangerProfile = false
       this.profileCount = 0
       this.strangerId = undefined
+      this.animationFlag = false
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -316,6 +397,12 @@ export default {
     },
 
     leaveSession () {
+      // strangerId: this.strangerId
+      axios.post(api.video.userLeaveSession(), { userid: this.currentUser.userid, gender: this.currentUser.gender }).then(res => {
+        console.log(res)
+      }).catch(err => {
+        console.log(err)
+      })
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) this.session.disconnect()
 
@@ -330,7 +417,9 @@ export default {
       this.addflag = false
       this.profileopencount = undefined
 
-      window.removeEventListener('beforeunload', this.leaveSession)
+      this.$router.go('/cam')
+
+      // window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -408,7 +497,7 @@ export default {
         this.stopaddFunc()
         // this.addcount = 0
       }
-      this.tenseconds += 10
+      this.tenseconds = 10
       // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
@@ -490,38 +579,62 @@ export default {
     strangerProfileCheck () {
       if (this.countTogether % 2 === 0) {
         this.StrangerProfile = true
-        console.log('Im here')
         return this.StrangerProfile
       } else {
         this.StrangerProfile = false
-        console.log('Im there')
         return this.StrangerProfile
       }
     },
     sendStarngerId (data) {
       this.strangerId = data
-      console.log('hiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiiii')
-      console.log(data)
     },
     createRoom () {
-      console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       console.log(this.currentUser.id)
-      console.log(this.strangerName)
+      console.log(this.strangerId)
       axios({
         method: 'post',
-        url: '/api/v1/chat/room',
-        baseURL: 'http://localhost:8080/',
+        url: api.chat.createRoom(),
         headers: { 'content-type': 'application/json' },
-        // userid 1 - > 자기 , 2 -> 상대방
-        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
+        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id, alive: true }
       }).then(
-        res => {},
+        res => { alert('Matching Success!!') },
         err => {
           console.log(err)
           this.$router.push({ name: 'home' })
         }
       )
+    },
+    // setTimeout
+    playAnimation () {
+      this.animationFlag = true
+      setTimeout(() => {
+        this.getSession()
+      }, 5000)
     }
+    // Really? leave?
+    // reallyLeave () {
+    //   this.boxTwo = ''
+    //   this.$bvModal.msgBoxConfirm('정말 나가시겠습니까?', {
+    //     title: '알림',
+    //     size: 'sm',
+    //     buttonSize: 'sm',
+    //     okVariant: 'primary',
+    //     okTitle: '네',
+    //     cancelTitle: '아니요',
+    //     cancleVariant: 'danger',
+    //     footerClass: 'p-2',
+    //     hideHeaderClose: false,
+    //     centered: true
+    //   })
+    //     .then(value => {
+    //       if (value === true) {
+    //         this.leaveSession()
+    //       }
+    //     })
+    //     .catch(err => {
+    //       console.log(err)
+    //     })
+    // }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -536,6 +649,13 @@ export default {
     if (this.isLoggedIn) {
       // console.log('hi')
       console.log(this.isLoggedIn)
+      window.addEventListener('beforeunload', (event) => {
+        this.leaveSession()
+        this.$router.push('/')
+        // window.location.reload(true)
+        // event.preventDefault()
+        event.returnValue = 'TEST'
+      })
     } else {
       alert('잘못된 접근')
       this.$router.back()
@@ -591,10 +711,23 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
-        console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
-        console.log(this.currentUser.id)
-        console.log(this.strangerId)
-        this.tenseconds = 100000
+        this.createRoom()
+        this.tenseconds = 600
+      }
+    },
+    tenseconds () {
+      if (this.sessionLevel === 3 && this.tenseconds === 1) {
+        this.createRoom()
+      }
+    },
+    currentUserCount () {
+      if (this.currentUserCount === 0) {
+        this.strangerLeaveFlag = true
+      }
+    },
+    strangerLeaveFlag () {
+      if (this.strangerLeaveFlag === true) {
+        this.leaveSession()
       }
     }
   }
@@ -602,5 +735,15 @@ export default {
 </script>
 
 <style>
+#myProfile{
+  width: 300px;
+  height: 200px;
+}
+
+#buttonIcon{
+  background-color:transparent;
+  border: 0;
+  outline: 0;
+}
 
 </style>

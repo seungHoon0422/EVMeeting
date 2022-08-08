@@ -21,6 +21,7 @@
                 <p class="chat__mymessage__paragraph">{{ m.content }}</p>
               </div>
               <div v-else class="chat__yourmessage">
+                <div class="box"><img class="photo" :src=photo /></div>
                 <h5 class="chat__yourmessage__user" style="margin:3px">
                   {{ m.userId }}
                 </h5>
@@ -91,6 +92,7 @@
 import axios from 'axios'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import api from '@/api/api'
 let preDiffHeight = 0
 let bottomFlag = true
 
@@ -104,20 +106,18 @@ export default {
       idx: 0,
       msg: [],
       content: '',
-      stompClient: null
+      stompClient: null,
+      photo: null
     }
   },
   created () {
-    this.id = this.$route.params.id
-    this.roomid = this.$route.params.roomid
-    this.name = this.$route.params.name
-    this.userId = this.$route.params.userId
+    this.id = this.$route.query.id
+    this.roomid = this.$route.query.roomid
+    this.name = this.$route.query.name
+    this.userId = this.$route.query.userId
+    this.photo = this.$route.query.photo
     // 대화 불러오기
-    axios({
-      method: 'get',
-      url: `/api/v1/chat/room/allMessages/${this.roomid}`,
-      baseURL: 'http://localhost:8080/'
-    }).then(
+    axios.get(api.chat.getMessage() + `${this.roomid}`).then(
       res => {
         console.log(res)
         this.msg = []
@@ -130,14 +130,10 @@ export default {
           }
           this.msg.push(m)
         }
-      },
-      err => {
-        console.log(err)
-        alert('error : 새로고침하세요')
       }
-    )
+    ).catch(() => {})
     // socket 연결
-    const socket = new SockJS('http://localhost:8080/ws')
+    const socket = new SockJS(api.chat.connectionSock())
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
     this.stompClient = Stomp.over(socket, options)
     this.stompClient.connect(
@@ -185,7 +181,7 @@ export default {
     moveBack () {
       this.$router.push({
         name: 'chatlist',
-        params: { id: this.id, name: this.name, userId: this.userId }
+        query: { id: this.id, name: this.name, userId: this.userId }
       })
     },
     chat_on_scroll () {
@@ -365,5 +361,19 @@ svg {
 
 svg:hover {
   fill: #999999;
+}
+.box{
+  width: 30px;
+  height: 30px;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: white;
+  margin-right: 5px;
+  margin-left: -20px;
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

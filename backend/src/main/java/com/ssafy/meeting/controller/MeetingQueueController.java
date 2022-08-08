@@ -1,6 +1,8 @@
 package com.ssafy.meeting.controller;
 
+import com.ssafy.meeting.db.entitiy.Blacklist;
 import com.ssafy.meeting.db.entitiy.MeetingQueue;
+import com.ssafy.meeting.service.BlacklistService;
 import com.ssafy.meeting.service.MeetingQueueService;
 import com.ssafy.user.db.entity.User;
 import io.swagger.annotations.Api;
@@ -20,6 +22,9 @@ import java.util.List;
 public class MeetingQueueController {
     @Autowired
     MeetingQueueService meetingQueueService;
+
+    @Autowired
+    BlacklistService blacklistService;
 
     @PostMapping("/join")
     @ApiOperation(value = "화상통화 요청")
@@ -55,7 +60,7 @@ public class MeetingQueueController {
     public void exit(@RequestBody @ApiParam(value = "접속 정보", required = true) MeetingQueue meetingQueue){
         // 매칭이 종료되면 다시 대기큐에 등록
         // 프로필을 보고 닫힘버튼을 눌렀을 때 두 사용자의 정보를 테이블에 다시 올려줘야된다
-        // MeetingQueue temp = meetingQueueService.createMeeting(meetingQueue); // 미팅 종료되었을 때 join화면으로 이동하는 것으로 명세 변경
+        // MeetingQueue temp = meetingQueueService.createMeeting(meetingQueue); // 미팅 종료되었을 때 join화면으로 이동하는 것으로 명세 변경 ->
 
         // 닫힘버튼을 눌렀을 때 미팅큐에 세션방이 존재하는지 조회하고
         // 있으면 삭제
@@ -68,15 +73,14 @@ public class MeetingQueueController {
     }
     @PostMapping("/endservice")
     @ApiOperation(value = "서비스 종료")
-    public void endservice(@RequestBody @ApiParam(value = "접속 정보", required = true) MeetingQueue meetingQueue){
+    public void endservice(@RequestBody @ApiParam(value = "접속 정보", required = true) Blacklist blacklist){
         // 대기큐에서 유저 데이터를 삭제
-        meetingQueueService.deleteMatch(meetingQueue);
+        meetingQueueService.deleteMatch(blacklist.getUserFrom());
 
         // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리가 필요
-        // 1. 사이트를 종료할 때 post를 보내도록 구현
+        // 사이트를 종료할 때 post를 보내도록 구현
 
-        // 2. 일정 시간이 지나면 큐에서 삭제하도록 구현
-        
-        // 1번 방법으로
+        // 블랙리스트에 추가하는 로직 구현
+        blacklistService.createBlacklist(blacklist);
     }
 }

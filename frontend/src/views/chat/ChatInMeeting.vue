@@ -69,6 +69,7 @@
 // import axios from 'axios'
 import Stomp from 'webstomp-client'
 import SockJS from 'sockjs-client'
+import api from '@/api/api'
 import { mapGetters, mapActions } from 'vuex'
 let preDiffHeight = 0
 let bottomFlag = true
@@ -121,7 +122,7 @@ export default {
     //   }
     // )
     // socket 연결
-    const socket = new SockJS('http://localhost:8080/ws')
+    const socket = new SockJS(api.chat.connectionSock())
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
     this.stompClient = Stomp.over(socket, options)
     this.stompClient.connect(

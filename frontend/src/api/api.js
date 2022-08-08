@@ -1,8 +1,8 @@
-// const HOST = 'http://i7a708.p.ssafy.io/api/v1/'
-const HOST = 'http://localhost:8080/api/v1/'
+// const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
+const HOST = 'https://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
-// const CHAT = 'chat/'
+const CHAT = 'chat/'
 const VIDEO = 'meeting/'
 
 export default {
@@ -22,9 +22,16 @@ export default {
     checkDuplicateEmail: () => HOST + ACCOUNTS + 'checkduplicateemail/',
     findPassword: () => HOST + ACCOUNTS + 'findpassword/'
   },
-  chat: {},
+  chat: {
+    createRoom: () => HOST + CHAT + 'room/',
+    getMessage: () => HOST + CHAT + 'room/allMessages/',
+    getRooms: () => HOST + CHAT + 'rooms/',
+    deleteRoom: () => HOST + CHAT + 'room/delete/',
+    connectionSock: () => HOST + CHAT + 'ws/'
+  },
   video: {
     getSessionJoin: () => HOST + VIDEO + 'join',
-    getStrangerProfile: () => HOST + VIDEO + 'userinfo'
+    getStrangerProfile: () => HOST + VIDEO + 'userinfo',
+    userLeaveSession: () => HOST + VIDEO + 'endservice'
   }
 }
