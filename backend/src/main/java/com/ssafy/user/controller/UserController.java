@@ -129,8 +129,6 @@ public class UserController {
 		//모두 괜찮다면 회원가입 실행
 		else {
 			User user = userService.createUser(registerInfo);
-			System.out.println("@@@@@ USER ID : " + user.getUserid());
-			System.out.println("@@@@@ TOKEN : " + JwtTokenUtil.getToken(user.getUserid()));
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserid())));
 		}
 	}
@@ -145,17 +143,13 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> registerIdCheck(
 			@RequestBody @ApiParam(value = "회원가입 정보", required = true) String userid) {
-		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
-		System.out.println("@@@@@@ : " + userid);
-		//userid에 =이 함께 들어옴.
-		//=가 있다면 삭제하고, 판별해보기
+		//userid에 =이 함께 들어옴. =가 있다면 삭제하고, 판별해보기
 		userid = userid.replace("=", "");
+		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
 		if (userRepository.existsByUserid(userid)) {
-			System.out.println("ID ALREADY EXISTS!");
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "false"));
 		}
 		else{
-			System.out.println("YOU CAN USE THIS ID!");
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "true"));
 		}
 	}
@@ -187,8 +181,11 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> editPhoto(
 			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
+		User user = userService.getUserByUserId(userid);
 		//해당 유저의 프로필 사진을 삭제하기
-		userService.deletePhoto(userid);
+		if(user.getPhoto() != null){
+			userService.deletePhoto(user);
+		}
 		//해당 유저의 프로필 사진을 추가하기
 		userService.uploadPhoto(file, userid);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -294,14 +291,14 @@ public class UserController {
 //		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 //	}
 //
-//	@PostMapping("deleteprofile/")
-//	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
-//	@ApiResponses({
-//			@ApiResponse(code = 200, message = "성공"),
-//			@ApiResponse(code = 401, message = "인증 실패"),
-//			@ApiResponse(code = 404, message = "사용자 없음"),
-//			@ApiResponse(code = 500, message = "서버 오류")
-//	})
+	@PostMapping("deleteprofile/")
+	@ApiOperation(value = "회원 탈퇴", notes = "패스워드 입력을 통해 회원탈퇴를 한다.")
+	@ApiResponses({
+			@ApiResponse(code = 200, message = "성공"),
+			@ApiResponse(code = 401, message = "인증 실패"),
+			@ApiResponse(code = 404, message = "사용자 없음"),
+			@ApiResponse(code = 500, message = "서버 오류")
+	})
 
 	public ResponseEntity<? extends BaseResponseBody> delete(
 			@RequestBody @ApiParam(value = "회원탈퇴 정보", required = true) UserRemoveDeleteReq removeInfo, HttpServletRequest req) {
@@ -316,7 +313,7 @@ public class UserController {
 				// 패스워드가 일치한다면 회원탈퇴를 진행한다.
 
 				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
-				userService.deletePhoto(userId);
+				userService.deletePhoto(user);
 
 				// 그 다음으로 DB에 저장되어있는 회원 정보를 완전히 삭제한다.
 				userService.removeUser(userId);
