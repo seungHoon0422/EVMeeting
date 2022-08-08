@@ -20,4 +20,6 @@ public interface BlacklistRepository extends JpaRepository<Blacklist, Long> {
             value = "SELECT b from Blacklist b where b.userTo = ?1"
     )
     List<Blacklist> findByUserTo(@Param("userTo") String userTo);
+
+    List<Blacklist> findByUserFromAndUserTo(@Param("userFrom") String userFrom, @Param("userTo") String userTo);
 }

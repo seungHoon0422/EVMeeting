@@ -76,8 +76,6 @@ public class MeetingQueueController {
     public void endservice(@RequestBody @ApiParam(value = "접속 정보", required = true) Blacklist blacklist){
         // 대기큐에서 유저 데이터를 삭제
         meetingQueueService.deleteMatch(blacklist.getUserFrom());
-        System.out.println(blacklist.getUserFrom());
-        System.out.println(blacklist.getUserTo());
         // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리가 필요
         // 사이트를 종료할 때 post를 보내도록 구현
 
