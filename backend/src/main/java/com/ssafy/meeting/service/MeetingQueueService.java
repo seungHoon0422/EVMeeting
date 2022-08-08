@@ -20,7 +20,7 @@ public interface MeetingQueueService {
 
     MeetingQueue getCallMeetingByCategory();
 
-    void deleteMatch(MeetingQueue meetingQueue);
+    void deleteMatch(String userid);
 
     List<User> joinUserid(String userid);
 }
