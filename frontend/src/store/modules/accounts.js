@@ -68,7 +68,8 @@ export default {
           const token = res.data.accessToken
           dispatch('saveToken', token)
           dispatch('fetchCurrentUser')
-          router.push({ name: 'home' })
+          // router.replace({ name: 'home' })
+          window.location.href = '/'
         })
         .catch(err => {
           console.error(err.response.data)
@@ -167,7 +168,7 @@ export default {
         })
           .then(() => {
             dispatch('removeToken')
-            alert('성공적으로 logout!')
+            // alert('성공적으로 logout!')
             router.push({ name: 'login' })
           })
           .catch(err => {

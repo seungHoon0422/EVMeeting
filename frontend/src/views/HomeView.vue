@@ -2,7 +2,9 @@
   <div class="box">
     <div class="login-btn-position d-flex justify-content-end">
       <!-- <router-link :to="{ name: 'login' }"><button class="login-btn">로그인/회원가입</button></router-link> -->
-      <a href="/login"><button class="login-btn">로그인/회원가입</button></a>
+      <a href="/login"><button class="login-btn" v-if="!isLoggedIn">로그인/회원가입</button></a>
+      <a href="/profile"><button class="login-btn me-3" v-if="isLoggedIn">프로필</button></a>
+      <a href="/logout"><button class="login-btn" v-if="isLoggedIn">로그아웃</button></a>
     </div>
     <div class="home-text text-start">
       <p class="text-left">엘리베이터가</p>
