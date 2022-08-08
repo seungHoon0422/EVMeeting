@@ -10,7 +10,8 @@
       <a class="text-danger me-5 text-decoration-none" href="/">홈</a>
       <router-link v-if="isLoggedIn" class="text-danger me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
       <router-link v-if="!isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
-      <router-link v-if="isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
+      <router-link v-if="isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link> &nbsp;
+      <router-link v-if="isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'chatrooms' }">매칭목록</router-link>
     </div>
   </nav>
   <hr class="hr1">
