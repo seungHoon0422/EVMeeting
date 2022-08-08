@@ -5,7 +5,7 @@
         src="@/img/angle-circle-left.svg"
         alt=""
         @click="moveBack"
-        style="margin-left:-45px; margin-top: -5px;"
+        style="margin-left:-25px; margin-top: -5px;"
       />
       {{name}}님의 ChatRoom
       <img
@@ -33,20 +33,19 @@
       <div v-for="(r, idx) in room_list" :key="idx">
         <div v-if="r.alive == true">
           <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-if="userId === r.senderId1">
-            <div class="other"> {{ r.senderId2 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
-            <div v-else class="msg">{{ r.recentMessage }}</div>
+            <div class="other">{{ r.senderId2 }} <img src=""/></div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div id="rooms" class="rooms" @click="enterRoom(r.id)" v-else>
-            <div class="other">{{ r.senderId1 }}</div><div v-if="id !== r.recentMessageId" class="msg" style="color:red">{{ r.recentMessage }}</div>
+            <div class="other">{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }} <br/> {{r.recentTime}} </div><div style="margin-bottom:30px; font-size: 3px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div
-            style="float:right; margin-top:-50px; margin-right: 8px; background-color: red; border-radius: 30px;"
+            style="float:right; margin-top:-90px; margin-right: 8px; background-color: red; border-radius: 30px; height: 70px;"
           >
             <img
               v-if="isShowing"
               src="@/img/cross.svg"
               @click="deleteRoom(r.id)"
-              style="margin-right: 7px; padding-left: 7px;"
+              style="margin-right: 7px; padding-left: 7px; padding-top: 25px;"
             />
           </div>
         </div>
@@ -56,8 +55,9 @@
 </template>
 
 <script>
-import { mapGetters, mapActions, mapMutations } from 'vuex'
+import { mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
+import api from '@/api/api'
 
 export default {
   name: 'ChatList',
@@ -70,24 +70,20 @@ export default {
       userId: -1
     }
   },
-  computed: {
-    ...mapGetters(['isLoggedIn', 'currentUser', 'getFlag'])
-  },
   watch: {
     ...mapMutations(['SET_FLAG'])
   },
   created () {
     this.fetchCurrentUser()
-    this.id = this.$route.params.id
-    this.name = this.$route.params.name
-    this.userId = this.$route.params.userId
+    this.id = this.$route.query.id
+    this.name = this.$route.query.name
+    this.userId = this.$route.query.userId
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
     axios({
       method: 'get',
-      url: `/api/v1/chat/rooms/${this.id}`,
-      baseURL: 'http://localhost:8080/'
+      url: api.chat.getRooms() + `${this.id}`
     }).then(
       res => {
         console.log(res)
@@ -101,7 +97,8 @@ export default {
             recentMessageId: res.data[i].recentMessageId,
             senderId1: res.data[i].senderId1,
             senderId2: res.data[i].senderId2,
-            alive: res.data[i].alive
+            alive: res.data[i].alive,
+            recentTime: res.data[i].recentMessageTime
           }
           this.room_list.push(room)
         }
@@ -117,7 +114,7 @@ export default {
     enterRoom (id) {
       this.$router.push({
         name: 'chat',
-        params: { roomid: id, id: this.id, name: this.name, userId: this.userId }
+        query: { roomid: id, id: this.id, name: this.name, userId: this.userId }
       })
     },
     moveBack () {
@@ -125,37 +122,17 @@ export default {
         name: 'home'
       })
     },
-    createRoom () {
-      axios({
-        method: 'post',
-        url: '/api/v1/chat/room',
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' },
-        data: { userid1: 1, userid2: 2 }
-      }).then(
-        res => {
-          this.$router.push({
-            name: 'chat',
-            params: { userid1: this.userid1, userid2: this.userid2, id: this.id, senderId1: this.senderId1, senderId2: this.senderId2 }
-          })
-        },
-        err => {
-          console.log(err)
-          this.$router.push({ name: 'home' })
-        }
-      )
-    },
     deleteRoom (id) {
-      axios({
-        method: 'put',
-        url: `/api/v1/chat/room/delete/${id}`,
-        baseURL: 'http://localhost:8080/',
-        headers: { 'content-type': 'application/json' }
-      }).then(
-        res => {
-          alert('채팅을정말로나가시겠습니까?')
-        }
-      ).catch({})
+      if (confirm('정말 삭제하시겠습니까??') === true) {
+        axios.put(api.chat.deleteRoom() + `${id}`, { 'content-type': 'application/json' }
+        ).then(
+          res => {
+            this.$router.go(this.$router.currentRoute)
+          }
+        ).catch({})
+      } else {
+        return false
+      }
     },
     showdelete () {
       if (this.isShowing === false) this.isShowing = true
@@ -201,7 +178,7 @@ h3 {
   justify-content: left;
   align-items: center; */
   border: 2px #fefefe solid;
-  height: 70px;
+  height: 100px;
   max-width: 90%;
   border-radius: 10px;
   font-size: 20px;

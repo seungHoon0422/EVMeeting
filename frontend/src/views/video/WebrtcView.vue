@@ -200,7 +200,8 @@ import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
-const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
+// const OPENVIDU_SERVER_URL = 'https://' + location.hostname + ':4443'
+const OPENVIDU_SERVER_URL = 'https://' + 'i7a708.p.ssafy.io' + ':4443'
 const OPENVIDU_SERVER_SECRET = 'MY_SECRET'
 export default {
   components: {
@@ -562,16 +563,14 @@ export default {
     createRoom () {
       console.log('WeAreHereeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeeee')
       console.log(this.currentUser.id)
-      console.log(this.strangerName)
+      console.log(this.strangerId)
       axios({
         method: 'post',
-        url: '/api/v1/chat/room',
-        baseURL: 'http://localhost:8080/',
+        url: api.chat.createRoom(),
         headers: { 'content-type': 'application/json' },
-        // userid 1 - > 자기 , 2 -> 상대방
-        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id }
+        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id, alive: true }
       }).then(
-        res => {},
+        res => { alert('Matching Success!!') },
         err => {
           console.log(err)
           this.$router.push({ name: 'home' })
