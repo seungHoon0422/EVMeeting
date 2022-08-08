@@ -1,6 +1,6 @@
 <template>
 <div v-if="streamManager">
-<div id="UserVideo">
+<div class="userVideoContainer mx-3" id="UserVideo">
   <ov-video :stream-manager="streamManager"/>
 </div>
 <div><p>{{ clientData }}</p></div>
@@ -38,4 +38,11 @@ export default {
 </script>
 
 <style>
+.userVideoContainer {
+  position: relative;
+  display: block;
+  width : 50%;
+  height : 50%;
+}
+
 </style>
