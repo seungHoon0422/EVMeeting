@@ -33,10 +33,10 @@
       <div v-for="(r, idx) in room_list" :key="idx">
         <div v-if="r.alive == true">
           <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo2)" v-if="userId === r.senderId1">
-            <div class="other"><img src="${r.photo2}"/>{{ r.senderId2 }} <img src=""/></div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
+            <div class="other"><div class="box"><img class="photo" :src=r.photo2 /></div>{{ r.senderId2 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo1)" v-else>
-            <div class="other"><img src="${r.photo1}"/>{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
+            <div class="other"><div class="box"><img class="photo" :src=r.photo1 /></div>{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div
             style="float:right; margin-top:-90px; margin-right: 8px; background-color: red; border-radius: 30px; height: 70px;"
@@ -67,7 +67,8 @@ export default {
       name: '',
       room_list: [1, 2, 3],
       isShowing: false,
-      userId: -1
+      userId: -1,
+      photo: null
     }
   },
   watch: {
@@ -198,12 +199,25 @@ h3 {
   display: block;
   flex-direction: row;
   justify-content: right;
-  margin-top: -10px;
+  margin-top: -50px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-left: 280px;
   width: 150px;
   height: 40px;
+}
+.box{
+  width: 70px;
+  height: 70px;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: white;
+  margin-right: 5px;
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

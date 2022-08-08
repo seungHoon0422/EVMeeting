@@ -21,7 +21,7 @@
                 <p class="chat__mymessage__paragraph">{{ m.content }}</p>
               </div>
               <div v-else class="chat__yourmessage">
-                <img src="${this.photo}"/>
+                <img :src=this.photo />
                 <h5 class="chat__yourmessage__user" style="margin:3px">
                   {{ m.userId }}
                 </h5>
@@ -115,7 +115,7 @@ export default {
     this.roomid = this.$route.query.roomid
     this.name = this.$route.query.name
     this.userId = this.$route.query.userId
-    this.photo = this.$route.query.phodo
+    this.photo = this.$route.query.photo
     // 대화 불러오기
     axios.get(api.chat.getMessage() + `${this.roomid}`).then(
       res => {
