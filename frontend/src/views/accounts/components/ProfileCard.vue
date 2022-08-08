@@ -3,7 +3,7 @@
     <div class="box">
       <!-- <h1 class="font-style">profileCard</h1> -->
       <div class="img-box1">
-        <img :src="currentUser.photo" alt="..">
+        <img :src="currentUser.photo" alt="사진을 등록해주세요">
       </div>
       <table class="table">
         <thead>

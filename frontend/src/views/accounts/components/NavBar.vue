@@ -1,12 +1,13 @@
 <template>
 <div class="nav-box">
   <nav class="d-flex justify-content-between pb-0 font-normal">
-    <router-link class="text-danger text-decoration-none" :to="{ name: 'home' }">
+    <a class="text-danger me-5 text-decoration-none" href="/">
       <p class="mb-0"><span class="font-head">엘</span>리베이터에서 우린</p>
       <p class="mb-0 text-start"><span class="font-head">사</span>랑을 나누지</p>
-    </router-link>
+    </a>
     <div class="nav-padding">
-      <router-link class="text-danger me-5 text-decoration-none" :to="{ name: 'home' }">홈</router-link>
+      <!-- <router-link class="text-danger me-5 text-decoration-none" :to="{ name: 'home' }">홈</router-link> -->
+      <a class="text-danger me-5 text-decoration-none" href="/">홈</a>
       <router-link v-if="isLoggedIn" class="text-danger me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
       <router-link v-if="!isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
       <router-link v-if="isLoggedIn" class="text-danger text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
