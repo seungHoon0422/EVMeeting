@@ -18,7 +18,7 @@
 import { mapGetters } from 'vuex'
 import api from '@/api/api'
 import axios from 'axios'
-import router from '@/router'
+// import router from '@/router'
 
 export default {
   name: 'UploadPhotoView',
@@ -50,7 +50,8 @@ export default {
       })
         .then(res => {
           console.log(res)
-          router.push({ name: 'home' })
+          window.location.href = '/'
+          // router.push({ name: 'home' })
         })
         .catch(err => console.log(err))
     }

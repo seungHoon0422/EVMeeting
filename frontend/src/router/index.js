@@ -1,3 +1,4 @@
+import store from '@/store'
 import Vue from 'vue'
 import VueRouter from 'vue-router'
 import HomeView from '../views/HomeView.vue'
@@ -110,6 +111,35 @@ const router = new VueRouter({
   mode: 'history',
   base: process.env.BASE_URL,
   routes
+})
+
+router.beforeEach((to, from, next) => {
+  // 엘레베이터 타러 가기 전에 로그인 해야함.
+  const { isLoggedIn } = store.getters
+
+  const authPages = ['cam']
+
+  const isAuthRequired = authPages.includes(to.name)
+
+  if (isAuthRequired && !isLoggedIn) {
+    // next({ name: 'login' })
+    window.location.href = '/login'
+  } else {
+    next()
+  }
+
+  // const { currentUser } = store.getters
+
+  // const photoPages = ['upload']
+
+  // const isPhotoRequired = photoPages.includes(from.name)
+
+  // if (isPhotoRequired && currentUser.photo === null) {
+  //   alert('사진을 등록해주세요!')
+  //   next({ name: 'upload' })
+  // } else {
+  //   next()
+  // }
 })
 
 export default router

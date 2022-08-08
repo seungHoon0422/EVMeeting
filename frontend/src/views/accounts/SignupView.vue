@@ -198,8 +198,12 @@ export default {
       } this.valid.usernameHasError = false
     },
     checkUserid () {
-      const validateUserid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,12}$/
-      if (!validateUserid.test(this.credentials.userid) || !this.credentials.userid) {
+      // const validateUserid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,12}$/
+      const validateUserid = /^[a-zA-Z0-9].{3,12}$/
+      const checkExclude = /^[a-zA-Z0-9]+/
+      const Userid = this.credentials.userid
+      // console.log((this.credentials.userid).match(checkExclude), this.credentials.userid.length, (this.credentials.userid).match(checkExclude)[0].length)
+      if (!validateUserid.test(Userid) || !Userid || Userid.length !== Userid.match(checkExclude)[0].length) {
         this.valid.useridHasError = true
         return
       } this.valid.useridHasError = false
