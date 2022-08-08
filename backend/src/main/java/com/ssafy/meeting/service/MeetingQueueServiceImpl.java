@@ -20,6 +20,10 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
     public MeetingQueue getCallMeetingByCategory() {
         List<MeetingQueue> list = meetingQueueRepository.findAll(); // 미팅큐에 대기중인 유저가 있는지 확인
         // 미팅큐 리스트를 쿼리문으로 조회할 때 필터링을 추가하면 된다
+        // 블랙리스트 조회 필터링
+
+
+
         if(list.isEmpty()){
             return null;
         }
@@ -31,8 +35,8 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
         }
     }
     @Override
-    public void deleteMatch(MeetingQueue meetingQueue) {
-        meetingQueueRepository.delete(meetingQueue);
+    public void deleteMatch(String userid) {
+        meetingQueueRepository.deleteByUserid(userid);
     }
     @Override
     public List<User> joinUserid(String userid){

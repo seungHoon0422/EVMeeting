@@ -1,8 +1,7 @@
 <template>
   <div>
-    <h2>stranger : {{strangerName}}</h2>
-    <h4>{{strangerProfile}}</h4>
-    <h1>{{strangerId}}</h1>
+    <h2>stranger : {{strangerNickname}}</h2>
+    <img :src="`${strangerProfile}`">
   </div>
 </template>
 
@@ -23,7 +22,9 @@ export default {
     return {
       strangerName: this.stranger.split('"')[3],
       strangerProfile: '',
-      strangerId: ''
+      strangerId: '',
+      strangerNickname: '',
+      strangerUserId: ''
     }
   },
   methods: {
@@ -31,8 +32,11 @@ export default {
       axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
         console.log(res)
         this.strangerId = res.data.id
+        this.strangerUserId = res.data.userid
+        this.strangerNickname = res.data.username
         this.$emit('sendStarngerId', this.strangerId)
-        this.strangerProfile = res.data.height
+        this.$emit('sendStrangerObject', this.strangerUserId)
+        this.strangerProfile = res.data.photo
       }).catch(err => {
         console.log(err)
       })
