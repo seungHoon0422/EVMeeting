@@ -32,7 +32,7 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
     }
     @Override
     public void deleteMatch(MeetingQueue meetingQueue) {
-        meetingQueueRepository.delete(meetingQueue);
+        meetingQueueRepository.deleteByUserid(meetingQueue.getUserid());
     }
     @Override
     public List<User> joinUserid(String userid){
