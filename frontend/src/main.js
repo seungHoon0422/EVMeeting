@@ -7,7 +7,10 @@ import store from './store'
 import BootstrapVue from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
+import 'animate.css'
+import anime from 'animejs/lib/anime.es.js'
 
+Vue.prototype.$anime = anime
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false
 

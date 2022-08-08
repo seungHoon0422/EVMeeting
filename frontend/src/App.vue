@@ -1,7 +1,13 @@
 <template id="back">
   <div id="app">
     <nav-bar v-if="!isChecked"></nav-bar>
-    <router-view/>
+    <transition
+      mode="ont-in"
+      enter-active-class="animate__animated animate__fadeIn"
+      leave-active-class="animate__animated animate__fadeOut"
+    >
+      <router-view/>
+    </transition>
   </div>
 </template>
 

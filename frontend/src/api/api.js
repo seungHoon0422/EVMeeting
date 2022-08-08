@@ -1,5 +1,5 @@
-// const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
-const HOST = 'https://localhost:8080/api/v1/'
+const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
+// const HOST = 'https://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 const CHAT = 'chat/'
@@ -31,6 +31,7 @@ export default {
   },
   video: {
     getSessionJoin: () => HOST + VIDEO + 'join',
-    getStrangerProfile: () => HOST + VIDEO + 'userinfo'
+    getStrangerProfile: () => HOST + VIDEO + 'userinfo',
+    userLeaveSession: () => HOST + VIDEO + 'endservice'
   }
 }
