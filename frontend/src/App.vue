@@ -2,7 +2,7 @@
   <div id="app">
     <nav-bar v-if="!isChecked"></nav-bar>
     <transition
-      mode="ont-in"
+      mode="out-in"
       enter-active-class="animate__animated animate__fadeIn"
       leave-active-class="animate__animated animate__fadeOut"
     >
@@ -26,8 +26,7 @@ export default {
   created () {
     if (document.location.pathname === '/') {
       this.isChecked = true
-    } else {
-      this.isChecked = false
+      console.log('ische:', this.isChecked)
     }
   }
 }
@@ -40,8 +39,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #FFFFEA;
+  /* background-color: white; */
   height: 1200px;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);
+  background-repeat : no-repeat;
+  background-size : cover;
+  background-attachment: fixed;
 }
 
 nav {

@@ -11,7 +11,7 @@
           <div class="ms-3">
             <div class="d-flex justify-content-end">
               <label for="userid" class="me-3 pt-3">아이디</label>
-              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3" type="text" required disabled>
+              <input id="userid" v-model="credentials.userid" class="input-color rounded length height p-3 disabled" type="text" required disabled>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="height" class="me-3 pt-3">키</label>
@@ -47,7 +47,7 @@
           <div class="me-5">
             <div class="d-flex justify-content-end">
               <label for="username" class="me-3 pt-3">닉네임</label>
-              <input id="username" v-model="credentials.username" class="input-color rounded length height p-3" type="text" :placeholder="currentUser.username">
+              <input id="username" v-model="credentials.username" class="input-color rounded length height p-3 disabled" type="text" :placeholder="currentUser.username" disabled>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="mbti" class="me-3 pt-3">MBTI</label>
@@ -154,22 +154,23 @@ export default {
 }
 
 .signup-form {
-  color: #F88F6D;
-  background-color: #FFFFEA;
-  border-color: #F88F6D;
+  color: #FAFAFA;
+  background-color: rgba(0,0,0,0.4);
+  border-color: #FAFAFA;
   border: solid 5px;
   border-radius: 20px;
   width: 800px;
 }
 
 .btn {
-  color: white;
-  background-color: #F88F6D;
+  color: #FAFAFA;
+  border: 2px solid #FAFAFA;
+  background-color: transparent;
 }
 
 .input-color {
-  border: solid 3px #F88F6D;
-  background-color: #FFFFEA;
+  border: solid 3px #FAFAFA;
+  background-color: transparent;
 }
 
 .self-margin {
@@ -177,8 +178,8 @@ export default {
 }
 
 select {
-  border: 3px solid #F88F6D;
-  background-color: #FFFFEA;
+  border: 3px solid #FAFAFA;
+  background-color: transparent;
   font-size: 14px;
   padding: 0 10px;
 }
@@ -189,6 +190,20 @@ input[type='date']::before {
 }
 
 input, textarea, select {
+  color: #FAFAFA;
   outline-color: yellowgreen;
+}
+
+option {
+  background-color: rgba(0,0,0,0.4);
+}
+
+.disabled {
+  background-color: black;
+}
+
+button:hover {
+  color: gray;
+  background-color: #FAFAFA;
 }
 </style>
