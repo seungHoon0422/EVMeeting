@@ -1,7 +1,9 @@
 package com.ssafy.user.db.repository;
 
 import com.ssafy.user.db.entity.User;
+import org.kurento.client.internal.server.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
+import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
 
 import java.util.List;
@@ -18,4 +20,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     boolean existsByUserid(String userid);
     @Override
     List<User> findAll();
+
+    @Query("SELECT COUNT(*) FROM User as u WHERE u.gender = :gender")
+    int countUserByMale(@Param("gender") String gender);
 }

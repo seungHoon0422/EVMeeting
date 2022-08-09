@@ -1,5 +1,6 @@
 package com.ssafy.statistics.service;
 
+import com.ssafy.statistics.model.GenderDto;
 import com.ssafy.statistics.model.MBTIDto;
 import com.ssafy.user.db.entity.User;
 import com.ssafy.user.db.repository.UserRepository;
@@ -51,5 +52,19 @@ public class StatisticsService {
         return Math.round(((double) count / totalCount) * 100);
     }
 
+    public GenderDto totalGenderStatistics() {
 
+        GenderDto genderDto = new GenderDto();
+        int maleCount = userRepository.countUserByMale("Male");
+        int femaleCount = userRepository.countUserByMale("Female");
+        int totalCount = maleCount + femaleCount;
+        genderDto.setTotalCount(totalCount);
+        genderDto.setMaleCount(maleCount);
+        genderDto.setFemaleCount(femaleCount);
+        genderDto.setMalePercent(calcPercent(maleCount, totalCount));
+        genderDto.setFemalePercent(calcPercent(femaleCount, totalCount));
+        System.out.println("genderDto = " + genderDto);
+
+        return genderDto;
+    }
 }
