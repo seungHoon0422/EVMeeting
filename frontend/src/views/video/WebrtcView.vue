@@ -91,10 +91,8 @@
   <div id="session" v-if="session">
     <!-- 세션 1 => 상대방 프로필 확인 -->
     <div id="session_1" v-if="sessionLevel===1">
-      <h1>Hi I'm session_1</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <button @click="sessionLevelPlus">levelUp</button>
-      <h1> 안녕하세요 ! {{currentUser.username}} 님</h1>
+      <h1 style="font-weight:bold;"> 안녕하세요 ! {{currentUser.username}} 님</h1>
       <div class="container">
         <div>
           <div v-if="currentUserCount==0">
@@ -104,8 +102,6 @@
             <h3>대기중..</h3>
           </div>
           <div v-else>
-            <oneby-one ref="elevatorOpen">
-            </oneby-one>
             <!-- 상대방의 호감 표시 확인 -->
             <div v-if="this.levelOneCount === 0">
               <i class='bx bxs-heart' style="font-size:  50px;"></i>
@@ -113,9 +109,12 @@
             <div v-else-if="this.levelOneCount === 1">
               <i class='bx bxs-heart' style="font-size: 50px; color: red;"></i>
             </div>
+            <oneby-one ref="elevatorOpen">
+            </oneby-one>
           </div>
         </div>
-        <div class="container d-flex justify-content-center align-items-center">
+        <h1>{{this.strangerNickname}}</h1>
+        <div class="d-flex justify-content-center" id="elevatorButton">
           <!-- 상대방이 마음에 든다는 신호 -->
           <like-you
           :levelOneCount="levelOneCount"
@@ -128,7 +127,6 @@
             <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
           </button>
         </div>
-        <h1>{{this.strangerNickname}}</h1>
         <!-- 상대방의 프로필이 보여야 함 -->
         <!-- <button @click="showProfilePicture">Show</button> -->
         <div id="profile-container" class="container">

@@ -2,7 +2,7 @@
   <div>
     <!-- <h2>stranger : {{strangerNickname}}</h2> -->
     <div class="container">
-      <div class="position-relative" style="bottom: 500px; left: 8px; fixed">
+      <div class="position-relative" style="bottom: 550px; left: 8px;">
         <img :src="`${strangerProfile}`" style="width: 400px; height: 300px;">
       </div>
     </div>
