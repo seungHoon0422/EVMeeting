@@ -98,9 +98,14 @@
       <div class="container">
         <div>
           <div v-if="currentUserCount==0">
+            <oneby-one
+            ref="elevatorOpen"
+            ></oneby-one>
             <h3>대기중..</h3>
           </div>
           <div v-else>
+            <oneby-one ref="elevatorOpen">
+            </oneby-one>
             <!-- 상대방의 호감 표시 확인 -->
             <div v-if="this.levelOneCount === 0">
               <i class='bx bxs-heart' style="font-size:  50px;"></i>
@@ -110,21 +115,7 @@
             </div>
           </div>
         </div>
-        <!-- 상대방의 프로필이 보여야 함 -->
-        <!-- <button @click="showProfilePicture">Show</button> -->
-        <div id="profile-container" class="container">
-          <div>
-            <user-profile v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-            :stranger="sub.stream.connection.data"
-            :currentUser ="currentUser"
-            @click.native="updateMainVideoStreamManager(sub)"
-            @sendStarngerId="sendStarngerId"
-            @sendStrangerObject="sendStrangerObject">
-            </user-profile>
-          </div>
-        </div>
-        <div>
+        <div class="container d-flex justify-content-center align-items-center">
           <!-- 상대방이 마음에 든다는 신호 -->
           <like-you
           :levelOneCount="levelOneCount"
@@ -136,6 +127,22 @@
           <button id="buttonIcon" @click="leaveSession">
             <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
           </button>
+        </div>
+        <h1>{{this.strangerNickname}}</h1>
+        <!-- 상대방의 프로필이 보여야 함 -->
+        <!-- <button @click="showProfilePicture">Show</button> -->
+        <div id="profile-container" class="container">
+          <div>
+            <user-profile v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stranger="sub.stream.connection.data"
+            :currentUser ="currentUser"
+            @click.native="updateMainVideoStreamManager(sub)"
+            @sendStarngerId="sendStarngerId"
+            @sendStrangerObject="sendStrangerObject"
+            @sendStrangerNickname="sendStrangerNickname">
+            </user-profile>
+          </div>
         </div>
       </div>
 
@@ -274,6 +281,7 @@ import RandomQuestion from '@/views/video/components/RandomQuestion'
 import ChatView from '@/views/chat/ChatInMeeting'
 import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
+import OnebyOne from '@/views/video/animation/OnebyOne'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -292,7 +300,8 @@ export default {
     ElevatorAnimation,
     ElevatorInfinity,
     RandomButton,
-    RandomQuestion
+    RandomQuestion,
+    OnebyOne
   },
   data () {
     return {
@@ -325,7 +334,8 @@ export default {
       id: 1,
       canLeaveSite: true,
       randomSubject: '',
-      randomValue: 0
+      randomValue: 0,
+      strangerNickname: ''
     }
   },
   methods: {
@@ -360,6 +370,7 @@ export default {
       this.animationFlag = false
       this.randomSubject = ''
       this.randomValue = 13
+      this.strangerNickname = ''
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -664,6 +675,9 @@ export default {
     sendStrangerObject (data) {
       this.strangerObject = data
     },
+    sendStrangerNickname (data) {
+      this.strangerNickname = data
+    },
     subject (data) {
       this.randomSubject = data
     },
@@ -687,7 +701,7 @@ export default {
     playAnimation () {
       this.animationFlag = true
       setTimeout(() => {
-        // this.getSession()
+        this.getSession()
       }, 2000)
     }
     // Really? leave?
@@ -802,7 +816,12 @@ export default {
     currentUserCount () {
       if (this.currentUserCount === 0) {
         this.strangerLeaveFlag = true
+      } else {
+        this.$refs.elevatorOpen.meetStranger()
       }
+      // if (this.currentUserCount === 1) {
+      //   this.$refs.elevatorOpen.meetStranger()
+      // }
     },
     strangerLeaveFlag () {
       if (this.strangerLeaveFlag === true) {

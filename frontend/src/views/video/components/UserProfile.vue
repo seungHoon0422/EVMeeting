@@ -1,7 +1,11 @@
 <template>
   <div>
-    <h2>stranger : {{strangerNickname}}</h2>
-    <img :src="`${strangerProfile}`">
+    <!-- <h2>stranger : {{strangerNickname}}</h2> -->
+    <div class="container">
+      <div class="position-relative" style="bottom: 500px; left: 8px; fixed">
+        <img :src="`${strangerProfile}`" style="width: 400px; height: 300px;">
+      </div>
+    </div>
   </div>
 </template>
 
@@ -29,17 +33,20 @@ export default {
   },
   methods: {
     getProfile () {
-      axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
-        console.log(res)
-        this.strangerId = res.data.id
-        this.strangerUserId = res.data.userid
-        this.strangerNickname = res.data.username
-        this.$emit('sendStarngerId', this.strangerId)
-        this.$emit('sendStrangerObject', this.strangerUserId)
-        this.strangerProfile = res.data.photo
-      }).catch(err => {
-        console.log(err)
-      })
+      setTimeout(() => {
+        axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
+          console.log(res)
+          this.strangerId = res.data.id
+          this.strangerUserId = res.data.userid
+          this.strangerNickname = res.data.username
+          this.$emit('sendStarngerId', this.strangerId)
+          this.$emit('sendStrangerObject', this.strangerUserId)
+          this.$emit('sendStrangerNickname', this.strangerNickname)
+          this.strangerProfile = res.data.photo
+        }).catch(err => {
+          console.log(err)
+        })
+      }, 1000)
     }
   },
   mounted () {
@@ -47,3 +54,10 @@ export default {
   }
 }
 </script>
+
+<style>
+img {
+  max-width: 100%;
+  height: auto !important;
+}
+</style>
