@@ -32,16 +32,6 @@ public class EmailServiceImpl implements EmailService {
         sendMail(user, emailSubject, emailContents);
     }
 
-//    @Override
-//    public void sendRegisterValidMail(User user, String tempCode) {
-//        String emailSubject = "[엘리베이터 안에서 우린 사랑을 나누지] 회원가입을 위한 이메일 인증코드입니다.";
-//        String emailContents = "안녕하세요, 엘리베이터 안에서 우린 사랑을 나누지입니다.\n" +
-//                "작성하신 이메일 주소로 6자리 인증코드를 보내드립니다.\n" +
-//                "아래의 6자리 인증코드를 입력하여 회원가입 절차를 마저 진행해주시기 바랍니다.\n\n" +
-//                "6자리 인증코드 : " + tempCode;
-//        sendMail(user, emailSubject, emailContents);
-//    }
-
     @Override
     public void sendMail(User user, String emailSubject, String emailContents) {
         try {
@@ -67,13 +57,6 @@ public class EmailServiceImpl implements EmailService {
             msg.setSubject(emailSubject, "utf-8");
             // 이메일 본문 (인코딩을 해야 한글이 깨지지 않음)
             msg.setText(emailContents, "utf-8");
-
-//            html로 보낼 경우
-//            MimeMessage message = mailSender.createMimeMessage();
-//            MimeMessageHelper helper
-//            = new MimeMessageHelper(message, true);
-//            helper.setTo("test@host.com");
-//            helper.setText("<html><body><img src='cid:identifier1234'></body></html>", true);
 
             // 이메일 보내기
             mailSender.send(msg);
