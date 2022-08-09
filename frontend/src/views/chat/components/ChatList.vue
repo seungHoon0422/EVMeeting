@@ -29,7 +29,7 @@
     <div v-if="room_list.length == 0">
       방 없다
     </div>
-    <div class="roomList" v-else-if="room_list.length > 0">
+    <div class="roomList" id="roomList" v-else-if="room_list.length">
       <div v-for="(r, idx) in room_list" :key="idx">
         <div v-if="r.alive == true">
           <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo2)" v-if="userId === r.senderId1">
@@ -39,13 +39,13 @@
             <div class="other"><div class="box"><img class="photo" :src=r.photo1 /></div>{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div
-            style="float:right; margin-top:-90px; margin-right: 8px; background-color: red; border-radius: 30px; height: 70px;"
+            style="float:right; margin-top:-75px; margin-right: 8px; background-color: red; border-radius: 30px; height: 60px;"
           >
             <img
               v-if="isShowing"
               src="@/img/cross.svg"
               @click="deleteRoom(r.id)"
-              style="margin-right: 7px; padding-left: 7px; padding-top: 25px;"
+              style="margin-right: 7px; padding-left: 7px; padding-top: 20px;"
             />
           </div>
         </div>
@@ -58,6 +58,8 @@
 import { mapActions, mapMutations } from 'vuex'
 import axios from 'axios'
 import api from '@/api/api'
+let preDiffHeight = 0
+let bottomFlag = true
 
 export default {
   name: 'ChatList',
@@ -73,6 +75,12 @@ export default {
   },
   watch: {
     ...mapMutations(['SET_FLAG'])
+  },
+  updated () {
+    const objDiv = document.getElementById('roomList')
+    if (bottomFlag) {
+      objDiv.scrollTop = objDiv.scrollHeight
+    }
   },
   created () {
     this.fetchCurrentUser()
@@ -140,6 +148,18 @@ export default {
     showdelete () {
       if (this.isShowing === false) this.isShowing = true
       else this.isShowing = false
+    },
+    chat_on_scroll () {
+      document.getElementById('roomList').scrollTop(0)
+      const objDiv = document.getElementById('roomList')
+
+      if (objDiv.scrollTop + objDiv.clientHeight === objDiv.scrollHeight) {
+        bottomFlag = true
+      }
+      if (preDiffHeight > objDiv.scrollTop + objDiv.clientHeight) {
+        bottomFlag = false
+      }
+      preDiffHeight = objDiv.scrollTop + objDiv.clientHeight
     }
   }
 }
@@ -152,6 +172,16 @@ export default {
   margin: 5rem auto 0rem;
   border-radius: 1.5rem;
   box-shadow: 0px 1px 20px #9c9cc855;
+}
+.roomList {
+  overflow: scroll;
+  scroll-behavior: smooth;
+  display:flex;
+  flex-direction: column;
+  height: 90%;
+}
+.roomList::-webkit-scrollbar {
+  display: none;
 }
 .title {
   padding-top: 5px;
@@ -181,7 +211,7 @@ h3 {
   justify-content: left;
   align-items: center; */
   border: 2px #fefefe solid;
-  height: 100px;
+  height: 80px;
   max-width: 90%;
   border-radius: 10px;
   font-size: 20px;
@@ -199,7 +229,7 @@ h3 {
   display: block;
   flex-direction: row;
   justify-content: right;
-  margin-top: -50px;
+  margin-top: -60px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
@@ -214,6 +244,7 @@ h3 {
   overflow: hidden;
   background-color: white;
   margin-right: 5px;
+  margin-top:-10px;
 }
 .photo {
   width: 100%;

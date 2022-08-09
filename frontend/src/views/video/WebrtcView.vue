@@ -715,11 +715,11 @@ export default {
         this.tenseconds = 600
       }
     },
-    tenseconds () {
-      if (this.sessionLevel === 3 && this.tenseconds === 1) {
-        this.createRoom()
-      }
-    },
+    // tenseconds () {
+    //   if (this.sessionLevel === 3 && this.tenseconds === 1) {
+    //     this.createRoom()
+    //   }
+    // },
     currentUserCount () {
       if (this.currentUserCount === 0) {
         this.strangerLeaveFlag = true
