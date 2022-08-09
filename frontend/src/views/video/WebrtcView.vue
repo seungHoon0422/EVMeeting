@@ -2,51 +2,87 @@
 <div id="main-container" class="container">
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
-      <div class="">
-        <div class="container">
-          <h4>엘리베이터 호출 하기</h4>
+      <div class="container">
+        <div class="container my-5">
           <h1>안녕하세요 ! {{currentUser.username}} 님</h1>
-          <div class="form-group my-5">
-            <img :src="`${currentUser.photo}`" id="myProfile">
-          </div>
-          <div class="d-flex justify-content-center">
-            <div class="d-flex justify-content-center">
-              <div class="d-flex justify-content-right">
-                  <button id="buttonIcon" @click="playAnimation">
-                    <i class="fa-solid fa-elevator fa-3x"></i>
-                  </button>
-              </div>
+          <div class="d-flex justify-content-center my-5 align-items-center">
+            <!-- 유저 프로필 부분 -->
+            <div class="form-group my-5 mx-5">
               <div>
+                <img :src="`${currentUser.photo}`" id="myProfile" style="border : 5px solid #B9729E;">
+              </div>
+            </div>
+            <!-- How To Use -->
+            <div class="d-flex justify-content-center">
+              <div class="d-flex justify-content-center">
+                <!-- <div class="align-items-center">
+                    <button id="buttonIcon" @click="playAnimation">
+                      <i class="fa-solid fa-elevator fa-3x" style="margin-top: 100px"></i>
+                    </button>
+                </div> -->
                 <!-- 엘리베이터 애니메이션 -->
-                <div class="container" id="elevatorAnimation" style="width: 300px; height: 300px">
-                  <elevator-animation v-if="animationFlag===true"></elevator-animation>
-                  <div v-else>
-                    <div class="container">
-                      <ul>
-                        <h3>How to Use</h3>
-                        <li>1 단계 : 상대방의 프로필을 확인하세요!</li>
-                        <ul>
-                          <li> 마음에 들면 열림 버튼을 눌러주세요. </li>
-                        </ul>
-                        <li>2 단계 : 얼굴을 마주하고 판단해요 </li>
-                        <ul>
-                          <li> 10 초 동안 상대방의 얼굴을 마주보고 </li>
-                          <li> 마음에 들면 정보를 확인하세요 </li>
-                        </ul>
-                        <li>
-                          3 단계: 상대방과 자유롭게 대화 하세요
-                        </li>
-                      </ul>
+                <div>
+                  <div class="container d-flex justify-content-center align-items-center" id="elevatorAnimation">
+                    <div class="container d-flex justify-content-center align-items-center" v-if="animationFlag===true" style="width: 550px; height: 650px">
+                      <div class="container justify-content-center align-items-center">
+                        <elevator-animation></elevator-animation>
+                      </div>
+                    </div>
+                    <div v-else>
+                      <div class="container">
+                        <div class="container d-flex justify-content-around align-items-center">
+                          <div>
+                            <elevator-infinity style="width: 200px; height: 125px"></elevator-infinity>
+                          </div>
+                          <div class="mx-5">
+                            <span class="align-middle">
+                              <h4 style="font-weight:bold;">엘리베이터에 탑승하세요</h4>
+                              <div class="d-flex mt-3">
+                                <h6>상대가 마음에 들면</h6>
+                                <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 20px; color : blue;"></i>
+                              </div>
+                              <div class="d-flex my-2">
+                              <h6>마음에 들지 않으면</h6>
+                              <i class='bx bxs-chevron-down-circle mx-2' style="font-size: 20px; color: red;" ></i>
+                              </div>
+                            </span>
+                          </div>
+                        </div>
+                        <hr>
+                        <div class="container d-flex justify-content-around align-items-center">
+                          <div>
+                            <span class="align-middle">
+                              <h4 style="font-weight:bold;">10초 동안 고민하세요 !</h4>
+                                <div class="d-flex mt-3">
+                                  <h6>상대의 얼굴 과 프로필을 확인하고</h6>
+                                </div>
+                                <div class="d-flex">
+                                  <h6>고민 해보세요</h6>
+                                </div>
+                            </span>
+                          </div>
+                          <img src="@/img/thinkingImage.png" style="width: 200px; height: 200px">
+                        </div>
+                        <hr>
+                        <div class="container align-items-center">
+                          <div class="mt-3">
+                            <span class="align-middle">
+                              <h4 style="font-weight: bold;"> 엘리베이터를 호출 해보세요! </h4>
+                            </span>
+                          </div>
+                          <div>
+                            <button id="buttonIcon" @click="playAnimation">
+                              <i class="fa-solid fa-elevator fa-3x my-2"></i>
+                            </button>
+                          </div>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-        <!-- 엘리베이터 같은 느낌 테스트 -->
-        <div class="container my-5" id="elevatorLobby" style="background-color: black;">
-          <h1>Hello</h1>
         </div>
       </div>
     </div>
@@ -237,6 +273,7 @@ import RandomButton from '@/views/video/components/RandomButton'
 import RandomQuestion from '@/views/video/components/RandomQuestion'
 import ChatView from '@/views/chat/ChatInMeeting'
 import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
+import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -253,6 +290,7 @@ export default {
     StrangerProfile,
     ChatView,
     ElevatorAnimation,
+    ElevatorInfinity,
     RandomButton,
     RandomQuestion
   },
@@ -649,7 +687,7 @@ export default {
     playAnimation () {
       this.animationFlag = true
       setTimeout(() => {
-        this.getSession()
+        // this.getSession()
       }, 2000)
     }
     // Really? leave?
@@ -777,8 +815,8 @@ export default {
 
 <style>
 #myProfile{
-  width: 400px;
-  height: 300px;
+  width: 250px;
+  height: 200px;
 }
 
 #buttonIcon{
