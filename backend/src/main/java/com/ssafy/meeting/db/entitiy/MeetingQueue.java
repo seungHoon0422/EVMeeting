@@ -17,7 +17,7 @@ public class MeetingQueue {
     @Column(length = 255)
     String userid;
 //    @OneToOne
-//    @JoinColumn(name = "userid")
+//    @JoinColumn(name = "userid") // 
 //    User user;
     @Column(length = 10)
     String gender; // M, F로 구분

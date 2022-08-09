@@ -30,17 +30,16 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
         List<Blacklist> blist2 = blacklistRepository.findByUserTo(meetingQueue.getUserid()); // userTo 컬럼 기준으로 검색
         
         // list와 blist1 탐색, list와 blist2 탐색해서 블랙리스트에 존재하는 컬럼은 삭제해준다
-        for(int i=0; i<blist1.size(); i++){
+        for(int i=0; i<blist1.size(); i++){ // blacklist userFrom 조회
             for(int j=list.size()-1; j>=0; j--){
                 if(list.get(j).getUserid().equals(blist1.get(i).getUserTo())) list.remove(j);
             }
         }
-        for(int i=0; i<blist2.size(); i++){
+        for(int i=0; i<blist2.size(); i++){ // blacklist userTo 조회
             for(int j=list.size()-1; j>=0; j--){
                 if(list.get(j).getUserid().equals(blist2.get(i).getUserFrom())) list.remove(j);
             }
         }
-
         if(list.isEmpty()){
             return null;
         }
