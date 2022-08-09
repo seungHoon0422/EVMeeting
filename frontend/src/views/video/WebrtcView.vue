@@ -127,8 +127,6 @@
             </b-progress-bar>
           </b-progress>
           </div>
-        <h1>profile open count : {{profileopencount}}</h1>
-        <h1>countTogether : {{countTogether}}</h1>
         <adding-profile
           @profileOnOff="profileOnOff"
           :profileopencount="profileopencount"
@@ -185,6 +183,20 @@
       <h1>세션 ID : {{this.mySessionId}}</h1>
       <h1> MBTI : {{currentUser.mbti}}</h1>
       <h1>남은 시간 : {{tenseconds}}</h1>
+      <!-- 랜덤 질문 출력 부분 -->
+      <div>
+        <random-button
+        :session="session"
+        :tenseconds="tenseconds">
+        </random-button>
+      </div>
+      <div>
+        <random-question
+        ref="qustionRequest"
+        @subject="subject"
+        >
+        </random-question>
+      </div>
       <!-- 비디오 출력 부분  -->
       <div id="video-container" class="container">
         <div class="d-flex">
@@ -221,6 +233,8 @@ import UserProfile from '@/views/video/components/UserProfile'
 import VideoBottom from '@/views/video/components/VideoBottom'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
+import RandomButton from '@/views/video/components/RandomButton'
+import RandomQuestion from '@/views/video/components/RandomQuestion'
 import ChatView from '@/views/chat/ChatInMeeting'
 import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 
@@ -238,7 +252,9 @@ export default {
     VideoBottom,
     StrangerProfile,
     ChatView,
-    ElevatorAnimation
+    ElevatorAnimation,
+    RandomButton,
+    RandomQuestion
   },
   data () {
     return {
@@ -269,7 +285,9 @@ export default {
       animationFlag: false,
       strangerLeaveFlag: false,
       id: 1,
-      canLeaveSite: true
+      canLeaveSite: true,
+      randomSubject: '',
+      randomValue: 0
     }
   },
   methods: {
@@ -302,6 +320,8 @@ export default {
       this.profileCount = 0
       this.strangerId = undefined
       this.animationFlag = false
+      this.randomSubject = ''
+      this.randomValue = 13
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -361,6 +381,15 @@ export default {
       // levelOne 시그널
       this.session.on('signal:levelOne', () => {
         this.levelOneCount += 1
+      })
+      // randomButton 시그널
+      this.session.on('signal:randomButton', () => {
+        // this.randomValue = Math.floor(Math.random() * 14)
+        if (this.randomValue === 0) {
+          this.randomValue = 14
+        }
+        this.randomValue -= 1
+        this.$refs.qustionRequest.showQuestion(this.randomValue)
       })
       // --- Connect to the session with a valid user token ---
 
@@ -597,6 +626,9 @@ export default {
     sendStrangerObject (data) {
       this.strangerObject = data
     },
+    subject (data) {
+      this.randomSubject = data
+    },
     createRoom () {
       console.log(this.currentUser.id)
       console.log(this.strangerId)
@@ -618,7 +650,7 @@ export default {
       this.animationFlag = true
       setTimeout(() => {
         this.getSession()
-      }, 5000)
+      }, 2000)
     }
     // Really? leave?
     // reallyLeave () {
