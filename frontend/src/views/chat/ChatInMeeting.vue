@@ -84,19 +84,18 @@ export default {
       idx: 0,
       msg: [],
       content: '',
-      stompClient: null,
-      count: 0
+      stompClient: null
     }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'currentUser'])
   },
   created () {
-    this.roomid = this.count
     this.fetchCurrentUser()
     this.id = this.currentUser.id
     this.name = this.currentUser.username
     this.userId = this.currentUser.userid
+    console.log(this.roomid)
     // 대화 불러오기
     // axios({
     //   method: 'get',
