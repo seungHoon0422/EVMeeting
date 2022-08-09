@@ -1,21 +1,21 @@
 <template class="home">
   <div class="box">
-    <div class="login-btn-position d-flex justify-content-end">
+    <div class="nav-btn-position d-flex justify-content-end">
       <!-- <router-link :to="{ name: 'login' }"><button class="login-btn">로그인/회원가입</button></router-link> -->
-      <a href="/login"><button class="login-btn" v-if="!isLoggedIn">로그인/회원가입</button></a>
-      <a href="/profile"><button class="login-btn me-3" v-if="isLoggedIn">내 정보</button></a>
-      <a href="/logout"><button class="login-btn" v-if="isLoggedIn">로그아웃</button></a>
+      <a href="/login"><button class="nav-btn" v-if="!isLoggedIn">로그인/회원가입</button></a>
+      <a href="/profile"><button class="nav-btn me-3" v-if="isLoggedIn">내 정보</button></a>
+      <a href="/logout"><button class="nav-btn" v-if="isLoggedIn">로그아웃</button></a>
     </div>
     <div class="home-text text-start">
-      <div class="text-bold my-5">
-        <p>엘리베이터에서 우린</p>
+      <div class="text-style">
+        <p>엘리베이터에서 안에서 우린</p>
         <p>사랑을 나누지</p>
       </div>
       <!-- <p class="text-left">엘리베이터가</p>
       <p class="text-right">멈춰있는 시간 10초</p>
       <p class="text-left mt-5">상대방을 판단하기에</p>
       <p class="text-right">충분하지 않을까..?</p> -->
-      <button class="mt-5 home-btn" @click="ToCam">엘리베이터 타러 가기</button>
+      <button class="home-btn" @click="ToCam">엘리베이터 타러 가기</button>
       <!-- <chatting-room-view style="margin-top: 10px"></chatting-room-view> -->
     </div>
     <!-- <img class="elevator-img" src="@/img/elevator_1.gif" alt=".."> -->
@@ -66,9 +66,9 @@ export default {
 
 .home-text {
   position: absolute;
-  top: 180px;
-  left: 20%;
-  font-size: 40px;
+  top: 100px;
+  left: 10%;
+  font-size: 50px;
   color: white;
 }
 
@@ -79,9 +79,10 @@ export default {
   border: 2px solid white;
   padding: 10px 50px;
   font-size: 30px;
+  margin-top: 100px;
 }
 
-.login-btn {
+.nav-btn {
   background-color: transparent;
   color: white;
   border-radius: 10px;
@@ -90,16 +91,8 @@ export default {
   font-size: 15px;
 }
 
-.text-left {
-  margin-left: -80px;
-}
-
-.text-right {
-  margin-left: 100px;
-}
-
-.login-btn-position {
-  padding-right: 50px;
+.nav-btn-position {
+  padding-right: 100px;
   padding-top: 50px;
 }
 
@@ -108,7 +101,7 @@ button:hover {
   background-color: white;
 }
 
-.text-bold {
-  font-weight: 600;
+.text-style {
+  font-weight: 300;
 }
 </style>

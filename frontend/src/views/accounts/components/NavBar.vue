@@ -1,6 +1,6 @@
 <template>
 <div class="nav-box">
-  <nav class="d-flex justify-content-between pb-0 font-normal">
+  <nav class="d-flex justify-content-between pb-0 font-normal navbar-expand-lg">
     <a class="text-light me-5 text-decoration-none" href="/">
       <p class="mb-0"><span class="font-head">엘</span>리베이터에서 우린</p>
       <p class="mb-0 text-start"><span class="font-head">사</span>랑을 나누지</p>
@@ -36,6 +36,7 @@ export default {
 <style>
 .nav-box {
   width: 1200px;
+  min-width: 500px;
   margin: 0 auto;
 }
 
