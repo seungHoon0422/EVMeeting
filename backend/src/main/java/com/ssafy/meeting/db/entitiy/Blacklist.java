@@ -13,7 +13,7 @@ public class Blacklist {
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     Long id = null;
     @Column(length = 255)
-    String userFrom; // 사용자의 유저아이디
+    String userFrom; // 사용자(본인)의 유저아이디
     @Column(length = 255)
-    String userTo;   // 상대방의 유저아이디
+    String userTo; // 상대방의 유저아이디
 }

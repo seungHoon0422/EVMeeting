@@ -44,8 +44,6 @@ public class MeetingQueueController {
             return meetingQueue.getUserid(); // 생성한 세션아이디를 리턴 -> 이때는 세션아이디를 테이블에서 지우면 안된다
 //            return meetingQueue.getUser().getUserid();
         }
-        // !! 동시성 문제 발생 -> 매칭된 세션아이디를 테이블에서 지우기 전 다른 사용자가 접근하면 3명이 한 세션아이디를 공유하게 된다
-        // 세션아이디를 조회할 때 삭제를 우선으로 하고, 실패하면 다시 올리는 방식으로 접근?
     }
 
     @PostMapping("/userinfo")
@@ -60,26 +58,14 @@ public class MeetingQueueController {
     public void exit(@RequestBody @ApiParam(value = "접속 정보", required = true) MeetingQueue meetingQueue){
         // 매칭이 종료되면 다시 대기큐에 등록
         // 프로필을 보고 닫힘버튼을 눌렀을 때 두 사용자의 정보를 테이블에 다시 올려줘야된다
-        // MeetingQueue temp = meetingQueueService.createMeeting(meetingQueue); // 미팅 종료되었을 때 join화면으로 이동하는 것으로 명세 변경 ->
-
-        // 닫힘버튼을 눌렀을 때 미팅큐에 세션방이 존재하는지 조회하고
-        // 있으면 삭제
-        
-        // 없으면 그냥 종료
-        
-        // 미팅큐에 다시 등록하는 과정은 필요없다
-
-        // 블랙리스트에 추가하는 로직 구현
+        // MeetingQueue temp = meetingQueueService.createMeeting(meetingQueue); // 미팅 종료되었을 때 join화면으로 이동하는 것으로 명세 변경 -> api 삭제
     }
     @PostMapping("/endservice")
     @ApiOperation(value = "서비스 종료")
     public void endservice(@RequestBody @ApiParam(value = "접속 정보", required = true) Blacklist blacklist){
-        // 대기큐에서 유저 데이터를 삭제
-        meetingQueueService.deleteMatch(blacklist.getUserFrom());
+        meetingQueueService.deleteMatch(blacklist.getUserFrom()); // 대기큐에서 유저 데이터를 삭제
         // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리가 필요
         // 사이트를 종료할 때 post를 보내도록 구현
-
-        // 블랙리스트에 추가하는 로직 구현
-        blacklistService.createBlacklist(blacklist);
+        blacklistService.createBlacklist(blacklist); // 블랙리스트에 추가하는 로직 구현
     }
 }
