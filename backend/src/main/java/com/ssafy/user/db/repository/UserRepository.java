@@ -22,5 +22,5 @@ public interface UserRepository extends JpaRepository<User, Long> {
     List<User> findAll();
 
     @Query("SELECT COUNT(*) FROM User as u WHERE u.gender = :gender")
-    int countUserByMale(@Param("gender") String gender);
+    int countUserByGender(@Param("gender") String gender);
 }

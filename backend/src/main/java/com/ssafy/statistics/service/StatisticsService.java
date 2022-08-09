@@ -55,8 +55,8 @@ public class StatisticsService {
     public GenderDto totalGenderStatistics() {
 
         GenderDto genderDto = new GenderDto();
-        int maleCount = userRepository.countUserByMale("Male");
-        int femaleCount = userRepository.countUserByMale("Female");
+        int maleCount = userRepository.countUserByGender("Male");
+        int femaleCount = userRepository.countUserByGender("Female");
         int totalCount = maleCount + femaleCount;
         genderDto.setTotalCount(totalCount);
         genderDto.setMaleCount(maleCount);
