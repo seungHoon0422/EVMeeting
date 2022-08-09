@@ -2,6 +2,7 @@
 import router from '@/router'
 import axios from 'axios'
 import api from '@/api/api'
+import swal from 'sweetalert'
 
 export default {
   state: {
@@ -73,6 +74,28 @@ export default {
         })
         .catch(err => {
           console.error(err.response.data)
+          if (err.response.data.message === 'No value present') {
+            // swal('없는 아이디 입니다.')
+            swal({
+              title: '로그인 실패',
+              text: '없는 아이디 입니다.',
+              icon: 'error'
+            })
+          } else if (err.response.data.message === 'Invalid Password') {
+            // alert('비밀번호를 다시 확인해주세요')
+            swal({
+              title: '로그인 실패',
+              text: '비밀번호를 다시 확인해주세요.',
+              icon: 'error'
+            })
+          } else {
+            // alert('아이디와 비밀번호를 다시 확인해주세요')
+            swal({
+              title: '로그인 실패',
+              text: '아이디와 비밀번호를 다시 확인해주세요.',
+              icon: 'error'
+            })
+          }
           commit('SET_AUTH_ERROR', err.response.data)
         })
     },
