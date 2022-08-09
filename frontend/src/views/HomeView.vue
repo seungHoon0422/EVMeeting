@@ -3,16 +3,20 @@
     <div class="login-btn-position d-flex justify-content-end">
       <!-- <router-link :to="{ name: 'login' }"><button class="login-btn">로그인/회원가입</button></router-link> -->
       <a href="/login"><button class="login-btn" v-if="!isLoggedIn">로그인/회원가입</button></a>
-      <a href="/profile"><button class="login-btn me-3" v-if="isLoggedIn">프로필</button></a>
+      <a href="/profile"><button class="login-btn me-3" v-if="isLoggedIn">내 정보</button></a>
       <a href="/logout"><button class="login-btn" v-if="isLoggedIn">로그아웃</button></a>
     </div>
     <div class="home-text text-start">
-      <p class="text-left">엘리베이터가</p>
+      <div class="text-bold my-5">
+        <p>엘리베이터에서 우린</p>
+        <p>사랑을 나누지</p>
+      </div>
+      <!-- <p class="text-left">엘리베이터가</p>
       <p class="text-right">멈춰있는 시간 10초</p>
       <p class="text-left mt-5">상대방을 판단하기에</p>
-      <p class="text-right">충분하지 않을까..?</p>
+      <p class="text-right">충분하지 않을까..?</p> -->
       <button class="mt-5 home-btn" @click="ToCam">엘리베이터 타러 가기</button>
-      <chatting-room-view style="margin-top: 10px"></chatting-room-view>
+      <!-- <chatting-room-view style="margin-top: 10px"></chatting-room-view> -->
     </div>
     <!-- <img class="elevator-img" src="@/img/elevator_1.gif" alt=".."> -->
     <!-- <p v-if="isLoggedIn">Hi, {{ currentUser.userid }}</p> -->
@@ -23,10 +27,10 @@
 // @ is an alias to /src
 // import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
-import ChattingRoomView from './chat/ChattingRoomView.vue'
+// import ChattingRoomView from './chat/ChattingRoomView.vue'
 
 export default {
-  components: { ChattingRoomView },
+  // components: { ChattingRoomView },
   name: 'HomeView',
   computed: {
     ...mapGetters(['currentUser', 'isLoggedIn'])
@@ -41,40 +45,13 @@ export default {
     this.fetchCurrentUser()
   }
 }
-// created () {
-//   const searchParams = new URLSearchParams(location.search)
-//   for (const param of searchParams) {
-//     if (param[0] === 'code') {
-//       var code = param[1]
-//     } else {
-//       var state = param[1]
-//     }
-//   }
-//   axios({
-//     url: 'https://nid.naver.com/oauth2.0/token',
-//     method: 'get',
-//     headers: {
-//       grant_type: 'authorization_code',
-//       client_id: 'w8_s1fcXM3yxRgEKy4yI',
-//       client_secret: 'A7646UmvlH',
-//       code: code,
-//       state: state
-//     }
-//   })
-
-// methods: {
-//   ...mapActions(['fetchCurrentUser'])
-// },
-// created () {
-//   this.fetchCurrentUser()
-// }
-// }
 </script>
 
 <style scoped>
 .box {
   height: 1200px;
   width: 100%;
+  /* background-color: white; */
   background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);
   background-repeat : no-repeat;
   background-size : cover;
@@ -129,5 +106,9 @@ export default {
 button:hover {
   color: gray;
   background-color: white;
+}
+
+.text-bold {
+  font-weight: 600;
 }
 </style>

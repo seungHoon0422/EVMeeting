@@ -7,41 +7,41 @@
       </div>
       <table class="table">
         <thead>
-          <tr class="table-light">
+          <tr class="">
             <th scope="row" class="fs-5" colspan="2">{{currentUser.username}} ({{currentUserAge}})</th>
             <!-- <td></td> -->
           </tr>
         </thead>
         <tbody>
-          <tr class="table-light">
+          <tr>
             <th scope="row">키</th>
             <td>{{currentUser.height}} cm</td>
           </tr>
-          <tr class="table-light">
+          <tr>
             <th scope="row">몸무게</th>
             <td>{{currentUser.weight}} kg</td>
           </tr>
-          <tr class="table-light">
+          <tr>
             <th scope="row">관심사</th>
             <td>{{currentUser.hobby}}</td>
           </tr>
-          <tr class="table-light">
+          <tr>
             <th scope="row">MBTI</th>
             <td>{{currentUser.mbti}}</td>
           </tr>
-          <tr class="table-light">
+          <tr>
             <th scope="row">음주</th>
             <td v-if="currentUser.drink == 'zero'">소주 한 잔</td>
             <td v-else-if="currentUser.drink == 'under1'">소주 1병 미만</td>
             <td v-else-if="currentUser.drink == 'under3'">소주 1-3병</td>
             <td v-else-if="currentUser.drink == 'over3'">소주 3병 이상</td>
           </tr>
-          <tr class="table-light">
+          <tr>
             <th scope="row">흡연</th>
             <td v-if="currentUser.cigarette == 'smoke'">흡연</td>
             <td v-else-if="currentUser.cigarette == 'nosmoke'">비흡연</td>
           </tr>
-          <tr class="table-light">
+          <tr>
             <th scope="row">자기소개</th>
             <td colspan="3">{{currentUser.description}}</td>
           </tr>
@@ -94,7 +94,7 @@ export default {
 
 .font-style {
   font-size: 30px;
-  color: #F88F6D;
+  color: #FAFAFA;
 }
 
 .img-box1 {
@@ -110,11 +110,12 @@ img {
 .description {
   padding: 20px;
   font-size: 20px;
-  background-color: white;
+  background-color: #FAFAFA;
 }
 
 .table {
-  background-color: #FFFFEA;
+  background-color: transparent;
+  color: #FAFAFA;
   /* border: 1px solid #F88F6D; */
 }
 
@@ -122,4 +123,5 @@ table, tr, td, th {
  border:none;
  text-align: center;
 }
+
 </style>
