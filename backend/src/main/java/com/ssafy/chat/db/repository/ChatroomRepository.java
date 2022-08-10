@@ -31,4 +31,7 @@ public interface ChatroomRepository extends JpaRepository<ChatRoom, Long> {
 
     @Query("SELECT cr FROM ChatRoom AS cr WHERE cr.userid1= :id or cr.userid2= :id")
     public List<ChatRoom> findChatRoomByUserid(@Param("id") Long id);
+
+    @Query("SELECT cr FROM ChatRoom AS cr WHERE cr.userid1= :id1 and cr.userid2= :id2")
+    public ChatRoom existChatroomByUserIds(@Param("id1") Long id1, @Param("id2") Long id2);
 }
