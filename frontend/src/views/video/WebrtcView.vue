@@ -256,35 +256,34 @@
         </random-question>
       </div>
       <div class="flex_box">
-        <img src="@/img/profile.png"/>
-        <!-- <user-profile style="position:absolute; width:295px; top:353px; "></user-profile> -->
-        <!-- 비디오 출력 부분  -->
-        <div id="video-container" class="container">
-          <div class="d-flex">
-            <div style="position:relative;">
-              <user-video style="width:188%; height: 90%; margin-top:50px" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-            </div>
-            <div class="mx-3" style="position:absolute; top:900px; left:650px; z-index: 1;">
-              <user-video style="width:300px;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-            </div>
-          </div>
+        <!-- 상대 프로필  -->
+        <div class="chat" style="position:relative;">
+          <img src="@/img/profile.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+          <user-profile style="position:absolute; top:-20%; left:5%; width:87%; height: 90%; "></user-profile>
         </div>
-        <img src="@/img/profile.png" style="position:relative;"/>
-        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:203px; "></chat-view>
+        <!-- 상대 비디오 출력   -->
+        <div>
+            <user-video style="width:188%; height: 90%; margin-top:50px" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+        </div>
+        <!-- 채팅  -->
+        <div class="chat" style="position:relative;">
+          <img src="@/img/profile.png" style="width: 100%; height: 100%; object-fit: cover;"/>
+          <chat-view :roomid="roomid" style="position:absolute; top:-20%; left:5%; width:87%; height: 90%;"></chat-view>
+        </div>
       </div>
-      <div class="table" style="position:relative">
-        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover; z-index: -1;" />
+      <!-- 테이블 -->
+      <div class="table" style="position:relative; height:100px;">
+        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover;" />
+          <!-- 음소거 버튼 -->
+        <div style="position:absolute; top:50%; left:25%; border: none">
+          <video-bottom @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></video-bottom>
+        </div>
+        <!-- 내 비디오 출력 -->
+        <img src="@/img/mirror.png" style="position:absolute; top:5%; left:45%; width:10%; height: 10%; border: none;"/>
+        <user-video style="width:22%; height: 300%; position:absolute; top:2%; left:43%; border: none" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+        <!-- 세션 종료 버튼 -->
+        <input style="position:absolute; top:50%; left:65%;"  class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="Leave session"/>
       </div>
-      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:703px; left:600px"/>
-      <div style="position:absolute; top:900px; left:400px">
-        <video-bottom
-        @audioOnOff="audioOnOff"
-        :sessionLevel="sessionLevel"
-        ></video-bottom>
-      </div>
-       <!-- 세션 종료 -->
-      <input style="position:absolute; top:1000px; right:500px;" class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="removeMessage()" value="Button"/>
-      <input style="position:absolute; top:1000px; right:300px;"  class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="Leave session"/>
     </div>
   </div>
 </div>
@@ -923,6 +922,13 @@ export default {
   display:flex;
   justify-content: space-between;
   align-items: center;
+  width:100%;
+}
+.flex_table{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
+  width:100%;
 }
 
 </style>
