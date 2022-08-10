@@ -93,7 +93,7 @@ public class TotalStatisticsService {
         for(int i=0; i<24; i++) {
             dtoResult.add(new MatchingTimeDto(i,
                     timeCount.get(i),
-                    calcPercent(timeCount.get(i), matchTimes.size())));
+                    calcPercent(timeCount.get(i), matchTimes.size()), 0));
         }
 
 
