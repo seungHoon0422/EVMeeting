@@ -42,6 +42,7 @@ export default {
           this.$emit('sendStarngerId', this.strangerId)
           this.$emit('sendStrangerObject', this.strangerUserId)
           this.$emit('sendStrangerNickname', this.strangerNickname)
+          this.$emit('sendStrangerUserid', this.strangerName)
           this.strangerProfile = res.data.photo
         }).catch(err => {
           console.log(err)

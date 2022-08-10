@@ -129,8 +129,11 @@
         </div>
         <!-- 상대방의 프로필이 보여야 함 -->
         <!-- <button @click="showProfilePicture">Show</button> -->
-        <div id="profile-container" class="container">
-          <div>
+        <transition
+        enter-active-class="animate__animated animate__fadeIn"
+        leave-active-class="animate__animated animate__fadeOut"
+        >
+          <div id="profile-container" class="container" v-if="currentUserCount===1">
             <user-profile v-for="sub in subscribers"
             :key="sub.stream.connection.connectionId"
             :stranger="sub.stream.connection.data"
@@ -138,10 +141,12 @@
             @click.native="updateMainVideoStreamManager(sub)"
             @sendStarngerId="sendStarngerId"
             @sendStrangerObject="sendStrangerObject"
-            @sendStrangerNickname="sendStrangerNickname">
+            @sendStrangerNickname="sendStrangerNickname"
+            @sendStrangerUserid="sendStrangerUserid"
+            >
             </user-profile>
-          </div>
-        </div>
+            </div>
+        </transition>
       </div>
 
     </div>
@@ -152,30 +157,24 @@
       <h1>세션 ID : {{this.mySessionId}}</h1>
       <div v-if="currentUser">
           <!-- #ff8585 -->
-          <div class="text-align-center">
+          <div class="">
             <b-progress height="2rem" show-progress :max="8" class="mb-3">
-            <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress
-            style="background-color : #BE7292 !important">
-              <span v-if="profileopencount===7">
-                <h3>엘리베이터에서 나갈까요?</h3>
-              </span>
-              <span v-else-if="profileopencount%2===1">
-                <h3>보고싶어요!</h3>
-              </span>
-              <span v-else-if="profileopencount%2===0">
-                <h3>10초 추가!</h3>
-              </span>
-            </b-progress-bar>
-          </b-progress>
+              <b-progress-bar variant="$white: #fff !default;" :value="profileopencount" animated show-progress
+              style="background-color : #BE7292 !important">
+                <div class="d-flex justify-content-center">
+                  <span v-if="profileopencount===7">
+                    <h3 class="mt-2">엘리베이터에서 나갈까요?</h3>
+                  </span>
+                  <span v-else-if="profileopencount%2===1">
+                    <h3 class="mt-2">보고싶어요!</h3>
+                  </span>
+                  <span v-else-if="profileopencount%2===0">
+                    <h3 class="mt-2">10초 추가!</h3>
+                  </span>
+                </div>
+              </b-progress-bar>
+            </b-progress>
           </div>
-        <adding-profile
-          @profileOnOff="profileOnOff"
-          :profileopencount="profileopencount"
-          :session="session"
-          :countTogether ="countTogether"
-          >
-
-        </adding-profile>
       </div>
        <div>
         <!-- 상대방의 정보 확인 -->
@@ -192,22 +191,39 @@
             </stranger-profile>
           </div>
         </transition>
-        <h1>남은 시간 : {{tenseconds}}</h1>
       </div>
       <!-- 비디오 출력 부분  -->
       <div>
-        <div id="video-container" class="container d-flex justify-content-center">
-          <div class="container mx-5" id="publisher_container">
+        <div id="video-container" class="container d-flex justify-content-center align-items-center">
+          <div class="container mx-3" id="publisher_container">
             <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
           </div>
-          <div class="container mx-5" id="subscriber_container">
+          <div class="container align-items-center">
+            <timer-animation style="width: 100px; height: 100px;"></timer-animation>
+            <h4 style="font-weight: bold;">{{tenseconds}}</h4>
+          </div>
+          <div class="container mx-3" id="subscriber_container">
             <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
           </div>
         </div>
       </div>
-      <!-- 세션 종료 -->
       <div>
-        <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session">
+        <!-- 선택 및 세션 종료 버튼 -->
+        <div class="d-flex justify-content-center">
+          <adding-profile
+            @profileOnOff="profileOnOff"
+            :profileopencount="profileopencount"
+            :session="session"
+            :countTogether ="countTogether"
+            >
+
+          </adding-profile>
+          <!-- 세션 종료 -->
+          <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+          <button id="buttonIcon" @click="leaveSession">
+            <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
+          </button>
+        </div>
         <div>
           <video-bottom
           @audioOnOff="audioOnOff"
@@ -280,6 +296,7 @@ import ChatView from '@/views/chat/ChatInMeeting'
 import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
 import OnebyOne from '@/views/video/animation/OnebyOne'
+import TimerAnimation from '@/views/video/animation/TimerAnimation'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -299,7 +316,8 @@ export default {
     ElevatorInfinity,
     RandomButton,
     RandomQuestion,
-    OnebyOne
+    OnebyOne,
+    TimerAnimation
   },
   data () {
     return {
@@ -333,7 +351,9 @@ export default {
       canLeaveSite: true,
       randomSubject: '',
       randomValue: 0,
-      strangerNickname: ''
+      strangerNickname: '',
+      strangerUserid: '',
+      strangerAge: Date.now()
     }
   },
   methods: {
@@ -369,6 +389,8 @@ export default {
       this.randomSubject = ''
       this.randomValue = 13
       this.strangerNickname = ''
+      this.strangerUserid = ''
+      this.strangerAge = Date.now()
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -676,6 +698,9 @@ export default {
     sendStrangerNickname (data) {
       this.strangerNickname = data
     },
+    sendStrangerUserid (data) {
+      this.strangerUserid = data
+    },
     subject (data) {
       this.randomSubject = data
     },
@@ -694,6 +719,15 @@ export default {
           this.$router.push({ name: 'home' })
         }
       )
+    },
+    getStrangerInfo () {
+      axios.post(api.video.getStrangerProfile(), this.strangerUserid).then(res => {
+        console.log(res.data)
+        console.log(res.data.birth)
+        this.strangerAge = res.data.birth
+      }).catch(err => {
+        console.log(err)
+      })
     },
     // setTimeout
     playAnimation () {
@@ -825,6 +859,20 @@ export default {
       if (this.strangerLeaveFlag === true) {
         this.leaveSession()
       }
+    },
+    strangerUserid () {
+      this.getStrangerInfo()
+      // console.log('ItsStart')
+      // console.log(this.strangerAge)
+      // const today = new Date()
+      // const a = (this.strangerAge || '').split('-')
+      // const birthDate = new Date(a[0], a[1], a[2])
+      // this.strangerAge = today.getFullYear() - birthDate.getFullYear()
+      // console.log('thisIsStrangerAge')
+      // console.log('today : ', today)
+      // console.log('a :', a)
+      // console.log('birthDate :', birthDate)
+      // console.log(this.strangerAge)
     }
   }
 }
