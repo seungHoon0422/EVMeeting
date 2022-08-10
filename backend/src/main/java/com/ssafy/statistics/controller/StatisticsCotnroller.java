@@ -19,7 +19,7 @@ import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
-@RequestMapping("/api/v1/statistics")
+@RequestMapping("/api/v1/statistics/total")
 @RequiredArgsConstructor
 @RestController
 
@@ -30,7 +30,7 @@ public class StatisticsCotnroller {
 
 
 
-    @GetMapping("/total/mbti")
+    @GetMapping("/mbti")
     @ApiOperation(value = "MBTI 전체 통계 정보", notes = "모든 user에 대한 MBTI 통계 정보 입니다.")
     public ResponseEntity<List<MBTIDto>> totalMbtiStatistics() {
 
@@ -38,7 +38,7 @@ public class StatisticsCotnroller {
         return ResponseEntity.status(HttpStatus.OK).body(mbtiResult);
     }
 
-    @GetMapping("/total/gender")
+    @GetMapping("/gender")
     @ApiOperation(value = "남녀 비율 통계", notes = "모든 user에 대한 남녀비율 통계 정보 입니다.")
     public ResponseEntity<GenderDto> totalGenderStatistics() {
 
@@ -47,7 +47,7 @@ public class StatisticsCotnroller {
     }
 
 
-    @GetMapping("/total/matchingTime")
+    @GetMapping("/matchingTime")
     @ApiOperation(value = "시간별 매칭 정보", notes = "매칭 현황에 따라 시간별 매칭 정보를 제공합합니다.")
     public ResponseEntity<List<MatchingTimeDto>> totalMatchingPerTimeStatistics() {
 
