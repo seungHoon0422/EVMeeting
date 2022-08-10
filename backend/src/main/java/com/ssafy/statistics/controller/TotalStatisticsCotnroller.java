@@ -4,7 +4,7 @@ package com.ssafy.statistics.controller;
 import com.ssafy.statistics.model.GenderDto;
 import com.ssafy.statistics.model.MBTIDto;
 import com.ssafy.statistics.model.MatchingTimeDto;
-import com.ssafy.statistics.service.StatisticsService;
+import com.ssafy.statistics.service.TotalStatisticsService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -23,10 +23,10 @@ import java.util.List;
 @RequiredArgsConstructor
 @RestController
 
-public class StatisticsCotnroller {
+public class TotalStatisticsCotnroller {
 
     @Autowired
-    private final StatisticsService statisticsService;
+    private final TotalStatisticsService statisticsService;
 
 
 

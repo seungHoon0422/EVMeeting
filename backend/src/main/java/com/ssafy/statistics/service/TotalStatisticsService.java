@@ -10,7 +10,7 @@ import org.springframework.stereotype.Service;
 import java.util.*;
 
 @Service
-public class StatisticsService {
+public class TotalStatisticsService {
 
     @Autowired
     UserRepository userRepository;
