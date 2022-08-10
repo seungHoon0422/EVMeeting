@@ -256,8 +256,8 @@
         </random-question>
       </div>
       <div class="flex_box">
-        <img src="@/img/profile.png" style="position:relative;"/>
-        <user-profile style="position:absolute; width:295px; top:353px; "></user-profile>
+        <img src="@/img/profile.png"/>
+        <!-- <user-profile style="position:absolute; width:295px; top:353px; "></user-profile> -->
         <!-- 비디오 출력 부분  -->
         <div id="video-container" class="container">
           <div class="d-flex">
@@ -270,12 +270,12 @@
           </div>
         </div>
         <img src="@/img/profile.png" style="position:relative;"/>
-        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:253px; "></chat-view>
+        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:203px; "></chat-view>
       </div>
       <div class="table" style="position:relative">
         <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover; z-index: -1;" />
       </div>
-      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:803px; left:600px"/>
+      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:703px; left:600px"/>
       <div style="position:absolute; top:900px; left:400px">
         <video-bottom
         @audioOnOff="audioOnOff"
@@ -283,8 +283,8 @@
         ></video-bottom>
       </div>
        <!-- 세션 종료 -->
-      <input style="position:absolute; top:1000px; right:500px;" class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="deleteRoom()" value="Button"/>
-      <input style="position:absolute; top:1000px; right:300px;"  class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[removeMessage(), leaveSession()]" value="Leave session"/>
+      <input style="position:absolute; top:1000px; right:500px;" class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="removeMessage()" value="Button"/>
+      <input style="position:absolute; top:1000px; right:300px;"  class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="Leave session"/>
     </div>
   </div>
 </div>
@@ -736,7 +736,7 @@ export default {
           console.log(res.data)
           this.roomid = res.data
         }
-      )
+      ).catch({})
     },
     getStrangerInfo () {
       axios.post(api.video.getStrangerProfile(), this.strangerUserid).then(res => {
@@ -755,7 +755,7 @@ export default {
       }, 2000)
     },
     removeMessage () {
-      axios.delete(api.chat.removeMsg()).then(
+      axios.delete(api.chat.removeMsg() + `${this.roomid}`).then(
         res => { alert('success') }
       ).catch({})
     },
