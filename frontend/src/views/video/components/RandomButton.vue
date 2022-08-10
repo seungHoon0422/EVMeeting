@@ -1,0 +1,39 @@
+<template>
+  <div>
+    <button class="btn btn-primary" @click="randomButton">질문 출력</button>
+  </div>
+</template>
+
+<script>
+export default {
+  props: {
+    session: {
+      type: Object
+    },
+    tenseconds: {
+      type: Number
+    }
+  },
+  name: 'randomButton',
+  setup (props, { emit }) {
+    const randomButton = () => {
+      // Sending Signal
+      props.session.signal({
+        data: '',
+        to: [],
+        type: 'randomButton'
+      })
+    }
+    return {
+      randomButton
+    }
+  },
+  watch: {
+    tenseconds () {
+      if (this.tenseconds % 60 === 0) {
+        this.randomButton()
+      }
+    }
+  }
+}
+</script>

@@ -9,8 +9,6 @@ import org.springframework.stereotype.Service;
 public class BlacklistServiceImpl implements BlacklistService{
     @Autowired
     BlacklistRepository blacklistRepository;
-
-
     @Override
     public void createBlacklist(Blacklist blacklist) {
         blacklistRepository.save(blacklist);

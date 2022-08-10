@@ -1,7 +1,8 @@
 <template>
   <div>
-    <h1>Want to see your profile</h1>
-    <button @click="[profileOnOff(),buttonSwitch()]" class="btn btn-danger"  v-bind:disabled="buttonOff==true">WantToSee</button>
+    <button @click="[profileOnOff(),buttonSwitch()]" class="btn btn-danger" id="buttonIcon"  v-bind:disabled="buttonOff==true">
+      <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 50px; color : blue;"></i>
+    </button>
   </div>
 </template>
 
@@ -67,3 +68,12 @@ export default {
   }
 }
 </script>
+
+<style>
+#buttonIcon{
+  background-color:transparent;
+  border: 0;
+  outline: 0;
+}
+
+</style>

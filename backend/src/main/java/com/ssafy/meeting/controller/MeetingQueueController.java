@@ -30,7 +30,7 @@ public class MeetingQueueController {
     @ApiOperation(value = "화상통화 요청")
 //    @ApiResponse()
     public String join(@RequestBody @ApiParam(value="접속 정보", required = true) MeetingQueue meetingQueue){
-        MeetingQueue list = meetingQueueService.getCallMeetingByCategory();
+        MeetingQueue list = meetingQueueService.getCallMeetingByCategory(meetingQueue);
         // 대기중인 세션이 있다면 해당 세션의 세션아이디를 리턴 -> 리턴하기 전에 해당 세션아이디를 테이블에서 지워준다
         if(list != null){
 //            List<User> userlist = meetingQueueService.joinUserid(meetingQueue.getUserid());
@@ -76,7 +76,8 @@ public class MeetingQueueController {
     public void endservice(@RequestBody @ApiParam(value = "접속 정보", required = true) Blacklist blacklist){
         // 대기큐에서 유저 데이터를 삭제
         meetingQueueService.deleteMatch(blacklist.getUserFrom());
-
+        System.out.println(blacklist.getUserFrom());
+        System.out.println(blacklist.getUserTo());
         // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리가 필요
         // 사이트를 종료할 때 post를 보내도록 구현
 

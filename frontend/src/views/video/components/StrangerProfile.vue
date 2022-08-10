@@ -1,9 +1,18 @@
 <template>
   <div>
-    <h1>Stranger : {{this.strangerName}}</h1>
+    <div v-if="this.subject==='mbti'">
+      <i class='bx bx-smile' style="font-size: 50px;"></i>
+      <h1>저의 MBTI 는</h1>
+    </div>
+    <div v-else-if="this.subject==='drink'">
+      <i class='bx bx-happy-alt' style="font-size: 50px;"></i>
+      <h1>술은 이정도 마셔요!</h1>
+    </div>
+    <div v-else-if="this.subject==='description'">
+      <i class='bx bx-happy-heart-eyes' style="font-size: 50px;"></i>
+      <h1>저는 이런 사람 이에요</h1>
+    </div>
     <h1>{{this.strangerProfile}}</h1>
-    <h1>{{this.countTogether}}</h1>
-    <h1>{{this.ProfileCount}}</h1>
   </div>
 </template>
 <script>
@@ -24,12 +33,13 @@ export default {
       strangerName: this.stranger.split('"')[3],
       strangerProfile: '',
       profileList: [
-        'hobby',
         'mbti',
-        'school',
+        'mbti',
         'drink',
-        'cigarette'
-      ]
+        'drink',
+        'description'
+      ],
+      subject: ''
     }
   },
   computed: {
@@ -40,8 +50,10 @@ export default {
   methods: {
     getProfile () {
       axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
+        console.log(res.data)
         const number = this.ProfileCount - 3
         const pick = this.profileList[number]
+        this.subject = pick
         this.strangerProfile = res.data[pick]
       }).catch(err => {
         console.log(err)
