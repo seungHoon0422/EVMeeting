@@ -134,7 +134,7 @@ public class ChatRoomController {
         return ResponseEntity.status(HttpStatus.OK).body(msg);
     }
 
-    @DeleteMapping("/room/delete{chatroomId}")
+    @DeleteMapping("/room/delete/{chatroomId}")
     @ApiOperation(value = "채팅방 삭제", notes = "채팅방 삭제 후 모든 채팅메세지도 삭제")
     @ApiResponses({
             @ApiResponse(code = 200, message = "성공"),
