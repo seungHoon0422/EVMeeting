@@ -48,41 +48,52 @@ export default {
 <style scoped>
 .box {
   width: 450px;
-  height: 400px;
+  height: 500px;
   margin: 0 auto;
-  border: 5px solid #F88F6D;
+  border: 5px solid #FAFAFA;
   border-radius: 10px;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .font-style {
-  color: #F88F6D;
+  color: #FAFAFA;
   font-size: 40px;
 }
 
 button {
-  background-color: #F88F6D;
+  background-color: transparent;
   padding: 5px 30px;
-  border: none;
+  border: 2px solid #FAFAFA;
   border-radius: 10px;
-  color: white;
+  color: #FAFAFA;
 }
 
 label {
   font-size: 20px;
-  color: #F88F6D;
+  color: #FAFAFA;
   margin-right: 20px;
 }
 
 input {
-  background-color: #FFFFEA;
+  background-color: transparent;
   width: 200px;
   height: 40px;
-  border: 2px solid #F88F6D;
+  border: 2px solid #FAFAFA;
   border-radius: 10px;
   padding: 0 20px;
+  color: #FAFAFA;
 }
 
 .input-box {
   margin: 30px 30px;
+}
+
+::placeholder {
+  color: #FAFAFA;
+}
+
+button:hover {
+  color: gray;
+  background-color: #FAFAFA;
 }
 </style>

@@ -100,11 +100,11 @@ const routes = [
     path: '/cam',
     name: 'cam',
     component: WebrtcView
+  },
+  {
+    path: '*',
+    redirect: '/404'
   }
-  // {
-  //   path: '*',
-  //   redirect: '/404'
-  // }
 ]
 
 const router = new VueRouter({
