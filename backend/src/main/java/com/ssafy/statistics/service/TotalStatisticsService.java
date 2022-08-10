@@ -1,7 +1,10 @@
 package com.ssafy.statistics.service;
 
+import com.ssafy.statistics.db.entity.Statistics;
+import com.ssafy.statistics.db.repository.StatisticsRepository;
 import com.ssafy.statistics.model.GenderDto;
 import com.ssafy.statistics.model.MBTIDto;
+import com.ssafy.statistics.model.MatchingTimeDto;
 import com.ssafy.user.db.entity.User;
 import com.ssafy.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
@@ -14,6 +17,10 @@ public class TotalStatisticsService {
 
     @Autowired
     UserRepository userRepository;
+
+    @Autowired
+    StatisticsRepository statisticsRepository;
+
 
     public List<MBTIDto> totalStatisticsForMbti() {
 
@@ -67,4 +74,13 @@ public class TotalStatisticsService {
 
         return genderDto;
     }
+
+    public List<MatchingTimeDto> getTimeStatistics() {
+
+//        List<Statistics> matchTimes = statisticsRepository.findAll();
+//        for(Statistics statistic : matchTimes)
+
+        return null;
+    }
+
 }

@@ -26,7 +26,7 @@ import java.util.List;
 public class TotalStatisticsCotnroller {
 
     @Autowired
-    private final TotalStatisticsService statisticsService;
+    private final TotalStatisticsService totalStatisticsService;
 
 
 
@@ -34,7 +34,7 @@ public class TotalStatisticsCotnroller {
     @ApiOperation(value = "MBTI 전체 통계 정보", notes = "모든 user에 대한 MBTI 통계 정보 입니다.")
     public ResponseEntity<List<MBTIDto>> totalMbtiStatistics() {
 
-        List<MBTIDto> mbtiResult = statisticsService.totalStatisticsForMbti();
+        List<MBTIDto> mbtiResult = totalStatisticsService.totalStatisticsForMbti();
         return ResponseEntity.status(HttpStatus.OK).body(mbtiResult);
     }
 
@@ -42,16 +42,17 @@ public class TotalStatisticsCotnroller {
     @ApiOperation(value = "남녀 비율 통계", notes = "모든 user에 대한 남녀비율 통계 정보 입니다.")
     public ResponseEntity<GenderDto> totalGenderStatistics() {
 
-        GenderDto genderDto = statisticsService.totalGenderStatistics();
+        GenderDto genderDto = totalStatisticsService.totalGenderStatistics();
         return ResponseEntity.status(HttpStatus.OK).body(genderDto);
     }
 
 
     @GetMapping("/matchingTime")
-    @ApiOperation(value = "시간별 매칭 정보", notes = "매칭 현황에 따라 시간별 매칭 정보를 제공합합니다.")
+    @ApiOperation(value = "시간별 매칭 정보", notes = "매칭 현황에 따라 시간별 매칭 정보를 제공합니다.")
     public ResponseEntity<List<MatchingTimeDto>> totalMatchingPerTimeStatistics() {
 
         List<MatchingTimeDto> timeDtoList = new ArrayList<>();
+        timeDtoList = totalStatisticsService.getTimeStatistics();
         return ResponseEntity.status(HttpStatus.OK).body(timeDtoList);
     }
 
