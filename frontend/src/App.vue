@@ -26,7 +26,7 @@ export default {
   created () {
     if (document.location.pathname === '/') {
       this.isChecked = true
-      console.log('ische:', this.isChecked)
+      // console.log('ische:', this.isChecked)
     }
   }
 }
