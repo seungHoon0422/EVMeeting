@@ -1,7 +1,5 @@
 <template>
     <div class="chat" id="chat">
-        <div class="chat__header">
-        </div>
         <!-- 메시지 보여주는 부분 -->
         <div class="chat__body" id="chat__body">
           <div
@@ -75,33 +73,32 @@ let preDiffHeight = 0
 let bottomFlag = true
 
 export default {
+  props: ['roomid'],
   name: 'ChatView',
   data: () => {
     return {
       id: -1,
       name: '',
-      roomid: -1,
       idx: 0,
       msg: [],
       content: '',
-      stompClient: null
+      stompClient: null,
+      photo: null
     }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'currentUser'])
+  },
+  mounted () {
+    console.log(this.$props.roomid)
   },
   created () {
     this.fetchCurrentUser()
     this.id = this.currentUser.id
     this.name = this.currentUser.username
     this.userId = this.currentUser.userid
-    console.log(this.roomid)
     // 대화 불러오기
-    // axios({
-    //   method: 'get',
-    //   url: `/api/v1/chat/room/allMessages/${this.roomid}`,
-    //   baseURL: 'http://localhost:8080/'
-    // }).then(
+    // axios.get(api.chat.getMessage() + `${this.roomid}`).then(
     //   res => {
     //     console.log(res)
     //     this.msg = []
@@ -114,12 +111,8 @@ export default {
     //       }
     //       this.msg.push(m)
     //     }
-    //   },
-    //   err => {
-    //     console.log(err)
-    //     alert('error : 새로고침하세요')
     //   }
-    // )
+    // ).catch(() => {})
     // socket 연결
     const socket = new SockJS(api.chat.connectionSock())
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
@@ -150,9 +143,6 @@ export default {
       // 채팅창 스크롤 바닥 유지
       objDiv.scrollTop = objDiv.scrollHeight
     }
-  },
-  mounted () {
-    this.count++
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),
@@ -198,10 +188,9 @@ export default {
   flex-direction: column;
   justify-content: space-between;
   width: 505px;
-  height: 712px;
-  background-color: #bad8da;
+  height: 722px;
+  background-color: #444444;
   margin: 5rem auto 0rem;
-  border-radius: 1.5rem;
   box-shadow: 0px 1px 20px #9c9cc855;
 }
 .myMsg {
@@ -210,15 +199,6 @@ export default {
 }
 .otherMsg {
   text-align: left;
-}
-.chat__header {
-  background: #ffffff;
-  box-shadow: 0px 3px 10px rgba(0, 0, 0, 0.05);
-  border-radius: 24px 24px 0px 0px;
-  padding: 1.8rem;
-  font-size: 16px;
-  font-weight: 700;
-  height:50px
 }
 .chat__header__greetings {
   color: #292929;
@@ -295,8 +275,8 @@ export default {
   justify-content: space-between;
   padding: 1.4rem;
   background: #ffffff;
-  border-radius: 30px 30px 24px 24px;
   box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.05);
+  height: 30px;
 }
 .form__input {
   border: none;

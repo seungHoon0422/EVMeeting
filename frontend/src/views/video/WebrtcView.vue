@@ -155,6 +155,7 @@
     <div id="session_2" v-if="sessionLevel===2">
       <h1>Hi I'm session_2</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
+      <button @click="sessionLevelPlus">levelUp</button>
       <div v-if="currentUser">
           <!-- #ff8585 -->
           <div class="">
@@ -236,9 +237,9 @@
 
     <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
     <div id="session_3" v-if="sessionLevel===3">
-      <h1>Hi I'm session_3</h1>
+      <!-- <h1>Hi I'm session_3</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <h1> MBTI : {{currentUser.mbti}}</h1>
+      <h1> MBTI : {{currentUser.mbti}}</h1> -->
       <h1>남은 시간 : {{tenseconds}}</h1>
       <!-- 랜덤 질문 출력 부분 -->
       <div>
@@ -254,26 +255,36 @@
         >
         </random-question>
       </div>
-      <!-- 비디오 출력 부분  -->
-      <div id="video-container" class="container">
-        <div class="d-flex">
-          <div class="mx-3">
-            <user-video :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-          </div>
-          <div >
-            <user-video v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+      <div class="flex_box">
+        <img src="@/img/profile.png" style="position:relative;"/>
+        <user-profile style="position:absolute; width:295px; top:353px; "></user-profile>
+        <!-- 비디오 출력 부분  -->
+        <div id="video-container" class="container">
+          <div class="d-flex">
+            <div style="position:relative;">
+              <user-video style="width:188%; height: 90%; margin-top:50px" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+            </div>
+            <div class="mx-3" style="position:absolute; top:900px; left:650px; z-index: 1;">
+              <user-video style="width:300px;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+            </div>
           </div>
         </div>
+        <img src="@/img/profile.png" style="position:relative;"/>
+        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:253px; "></chat-view>
       </div>
-      <chat-view></chat-view>
-      <div>
+      <div class="table" style="position:relative">
+        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover; z-index: -1;" />
+      </div>
+      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:803px; left:600px"/>
+      <div style="position:absolute; top:900px; left:400px">
         <video-bottom
         @audioOnOff="audioOnOff"
         :sessionLevel="sessionLevel"
         ></video-bottom>
       </div>
        <!-- 세션 종료 -->
-      <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="Leave session"/>
+      <input style="position:absolute; top:1000px; right:500px;" class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="deleteRoom()" value="Button"/>
+      <input style="position:absolute; top:1000px; right:300px;"  class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[removeMessage(), leaveSession()]" value="Leave session"/>
     </div>
   </div>
 </div>
@@ -353,7 +364,8 @@ export default {
       randomValue: 0,
       strangerNickname: '',
       strangerUserid: '',
-      strangerAge: Date.now()
+      strangerAge: Date.now(),
+      roomid: 1
     }
   },
   methods: {
@@ -707,16 +719,22 @@ export default {
     createRoom () {
       console.log(this.currentUser.id)
       console.log(this.strangerId)
+      if (this.currentUser.id > this.strangerId) {
+        this.id1 = this.strangerId
+        this.id2 = this.currentUser.id
+      } else {
+        this.id1 = this.currentUser.id
+        this.id2 = this.strangerId
+      }
       axios({
         method: 'post',
         url: api.chat.createRoom(),
         headers: { 'content-type': 'application/json' },
-        data: { userid1: this.currentUser.id, userid2: this.strangerId, id: this.id, alive: true }
+        data: { userid1: this.id1, userid2: this.id2, id: this.id, alive: true }
       }).then(
-        res => { alert('Matching Success!!') },
-        err => {
-          console.log(err)
-          this.$router.push({ name: 'home' })
+        res => {
+          console.log(res.data)
+          this.roomid = res.data
         }
       )
     },
@@ -735,6 +753,18 @@ export default {
       setTimeout(() => {
         this.getSession()
       }, 2000)
+    },
+    removeMessage () {
+      axios.delete(api.chat.removeMsg()).then(
+        res => { alert('success') }
+      ).catch({})
+    },
+    deleteRoom () {
+      axios.put(api.chat.deleteRoom() + `${this.roomid}`
+      ).then(
+        res => {
+        }
+      ).catch({})
     }
     // Really? leave?
     // reallyLeave () {
@@ -836,15 +866,15 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
-        this.createRoom()
+        this.roomid = this.createRoom()
         this.tenseconds = 600
       }
     },
-    // tenseconds () {
-    //   if (this.sessionLevel === 3 && this.tenseconds === 1) {
-    //     this.createRoom()
-    //   }
-    // },
+    tenseconds () {
+      if (this.sessionLevel === 3 && this.tenseconds === 1) {
+        // this.roomid = this.createRoom()
+      }
+    },
     currentUserCount () {
       if (this.currentUserCount === 0) {
         this.strangerLeaveFlag = true
@@ -888,6 +918,11 @@ export default {
   background-color:transparent;
   border: 0;
   outline: 0;
+}
+.flex_box{
+  display:flex;
+  justify-content: space-between;
+  align-items: center;
 }
 
 </style>

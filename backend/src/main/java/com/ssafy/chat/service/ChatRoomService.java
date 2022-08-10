@@ -26,8 +26,18 @@ public class ChatRoomService implements IChatRoomService {
     @Override
     public long createRoom(ChatRoom newRoom) {
         newRoom.setRecentMessageTime(LocalDateTime.now().toString());
-        return chatroomRepository.save(newRoom).getId();
+        ChatRoom chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid1(), newRoom.getUserid2());
+        if(chatRoom == null) {
+            chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid2(), newRoom.getUserid1());
+            if(chatRoom == null) {
+                System.out.println("Create Room");
+                return chatroomRepository.save(newRoom).getId();
+            }
+        }
+        System.out.println("Exist Room");
+        return chatRoom.getId();
     }
+
     @Override
     public List<ChatRoom> getAllChatRooms() {
         return chatroomRepository.findAll();
