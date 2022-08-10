@@ -177,12 +177,13 @@
 
     <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
     <div id="session_3" v-if="sessionLevel===3">
-      <h1>Hi I'm session_3</h1>
+      <!-- <h1>Hi I'm session_3</h1>
       <h1>세션 ID : {{this.mySessionId}}</h1>
-      <h1> MBTI : {{currentUser.mbti}}</h1>
+      <h1> MBTI : {{currentUser.mbti}}</h1> -->
       <h1>남은 시간 : {{tenseconds}}</h1>
       <div class="flex_box">
-        <img src="@/img/profile.png"/>
+        <img src="@/img/profile.png" style="position:relative;"/>
+        <user-profile style="position:absolute; width:295px; top:353px; "></user-profile>
         <!-- 비디오 출력 부분  -->
         <div id="video-container" class="container">
           <div class="d-flex">
@@ -195,13 +196,13 @@
           </div>
         </div>
         <img src="@/img/profile.png" style="position:relative;"/>
-        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:353px; "></chat-view>
+        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:253px; "></chat-view>
       </div>
       <div class="table" style="position:relative">
         <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover; z-index: -1;" />
       </div>
-      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:903px; left:600px"/>
-      <div style="position:absolute; top:1000px; left:400px">
+      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:803px; left:600px"/>
+      <div style="position:absolute; top:900px; left:400px">
         <video-bottom
         @audioOnOff="audioOnOff"
         :sessionLevel="sessionLevel"
