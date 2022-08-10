@@ -77,10 +77,27 @@ public class TotalStatisticsService {
 
     public List<MatchingTimeDto> getTimeStatistics() {
 
-//        List<Statistics> matchTimes = statisticsRepository.findAll();
-//        for(Statistics statistic : matchTimes)
+        List<Statistics> matchTimes = statisticsRepository.findAll();
+        Map<Integer, Integer> timeCount = new HashMap<>();
+        for(int time = 0; time < 24; time++)
+            timeCount.put(time, 0);
 
-        return null;
+        int startHour;
+        for(Statistics statistic : matchTimes) {
+            startHour = statistic.getStartTimeHour();
+
+            timeCount.put(startHour, timeCount.get(startHour)+1);
+        }
+        List<MatchingTimeDto> dtoResult = new ArrayList<>();
+
+        for(int i=0; i<24; i++) {
+            dtoResult.add(new MatchingTimeDto(i,
+                    timeCount.get(i),
+                    calcPercent(timeCount.get(i), matchTimes.size())));
+        }
+
+
+        return dtoResult;
     }
 
 }

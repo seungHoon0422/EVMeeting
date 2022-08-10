@@ -9,7 +9,7 @@ import lombok.*;
 @AllArgsConstructor
 @ToString
 public class MatchingTimeDto {
-    String time;
+    int time;
     int matchingCount;
     double matchingPercent;
 }
