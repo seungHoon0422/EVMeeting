@@ -20,6 +20,7 @@
     </div>
     <!-- <img class="elevator-img" src="@/img/elevator_1.gif" alt=".."> -->
     <!-- <p v-if="isLoggedIn">Hi, {{ currentUser.userid }}</p> -->
+    <!-- <footer-bar class="footer"></footer-bar> -->
   </div>
 </template>
 
@@ -27,10 +28,12 @@
 // @ is an alias to /src
 // import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
+// import swal from 'sweetalert'
+// import FooterBar from '@/views/accounts/components/FooterBar.vue'
 // import ChattingRoomView from './chat/ChattingRoomView.vue'
 
 export default {
-  // components: { ChattingRoomView },
+  // components: { FooterBar },
   name: 'HomeView',
   computed: {
     ...mapGetters(['currentUser', 'isLoggedIn'])
@@ -103,5 +106,10 @@ button:hover {
 
 .text-style {
   font-weight: 300;
+}
+
+.footer {
+  margin-top: 1000px;
+  /* position: fixed; */
 }
 </style>

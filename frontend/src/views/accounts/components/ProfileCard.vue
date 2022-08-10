@@ -3,7 +3,8 @@
     <div class="box">
       <!-- <h1 class="font-style">profileCard</h1> -->
       <div class="img-box1">
-        <img :src="currentUser.photo" alt="사진을 등록해주세요">
+        <img v-if="currentUser.photo" :src="currentUser.photo" alt="..">
+        <button v-else @click="goUpload" class="btn-style">사진 등록하기</button>
       </div>
       <table class="table">
         <thead>
@@ -74,9 +75,15 @@
 
 <script>
 import { mapGetters } from 'vuex'
+import router from '@/router'
 
 export default {
   name: 'ProfileCard',
+  methods: {
+    goUpload () {
+      router.push({ name: 'upload' })
+    }
+  },
   computed: {
     ...mapGetters(['currentUser', 'currentUserAge'])
   }
@@ -124,4 +131,17 @@ table, tr, td, th {
  text-align: center;
 }
 
+.btn-style {
+  color: #FAFAFA;
+  padding: 5px 20px;
+  background-color: transparent;
+  border: 1px solid #FAFAFA;
+  border-radius: 5px;
+  margin: 200px 150px;
+}
+
+button:hover {
+  color: gray;
+  background-color: white;
+}
 </style>

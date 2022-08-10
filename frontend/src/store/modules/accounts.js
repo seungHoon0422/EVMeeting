@@ -114,7 +114,12 @@ export default {
             invalid.push(errNames[err])
           }
         }
-        alert(`${invalid} 다시 확인해주세요. 조건에 맞지 않습니다.`)
+        // alert(`${invalid} 다시 확인해주세요. 조건에 맞지 않습니다.`)
+        swal({
+          title: '회원가입 실패',
+          text: `${invalid} 다시 확인해주세요. 조건에 맞지 않습니다.`,
+          icon: 'error'
+        })
         return
       }
       axios({
@@ -133,7 +138,12 @@ export default {
         .catch(err => {
           console.error(err.response.data)
           if (err.response.data.message === 'Passwords are not same') {
-            alert('비밀번호가 일치하지 않습니다.')
+            // alert('비밀번호가 일치하지 않습니다.')
+            swal({
+              title: '회원가입 실패',
+              text: '비밀번호가 일치하지 않습니다.',
+              icon: 'error'
+            })
           }
           commit('SET_AUTH_ERROR', err.response.data)
         })
