@@ -66,7 +66,6 @@ public class MeetingQueueController {
         meetingQueueService.deleteMatch(blacklist.getUserFrom()); // 대기큐에서 유저 데이터를 삭제
         if(blacklist.getUserTo() == null || blacklist.getUserFrom() == null) return;
         else{
-            System.out.println("NULL TEST");
             blacklistService.createBlacklist(blacklist); // 블랙리스트에 추가하는 로직 구현
         }
         // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리가 필요
