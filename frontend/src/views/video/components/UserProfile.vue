@@ -1,9 +1,10 @@
 <template>
   <div>
-    <!-- <h2>stranger : {{strangerNickname}}</h2> -->
     <div class="container">
-      <div class="position-relative" style="bottom: 450px; left: 8px;">
-        <img :src="`${strangerProfile}`" style="width: 350px; height: 250px;">
+      <div class="row">
+        <div class="position-relative col-auto" style="bottom: 450px; left: 8px;">
+          <img :src="`${strangerProfile}`" style="width: 350px; height: 250px;">
+        </div>
       </div>
     </div>
   </div>
@@ -28,10 +29,17 @@ export default {
       strangerProfile: '',
       strangerId: '',
       strangerNickname: '',
-      strangerUserId: ''
+      strangerUserId: '',
+      strangerAge: 0
     }
   },
   methods: {
+    getStrangerAge (strangerBirthDate) {
+      const today = new Date()
+      const a = (strangerBirthDate || '').split('-')
+      const birthDate = new Date(a[0], a[1], a[2])
+      this.strangerAge = today.getFullYear() - birthDate.getFullYear()
+    },
     getProfile () {
       setTimeout(() => {
         axios.post(api.video.getStrangerProfile(), this.strangerName).then(res => {
@@ -39,10 +47,13 @@ export default {
           this.strangerId = res.data.id
           this.strangerUserId = res.data.userid
           this.strangerNickname = res.data.username
+          const strangerBirthDate = res.data.birth
+          this.getStrangerAge(strangerBirthDate)
           this.$emit('sendStarngerId', this.strangerId)
           this.$emit('sendStrangerObject', this.strangerUserId)
           this.$emit('sendStrangerNickname', this.strangerNickname)
           this.$emit('sendStrangerUserid', this.strangerName)
+          this.$emit('sendStrangerAge', this.strangerAge)
           this.strangerProfile = res.data.photo
         }).catch(err => {
           console.log(err)

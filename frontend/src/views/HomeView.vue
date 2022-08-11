@@ -7,34 +7,30 @@
       <a href="/logout"><button class="nav-btn" style="font-family:'GangwonEdu_OTFBoldA';" v-if="isLoggedIn">로그아웃</button></a>
     </div>
     <div class="home-text text-start">
-      <div class="d-flex justify-content-around">
-        <div>
+      <div class="container d-flex justify-content-around">
+        <div class="col-auto mx-5">
           <!-- <div class="text-style">
             <p>엘리베이터에서 안에서 우린</p>
             <p>사랑을 나누지</p>
           </div> -->
-          <div>
+          <div class="col-auto">
             <button id="buttonIcon">
               <img src="@/img/logo1.png" id="logo">
             </button>
           </div>
-          <div class="text-style">
-            <p style="font-family:'GangwonEdu_OTFBoldA';">엘리베이터에서 안에서</p>
-            <p style="font-family:'GangwonEdu_OTFBoldA';">우린</p>
-            <p style="font-family:'GangwonEdu_OTFBoldA';">사랑을 나누지</p>
+          <div class="text-style col-auto">
+            <div class="col-auto">
+              <p style="font-family:'GangwonEdu_OTFBoldA';">엘리베이터에서 안에서 우린</p>
+              <p style="font-family:'GangwonEdu_OTFBoldA';">사랑을 나누지</p>
+            </div>
           </div>
           <div>
-            <button class="home-btn" @click="ToCam">
+            <button class="home-btn col-auto" @click="ToCam">
                 <p style="margin-top: 20px; font-weight: bold; font-family:'GangwonEdu_OTFBoldA'; color : white;">엘리베이터 타러 가기 </p>
             </button>
           </div>
         </div>
-        <!-- <p class="text-left">엘리베이터가</p>
-        <p class="text-right">멈춰있는 시간 10초</p>
-        <p class="text-left mt-5">상대방을 판단하기에</p>
-        <p class="text-right">충분하지 않을까..?</p> -->
-        <!-- <chatting-room-view style="margin-top: 10px"></chatting-room-view> -->
-        <div>
+        <div class="col-auto">
           <video-player :mp4="require(`@/img/elevatorVideo.mp4`)" ></video-player>
         </div>
       </div>
@@ -162,9 +158,9 @@ button:hover {
 }
 
 #logo{
-  margin-top:130px;
-  width: 100px;
-  height: 100px;
+  margin-top:200px;
+  width: 70px;
+  height: 70px;
 }
 
 </style>
