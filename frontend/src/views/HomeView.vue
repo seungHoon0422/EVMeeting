@@ -52,7 +52,7 @@ export default {
 
 <style scoped>
 .box {
-  height: 1200px;
+  height: 100vh;
   width: 100%;
   /* background-color: white; */
   background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);

@@ -40,7 +40,7 @@ export default {
   text-align: center;
   color: #2c3e50;
   /* background-color: white; */
-  height: 1200px;
+  height: 100vh;
   background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);
   background-repeat : no-repeat;
   background-size : cover;
