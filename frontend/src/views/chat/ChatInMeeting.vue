@@ -12,11 +12,11 @@
               <div v-if="m.senderId == id" class="chat__mymessage">
                 <p class="chat__mymessage__paragraph">{{ m.content }}</p>
               </div>
-              <div v-else class="chat__yourmessage">
-                <h5 class="chat__yourmessage__user" style="margin:3px">
+              <div v-else class="chat__yourmessage" style="position:relative; height: 80px; margin-left:-10px ">
+                <h5 class="chat__yourmessage__user" style="position:absolute; left:20px; top:0;">
                   {{ m.userId }}
                 </h5>
-                <div class="chat__yourmessage__p">
+                <div class="chat__yourmessage__p" style="position:absolute; left:20px; top:20px ">
                   <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
                 </div>
               </div>
@@ -97,22 +97,6 @@ export default {
     this.id = this.currentUser.id
     this.name = this.currentUser.username
     this.userId = this.currentUser.userid
-    // 대화 불러오기
-    // axios.get(api.chat.getMessage() + `${this.roomid}`).then(
-    //   res => {
-    //     console.log(res)
-    //     this.msg = []
-    //     for (let i = 0; i <= res.data.length - 1; i++) {
-    //       const m = {
-    //         senderId: res.data[i].senderId,
-    //         content: res.data[i].content,
-    //         userId: res.data[i].userId,
-    //         style: res.data[i].senderId === this.id ? 'myMsg' : 'otherMsg'
-    //       }
-    //       this.msg.push(m)
-    //     }
-    //   }
-    // ).catch(() => {})
     // socket 연결
     const socket = new SockJS(api.chat.connectionSock())
     const options = { debug: false, protocols: Stomp.VERSIONS.supportedProtocols() }
@@ -187,11 +171,12 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 505px;
-  height: 722px;
-  background-color: #444444;
+  width: 400px;
+  height: 700px;
+  background-color: #A3CDC1;
   margin: 5rem auto 0rem;
   box-shadow: 0px 1px 20px #9c9cc855;
+  border-radius: 10px;
 }
 .myMsg {
   text-align: right;
@@ -229,8 +214,8 @@ export default {
   margin: 0.4rem 0 0 1rem;
   border-radius: 20px 20px 0px 20px;
   max-width: 180px;
-  background-color: #bbc4ef;
-  color: #ffffff;
+  background-color: #EDE0CF;
+  color: #0a0a0a;
   padding: 0.8rem;
   font-size: 14px;
 }
@@ -263,7 +248,7 @@ export default {
 .chat__yourmessage__paragraph {
   margin: 0.4rem 1rem 0 0;
   border-radius: 0px 20px 20px 20px;
-  background-color: #39f5e2;
+  background-color: #E7C2CA;
   max-width: 180px;
   color: #414141;
   padding: 0.8rem;
@@ -276,7 +261,8 @@ export default {
   padding: 1.4rem;
   background: #ffffff;
   box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.05);
-  height: 30px;
+  height: 50px;
+  border-radius: 10px;
 }
 .form__input {
   border: none;

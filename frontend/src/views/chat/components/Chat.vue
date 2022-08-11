@@ -20,12 +20,12 @@
               <div v-if="m.senderId == id" class="chat__mymessage">
                 <p class="chat__mymessage__paragraph">{{ m.content }}</p>
               </div>
-              <div v-else class="chat__yourmessage">
+              <div v-else class="chat__yourmessage" style="position:relative; height: 80px;">
                 <div class="box"><img class="photo" :src=photo /></div>
-                <h5 class="chat__yourmessage__user" style="margin:3px">
+                <h5 class="chat__yourmessage__user" style="margin:3px; position:absolute; left:20px; top:0;">
                   {{ m.userId }}
                 </h5>
-                <div class="chat__yourmessage__p">
+                <div class="chat__yourmessage__p" style="position:absolute; left:20px; top:20px ">
                   <p class="chat__yourmessage__paragraph">{{ m.content }}</p>
                 </div>
               </div>

@@ -2,7 +2,7 @@
   <div>
     <div v-if="this.sessionLevel===3">
       <!-- <h1>AudioControl</h1> -->
-      <button @click="audioOnOff">audio</button>
+      <button class="btn btn-large btn-danger" type="button" @click="audioOnOff">음소거</button>
     </div>
   </div>
 </template>

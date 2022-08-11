@@ -3,7 +3,7 @@
 <div class="userVideoContainer mx-3" id="UserVideo">
   <ov-video :stream-manager="streamManager"/>
 </div>
-<div><p>{{ clientData }}</p></div>
+<!-- <div><p>{{ clientData }}</p></div> -->
 </div>
 </template>
 

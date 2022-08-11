@@ -73,9 +73,9 @@ export default {
   },
   created () {
     this.fetchCurrentUser()
-    this.id = this.$route.query.id
-    this.name = this.$route.query.name
-    this.userId = this.$route.query.userId
+    this.id = this.currentUser.id
+    this.name = this.currentUser.name
+    this.userId = this.currentUser.userid
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -118,9 +118,7 @@ export default {
       })
     },
     moveBack () {
-      this.$router.push({
-        name: 'home'
-      })
+      window.location.href = '/'
     },
     deleteRoom (id) {
       if (confirm('정말 삭제하시겠습니까??') === true) {

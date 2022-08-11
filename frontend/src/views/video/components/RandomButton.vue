@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="btn btn-primary" @click="randomButton">질문 출력</button>
+    <button class="btn btn-primary" @click="randomButton" style="background-color:#B9729E; border: none;">대화 주제</button>
   </div>
 </template>
 
