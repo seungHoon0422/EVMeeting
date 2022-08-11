@@ -27,12 +27,21 @@ export default {
     if (document.location.pathname === '/') {
       this.isChecked = true
       // console.log('ische:', this.isChecked)
+    } else {
+      this.isChecked = false
     }
   }
 }
 </script>
 
 <style>
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
+
 #app {
   font-family: Avenir, Helvetica, Arial, sans-serif;
   -webkit-font-smoothing: antialiased;
@@ -41,7 +50,9 @@ export default {
   color: #2c3e50;
   /* background-color: white; */
   height: 1200px;
-  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);
+  background-color : #f5f5f5;
+  /* background-color : #77a094; */
+  /* background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg); */
   background-repeat : no-repeat;
   background-size : cover;
   background-attachment: fixed;
