@@ -4,6 +4,7 @@ import com.ssafy.user.db.repository.UserRepository;
 import com.ssafy.user.request.*;
 import com.ssafy.user.response.UserLoginPostRes;
 import com.ssafy.user.response.UserRes;
+import com.ssafy.user.service.EmailService;
 import com.ssafy.user.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.MediaType;
@@ -28,6 +29,8 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.Random;
+
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
 
 /**
@@ -40,6 +43,9 @@ public class UserController {
 
 	@Autowired
 	UserService userService;
+
+	@Autowired
+	EmailService emailService;
 	@Autowired
 	PasswordEncoder passwordEncoder;
 	@Autowired
@@ -123,8 +129,6 @@ public class UserController {
 		//모두 괜찮다면 회원가입 실행
 		else {
 			User user = userService.createUser(registerInfo);
-			System.out.println("@@@@@ USER ID : " + user.getUserid());
-			System.out.println("@@@@@ TOKEN : " + JwtTokenUtil.getToken(user.getUserid()));
 			return ResponseEntity.ok(UserLoginPostRes.of(200, "Success", JwtTokenUtil.getToken(user.getUserid())));
 		}
 	}
@@ -139,17 +143,13 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> registerIdCheck(
 			@RequestBody @ApiParam(value = "회원가입 정보", required = true) String userid) {
-		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
-		System.out.println("@@@@@@ : " + userid);
-		//userid에 =이 함께 들어옴.
-		//=가 있다면 삭제하고, 판별해보기
+		//userid에 =이 함께 들어옴. =가 있다면 삭제하고, 판별해보기
 		userid = userid.replace("=", "");
+		//새로 가입하려는 아이디가 이미 존재하는 아이디와 일치하는지 확인
 		if (userRepository.existsByUserid(userid)) {
-			System.out.println("ID ALREADY EXISTS!");
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "false"));
 		}
 		else{
-			System.out.println("YOU CAN USE THIS ID!");
 			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "true"));
 		}
 	}
@@ -181,8 +181,11 @@ public class UserController {
 	})
 	public ResponseEntity<? extends BaseResponseBody> editPhoto(
 			@RequestParam("imgUpload1") MultipartFile file, @PathVariable String userid) {
+		User user = userService.getUserByUserId(userid);
 		//해당 유저의 프로필 사진을 삭제하기
-		userService.deletePhoto(userid);
+		if(user.getPhoto() != null){
+			userService.deletePhoto(user);
+		}
 		//해당 유저의 프로필 사진을 추가하기
 		userService.uploadPhoto(file, userid);
 		return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
@@ -236,7 +239,7 @@ public class UserController {
 		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
 	}
 
-	@PostMapping("findpwd/")
+	@PostMapping("findpassword/")
 	@ApiOperation(value = "회원 비밀번호 찾기", notes = "잊어버린 비밀번호를 재설정한다.")
 	@ApiResponses({
 			@ApiResponse(code = 200, message = "성공"),
@@ -244,25 +247,34 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
-	public ResponseEntity<? extends BaseResponseBody> findPW(
-			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserFindPWPostReq findInfo) {
-		String userId = findInfo.getUserid();
-		String email = findInfo.getEmail();
+	public ResponseEntity<? extends BaseResponseBody> resetPW(
+			@RequestBody @ApiParam(value = "회원수정 정보 - 비밀번호", required = true) UserResetPWPostReq resetInfo) {
+		String userId = resetInfo.getUserid();
+		String email = resetInfo.getEmail();
 
+		//해당 유저 찾기
 		User user = userService.getUserByUserId(userId);
 
-		// 해당 아이디의 이메일이 맞는지 확인
+		// 해당 아이디의 이메일이 맞다면, 비밀번호 재설정 진행
 		if(user.getEmail().equals(email)) {
-			// 맞다면, 비밀번호 재설정 진행
-			// 임시 비밀번호를 발급받는다.
-			// [조건] 특수문자, 영어 대문자, 소문자, 숫자
-			String tempPassword;
-			// 발급받은 임시 비밀번호를 user 계정에 암호화하여 저장한다.
-			// 임시 비밀번호를 이메일로 전송한다.
-			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "Success"));
+			String tempPassword = "";
+			Random random = new Random();
+			for(int i =0; i<10; i++){
+				int tempNum = random.nextInt(92); // 0~99
+				tempNum += 33;
+				tempPassword = tempPassword.concat((char) tempNum + "");
+			}
+			//해당 user의 비밀번호를 임시 비밀번호로 변경
+			userService.resetUserPW(user, tempPassword);
+
+			//해당 user의 이메일 주소로 임시 비밀번호를 보낸다.
+			emailService.sendResetPwMail(user, tempPassword);
+
+			// 모든 절차가 성공적으로 진행되었음
+			return ResponseEntity.status(200).body(BaseResponseBody.of(200, "success"));
 		}
-		// 유효하지 않는 패스워드인 경우, 로그인 실패로 응답.
-		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "Invalid Password"));
+		// 계정이 일치하지 않다면, 실패
+		return ResponseEntity.status(401).body(BaseResponseBody.of(401, "fail"));
 	}
 
 	@PostMapping("deleteprofile/")
@@ -273,6 +285,7 @@ public class UserController {
 			@ApiResponse(code = 404, message = "사용자 없음"),
 			@ApiResponse(code = 500, message = "서버 오류")
 	})
+
 	public ResponseEntity<? extends BaseResponseBody> delete(
 			@RequestBody @ApiParam(value = "회원탈퇴 정보", required = true) UserRemoveDeleteReq removeInfo, HttpServletRequest req) {
 		String userId = removeInfo.getUserid();
@@ -286,7 +299,7 @@ public class UserController {
 				// 패스워드가 일치한다면 회원탈퇴를 진행한다.
 
 				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
-				userService.deletePhoto(userId);
+				userService.deletePhoto(user);
 
 				// 그 다음으로 DB에 저장되어있는 회원 정보를 완전히 삭제한다.
 				userService.removeUser(userId);

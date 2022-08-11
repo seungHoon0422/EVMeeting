@@ -1,6 +1,6 @@
 <template id="back">
   <div id="app">
-    <nav-bar></nav-bar>
+    <nav-bar v-if="!isChecked"></nav-bar>
     <transition
       mode="out-in"
       enter-active-class="animate__animated animate__fadeIn"
@@ -17,6 +17,17 @@ import NavBar from '@/views/accounts/components/NavBar'
 export default {
   components: {
     NavBar
+  },
+  data () {
+    return {
+      isChecked: false
+    }
+  },
+  created () {
+    if (document.location.pathname === '/') {
+      this.isChecked = true
+      // console.log('ische:', this.isChecked)
+    }
   }
 }
 </script>
@@ -28,8 +39,12 @@ export default {
   -moz-osx-font-smoothing: grayscale;
   text-align: center;
   color: #2c3e50;
-  background-color: #FFFFEA;
-  height: 1500px;
+  /* background-color: white; */
+  height: 1200px;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);
+  background-repeat : no-repeat;
+  background-size : cover;
+  background-attachment: fixed;
 }
 
 nav {

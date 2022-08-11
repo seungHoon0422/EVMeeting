@@ -20,6 +20,8 @@ public interface IChatRoomService {
 
     void deleteRoom(long chatroomId);
 
+    void removeRoom(long chatroomId);
+
     //    String getRoomTitle(long id);
 //    List<ChatRoom> getAllChatRoomsByUserId(long id);
 

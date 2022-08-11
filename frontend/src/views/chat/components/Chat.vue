@@ -21,6 +21,7 @@
                 <p class="chat__mymessage__paragraph">{{ m.content }}</p>
               </div>
               <div v-else class="chat__yourmessage">
+                <div class="box"><img class="photo" :src=photo /></div>
                 <h5 class="chat__yourmessage__user" style="margin:3px">
                   {{ m.userId }}
                 </h5>
@@ -105,7 +106,8 @@ export default {
       idx: 0,
       msg: [],
       content: '',
-      stompClient: null
+      stompClient: null,
+      photo: null
     }
   },
   created () {
@@ -113,6 +115,7 @@ export default {
     this.roomid = this.$route.query.roomid
     this.name = this.$route.query.name
     this.userId = this.$route.query.userId
+    this.photo = this.$route.query.photo
     // 대화 불러오기
     axios.get(api.chat.getMessage() + `${this.roomid}`).then(
       res => {
@@ -358,5 +361,19 @@ svg {
 
 svg:hover {
   fill: #999999;
+}
+.box{
+  width: 30px;
+  height: 30px;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: white;
+  margin-right: 5px;
+  margin-left: -20px;
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
 }
 </style>

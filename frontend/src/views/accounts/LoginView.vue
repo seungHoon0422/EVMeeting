@@ -13,10 +13,10 @@
           </div>
         </div>
         <div>
-          <button type="submit" class="btn btn-dark rounded length">로그인</button>
+          <button type="submit" class="btn btn-light rounded length mt-3">로그인</button>
         </div>
       </form>
-        <div class="my-3">
+        <!-- <div class="my-3">
           <button type="submit" class="btn btn-warning rounded length" @click="kakaoLogin">카카오로 로그인</button>
         </div>
         <div>
@@ -24,7 +24,7 @@
         </div>
         <div class="mt-3">
           <button type="submit" class="btn btn-secondary rounded length" @click="client.requestAccessToken()">구글로 로그인(서버필요)</button>
-        </div>
+        </div> -->
         <!-- <button @click="client.requestAccessToken()">Authorize me</button>
         <button @click="fetchinfo">fetchinfo</button> -->
       <div class="mt-3 d-flex justify-content-center">
@@ -111,28 +111,37 @@ export default {
 
 .box {
   width: 500px;
-  height: 550px;
-  border: 5px solid #F88F6D;
-  background-color: #FFFFEA;
+  height: 450px;
+  border: 5px solid #FAFAFA;
+  background-color: rgba(0, 0, 0, 0.3) ;
   border-radius: 10px;
 }
 
 .text-color {
- color: #F88F6D;
+ color: #FAFAFA;
  font-weight: 600;
 }
 
 .font-head {
-  color: #F88F6D;
+  color: #FAFAFA;
   font-size: 40px;
 }
 
 input {
-  background-color: #FFFFEA;
-  border: 3px solid #F88F6D;
+  background-color: transparent;
+  border: 3px solid #FAFAFA;
   border-top: none;
   border-left: none;
   border-right: none;
   border-radius: 5px;
+  color: #FAFAFA;
+}
+
+input:focus {
+  outline:none;
+}
+
+input::placeholder {
+  color: #FAFAFA;
 }
 </style>

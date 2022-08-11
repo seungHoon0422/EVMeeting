@@ -33,14 +33,15 @@ export default {
 .box {
   width: 800px;
   height: 900px;
-  border: 5px solid #F88F6D;
+  border: 5px solid #FAFAFA;
   border-radius: 10px;
   margin: 0 auto;
   position: relative;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .font-style {
-  color: #F88F6D;
+  color: #FAFAFA;
   font-size: 40px;
 }
 
@@ -52,10 +53,15 @@ export default {
 }
 
 button {
-  background-color: #F88F6D;
+  background-color: transparent;
   border-radius: 10px;
-  border: none;
-  color: white;
+  border: 2px solid #FAFAFA;
+  color: #FAFAFA;
   padding: 5px 20px;
+}
+
+button:hover {
+  color: gray;
+  background-color: #FAFAFA;
 }
 </style>

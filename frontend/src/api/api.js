@@ -1,5 +1,5 @@
-// const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
-const HOST = 'https://localhost:8080/api/v1/'
+const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
+// const HOST = 'https://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 const CHAT = 'chat/'
@@ -27,7 +27,8 @@ export default {
     getMessage: () => HOST + CHAT + 'room/allMessages/',
     getRooms: () => HOST + CHAT + 'rooms/',
     deleteRoom: () => HOST + CHAT + 'room/delete/',
-    connectionSock: () => HOST + CHAT + 'ws/'
+    connectionSock: () => HOST + CHAT + 'ws/',
+    removeMsg: () => HOST + CHAT + 'room/delete/'
   },
   video: {
     getSessionJoin: () => HOST + VIDEO + 'join',

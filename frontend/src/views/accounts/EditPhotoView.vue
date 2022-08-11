@@ -1,6 +1,6 @@
 <template>
   <div class="box">
-    <h1 class="font-style mt-3">사진 변경</h1>
+    <h1 class="font-style my-5">사진 변경</h1>
     <form  @submit.prevent="editPhoto(currentUser.userid)">
           <div class="img-box">
             <input id="imgUpload1" @change="upload1" type="file" accept="image/*" style="display:none;">
@@ -65,7 +65,7 @@ export default {
 .img-box {
   width: 400px;
   height: 400px;
-  border: 5px solid #F88F6D;
+  border: 5px solid #FAFAFA;
   border-radius: 10px;
   margin: 20px auto;
 }
@@ -77,14 +77,14 @@ export default {
 }
 
 .icon-color {
-  color: #F88F6D;
+  color: #FAFAFA;
   font-size: 30px;
   margin-top: 50px;
   cursor: pointer;
 }
 
 .font-style {
-  color: #F88F6D;
+  color: #FAFAFA;
   font-size: 40px;
 }
 
@@ -94,20 +94,26 @@ export default {
 }
 
 .box {
-  border: 5px solid #F88F6D;
+  border: 5px solid #FAFAFA;
   width: 800px;
-  height: 600px;
+  height: 700px;
   margin: 0 auto;
   position: relative;
   border-radius: 10px;
+  background-color: rgba(0,0,0,0.4);
 }
 
 .upload-button {
-  border: 5px solid #F88F6D;
-  background-color: #F88F6D;
+  border: 3px solid #FAFAFA;
+  background-color: transparent;
   color: white;
   border-radius: 5px;
   margin-top: 25px;
-  padding: 0 25px;
+  padding: 5px 25px;
+}
+
+button:hover {
+  color: gray;
+  background-color: #FAFAFA;
 }
 </style>

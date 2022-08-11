@@ -10,7 +10,6 @@ import com.ssafy.user.db.repository.UserRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.sql.Time;
 import java.time.LocalDateTime;
 import java.util.*;
 
@@ -27,8 +26,18 @@ public class ChatRoomService implements IChatRoomService {
     @Override
     public long createRoom(ChatRoom newRoom) {
         newRoom.setRecentMessageTime(LocalDateTime.now().toString());
-        return chatroomRepository.save(newRoom).getId();
+        ChatRoom chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid1(), newRoom.getUserid2());
+        if(chatRoom == null) {
+            chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid2(), newRoom.getUserid1());
+            if(chatRoom == null) {
+                System.out.println("Create Room");
+                return chatroomRepository.save(newRoom).getId();
+            }
+        }
+        System.out.println("Exist Room");
+        return chatRoom.getId();
     }
+
     @Override
     public List<ChatRoom> getAllChatRooms() {
         return chatroomRepository.findAll();
@@ -100,5 +109,14 @@ public class ChatRoomService implements IChatRoomService {
                     chatroom.setAlive(false);
                     return chatroomRepository.save(chatroom);
                 });
+    }
+
+    @Override
+    public void removeRoom(long chatroomId) {
+        chatroomRepository.deleteById(chatroomId);
+        Optional<List<Message>> messages = messageRepository.findAllByChatroomId(chatroomId);
+        messages.get().forEach(message -> {
+            messageRepository.delete(message);
+        });
     }
 }

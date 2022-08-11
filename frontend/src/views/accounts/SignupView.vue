@@ -4,17 +4,6 @@
     <div class="mt-5 p-3 mb-5 rounded form-style">
       <h1>입주민 등록</h1>
       <p class="guide head">*모든 항목 기입해주시기 바랍니다</p>
-      <!-- <account-error-list v-if="authError"></account-error-list> -->
-      <!-- <form @submit.prevent="uploadPhotos(photo)">
-        <div class="img-box">
-              <input id="imgUpload1" @change="upload" type="file" accept="image/*" style="display:none;">
-              <label for="imgUpload1" v-if="!photoUrl">
-                <i class="fa-solid fa-circle-plus icon-color"></i>
-              </label>
-              <img :src="photoUrl" alt=".." v-if="photoUrl" class="img">
-        </div>
-      </form> -->
-
       <form @submit.prevent="signup({credentials, valid})" class="mt-5">
         <div class="d-flex justify-content-between">
           <div class="ms-3">
@@ -133,13 +122,9 @@
 
 <script>
 import { mapActions, mapGetters } from 'vuex'
-import axios from 'axios'
-import api from '@/api/api'
-// import AccountErrorList from '@/components/AccountErrorList'
 
 export default {
   name: 'SignupView',
-  // components: { AccountErrorList },
   data () {
     return {
       credentials: {
@@ -164,8 +149,7 @@ export default {
         passwordHasError2: false,
         usernameHasError: false,
         useridHasError: false
-      },
-      photoUrl: ''
+      }
     }
   },
   computed: {
@@ -198,33 +182,15 @@ export default {
       } this.valid.usernameHasError = false
     },
     checkUserid () {
-      const validateUserid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,12}$/
-      if (!validateUserid.test(this.credentials.userid) || !this.credentials.userid) {
+      // const validateUserid = /^(?=.*[a-zA-Z])(?=.*[0-9]).{3,12}$/
+      const validateUserid = /^[a-zA-Z0-9].{3,12}$/
+      const checkExclude = /^[a-zA-Z0-9]+/
+      const Userid = this.credentials.userid
+      // console.log((this.credentials.userid).match(checkExclude), this.credentials.userid.length, (this.credentials.userid).match(checkExclude)[0].length)
+      if (!validateUserid.test(Userid) || !Userid || Userid.length !== Userid.match(checkExclude)[0].length) {
         this.valid.useridHasError = true
         return
       } this.valid.useridHasError = false
-    },
-    upload (e) {
-      const file = e.target.files
-      const url = URL.createObjectURL(file[0])
-      // console.log(url)
-      this.photoUrl = url
-      const frm = new FormData()
-      const photoFile = document.getElementById('imgUpload1')
-      console.log(photoFile.files[0])
-      frm.append('photo', photoFile.files[0])
-      axios({
-        url: api.accounts.uploadPhoto(),
-        method: 'post',
-        data: frm,
-        headers: {
-          'Content-Type': 'multipart/form-data'
-        }
-      })
-        .then(res => {
-          console.log(res)
-        })
-        .catch(err => console.log(err))
     }
   },
   watch: {
@@ -254,22 +220,23 @@ export default {
 }
 
 .signup-form {
-  color: #F88F6D;
-  background-color: #FFFFEA;
-  border-color: #F88F6D;
+  color: #FAFAFA;
+  background-color: rgba(0, 0, 0, 0.3);
+  border-color: #FAFAFA;
   border: solid 5px;
   border-radius: 20px;
   width: 800px;
 }
 
 .btn {
-  color: white;
-  background-color: #F88F6D;
+  color: #FAFAFA;
+  background-color: transparent;
+  border: 1px solid #FAFAFA;
 }
 
 .input-color {
-  border: solid 3px #F88F6D;
-  background-color: #FFFFEA;
+  border: solid 3px #FAFAFA;
+  background-color: transparent;
 }
 
 .self-margin {
@@ -277,14 +244,15 @@ export default {
 }
 
 select {
-  border: 3px solid #F88F6D;
-  background-color: #FFFFEA;
+  border: 3px solid #FAFAFA;
+  background-color: transparent;
   font-size: 14px;
   padding: 0 10px;
 }
 
 input, textarea, select {
   outline-color: yellowgreen;
+  color: #FAFAFA;
 }
 
 .guide {
@@ -303,6 +271,7 @@ input, textarea, select {
 }
 
 ::placeholder {
+  color: #FAFAFA;
   font-size: 8px;
 }
 
@@ -313,5 +282,9 @@ input, textarea, select {
 .title-danger {
   font-weight: 900;
   color: red;
+}
+
+option {
+  background-color: rgba(0,0,0,0.4);
 }
 </style>
