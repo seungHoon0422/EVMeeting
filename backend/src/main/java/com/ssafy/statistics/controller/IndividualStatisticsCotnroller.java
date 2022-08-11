@@ -1,20 +1,24 @@
 package com.ssafy.statistics.controller;
 
 
-import com.ssafy.statistics.model.MBTIDto;
-import com.ssafy.statistics.model.MatchingRateDto;
-import com.ssafy.statistics.model.MatchingTimeDto;
+import com.ssafy.common.model.response.BaseResponseBody;
+import com.ssafy.common.util.JwtTokenUtil;
+import com.ssafy.statistics.db.entity.Statistics;
+import com.ssafy.statistics.model.*;
 import com.ssafy.statistics.service.IndividualStatisticsService;
+import com.ssafy.user.db.entity.User;
+import com.ssafy.user.request.UserRegisterPostReq;
+import com.ssafy.user.response.UserLoginPostRes;
 import io.swagger.annotations.ApiOperation;
+import io.swagger.annotations.ApiParam;
+import io.swagger.annotations.ApiResponse;
+import io.swagger.annotations.ApiResponses;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
-import org.springframework.web.bind.annotation.GetMapping;
-import org.springframework.web.bind.annotation.PathVariable;
-import org.springframework.web.bind.annotation.RequestMapping;
-import org.springframework.web.bind.annotation.RestController;
+import org.springframework.web.bind.annotation.*;
 
 import java.util.List;
 
@@ -47,5 +51,47 @@ public class IndividualStatisticsCotnroller {
     public ResponseEntity<List<MBTIDto>> individualMbtiRate(@PathVariable Long id) {
         List<MBTIDto> mbtiResult = individualStatisticsService.mbtiRate(id);
         return ResponseEntity.status(HttpStatus.OK).body(mbtiResult);
+    }
+
+    @GetMapping("/drinkRate/{id}")
+    @ApiOperation(value = "본인과 매칭된 사람들의 음주량 비율", notes = "매칭이 성공한 사람들 중 음주량 비율이 얼마나 되는지 체크해본다.")
+    public ResponseEntity<List<DrinkDto>> individualDrinkRate(@PathVariable Long id) {
+        List<DrinkDto> drinkResult = individualStatisticsService.drinkRate(id);
+        return ResponseEntity.status(HttpStatus.OK).body(drinkResult);
+    }
+
+    @GetMapping("/cigaretteRate/{id}")
+    @ApiOperation(value = "본인과 매칭된 사람들의 흡연여부 비율", notes = "매칭이 성공한 사람들 중 흡연여부 비율이 얼마나 되는지 체크해본다.")
+    public ResponseEntity<List<CigaretteDto>> individualCigaretteRate(@PathVariable Long id) {
+        List<CigaretteDto> cigaretteResult = individualStatisticsService.cigaretteRate(id);
+        return ResponseEntity.status(HttpStatus.OK).body(cigaretteResult);
+    }
+
+    @PostMapping("/addMatchingHistory")
+    @ApiOperation(value = "매칭 기록 새롭게 남기기", notes = "3단계 매칭 시작할 때, 매칭 기록을 남긴다")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> addMatchingHistory(
+            @RequestBody @ApiParam(value = "매칭 기록에 관련된 정보들", required = true) MatchingDto matchingdto) {
+        individualStatisticsService.createStatistic(matchingdto);
+        return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
+    }
+
+    @PostMapping("/editMatchingHistory")
+    @ApiOperation(value = "매칭 기록 최종 성공 남기기", notes = "매칭이 최종 성사되고 채팅방이 새롭게 만들어질 때, 매칭 기록을 수정한다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 401, message = "인증 실패"),
+            @ApiResponse(code = 404, message = "사용자 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<? extends BaseResponseBody> editMatchingHistory(
+            @RequestBody @ApiParam(value = "매칭 기록에 관련된 정보들", required = true) MatchingDto matchingdto) {
+        individualStatisticsService.editStatistic(matchingdto);
+        return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
     }
 }
