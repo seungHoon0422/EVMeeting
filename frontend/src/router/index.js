@@ -13,6 +13,7 @@ import EditProfileView from '../views/accounts/EditProfileView.vue'
 import DeleteProfileView from '../views/accounts/DeleteProfileView.vue'
 import EditPhotoView from '../views/accounts/EditPhotoView.vue'
 import FindPasswordView from '../views/accounts/FindPasswordView.vue'
+import PersonalStatView from '../views/accounts/PersonalStatView.vue'
 import WebrtcView from '../views/video/WebrtcView.vue'
 
 import chat from '../views/chat/ChatView.vue'
@@ -75,6 +76,11 @@ const routes = [
     path: '/findpassword',
     name: 'findpassword',
     component: FindPasswordView
+  },
+  {
+    path: '/personalstat',
+    name: 'personalstat',
+    component: PersonalStatView
   },
   {
     path: '/404',
