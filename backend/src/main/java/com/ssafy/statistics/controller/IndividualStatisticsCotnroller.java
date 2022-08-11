@@ -1,12 +1,10 @@
 package com.ssafy.statistics.controller;
 
 
-import com.ssafy.statistics.model.GenderDto;
 import com.ssafy.statistics.model.MBTIDto;
 import com.ssafy.statistics.model.MatchingRateDto;
 import com.ssafy.statistics.model.MatchingTimeDto;
 import com.ssafy.statistics.service.IndividualStatisticsService;
-import com.ssafy.statistics.service.TotalStatisticsService;
 import io.swagger.annotations.ApiOperation;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
@@ -18,7 +16,6 @@ import org.springframework.web.bind.annotation.PathVariable;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
-import java.util.ArrayList;
 import java.util.List;
 
 @Slf4j
@@ -43,5 +40,12 @@ public class IndividualStatisticsCotnroller {
     public ResponseEntity<MatchingTimeDto> individualMatchingTime(@PathVariable Long id) {
         MatchingTimeDto matchingTimeResult = individualStatisticsService.matchingTime(id);
         return ResponseEntity.status(HttpStatus.OK).body(matchingTimeResult);
+    }
+
+    @GetMapping("/mbtiRate/{id}")
+    @ApiOperation(value = "본인과 매칭된 사람들의 mbti 비율", notes = "매칭이 성공한 사람들 중 mbti의 비율이 얼마나 되는지 체크해본다.")
+    public ResponseEntity<List<MBTIDto>> individualMbtiRate(@PathVariable Long id) {
+        List<MBTIDto> mbtiResult = individualStatisticsService.mbtiRate(id);
+        return ResponseEntity.status(HttpStatus.OK).body(mbtiResult);
     }
 }
