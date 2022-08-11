@@ -1,8 +1,3 @@
-<template>
-  <div style="margin-top:-20px;">
-    <button @click="callMyRoomList()">내 채팅목록 보기</button>
-  </div>
-</template>
 
 <script>
 import { mapGetters, mapActions } from 'vuex'
@@ -24,6 +19,7 @@ export default {
     this.id = this.currentUser.id
     this.name = this.currentUser.username
     this.userid = this.currentUser.userid
+    this.callMyRoomList()
   },
   methods: {
     ...mapActions(['fetchCurrentUser']),

@@ -18,7 +18,7 @@ public interface MeetingQueueService {
     // advanced, recording...
     MeetingQueue createMeeting(MeetingQueue meetingQueueDto);
 
-    MeetingQueue getCallMeetingByCategory();
+    MeetingQueue getCallMeetingByCategory(MeetingQueue meetingQueue);
 
     void deleteMatch(String userid);
 
