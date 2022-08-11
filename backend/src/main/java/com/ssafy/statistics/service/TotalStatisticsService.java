@@ -96,7 +96,6 @@ public class TotalStatisticsService {
                     calcPercent(timeCount.get(i), matchTimes.size()), 0));
         }
 
-
         return dtoResult;
     }
 
