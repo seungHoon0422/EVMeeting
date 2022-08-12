@@ -68,7 +68,7 @@ public class MeetingQueueController {
         else{
             blacklistService.createBlacklist(blacklist); // 블랙리스트에 추가하는 로직 구현
         }
-        // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리가 필요
+        // 접속종료 버튼을 누르지 않고, 비정상 종료를 할 때 처리
         // 사이트를 종료할 때 post를 보내도록 구현
     }
 }
