@@ -942,9 +942,9 @@ export default {
 .pop_chat{
   position: absolute;
   top: 200px;
-  height: 60%;
+  height: 430px;
   width: 400px;
-  left: 15px;
+  left: 20px;
 }
 .pop_profile{
   position: absolute;
