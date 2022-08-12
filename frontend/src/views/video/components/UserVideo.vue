@@ -10,7 +10,7 @@
       <ov-video :stream-manager="streamManager"/>
     </div>
   </div>
-  <div><p>{{ clientData }}</p></div>
+  <div><p class="fs-3" style="font-family : 'GangwonEdu_OTFBoldA'; #b5b1ae;">{{ this.nickname }}</p></div>
 </div>
 </template>
 
@@ -28,6 +28,9 @@ export default {
     streamManager: Object,
     sessionLevel: {
       type: Number
+    },
+    nickname: {
+      type: String
     }
   },
 

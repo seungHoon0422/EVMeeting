@@ -40,7 +40,7 @@
                     <!-- 엘리베이터 애니메이션 -->
                     <div>
                       <div class="container d-flex justify-content-center align-items-center" id="elevatorAnimation">
-                        <div class="container d-flex justify-content-center align-items-center" v-if="animationFlag===true" style="width: 550px; height: 650px">
+                        <div class="container d-flex justify-content-center align-items-center" v-if="animationFlag===true" style="width: 550px; height: 650px; margin-top:85px;">
                           <div class="container justify-content-center align-items-center">
                             <button class="my-3" style="background-color: #FAFAFA" type="button" id="#buttonIcon" disabled>
                               <span style="color : #B9729E;" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
@@ -204,7 +204,7 @@
     <!-- <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%; color: #FAFAFA;"> -->
     <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%;">
       <div class="contaniner my-5" v-if="currentUser">
-        <h1 style="font-weight: bold;">Hello! <span style="color : #B9729E;">{{this.strangerNickname}}</span></h1>
+        <h1 style="font-weight: bold;"> Hello I'm <span style="color : #B9729E;">{{this.strangerNickname}}</span></h1>
           <div class="container" style="width: 80%;">
             <b-progress height="2rem" show-progress :max="8" class="mb-3" style="background-color: #b5b1ae;" >
               <b-progress-bar variant="$black: #fff !default;" :value="profileopencount" animated show-progress
@@ -243,10 +243,10 @@
       <!-- 비디오 출력 부분  -->
       <div>
         <div id="video-container" class="container d-flex justify-content-center align-items-center">
-          <div class="container mx-2" id="publisher_container">
-            <user-video :stream-manager="publisher" :sessionLevel="sessionLevel" @click.native="updateMainVideoStreamManager(publisher)"/>
+          <div class="container mx-2 col-auto" id="publisher_container">
+            <user-video :stream-manager="publisher" :nickname="currentUser.username" :sessionLevel="sessionLevel" @click.native="updateMainVideoStreamManager(publisher)"/>
           </div>
-          <div class="container d-flex justify-content-center align-items-center mx-2" style="flex-direction: column;">
+          <div class="container col-auto d-flex justify-content-center align-items-center mx-2" style="flex-direction: column;">
             <div>
               <timer-animation style="width: 100px; height: 100px;"></timer-animation>
             </div>
@@ -254,8 +254,8 @@
               <h4 style="font-weight: bold;">{{tenseconds}}</h4>
             </div>
           </div>
-          <div class="container mx-2" id="subscriber_container">
-            <user-video v-for="sub in subscribers" :sessionLevel="sessionLevel" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+          <div class="container col-auto mx-2" id="subscriber_container">
+            <user-video v-for="sub in subscribers" :nickname="strangerNickname" :sessionLevel="sessionLevel" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
           </div>
         </div>
       </div>
@@ -664,7 +664,7 @@ export default {
         this.stopaddFunc()
         // this.addcount = 0
       }
-      this.tenseconds = 100000
+      this.tenseconds = 10000000
       // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
@@ -937,20 +937,6 @@ export default {
       if (this.strangerLeaveFlag === true) {
         this.leaveSession()
       }
-    },
-    strangerUserid () {
-      this.getStrangerInfo()
-      // console.log('ItsStart')
-      // console.log(this.strangerAge)
-      // const today = new Date()
-      // const a = (this.strangerAge || '').split('-')
-      // const birthDate = new Date(a[0], a[1], a[2])
-      // this.strangerAge = today.getFullYear() - birthDate.getFullYear()
-      // console.log('thisIsStrangerAge')
-      // console.log('today : ', today)
-      // console.log('a :', a)
-      // console.log('birthDate :', birthDate)
-      // console.log(this.strangerAge)
     }
   }
 }
