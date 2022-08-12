@@ -24,22 +24,24 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
     @Override
     public MeetingQueue getCallMeetingByCategory(MeetingQueue meetingQueue) {
         List<MeetingQueue> list = meetingQueueRepository.findAll(); // 미팅큐에 대기중인 유저가 있는지 확인
-        // 미팅큐 리스트를 쿼리문으로 조회할 때 필터링을 추가하면 된다
         // 블랙리스트 조회 필터링
         List<Blacklist> blist1 = blacklistRepository.findByUserFrom(meetingQueue.getUserid()); // userFrom 컬럼 기준으로 검색
         List<Blacklist> blist2 = blacklistRepository.findByUserTo(meetingQueue.getUserid()); // userTo 컬럼 기준으로 검색
         
         // list와 blist1 탐색, list와 blist2 탐색해서 블랙리스트에 존재하는 컬럼은 삭제해준다
-        for(int i=0; i<blist1.size(); i++){
+        for(int i=0; i<blist1.size(); i++){ // blacklist userFrom 조회
             for(int j=list.size()-1; j>=0; j--){
                 if(list.get(j).getUserid().equals(blist1.get(i).getUserTo())) list.remove(j);
             }
         }
-        for(int i=0; i<blist2.size(); i++){
+        for(int i=0; i<blist2.size(); i++){ // blacklist userTo 조회
             for(int j=list.size()-1; j>=0; j--){
                 if(list.get(j).getUserid().equals(blist2.get(i).getUserFrom())) list.remove(j);
             }
         }
+
+        // 1. O(n^2)으로 탐색하는 방법
+        // 2. 내정보, 상대정보(list)를 들고 select and 활용해 쿼리문을 던져보는 방법 -> DB에 접근하는 시간 > for문 돌아가는 시간
 
         if(list.isEmpty()){
             return null;

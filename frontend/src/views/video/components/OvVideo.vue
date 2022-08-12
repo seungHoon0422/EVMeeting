@@ -1,5 +1,5 @@
 <template>
-  <video autoplay style="width: 100%; max-width: fit-content;"/>
+  <video autoplay style="width: 100%; max-width: fit-content; border-radius: 20px;"/>
 </template>
 
 <script>

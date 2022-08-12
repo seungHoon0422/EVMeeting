@@ -1,18 +1,45 @@
 <template>
   <div>
-    <div v-if="this.subject==='mbti'">
-      <i class='bx bx-smile' style="font-size: 50px;"></i>
-      <h1>저의 MBTI 는</h1>
+    <div>
+      <div v-if="this.subject==='mbti'">
+        <i class='bx bx-smile' style="font-size: 50px; color:#B9729E;"></i>
+        <h1 style="color:#B9729E; font-weight: bold;">MBTI</h1>
+      </div>
+      <div v-else-if="this.subject==='drink'">
+        <i class='bx bx-happy-alt' style="font-size: 50px; color:#B9729E;"></i>
+        <h1 style="color:#B9729E; font-weight: bold;">주량</h1>
+      </div>
+      <div v-else-if="this.subject==='description'">
+        <i class='bx bx-happy-heart-eyes' style="font-size: 50px; color:#B9729E;"></i>
+        <h1 style="color:#B9729E; font-weight: bold;">About Me</h1>
+      </div>
     </div>
-    <div v-else-if="this.subject==='drink'">
-      <i class='bx bx-happy-alt' style="font-size: 50px;"></i>
-      <h1>술은 이정도 마셔요!</h1>
+    <div>
+      <div v-if="this.strangerProfile==='zero'">
+        <h3 class="my-3" style="font-family : 'GangwonEdu_OTFBoldA';">안 좋아해요</h3>
+      </div>
+      <div v-else-if="this.strangerProfile==='under1'">
+        <h2 class="my-3">
+          <i class="fa-solid fa-bottle-droplet" id="bottle"></i>
+        </h2>
+      </div>
+      <div v-else-if="this.strangerProfile==='under2'">
+        <h2 class="my-3">
+          <i class="fa-solid fa-bottle-droplet" id="bottle"></i>
+          <i class="fa-solid fa-bottle-droplet" id="bottle"></i>
+        </h2>
+      </div>
+      <div v-else-if="this.strangerProfile==='over3'">
+        <h2 class="my-3">
+          <i class="fa-solid fa-bottle-droplet" id="bottle"></i>
+          <i class="fa-solid fa-bottle-droplet" id="bottle"></i>
+          <i class="fa-solid fa-bottle-droplet" id="bottle"></i>
+        </h2>
+      </div>
+      <div v-else>
+        <h3 class="my-3" style="font-family : 'GangwonEdu_OTFBoldA';">{{this.strangerProfile}}</h3>
+      </div>
     </div>
-    <div v-else-if="this.subject==='description'">
-      <i class='bx bx-happy-heart-eyes' style="font-size: 50px;"></i>
-      <h1>저는 이런 사람 이에요</h1>
-    </div>
-    <h1>{{this.strangerProfile}}</h1>
   </div>
 </template>
 <script>
@@ -65,3 +92,9 @@ export default {
   }
 }
 </script>
+
+<style>
+#bottle{
+  color : #282627;
+}
+</style>

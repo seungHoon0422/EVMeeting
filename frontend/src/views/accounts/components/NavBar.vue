@@ -1,17 +1,18 @@
 <template>
 <div class="nav-box">
-  <nav class="d-flex justify-content-center pb-0 font-normal navbar">
+  <nav class="d-flex justify-content-center pb-0 font-normal navbar align-items-center">
     <div class="container-fluid">
-      <a class="text-light me-5 text-decoration-none" href="/">
-        <p class="mb-0"><span class="font-head">엘</span>리베이터에서 우린</p>
-        <p class="mb-0 text-start"><span class="font-head">사</span>랑을 나누지</p>
-      </a>
+      <div style="margin-top:10px;">
+        <a class="" href="/">
+          <img src="@/img/logo1.png" id="logo">
+        </a>
+      </div>
       <div class="nav-padding">
-        <a class="text-light me-5 text-decoration-none" href="/">홈</a>
-        <router-link v-if="isLoggedIn" class="text-light me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
-        <router-link v-if="!isLoggedIn" class="text-light text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
-        <router-link v-if="isLoggedIn" class="text-light text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
-        <router-link v-if="isLoggedIn" class="text-light text-decoration-none" :to="{ name: 'chatlist' }" style="margin-left:30px;">매칭목록</router-link>
+        <a class="text-dark me-5 text-decoration-none" href="/" style="font-family: 'GangwonEdu_OTFBoldA';">홈</a>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="!isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'chatrooms' }">매칭목록</router-link>
       </div>
     </div>
   </nav>
@@ -40,23 +41,28 @@ export default {
   width: 1200px;
   margin: 0 auto;
   position: relative;
+  color : #282627 ;
 }
 
 .hr1{
-  height: 5px !important;
-  background-color: white !important;
+  height: 4px !important;
+  background-color:#282627  !important;
 }
 
 .font-head {
   font-size: 30px;
+  color : #282627;
+  font-weight: bold;
 }
 
 .font-normal {
   font-size: 20px;
+  color : #282627;
+  font-weight: bold;
 }
 
 .nav-padding {
-  padding-top: 60px;
+  padding-top: 30px;
   right: 3%;
   position: absolute;
 }
@@ -65,5 +71,10 @@ export default {
   margin-right: 500px;
   padding-bottom: 0px;
   margin-bottom: 0px;
+}
+
+#logo {
+  width : 30px;
+  height: 30px;
 }
 </style>
