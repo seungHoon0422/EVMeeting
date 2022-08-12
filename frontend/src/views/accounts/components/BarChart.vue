@@ -1,7 +1,16 @@
 <template>
   <Bar
     :chart-options="chartOptions"
-    :chart-data="chartData"
+    :chart-data="{
+        labels: mbtiLabel,
+        datasets: [
+          {
+            label: 'MBTI',
+            backgroundColor: '#f87979',
+            data: mbtiRate
+          }
+        ]
+      }"
     :chart-id="chartId"
     :dataset-id-key="datasetIdKey"
     :plugins="plugins"
@@ -24,6 +33,7 @@ import {
   CategoryScale,
   LinearScale
 } from 'chart.js'
+import { mapActions, mapGetters } from 'vuex'
 
 ChartJS.register(Title, Tooltip, Legend, BarElement, CategoryScale, LinearScale)
 
@@ -64,38 +74,20 @@ export default {
   },
   data () {
     return {
-      chartData: {
-        labels: [
-          'ISTJ',
-          'ISTP',
-          'ISFJ',
-          'ISFP',
-          'INFJ',
-          'INFP',
-          'INTJ',
-          'INTP',
-          'ESTP',
-          'ESTJ',
-          'ESFP',
-          'ESFJ',
-          'ENFP',
-          'ENFJ',
-          'ENTP',
-          'ENTJ'
-        ],
-        datasets: [
-          {
-            label: 'MBTI',
-            backgroundColor: '#f87979',
-            data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11, 8, 7, 6, 10]
-          }
-        ]
-      },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
       }
     }
+  },
+  created () {
+    this.getmbti()
+  },
+  methods: {
+    ...mapActions(['getmbti'])
+  },
+  computed: {
+    ...mapGetters(['mbtiRate', 'mbtiLabel'])
   }
 }
 </script>

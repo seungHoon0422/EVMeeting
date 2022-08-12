@@ -1,9 +1,10 @@
-const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
-// const HOST = 'https://localhost:8080/api/v1/'
+// const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
+const HOST = 'https://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 const CHAT = 'chat/'
 const VIDEO = 'meeting/'
+const STATISTICS = 'statistics/'
 
 export default {
   accounts: {
@@ -34,5 +35,12 @@ export default {
     getSessionJoin: () => HOST + VIDEO + 'join',
     getStrangerProfile: () => HOST + VIDEO + 'userinfo',
     userLeaveSession: () => HOST + VIDEO + 'endservice'
+  },
+  statistics: {
+    getMatchingRate: userid => HOST + STATISTICS + 'individual/matchingRate/' + userid,
+    getMatchingTime: userid => HOST + STATISTICS + 'individual/matchingTime/' + userid,
+    getMBTIRate: userid => HOST + STATISTICS + 'individual/mbtiRate/' + userid,
+    getDrinkRate: userid => HOST + STATISTICS + 'individual/drinkRate/' + userid,
+    getCigaretteRate: userid => HOST + STATISTICS + 'individual/cigaretteRate/' + userid
   }
 }

@@ -13,7 +13,12 @@ export default {
     kakaoLogin: false,
     availableId: true,
     availableEmail: true,
-    image1: ''
+    image1: '',
+    cigaretteRate: [],
+    mbtiLabel: [],
+    mbtiRate: [],
+    drinkRate: [],
+    drinkLabel: []
   },
   getters: {
     isLoggedIn: state => !!state.token,
@@ -31,7 +36,13 @@ export default {
     kakaoLogin: state => state.kakaoLogin,
     availableId: state => state.availableId,
     availableEmail: state => state.availableEmail,
-    image1: state => state.image1
+    image1: state => state.image1,
+    userId: state => ({ Authorization: `Bearer ${state.currentUser.userid}` }),
+    cigaretteRate: state => state.cigaretteRate,
+    mbtiLabel: state => state.mbtiLabel,
+    mbtiRate: state => state.mbtiRate,
+    drinkRate: state => state.drinkRate,
+    drinkLabel: state => state.drinkLabel
   },
   mutations: {
     SET_TOKEN: (state, token) => (state.token = token),
@@ -41,7 +52,12 @@ export default {
     SET_KAKAO_LOGIN: (state, kakao) => (state.kakaoLogin = kakao),
     SET_IMAGE: (state, image) => (state.image1 = image),
     SET_AVAILABLEEMAIL: (state, bool) => (state.availableEmail = bool),
-    SET_AVAILABLEID: (state, bool) => (state.availableId = bool)
+    SET_AVAILABLEID: (state, bool) => (state.availableId = bool),
+    SET_CIGARETTERATE: (state, rates) => (state.cigaretteRate = rates),
+    SET_MBTIRATE: (state, rates) => (state.mbtiRate = rates),
+    SET_MBTILABEL: (state, labels) => (state.mbtiLabel = labels),
+    SET_DRINKRATE: (state, rates) => (state.drinkRate = rates),
+    SET_DRINKLABEL: (state, labels) => (state.drinkLabel = labels)
   },
   actions: {
     saveImage ({ commit }, image) {
@@ -369,6 +385,11 @@ export default {
 
     findPassword ({ commit }, credentials) {
       // console.log(credentials)
+      swal({
+        title: '임시 비밀번호 발송',
+        text: '잠시만 기다려주세요..',
+        icon: 'success'
+      })
       axios({
         url: api.accounts.findPassword(),
         method: 'post',
@@ -376,10 +397,102 @@ export default {
       })
         .then(res => {
           console.log(res)
+          if (res.data.message === 'success') {
+            swal({
+              title: '임시 비밀번호 발송',
+              text: 'email로 임시 비밀번호가 발송되었습니다. 비밀번호 변경을 통해 새로운 비밀번호를 등록해주세요.',
+              icon: 'success'
+            })
+          } else {
+            swal({
+              title: 'id email 불일치',
+              text: 'id와 email이 일치하지 않습니다.',
+              icon: 'error'
+            })
+          }
           // case1. id와 email이 일치하지 않습니다.
           // case2. email로 임시 비밀번호가 발송되었습니다. 비밀번호 변경을 통해 새로운 비밀번호를 등록해주세요.
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          console.log(err)
+          swal({
+            title: '임시 비밀번호 발송 실패',
+            text: 'id와 email을 다시 한번 확인해주세요',
+            icon: 'error'
+          })
+        })
+    },
+
+    getciga ({ state, getters, commit }) {
+      if (getters.isLoggedIn) {
+        axios({
+          url: api.accounts.currentUserInfo(),
+          method: 'get',
+          headers: getters.authHeader
+        })
+          .then(res => {
+            axios({
+              url: api.statistics.getCigaretteRate(res.data.id),
+              method: 'get'
+            })
+              .then(res => {
+                commit('SET_CIGARETTERATE', [res.data[0].percent, res.data[1].percent])
+              })
+          })
+      }
+    },
+
+    getmbti ({ state, getters, commit }) {
+      if (getters.isLoggedIn) {
+        axios({
+          url: api.accounts.currentUserInfo(),
+          method: 'get',
+          headers: getters.authHeader
+        })
+          .then(res => {
+            axios({
+              url: api.statistics.getMBTIRate(res.data.id),
+              method: 'get'
+            })
+              .then(res => {
+                const rates = []
+                const labels = []
+                for (let i = 0; i < res.data.length; i++) {
+                  rates.push(res.data[i].percent)
+                  labels.push(res.data[i].type)
+                }
+                commit('SET_MBTILABEL', labels)
+                commit('SET_MBTIRATE', rates)
+              })
+          })
+      }
+    },
+
+    getdrink ({ state, getters, commit }) {
+      if (getters.isLoggedIn) {
+        axios({
+          url: api.accounts.currentUserInfo(),
+          method: 'get',
+          headers: getters.authHeader
+        })
+          .then(res => {
+            axios({
+              url: api.statistics.getDrinkRate(res.data.id),
+              method: 'get'
+            })
+              .then(res => {
+                const labelName = { zero: '소주 한 잔', under1: '소주 1병 미만', under3: '소주 1-3병', over3: '소주 3병 이상' }
+                const rates = []
+                const labels = []
+                for (let i = 0; i < res.data.length; i++) {
+                  rates.push(res.data[i].percent)
+                  labels.push(labelName[res.data[i].type])
+                }
+                commit('SET_DRINKLABEL', labels)
+                commit('SET_DRINKRATE', rates)
+              })
+          })
+      }
     }
   }
 }
