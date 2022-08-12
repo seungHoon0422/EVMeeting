@@ -154,7 +154,7 @@
             </oneby-one>
             <div v-if="this.currentUserCount === 1">
               <h3><span style="color: #B9729E; font-weight: bold;">이름 : </span><span style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerNickname}}</span></h3>
-              <h3><span style="color: #B9729E; font-weight: bold;">나이 : </span><span style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerAge}}</span>살</h3>
+              <h3><span style="color: #B9729E; font-weight: bold;">나이 : </span><span style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerAge}}</span></h3>
             </div>
             <div class="d-flex justify-content-center" id="elevatorButton">
               <!-- 상대방이 마음에 든다는 신호 -->
@@ -415,7 +415,7 @@ export default {
       randomValue: 0,
       strangerNickname: '',
       strangerUserid: '',
-      strangerAge: 0,
+      strangerAge: '',
       roomid: 1
     }
   },
@@ -453,7 +453,7 @@ export default {
       this.randomValue = 13
       this.strangerNickname = ''
       this.strangerUserid = ''
-      this.strangerAge = 0
+      this.strangerAge = ''
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
