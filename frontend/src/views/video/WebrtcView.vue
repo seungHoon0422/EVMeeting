@@ -941,14 +941,14 @@ export default {
 }
 .pop_chat{
   position: absolute;
-  top: 200px;
+  top: 70px;
   height: 430px;
   width: 400px;
   left: 20px;
 }
 .pop_profile{
   position: absolute;
-  top: 280px;
+  top: 150px;
   height: 60%;
   width: 350px;
   right: 67px;
@@ -973,7 +973,7 @@ export default {
     display: none;
   }
 }
-.box{
+/* .box{
   width: 30px;
   height: 40px;
   border-radius: 70%;
@@ -986,5 +986,5 @@ export default {
   width: 100%;
   height: 100%;
   object-fit: cover;
-}
+} */
 </style>
