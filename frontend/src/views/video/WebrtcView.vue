@@ -288,9 +288,6 @@
 
     <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
     <div id="session_3" v-if="sessionLevel===3" class="container">
-      <!-- <h1>Hi I'm session_3</h1>
-      <h1>세션 ID : {{this.mySessionId}}</h1>
-      <h1> MBTI : {{currentUser.mbti}}</h1> -->
       <h1>남은 시간 : {{tenseconds}}</h1>
       <!-- 랜덤 질문 출력 부분 -->
       <div>
@@ -320,6 +317,23 @@
       <div>
           <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
       </div>
+      <!-- 선택 및 세션 종료 버튼 -->
+      <h1>최종 선택</h1>
+      <div class="d-flex justify-content-center">
+        <adding-profile
+          @profileOnOff="profileOnOff"
+          :profileopencount="profileopencount"
+          :session="session"
+          :countTogether ="countTogether"
+          >
+
+        </adding-profile>
+        <!-- 세션 종료 -->
+        <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+        <button id="buttonIcon" @click="[deleteRoom(), removeMessage(), leaveSession()]">
+          <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
+        </button>
+      </div>
       <!-- 테이블 -->
       <div class="table" style="position:relative; height:100px;">
         <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover;" />
@@ -337,7 +351,7 @@
           <!-- 프로필 버튼 -->
             <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/>
           <!-- 세션 종료 버튼 -->
-          <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/>
+          <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/> -->
         </div>
       </div>
     </div>
@@ -672,7 +686,7 @@ export default {
         this.stopaddFunc()
         // this.addcount = 0
       }
-      this.tenseconds = 10000000
+      this.tenseconds = 10
       // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
@@ -827,31 +841,27 @@ export default {
     },
     ToProfile () {
       this.$router.push('/editphoto')
+    },
+    // 매칭 성공 modal
+    matchSuccess () {
+      this.$bvModal.msgBoxOk('매칭이 성공 되었습니다!', {
+        title: '축하드립니다!',
+        size: 'sm',
+        buttonSize: 'sm',
+        okVariant: 'success',
+        headerClass: 'p-2 border-bottom-0',
+        footerClass: 'p-2 border-top-0',
+        centered: true
+      })
+        .then(value => {
+          if (value === true) {
+            this.leaveSession()
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
     }
-    // Really? leave?
-    // reallyLeave () {
-    //   this.boxTwo = ''
-    //   this.$bvModal.msgBoxConfirm('정말 나가시겠습니까?', {
-    //     title: '알림',
-    //     size: 'sm',
-    //     buttonSize: 'sm',
-    //     okVariant: 'primary',
-    //     okTitle: '네',
-    //     cancelTitle: '아니요',
-    //     cancleVariant: 'danger',
-    //     footerClass: 'p-2',
-    //     hideHeaderClose: false,
-    //     centered: true
-    //   })
-    //     .then(value => {
-    //       if (value === true) {
-    //         this.leaveSession()
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -880,24 +890,22 @@ export default {
   },
   watch: {
     // 시간이 다 되면 자동적으로 세션 종료
-    autoleaveflag (newautoleaveflag) {
+    autoleaveflag () {
       this.leaveSession()
     },
     // 입장과 동시에 시간 Count
     sessionjoined (sessionjoined) {
-      // this.startTimer()
-      // if (this.currentUserCount === 1) {
-      //   // this.startTimer()
-      // }
       if (sessionjoined === 1) {
         if (this.currentUserCount === 1) {
           this.startTimer()
         }
       }
     },
-    // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
     profileopencount () {
-      if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
+      if (this.profileopencount === 10) {
+        this.matchSuccess()
+      } else if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
+        // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
         this.plusAddCount()
         // 같이 값을 바꿀 수 있는 countTogether
         this.countTogetherSignal()
@@ -928,13 +936,19 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
+        axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
+          .then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
         this.roomid = this.createRoom()
         this.tenseconds = 600
       }
     },
     tenseconds () {
       if (this.sessionLevel === 3 && this.tenseconds === 1) {
-        // this.roomid = this.createRoom()
+        this.id = this.createRoom()
       }
     },
     currentUserCount () {
@@ -943,9 +957,6 @@ export default {
       } else {
         this.$refs.elevatorOpen.meetStranger()
       }
-      // if (this.currentUserCount === 1) {
-      //   this.$refs.elevatorOpen.meetStranger()
-      // }
     },
     strangerLeaveFlag () {
       if (this.strangerLeaveFlag === true) {
@@ -1008,18 +1019,4 @@ export default {
     display: none;
   }
 }
-/* .box{
-  width: 30px;
-  height: 40px;
-  border-radius: 70%;
-  overflow: hidden;
-  background-color: white;
-  margin-right: 5px;
-  margin-left: -20px;
-}
-.photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
 </style>
