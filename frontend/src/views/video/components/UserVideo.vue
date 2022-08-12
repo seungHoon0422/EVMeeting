@@ -1,9 +1,16 @@
 <template>
 <div v-if="streamManager">
-<div class="userVideoContainer mx-3" id="UserVideo">
-  <ov-video :stream-manager="streamManager"/>
-</div>
-<div><p>{{ clientData }}</p></div>
+  <div v-if="this.sessionLevel===2">
+    <div class="userVideoContainer mx-3" id="UserVideoSession2">
+      <ov-video :stream-manager="streamManager"/>
+    </div>
+  </div>
+  <div v-else>
+    <div class="userVideoContainer mx-3" id="UserVideo">
+      <ov-video :stream-manager="streamManager"/>
+    </div>
+  </div>
+  <div><p class="fs-3" style="font-family : 'GangwonEdu_OTFBoldA'; #b5b1ae;">{{ this.nickname }}</p></div>
 </div>
 </template>
 
@@ -18,7 +25,13 @@ export default {
   },
 
   props: {
-    streamManager: Object
+    streamManager: Object,
+    sessionLevel: {
+      type: Number
+    },
+    nickname: {
+      type: String
+    }
   },
 
   computed: {
@@ -45,4 +58,8 @@ export default {
   height : 50%;
 }
 
+#UserVideoSession2{
+  width: 400px;
+  height: 300px;
+}
 </style>
