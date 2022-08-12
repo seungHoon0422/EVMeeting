@@ -155,7 +155,7 @@ export default {
 
 .signup-form {
   color: #FAFAFA;
-  background-color: rgba(0,0,0,0.4);
+  /* background-color: rgba(0,0,0,0.4); */
   border-color: #FAFAFA;
   border: solid 5px;
   border-radius: 20px;
@@ -194,9 +194,9 @@ input, textarea, select {
   outline-color: yellowgreen;
 }
 
-option {
+/* option {
   background-color: rgba(0,0,0,0.4);
-}
+} */
 
 .disabled {
   background-color: black;
