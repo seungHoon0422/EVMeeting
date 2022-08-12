@@ -5,28 +5,17 @@
         src="@/img/angle-circle-left.svg"
         alt=""
         @click="moveBack"
-        style="margin-left:-25px; margin-top: -5px;"
+        style="margin-left:-55px; margin-top: -5px;"
       />
-      {{name}}님의 ChatRoom
+      {{ this.userId }}님의 매칭
       <img
         src="@/img/trash.svg"
         @click="showdelete()"
         style="margin-left: 480px; margin-top: -50px;"
       />
     </div>
-    <!-- <input
-      class="search_room"
-      type="text"
-      placeholder="방 제목"
-      v-model="title"
-    />&nbsp;&nbsp; -->
-    <!-- <img
-      src="@/img/add.svg"
-      @click="createRoom()"
-      style="margin-left: 0px; margin-top: 5px"
-    /> -->
     <hr />
-    <div v-if="room_list.length == 0">
+    <div id="roomList" v-if="room_list.length == 0">
       방 없다
     </div>
     <div class="roomList" id="roomList" v-else-if="room_list.length">
@@ -55,7 +44,7 @@
 </template>
 
 <script>
-import { mapActions, mapMutations } from 'vuex'
+import { mapActions, mapGetters } from 'vuex'
 import axios from 'axios'
 import api from '@/api/api'
 let preDiffHeight = 0
@@ -73,8 +62,8 @@ export default {
       photo: null
     }
   },
-  watch: {
-    ...mapMutations(['SET_FLAG'])
+  computed: {
+    ...mapGetters(['isLoggedIn', 'currentUser'])
   },
   updated () {
     const objDiv = document.getElementById('roomList')
@@ -84,9 +73,9 @@ export default {
   },
   created () {
     this.fetchCurrentUser()
-    this.id = this.$route.query.id
-    this.name = this.$route.query.name
-    this.userId = this.$route.query.userId
+    this.id = this.currentUser.id
+    this.name = this.currentUser.name
+    this.userId = this.currentUser.userid
     if (this.id === -1 || typeof this.id === 'undefined') {
       this.$router.push({ name: 'home' })
     }
@@ -129,16 +118,14 @@ export default {
       })
     },
     moveBack () {
-      this.$router.push({
-        name: 'home'
-      })
+      window.location.href = '/'
     },
     deleteRoom (id) {
       if (confirm('정말 삭제하시겠습니까??') === true) {
         axios.put(api.chat.deleteRoom() + `${id}`, { 'content-type': 'application/json' }
         ).then(
           res => {
-            this.$router.go(this.$router.currentRoute)
+            this.$router.push({ name: 'chatrooms' }).catch(() => {})
           }
         ).catch({})
       } else {

@@ -255,36 +255,40 @@
         >
         </random-question>
       </div>
-      <div class="flex_box">
-        <img src="@/img/profile.png"/>
-        <!-- <user-profile style="position:absolute; width:295px; top:353px; "></user-profile> -->
-        <!-- 비디오 출력 부분  -->
-        <div id="video-container" class="container">
-          <div class="d-flex">
-            <div style="position:relative;">
-              <user-video style="width:188%; height: 90%; margin-top:50px" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-            </div>
-            <div class="mx-3" style="position:absolute; top:900px; left:650px; z-index: 1;">
-              <user-video style="width:300px;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-            </div>
-          </div>
+      <div v-show="is_show_c" class="pop_chat">
+        <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
+      </div>
+      <div v-show="is_show_p" class="pop_profile">
+        <profile-view v-for="sub in subscribers"
+            :key="sub.stream.connection.connectionId"
+            :stranger="sub.stream.connection.data"
+            :countTogether ="countTogether"
+            @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
+      </div>
+      <!-- 상대 비디오 출력   -->
+      <div>
+          <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+      </div>
+      <!-- 테이블 -->
+      <div class="table" style="position:relative; height:100px;">
+        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover;" />
+        <div style="display: grid; place-items: center; border: none; margin-top:3%;">
+          <!-- 거울 -->
+          <!-- <img src="@/img/mirror.png" style="border: none; width:12.7%;"/> -->
+          <!-- 내 비디오 출력 -->
+          <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
         </div>
-        <img src="@/img/profile.png" style="position:relative;"/>
-        <chat-view :roomid="roomid" style="position:absolute; right:135px; width:295px; height:395px; top:203px; "></chat-view>
+        <div class="button_grid" style="border:none; margin-top:-10%;">
+          <!-- 음소거 버튼 -->
+          <video-bottom style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></video-bottom>
+          <!-- 채팅 버튼 -->
+            <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/>
+          <!-- 프로필 버튼 -->
+            <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/>
+          <!-- 세션 종료 버튼 -->
+          <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/>
+        </div>
       </div>
-      <div class="table" style="position:relative">
-        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover; z-index: -1;" />
-      </div>
-      <img src="@/img/mirror.png" style="position:absolute; width:315px; height:155px; top:703px; left:600px"/>
-      <div style="position:absolute; top:900px; left:400px">
-        <video-bottom
-        @audioOnOff="audioOnOff"
-        :sessionLevel="sessionLevel"
-        ></video-bottom>
-      </div>
-       <!-- 세션 종료 -->
-      <input style="position:absolute; top:1000px; right:500px;" class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="removeMessage()" value="Button"/>
-      <input style="position:absolute; top:1000px; right:300px;"  class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="Leave session"/>
     </div>
   </div>
 </div>
@@ -308,6 +312,7 @@ import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
 import OnebyOne from '@/views/video/animation/OnebyOne'
 import TimerAnimation from '@/views/video/animation/TimerAnimation'
+import ProfileView from '@/views/video/components/ProfileView'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -328,7 +333,8 @@ export default {
     RandomButton,
     RandomQuestion,
     OnebyOne,
-    TimerAnimation
+    TimerAnimation,
+    ProfileView
   },
   data () {
     return {
@@ -365,7 +371,9 @@ export default {
       strangerNickname: '',
       strangerUserid: '',
       strangerAge: Date.now(),
-      roomid: 1
+      roomid: 1,
+      is_show_c: false,
+      is_show_p: false
     }
   },
   methods: {
@@ -765,6 +773,12 @@ export default {
         res => {
         }
       ).catch({})
+    },
+    openChat () {
+      this.is_show_c = !this.is_show_c
+    },
+    openProfile () {
+      this.is_show_p = !this.is_show_p
     }
     // Really? leave?
     // reallyLeave () {
@@ -919,10 +933,58 @@ export default {
   border: 0;
   outline: 0;
 }
-.flex_box{
+.flex_table{
   display:flex;
   justify-content: space-between;
   align-items: center;
+  width:100%;
 }
-
+.pop_chat{
+  position: absolute;
+  top: 200px;
+  height: 60%;
+  width: 400px;
+  left: 15px;
+}
+.pop_profile{
+  position: absolute;
+  top: 280px;
+  height: 60%;
+  width: 350px;
+  right: 67px;
+}
+.button_grid{
+  display: grid;
+  place-items: center;
+  grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+  border: none;
+}
+@media screen and (max-width: 1300px) {
+  .pop_chat {
+    display: none;
+  }
+  .pop_profile {
+    display: none;
+  }
+  .my-video {
+    display: none;
+  }
+  .button_grid {
+    display: none;
+  }
+}
+.box{
+  width: 30px;
+  height: 40px;
+  border-radius: 70%;
+  overflow: hidden;
+  background-color: white;
+  margin-right: 5px;
+  margin-left: -20px;
+}
+.photo {
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
 </style>
