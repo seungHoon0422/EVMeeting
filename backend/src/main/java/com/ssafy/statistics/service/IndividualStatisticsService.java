@@ -2,14 +2,16 @@ package com.ssafy.statistics.service;
 
 import com.ssafy.statistics.db.entity.Statistics;
 import com.ssafy.statistics.db.repository.StatisticsRepository;
-import com.ssafy.statistics.model.MBTIDto;
-import com.ssafy.statistics.model.MatchingRateDto;
-import com.ssafy.statistics.model.MatchingTimeDto;
+import com.ssafy.statistics.model.*;
 import com.ssafy.user.db.entity.User;
 import com.ssafy.user.db.repository.UserRepository;
+import com.ssafy.user.request.UserRegisterPostReq;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.time.LocalDate;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import java.util.*;
 
 @Service
@@ -80,61 +82,141 @@ public class IndividualStatisticsService {
     }
 
     public List<MBTIDto> mbtiRate(Long id){
-//        List<Statistics> statistics = statisticsRepository.findAll();
-//        List<User> users = new ArrayList<>();
-//        int i = 1;
-//        System.out.println("Statistics Size : " + statistics.size());
-//        for(Statistics statistic : statistics){
-//            System.out.println("@@@@@@@@ : " + i);
-//            i++;
-//            System.out.println("This ID : " + id);
-//            System.out.println("This statistic : " + statistic.getUserid1() + " & " + statistic.getUserid2());
-//            if(statistic.getUserid1() == id){
-//                //matched가 True인지 False인지 비교하고, True라면 1 증가
-//                if(statistic.getMatched()){
-//                    System.out.println("USER ID1 is matched!!");
-//                    users.add(userRepository.findById(statistic.getUserid2()).get());
-//                    System.out.println("USER GOOD : " + userRepository.findById(statistic.getUserid2()).get().getUserid());
-//                }
-//            }
-//            else if(statistic.getUserid2() == id){
-//                if(statistic.getMatched()){
-//                    System.out.println("USER ID2 is matched!!");
-//                    users.add(userRepository.findById(statistic.getUserid1()).get());
-//                }
-//            }
-//        }
-//        //User들의 MBTI를 분석하여 mbtiRateResult에 넣기
-//        Map<String, Integer> mbtiCount = new HashMap<>();
-//        int totalCount = users.size();
-//        System.out.println("TOTAL COUNT : " + totalCount);
-//        for(User user : users) {
-//            String Mbti = user.getMbti();
-//            if(!mbtiCount.containsKey(Mbti)) mbtiCount.put(Mbti, 1);
-//            else mbtiCount.put(Mbti, mbtiCount.get(Mbti)+1);
-//        }
+        List<User> users = userRepository.findMatchedThemById(id);
+
+        //User들의 MBTI를 분석하여 mbtiRateResult에 넣기
+        Map<String, Integer> mbtiCount = new HashMap<>();
+        int totalCount = users.size();
+        System.out.println("TOTAL COUNT : " + totalCount);
+        for(User user : users) {
+            String Mbti = user.getMbti();
+            if(!mbtiCount.containsKey(Mbti)) mbtiCount.put(Mbti, 1);
+            else mbtiCount.put(Mbti, mbtiCount.get(Mbti)+1);
+        }
 
         List<MBTIDto> MbtiResult = new ArrayList<>();
-//        for(String mbti : mbtiCount.keySet()) {
-//            MBTIDto dto = new MBTIDto();
-//            dto.setType(mbti);
-//            dto.setCount(mbtiCount.get(mbti));
-//            dto.setPercent(calcPercent(mbtiCount.get(mbti), totalCount));
-//            MbtiResult.add(dto);
-//        }
+        for(String mbti : mbtiCount.keySet()) {
+            MBTIDto dto = new MBTIDto();
+            dto.setType(mbti);
+            dto.setCount(mbtiCount.get(mbti));
+            dto.setPercent(calcPercent(mbtiCount.get(mbti), totalCount));
+            MbtiResult.add(dto);
+        }
 
-//        Collections.sort(MbtiResult, new Comparator<MBTIDto>() {
-//            @Override
-//            public int compare(MBTIDto o1, MBTIDto o2) {
-//                return o2.getCount() - o1.getCount();
-//            }
-//        });
-//
-//        System.out.println("MbtiResult = " + MbtiResult.size());
+        Collections.sort(MbtiResult, new Comparator<MBTIDto>() {
+            @Override
+            public int compare(MBTIDto o1, MBTIDto o2) {
+                return o2.getCount() - o1.getCount();
+            }
+        });
+
+        System.out.println("MbtiResult = " + MbtiResult.size());
 
         //결과 출력
         return MbtiResult;
 
+    }
+
+    public List<DrinkDto> drinkRate(Long id){
+        List<User> users = userRepository.findMatchedThemById(id);
+
+        //User들의 음주량을 분석하여 drinkRateResult에 넣기
+        Map<String, Integer> drinkCount = new HashMap<>();
+        int totalCount = users.size();
+        System.out.println("TOTAL COUNT : " + totalCount);
+        for(User user : users) {
+            String Drink = user.getDrink();
+            if(!drinkCount.containsKey(Drink)) drinkCount.put(Drink, 1);
+            else drinkCount.put(Drink, drinkCount.get(Drink)+1);
+        }
+
+        List<DrinkDto> DrinkResult = new ArrayList<>();
+        for(String drink : drinkCount.keySet()) {
+            DrinkDto dto = new DrinkDto();
+            dto.setType(drink);
+            dto.setCount(drinkCount.get(drink));
+            dto.setPercent(calcPercent(drinkCount.get(drink), totalCount));
+            DrinkResult.add(dto);
+        }
+
+        Collections.sort(DrinkResult, new Comparator<DrinkDto>() {
+            @Override
+            public int compare(DrinkDto o1, DrinkDto o2) {
+                return o2.getCount() - o1.getCount();
+            }
+        });
+
+        System.out.println("DrinkResult = " + DrinkResult.size());
+
+        //결과 출력
+        return DrinkResult;
+
+    }
+
+    public List<CigaretteDto> cigaretteRate(Long id){
+        List<User> users = userRepository.findMatchedThemById(id);
+
+        //User들의 흡연 여부를 분석하여 cigaretteRateResult에 넣기
+        Map<String, Integer>  cigaretteCount = new HashMap<>();
+        int totalCount = users.size();
+        System.out.println("TOTAL COUNT : " + totalCount);
+        for(User user : users) {
+            String Cigarette = user.getCigarette();
+            if(!cigaretteCount.containsKey(Cigarette)) cigaretteCount.put(Cigarette, 1);
+            else cigaretteCount.put(Cigarette, cigaretteCount.get(Cigarette)+1);
+        }
+
+        List<CigaretteDto> CigaretteResult = new ArrayList<>();
+        for(String cigarette : cigaretteCount.keySet()) {
+            CigaretteDto dto = new CigaretteDto();
+            dto.setType(cigarette);
+            dto.setCount(cigaretteCount.get(cigarette));
+            dto.setPercent(calcPercent(cigaretteCount.get(cigarette), totalCount));
+            CigaretteResult.add(dto);
+        }
+
+        Collections.sort(CigaretteResult, new Comparator<CigaretteDto>() {
+            @Override
+            public int compare(CigaretteDto o1, CigaretteDto o2) {
+                return o2.getCount() - o1.getCount();
+            }
+        });
+
+        System.out.println("CigaretteResult = " + CigaretteResult.size());
+
+        //결과 출력
+        return CigaretteResult;
+
+    }
+    public Statistics createStatistic(MatchingDto matchingdto) {
+        Statistics statistic = new Statistics();
+        statistic.setUserid1(matchingdto.getUserid1());
+        statistic.setUserid2(matchingdto.getUserid2());
+
+        //현재 날짜 구하기 (년,월,일)
+        LocalDate nowDate = LocalDate.now();
+        statistic.setDate(nowDate.getYear() + "-" + nowDate.getMonthValue() + "-" + nowDate.getDayOfMonth());
+        statistic.setDateYear(nowDate.getYear());
+        statistic.setDateMonth(nowDate.getMonthValue());
+        statistic.setDateDay(nowDate.getDayOfMonth());
+
+        //현재 시작시간 구하기 (시,분,초)
+        LocalTime nowTime = LocalTime.now();
+        statistic.setStartTime(nowTime.getHour() + ":" + nowTime.getMinute() + ":" + nowTime.getSecond());
+        statistic.setStartTimeHour(nowTime.getHour());
+        statistic.setStartTimeMin(nowTime.getMinute());
+        statistic.setStartTimeSec(nowTime.getSecond());
+
+        statistic.setMatched(false);    //기본값을 false로 설정
+        return statisticsRepository.save(statistic);
+    }
+
+    public Statistics editStatistic(MatchingDto matchingdto) {
+        //DB에서 해당하는 데이터 불러오기
+        Statistics statistic = statisticsRepository.getCorrectMatchingHistory(matchingdto.getUserid1(), matchingdto.getUserid2()).get();
+        statistic.setUsedTime(matchingdto.getUsedTime());
+        statistic.setMatched(true);    //기본값을 false로 설정
+        return statisticsRepository.save(statistic);
     }
 
     private double calcPercent(int count, int totalCount) {
