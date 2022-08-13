@@ -167,13 +167,19 @@ export default {
 }
 </script>
 <style scoped>
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 .chat {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   width: 400px;
   height: 700px;
-  background-color: #A3CDC1;
+  background-color: #5b7b8d;
   margin: 5rem auto 0rem;
   box-shadow: 0px 1px 20px #9c9cc855;
   border-radius: 10px;
@@ -184,10 +190,6 @@ export default {
 }
 .otherMsg {
   text-align: left;
-}
-.chat__header__greetings {
-  color: #292929;
-  margin-left: 10px;
 }
 .chat__body {
   padding: 2rem;
@@ -214,29 +216,24 @@ export default {
   margin: 0.4rem 0 0 1rem;
   border-radius: 20px 20px 0px 20px;
   max-width: 180px;
-  background-color: #EDE0CF;
-  color: #0a0a0a;
+  background-color: #b9729e;
+  color: #ffffff;
   padding: 0.8rem;
   font-size: 14px;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .chat__yourmessage {
   display: flex;
 }
 
-.chat__mymessage__user {
-  font-size: 14px;
-  font-weight: 700;
-  color: #292929;
-  margin-top: 0;
-  margin-block-end: 0rem;
-}
 .chat__yourmessage__user {
   font-size: 14px;
   font-weight: 700;
   color: #292929;
   margin-top: 0;
   margin-block-end: 0rem;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 
 .chat__yourmessage__p {
@@ -248,21 +245,23 @@ export default {
 .chat__yourmessage__paragraph {
   margin: 0.4rem 1rem 0 0;
   border-radius: 0px 20px 20px 20px;
-  background-color: #E7C2CA;
+  background-color: #ede0cf;
   max-width: 180px;
   color: #414141;
   padding: 0.8rem;
   font-size: 14px;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 /* 메시지 전송 input */
 .form {
   display: flex;
   justify-content: space-between;
   padding: 1.4rem;
+  height: 70px;
   background: #ffffff;
   box-shadow: 0px -5px 30px rgba(0, 0, 0, 0.05);
-  height: 50px;
   border-radius: 10px;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 .form__input {
   border: none;

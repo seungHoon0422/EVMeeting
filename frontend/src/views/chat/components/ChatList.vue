@@ -5,7 +5,7 @@
         src="@/img/angle-circle-left.svg"
         alt=""
         @click="moveBack"
-        style="margin-left:-55px; margin-top: -5px;"
+        style="margin-left:-80px;"
       />
       {{ this.userId }}님의 매칭
       <img
@@ -22,10 +22,10 @@
       <div v-for="(r, idx) in room_list" :key="idx">
         <div v-if="r.alive == true">
           <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo2)" v-if="userId === r.senderId1">
-            <div class="other"><div class="box"><img class="photo" :src=r.photo2 /></div>{{ r.senderId2 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
+            <div class="other"><div class="photo_box"><img class="photo" :src=r.photo2 /></div>{{ r.senderId2 }}</div><div class="msg">{{ r.recentMessage }}</div><div class="time">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div id="rooms" class="rooms" @click="enterRoom(r.id, r.photo1)" v-else>
-            <div class="other"><div class="box"><img class="photo" :src=r.photo1 /></div>{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }}</div><div style="text-align: right; font-size: 15px">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
+            <div class="other"><div class="photo_box"><img class="photo" :src=r.photo1 /></div>{{ r.senderId1 }}</div><div class="msg">{{ r.recentMessage }}</div><div class="time">{{r.recentTime.split('T')[1].split('.')[0]}} </div>
           </div>
           <div
             style="float:right; margin-top:-75px; margin-right: 8px; background-color: red; border-radius: 30px; height: 60px;"
@@ -105,7 +105,7 @@ export default {
       },
       err => {
         console.log(err)
-        this.$router.push({ name: 'home' })
+        window.location.href = '/'
       }
     )
   },
@@ -114,7 +114,7 @@ export default {
     enterRoom (id, photo) {
       this.$router.push({
         name: 'chat',
-        query: { roomid: id, id: this.id, name: this.name, userId: this.userId, photo: photo }
+        query: { roomid: id, photo: photo }
       })
     },
     moveBack () {
@@ -152,10 +152,16 @@ export default {
 }
 </script>
 <style scoped>
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 .chat_list{
   width: 505px;
-  height: 712px;
-  background-color: #bad8da;
+  height: 670px;
+  background-color: #E7CECA;
   margin: 5rem auto 0rem;
   border-radius: 1.5rem;
   box-shadow: 0px 1px 20px #9c9cc855;
@@ -166,43 +172,32 @@ export default {
   display:flex;
   flex-direction: column;
   height: 90%;
+  margin-left: 15px;
 }
 .roomList::-webkit-scrollbar {
   display: none;
 }
 .title {
-  padding-top: 5px;
+  padding-top: 10px;
   padding-bottom: 5px;
   margin-left: -5px;
   width:250px;
   height:25px;
   font-size: large;
-  font-family: "Golden Plains - Demo";
   color: #FFFFEA;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 h3 {
   margin-left: 15px;
   margin-bottom: 10px;
 }
-.roomList {
-  margin-left: 15px;
-}
-/* .search_room {
-  margin-left: 15px;
-  margin-bottom: 30px;
-  height: 20px;
-} */
 .rooms {
-  /* display: flex;
-  flex-direction: row;
-  justify-content: left;
-  align-items: center; */
-  border: 2px #fefefe solid;
+  border: 1px #EDE0CF solid;
   height: 80px;
   max-width: 90%;
   border-radius: 10px;
   font-size: 20px;
-  background: #ffffea;
+  background: #EDE0CF;
   margin-bottom: 5px;
   padding: 10px;
 }
@@ -211,27 +206,33 @@ h3 {
   flex-direction: row;
   justify-content: left;
   align-items: center;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
 .msg {
   display: block;
   flex-direction: row;
   justify-content: right;
-  margin-top: -60px;
+  margin-top: -50px;
   overflow: hidden;
   text-overflow: ellipsis;
   white-space: nowrap;
   margin-left: 280px;
   width: 150px;
   height: 40px;
+  font-family: 'GangwonEdu_OTFBoldA';
 }
-.box{
-  width: 70px;
-  height: 70px;
+.time {
+  text-align: right;
+  font-size: 15px;
+  font-family: 'GangwonEdu_OTFBoldA';
+}
+.photo_box{
+  width: 60px;
+  height: 60px;
   border-radius: 70%;
   overflow: hidden;
-  background-color: white;
+  background-color: #ffffff;
   margin-right: 5px;
-  margin-top:-10px;
 }
 .photo {
   width: 100%;

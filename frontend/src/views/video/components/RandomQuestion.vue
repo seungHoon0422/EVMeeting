@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h1>{{this.subject}}</h1>
+    <h3 style="margin-top:4px;">{{this.subject}}</h3>
   </div>
 </template>
 

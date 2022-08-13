@@ -105,6 +105,12 @@ export default {
 </script>
 
 <style scoped>
+@font-face {
+    font-family: 'GangwonEdu_OTFBoldA';
+    src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
+    font-weight: normal;
+    font-style: normal;
+}
 .description {
   padding: 20px;
   font-size: 20px;
@@ -120,21 +126,16 @@ export default {
 table, tr, td, th {
  border:none;
  text-align: center;
+ font-family: 'GangwonEdu_OTFBoldA';
 }
 .box {
   width: 400px;
-  height: 440px;
+  height: 420px;
   border: 1px solid #FAFAFA;
   border-radius: 10px;
   margin: 0 auto;
   position: relative;
   padding: 0 10px;
-  background-color: #A3CDC1;
+  background-color: #5b7b8d;
 }
-
-.font-style {
-  color: #FAFAFA;
-  font-size: 40px;
-}
-
 </style>

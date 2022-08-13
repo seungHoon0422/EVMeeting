@@ -1,8 +1,7 @@
 <template>
   <div>
     <div v-if="this.sessionLevel===3">
-      <!-- <h1>AudioControl</h1> -->
-      <button class="btn btn-large btn-danger" id="button" type="button" @click="audioOnOff">음소거</button>
+      <img :src="require('@/img/cross-circle.svg')" alt="음소거" id="audiobutton" type="audiobutton" @click="audioOnOff" style="width:30px; height:10px;"/>
     </div>
   </div>
 </template>
@@ -10,7 +9,7 @@
 <script>
 import { reactive } from 'vue'
 export default {
-  name: 'video-bottom',
+  name: 'audio-button',
   props: {
     sessionLevel: {
       type: Number
@@ -23,10 +22,10 @@ export default {
     const audioOnOff = () => {
       if (state.audio) {
         state.audio = false
-        document.getElementById('button').innerText = '음소거 해제'
+        document.getElementById('audiobutton').src = require('@/img/cross-circle.svg')
       } else {
         state.audio = true
-        document.getElementById('button').innerText = '음소거'
+        document.getElementById('audiobutton').src = require('@/img/volume.svg')
       }
       console.log(state.audio)
       emit('audioOnOff', {

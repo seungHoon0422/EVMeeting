@@ -203,6 +203,10 @@
     <!-- 세션 2 => 상대방 얼굴 확인 10초 카운트 및 질문 -->
     <!-- <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%; color: #FAFAFA;"> -->
     <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%;">
+      <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
+      <audio id="back-audio" autoplay>
+      <source src="@/img/pianomoment.mp3">
+      </audio>
       <div class="contaniner my-5" v-if="currentUser">
         <h1 style="font-weight: bold;"> Hello I'm <span style="color : #B9729E;">{{this.strangerNickname}}</span></h1>
           <div class="container" style="width: 80%;">
@@ -288,7 +292,7 @@
 
     <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
     <div id="session_3" v-if="sessionLevel===3" class="container">
-      <h1>남은 시간 : {{tenseconds}}</h1>
+      <h3>남은 시간 : {{tenseconds}}</h3>
       <!-- 랜덤 질문 출력 부분 -->
       <div>
         <random-button
@@ -318,8 +322,8 @@
           <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
       </div>
       <!-- 선택 및 세션 종료 버튼 -->
-      <h1>최종 선택</h1>
-      <div class="d-flex justify-content-center">
+      <h2 style="font-family: 'GangwonEdu_OTFBoldA'">최종 선택</h2>
+      <div class="d-flex justify-content-center" style="margin-left:-9px;">
         <adding-profile
           @profileOnOff="profileOnOff"
           :profileopencount="profileopencount"
@@ -334,26 +338,27 @@
           <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
         </button>
       </div>
-      <!-- 테이블 -->
-      <div class="table" style="position:relative; height:100px;">
-        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover;" />
-        <div style="display: grid; place-items: center; border: none; margin-top:3%;">
+        <!-- <div style="display: grid; place-items: center; border: none; margin-top:3%;"> -->
           <!-- 거울 -->
           <!-- <img src="@/img/mirror.png" style="border: none; width:12.7%;"/> -->
           <!-- 내 비디오 출력 -->
-          <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-        </div>
-        <div class="button_grid" style="border:none; margin-top:-10%;">
-          <!-- 음소거 버튼 -->
-          <video-bottom style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></video-bottom>
+          <!-- <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+        </div> -->
+        <div class="button_grid" style="border:none;">
           <!-- 채팅 버튼 -->
-            <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/>
+          <img src="@/img/comment.svg" alt="비디오 끄기" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
+            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/> -->
+          <!-- 음소거 버튼 -->
+          <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
+          <user-video class="my-video" style="border: none; border-radius: 10px;  width: 310px; height:200px; margin-top:-200%; padding-left:85px;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+          <!-- 비디오 버튼 -->
+          <video-button style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
           <!-- 프로필 버튼 -->
-            <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/>
+          <img src="@/img/user.svg" alt="비디오 끄기" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px;"/>
+            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/> -->
           <!-- 세션 종료 버튼 -->
           <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/> -->
         </div>
-      </div>
     </div>
   </div>
 </div>
@@ -367,7 +372,7 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import LikeYou from '@/views/video/components/LikeYou'
 import UserProfile from '@/views/video/components/UserProfile'
-import VideoBottom from '@/views/video/components/VideoBottom'
+// import VideoBottom from '@/views/video/components/VideoBottom'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 import RandomButton from '@/views/video/components/RandomButton'
@@ -378,6 +383,8 @@ import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
 import OnebyOne from '@/views/video/animation/OnebyOne'
 import TimerAnimation from '@/views/video/animation/TimerAnimation'
 import ProfileView from '@/views/video/components/ProfileView'
+import VideoButton from './components/VideoButton.vue'
+import AudioButton from './components/AudioButton.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -390,7 +397,7 @@ export default {
     LikeYou,
     UserProfile,
     AddingProfile,
-    VideoBottom,
+    // VideoBottom,
     StrangerProfile,
     ChatView,
     ElevatorAnimation,
@@ -399,7 +406,9 @@ export default {
     RandomQuestion,
     OnebyOne,
     TimerAnimation,
-    ProfileView
+    ProfileView,
+    AudioButton,
+    VideoButton
   },
   data () {
     return {
@@ -861,6 +870,11 @@ export default {
         .catch(err => {
           console.log(err)
         })
+    },
+    videoOnOff ({ video }) {
+      console.log('video')
+      console.log(video)
+      this.publisher.publishVideo(video)
     }
   },
   computed: {
@@ -987,22 +1001,23 @@ export default {
 }
 .pop_chat{
   position: absolute;
-  top: 70px;
+  top: 120px;
   height: 430px;
   width: 400px;
-  left: 20px;
+  left: 70px;
+  z-index: 1;
 }
 .pop_profile{
   position: absolute;
-  top: 150px;
+  top: 200px;
   height: 60%;
   width: 350px;
-  right: 67px;
+  right: 110px;
 }
 .button_grid{
   display: grid;
   place-items: center;
-  grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+  grid-template-columns: 2fr 2fr 50px 2fr 2fr;
   border: none;
 }
 @media screen and (max-width: 1300px) {
