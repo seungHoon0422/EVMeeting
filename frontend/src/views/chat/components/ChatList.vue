@@ -125,7 +125,7 @@ export default {
         axios.put(api.chat.deleteRoom() + `${id}`, { 'content-type': 'application/json' }
         ).then(
           res => {
-            this.$router.push({ name: 'chatlist' }).catch(() => {})
+            this.$router.go()
           }
         ).catch({})
       } else {
