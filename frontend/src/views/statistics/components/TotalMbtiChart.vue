@@ -79,9 +79,11 @@ export default {
         ],
         datasets: [
           {
-            label: 'Data One',
-            backgroundColor: '#f87979',
-            data: [40, 35, 20, 14, 13]
+            label: 'MBTI Rate',
+            backgroundColor: '#6f42c1',
+            data: [40, 35, 20, 14, 13],
+            borderRadius: 5
+
           }
         ]
       },

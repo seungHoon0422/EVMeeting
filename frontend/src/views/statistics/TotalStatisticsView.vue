@@ -43,11 +43,11 @@ export default {
   padding: 30px 30px;
   width: 1000px !important;
   /* height: 550px !important; */
-  background: rgba(0,0,0,0.4);
+  background: rgba(178, 174, 174, 0.4);
 }
 
 .header-font {
   margin-bottom: 20px;
-  color: #FAFAFA;
+  color: #31084b;
 }
 </style>

@@ -69,7 +69,7 @@ export default {
         labels: ['남성', '여성'],
         datasets: [
           {
-            backgroundColor: ['#41B883', '#E46651'],
+            backgroundColor: ['#8a2be2', '#ff00ff'],
             data: [65, 40]
           }
         ]
@@ -92,8 +92,9 @@ export default {
         labels: lb,
         datasets: [
           {
-            backgroundColor: ['#41B883', '#E46651'],
-            data: datas
+            backgroundColor: ['#8a2be2', '#ff00ff'],
+            data: datas,
+            borderRadius: 10
           }
         ]
       }

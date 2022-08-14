@@ -7,7 +7,7 @@
     :gradient="['#001233', '#ff93df']"
     :labelData="chartData.labels"
     :barWidth="20"
-    :rounding="0.1"
+    :rounding="3"
     :labelSize="0.5"
     :labelRotate="0"
     :padding="12"
@@ -75,6 +75,10 @@ export default {
     padding: {
       type: Number,
       default: 10
+    },
+    rounding: {
+      type: Number,
+      default: 3
     }
   },
   data () {
@@ -84,7 +88,7 @@ export default {
         datasets: [
           {
             label: 'Data One',
-            backgroundColor: '#f87979',
+            backgroundColor: '#001233',
             data: [40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12, 11, 40, 20, 12, 39, 10, 40, 39, 80, 40, 20, 12]
           }
         ]

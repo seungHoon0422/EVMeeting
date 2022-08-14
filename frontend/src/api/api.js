@@ -37,6 +37,9 @@ export default {
     userLeaveSession: () => HOST + VIDEO + 'endservice'
   },
   statistics: {
+    getGenderData: () => HOST + STATISTICS + 'total/gender/',
+    getMbtiData: () => HOST + STATISTICS + 'total/mbti/',
+    getTimeData: () => HOST + STATISTICS + 'total/matchingTime/',
     getMatchingRate: userid => HOST + STATISTICS + 'individual/matchingRate/' + userid,
     getMatchingTime: userid => HOST + STATISTICS + 'individual/matchingTime/' + userid,
     getMBTIRate: userid => HOST + STATISTICS + 'individual/mbtiRate/' + userid,
