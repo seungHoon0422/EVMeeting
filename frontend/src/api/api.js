@@ -5,6 +5,9 @@ const ACCOUNTS = 'accounts/'
 const CHAT = 'chat/'
 const VIDEO = 'meeting/'
 
+// Update start
+const STATISTICS = 'statistics/'
+// Update end
 export default {
   accounts: {
     login: () => HOST + ACCOUNTS + 'login/',
@@ -34,5 +37,12 @@ export default {
     getSessionJoin: () => HOST + VIDEO + 'join',
     getStrangerProfile: () => HOST + VIDEO + 'userinfo',
     userLeaveSession: () => HOST + VIDEO + 'endservice'
+  },
+  // Update start
+  statistics: {
+    getGenderData: () => HOST + STATISTICS + 'total/gender/',
+    getMbtiData: () => HOST + STATISTICS + 'total/mbti/',
+    getTimeData: () => HOST + STATISTICS + 'total/matchingTime/'
   }
+  // Update end
 }

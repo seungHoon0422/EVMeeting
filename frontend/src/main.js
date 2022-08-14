@@ -11,6 +11,9 @@ import 'bootstrap-vue/dist/bootstrap-vue.css'
 import 'animate.css'
 import anime from 'animejs/lib/anime.es.js'
 
+import Bars from 'vuebars'
+Vue.use(Bars)
+
 Vue.prototype.$anime = anime
 Vue.use(BootstrapVue)
 Vue.config.productionTip = false

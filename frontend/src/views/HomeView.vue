@@ -51,6 +51,17 @@ export default {
 </script>
 
 <style scoped>
+
+.total-stat-card {
+  background-color: cadetblue;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 10px 50px;
+  font-size: 30px;
+  margin-top: 400px;
+
+}
+
 .box {
   height: 100vh;
   width: 100%;
