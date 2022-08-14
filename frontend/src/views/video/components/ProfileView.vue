@@ -131,7 +131,7 @@ table, tr, td, th {
 .box {
   width: 400px;
   height: 420px;
-  border: 1px solid #FAFAFA;
+  border: none;
   border-radius: 10px;
   margin: 0 auto;
   position: relative;

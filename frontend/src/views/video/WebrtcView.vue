@@ -291,16 +291,16 @@
     </div>
 
     <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
-    <div id="session_3" v-if="sessionLevel===3" class="container">
-      <h3>남은 시간 : {{tenseconds}}</h3>
+    <div id="session_3" v-if="sessionLevel===3" class="container3">
+      <h3 class="blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
       <!-- 랜덤 질문 출력 부분 -->
-      <div>
+      <div style="margin-top:-3px;">
         <random-button
         :session="session"
         :tenseconds="tenseconds">
         </random-button>
       </div>
-      <div>
+      <div style="margin-top:3px;">
         <random-question
         ref="qustionRequest"
         @subject="subject"
@@ -322,8 +322,8 @@
           <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
       </div>
       <!-- 선택 및 세션 종료 버튼 -->
-      <h2 style="font-family: 'GangwonEdu_OTFBoldA'">최종 선택</h2>
-      <div class="d-flex justify-content-center" style="margin-left:-9px;">
+      <h2 style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:-15px; color:#ffffff; margin-top: -5px; margin-bottom:-10px;">최종 선택</h2>
+      <div class="d-flex justify-content-center">
         <adding-profile
           @profileOnOff="profileOnOff"
           :profileopencount="profileopencount"
@@ -344,7 +344,7 @@
           <!-- 내 비디오 출력 -->
           <!-- <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
         </div> -->
-        <div class="button_grid" style="border:none;">
+        <div class="button_grid" style="border:none; background-color:#d3a476; border-radius:10px; margin-top:10px;">
           <!-- 채팅 버튼 -->
           <img src="@/img/comment.svg" alt="비디오 끄기" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
             <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/> -->
@@ -1002,7 +1002,7 @@ export default {
 .pop_chat{
   position: absolute;
   top: 120px;
-  height: 430px;
+  height: 425px;
   width: 400px;
   left: 70px;
   z-index: 1;
@@ -1033,5 +1033,20 @@ export default {
   .button_grid {
     display: none;
   }
+}
+.container3 {
+  background-image: url('@/img/minku-kang-EB4aBDOMyT4-unsplash.jpg');
+  height: 80vh;
+  width: 100vw;
+  background-repeat : no-repeat;
+  background-size : cover;
+}
+@keyframes blink-effect {
+  50% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blink-effect 1s step-end infinite;
 }
 </style>
