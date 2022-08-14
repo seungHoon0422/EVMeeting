@@ -19,6 +19,8 @@ import WebrtcView from '../views/video/WebrtcView.vue'
 import chat from '../views/chat/ChatView.vue'
 import chatList from '../views/chat/ChatListView.vue'
 import chatrooms from '../views/chat/ChattingRoomView.vue'
+
+import TotalStatisticsView from '../views/statistics/TotalStatisticsView.vue'
 Vue.use(VueRouter)
 
 const routes = [
@@ -106,6 +108,11 @@ const routes = [
     path: '/cam',
     name: 'cam',
     component: WebrtcView
+  },
+  {
+    path: '/totalstat',
+    name: 'totalstat',
+    component: TotalStatisticsView
   },
   {
     path: '*',

@@ -8,9 +8,8 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 @ToString
-public class MatchingTimeDto {
-    int time;
+public class MatchingRateDto {
+    int totalCount;
     int matchingCount;
     double matchingPercent;
-    double matchingTimeAverage;
 }

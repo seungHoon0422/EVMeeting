@@ -49,10 +49,15 @@ export default {
   text-align: center;
   color: #2c3e50;
   /* background-color: white; */
+/* <<<<<<< HEAD */
   height: 1200px;
   background-color : #f5f5f5;
   /* background-color : #77a094; */
   /* background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg); */
+/* =======
+  height: 150vh;
+  background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg);
+>>>>>>> feature-statistics */
   background-repeat : no-repeat;
   background-size : cover;
   background-attachment: fixed;

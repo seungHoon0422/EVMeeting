@@ -779,8 +779,8 @@ export default {
       this.randomSubject = data
     },
     createRoom () {
-      console.log(this.currentUser.id)
-      console.log(this.strangerId)
+      console.log('current user', this.currentUser.id)
+      console.log('stranger', this.strangerId)
       if (this.currentUser.id > this.strangerId) {
         this.id1 = this.strangerId
         this.id2 = this.currentUser.id
@@ -798,7 +798,24 @@ export default {
           console.log(res.data)
           this.roomid = res.data
         }
-      ).catch({})
+      ).catch(function (error) {
+        console.log('Axios creatRoom() error, catch block')
+        if (error.response) {
+          axios({
+            method: 'get',
+            url: 'localhost:8080/api/v1/chat/findroom',
+            headers: { 'content-type': 'application/json' },
+            data: { user1: this.id1, user2: this.id2 }
+          }).then(res => {
+            console.log(res.data)
+            this.roomid = res.data
+          }).catch(function (error) {
+            if (error.response) {
+              console.log('Axios findRoom() error, catch block')
+            }
+          })
+        }
+      })
     },
     // setTimeout
     playAnimation () {

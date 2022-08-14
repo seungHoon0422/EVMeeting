@@ -22,6 +22,8 @@ public interface IChatRoomService {
 
     void removeRoom(long chatroomId);
 
+    long findChatRoomByUsers(long user1, long user2);
+
     //    String getRoomTitle(long id);
 //    List<ChatRoom> getAllChatRoomsByUserId(long id);
 

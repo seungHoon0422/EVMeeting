@@ -2,6 +2,9 @@
   <div class="box">
     <div class="nav-btn-position d-flex justify-content-end" style="color:black;">
       <!-- <router-link :to="{ name: 'login' }"><button class="login-btn">로그인/회원가입</button></router-link> -->
+      <a href="/totalstat"><button class="nav-btn mr-3" style="font-family:'GangwonEdu_OTFBoldA';">
+        <b-icon icon="bar-chart-fill" scale="1" variant="danger"></b-icon>
+      About US</button></a>
       <a href="/login"><button class="nav-btn" style="font-family:'GangwonEdu_OTFBoldA';" v-if="!isLoggedIn">로그인/회원가입</button></a>
       <a href="/profile"><button class="nav-btn me-3" style="font-family:'GangwonEdu_OTFBoldA';" v-if="isLoggedIn">내 정보</button></a>
       <a href="/logout"><button class="nav-btn" style="font-family:'GangwonEdu_OTFBoldA';" v-if="isLoggedIn">로그아웃</button></a>
@@ -75,6 +78,7 @@ export default {
 
 <style scoped>
 
+/* <<<<<<< HEAD */
 @font-face {
     font-family: 'GangwonEdu_OTFBoldA';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
@@ -85,6 +89,18 @@ export default {
 #font{
   font-family: 'GangwonEdu_OTFBoldA';
 }
+/* =======
+.total-stat-card {
+  background-color: cadetblue;
+  border-radius: 20px;
+  border: 2px solid white;
+  padding: 10px 50px;
+  font-size: 30px;
+  margin-top: 400px;
+
+}
+
+>>>>>>> feature-statistics */
 .box {
   height: 100vh;
   width: 100%;
@@ -127,6 +143,7 @@ export default {
   border: 1px solid #B9729E;
   padding: 10px 30px;
   font-size: 15px;
+  margin: 10px;
 }
 
 .nav-btn-position {

@@ -4,6 +4,7 @@ const HOST = 'https://localhost:8080/api/v1/'
 const ACCOUNTS = 'accounts/'
 const CHAT = 'chat/'
 const VIDEO = 'meeting/'
+const STATISTICS = 'statistics/'
 
 export default {
   accounts: {
@@ -34,5 +35,16 @@ export default {
     getSessionJoin: () => HOST + VIDEO + 'join',
     getStrangerProfile: () => HOST + VIDEO + 'userinfo',
     userLeaveSession: () => HOST + VIDEO + 'endservice'
+  },
+  statistics: {
+    getGenderData: () => HOST + STATISTICS + 'total/gender/',
+    getMbtiData: () => HOST + STATISTICS + 'total/mbti/',
+    getTimeData: () => HOST + STATISTICS + 'total/matchingTime/',
+    getMatchingRate: userid => HOST + STATISTICS + 'individual/matchingRate/' + userid,
+    getMatchingTime: userid => HOST + STATISTICS + 'individual/matchingTime/' + userid,
+    getMBTIRate: userid => HOST + STATISTICS + 'individual/mbtiRate/' + userid,
+    getDrinkRate: userid => HOST + STATISTICS + 'individual/drinkRate/' + userid,
+    getCigaretteRate: userid => HOST + STATISTICS + 'individual/cigaretteRate/' + userid
   }
+  // Update end
 }

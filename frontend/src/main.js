@@ -4,15 +4,19 @@ import App from './App.vue'
 import router from './router'
 import store from './store'
 
-import BootstrapVue from 'bootstrap-vue'
+import { BootstrapVue, BootstrapVueIcons } from 'bootstrap-vue'
 import 'bootstrap/dist/css/bootstrap.min.css'
 import 'bootstrap-vue/dist/bootstrap-vue.css'
 
 import 'animate.css'
 import anime from 'animejs/lib/anime.es.js'
 
+import Bars from 'vuebars'
+Vue.use(Bars)
+
 Vue.prototype.$anime = anime
 Vue.use(BootstrapVue)
+Vue.use(BootstrapVueIcons)
 Vue.config.productionTip = false
 
 new Vue({

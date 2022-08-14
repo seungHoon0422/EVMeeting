@@ -1,7 +1,15 @@
 <template>
   <Pie
     :chart-options="chartOptions"
-    :chart-data="chartData"
+    :chart-data="{
+        labels: drinkLabel,
+        datasets: [
+          {
+            backgroundColor: ['#8B008B', '#9932CC', '#BA55D3', '#FF00FF'],
+            data: drinkRate
+          }
+        ]
+      }"
     :chart-id="chartId"
     :dataset-id-key="datasetIdKey"
     :plugins="plugins"
@@ -13,6 +21,7 @@
 </template>
 
 <script>
+import { mapActions, mapGetters } from 'vuex'
 import { Pie } from 'vue-chartjs/legacy'
 
 import {
@@ -63,37 +72,20 @@ export default {
   },
   data () {
     return {
-      chartData: {
-        labels: ['소주 한 잔', '소주 1병 미만', '소주 1-3병', '소주 3병 이상'],
-        datasets: [
-          {
-            backgroundColor: ['#41B883', '#E46651', '#00D8FF', '#DD1B16'],
-            data: [10, 20, 30, 40]
-            // datalabels: {
-            //   color: 'black',
-            //   font: { size: 24 }
-            // }
-          }
-        ]
-      },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
       }
     }
+  },
+  created () {
+    this.getdrink()
+  },
+  methods: {
+    ...mapActions(['getdrink'])
+  },
+  computed: {
+    ...mapGetters(['drinkRate', 'drinkLabel'])
   }
-  // options: {
-  //   plugins: {
-  //     datalabels: {
-  //       color: 'pink',
-  //       labels: {
-  //         value: {},
-  //         title: {
-  //           color: 'blue'
-  //         }
-  //       }
-  //     }
-  //   }
-  // }
 }
 </script>

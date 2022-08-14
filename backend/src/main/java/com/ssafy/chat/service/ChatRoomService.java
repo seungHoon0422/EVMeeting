@@ -26,18 +26,29 @@ public class ChatRoomService implements IChatRoomService {
     @Override
     public long createRoom(ChatRoom newRoom) {
         newRoom.setRecentMessageTime(LocalDateTime.now().toString());
-        ChatRoom chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid1(), newRoom.getUserid2());
-        if(chatRoom == null) {
-            chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid2(), newRoom.getUserid1());
-            if(chatRoom == null) {
-                System.out.println("Create Room");
-                return chatroomRepository.save(newRoom).getId();
-            }
+        try {
+            ChatRoom chatRoom = chatroomRepository.save(newRoom);
+            return chatRoom.getId();
+        } catch (Exception e) {
+            ChatRoom chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid1(), newRoom.getUserid2());
+            return chatRoom.getId();
         }
-        System.out.println("Exist Room");
-        return chatRoom.getId();
-    }
 
+//        ChatRoom chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid1(), newRoom.getUserid2());
+//        if(chatRoom == null) {
+//            chatRoom = chatroomRepository.existChatroomByUserIds(newRoom.getUserid2(), newRoom.getUserid1());
+//            if(chatRoom == null) {
+//                System.out.println("Create Room");
+//                return chatroomRepository.save(newRoom).getId();
+//            }
+//        }
+//        System.out.println("Exist Room");
+//        return chatRoom.getId();
+    }
+    @Override
+    public long findChatRoomByUsers(long user1, long user2) {
+        return chatroomRepository.existChatroomByUserIds(user1, user2).getId();
+    }
     @Override
     public List<ChatRoom> getAllChatRooms() {
         return chatroomRepository.findAll();
@@ -119,4 +130,5 @@ public class ChatRoomService implements IChatRoomService {
             messageRepository.delete(message);
         });
     }
+
 }

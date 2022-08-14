@@ -53,6 +53,20 @@ public class ChatRoomController {
             return ResponseEntity.status(HttpStatus.BAD_REQUEST).body(Long.MIN_VALUE);
     }
 
+    @GetMapping("/findroom")
+    @ApiOperation(value = "채팅방 검색", notes = "채팅방에 포함되어 있는 두 유저의 PK를 통해 chatroomId를 반환합니다.")
+    @ApiResponses({
+            @ApiResponse(code = 200, message = "성공"),
+            @ApiResponse(code = 404, message = "채팅방 없음"),
+            @ApiResponse(code = 500, message = "서버 오류")
+    })
+    public ResponseEntity<Long> findChatRoomByUsers(@RequestBody long user1, long user2) {
+
+        long chatroomId = chatroomService.findChatRoomByUsers(user1, user2);
+        return ResponseEntity.status(HttpStatus.OK).body(chatroomId);
+    }
+
+
     // 모든 채팅방 목록 반환
     @GetMapping("/rooms")
     @ApiOperation(value = "모든 채팅방 목록", notes = "생성된 모든 채팅방의 목록을 가져옵니다.")
@@ -116,7 +130,6 @@ public class ChatRoomController {
         chatroomService.deleteRoom(chatroomId);
             return ResponseEntity.status(HttpStatus.OK).body(chatroomId);
     }
-
 
 
     @PostMapping("/message/save")
