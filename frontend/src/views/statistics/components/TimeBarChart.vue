@@ -111,7 +111,8 @@ export default {
           console.log(res)
           this.chartData.labels = []
           this.chartData.datasets.data = []
-
+          console.log('res', res)
+          console.log('res.data', res.data)
           res.data.forEach(element => {
             this.chartData.labels.push(element.time)
             if (element.matchingPercent !== 0) this.chartData.datasets.data.push(element.matchingPercent)

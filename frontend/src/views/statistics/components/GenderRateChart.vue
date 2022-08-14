@@ -80,11 +80,29 @@ export default {
       }
     }
   },
-  mounted () {
+  async mounted () {
     this.loaded = false
-    this.settingData()
-    this.loaded = true
+    try {
+      const res = await axios.get(api.statistics.getGenderData())
+      console.log('Gender Statistics Data Response', res)
+      const lb = ['male', 'female']
+      const datas = [res.data.malePercent, res.data.femalePercent]
+
+      this.chartData = {
+        labels: lb,
+        datasets: [
+          {
+            backgroundColor: ['#41B883', '#E46651'],
+            data: datas
+          }
+        ]
+      }
+      this.loaded = true
+    } catch (e) {
+      console.error(e)
+    }
   },
+
   methods: {
     settingData () {
       axios({

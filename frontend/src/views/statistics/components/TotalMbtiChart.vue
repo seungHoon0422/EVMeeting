@@ -96,7 +96,6 @@ export default {
     this.loaded = false
     this.settingData()
     this.loaded = true
-    console.log('created', this.chartData.datasets.data)
   },
   methods: {
     settingData () {
