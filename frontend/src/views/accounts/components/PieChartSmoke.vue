@@ -1,7 +1,15 @@
 <template>
   <Pie
     :chart-options="chartOptions"
-    :chart-data="chartData"
+    :chart-data="{
+        labels: ['흡연', '비흡연'],
+        datasets: [
+          {
+            backgroundColor: ['#41B883', '#E46651'],
+            data: cigaretteRate
+          }
+        ]
+      }"
     :chart-id="chartId"
     :dataset-id-key="datasetIdKey"
     :plugins="plugins"
@@ -13,6 +21,7 @@
 </template>
 
 <script>
+import { mapGetters, mapActions } from 'vuex'
 import { Pie } from 'vue-chartjs/legacy'
 
 import {
@@ -63,20 +72,20 @@ export default {
   },
   data () {
     return {
-      chartData: {
-        labels: ['흡연', '비흡연'],
-        datasets: [
-          {
-            backgroundColor: ['#41B883', '#E46651'],
-            data: [54, 46]
-          }
-        ]
-      },
       chartOptions: {
         responsive: true,
         maintainAspectRatio: false
       }
     }
+  },
+  created () {
+    this.getciga()
+  },
+  methods: {
+    ...mapActions(['getciga'])
+  },
+  computed: {
+    ...mapGetters(['cigaretteRate'])
   }
 }
 </script>
