@@ -319,23 +319,24 @@
       </div>
       <!-- 상대 비디오 출력   -->
       <div>
-          <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+          <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%; z-index:0;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
       </div>
       <!-- 선택 및 세션 종료 버튼 -->
       <h2 style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:-15px; color:#ffffff; margin-top: -5px; margin-bottom:-10px;">최종 선택</h2>
-      <div class="d-flex justify-content-center">
+      <div class="d-flex justify-content-center" >
         <adding-profile
           @profileOnOff="profileOnOff"
           :profileopencount="profileopencount"
           :session="session"
           :countTogether ="countTogether"
+          style="z-index:2;"
           >
 
         </adding-profile>
         <!-- 세션 종료 -->
         <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
         <button id="buttonIcon" @click="[deleteRoom(), removeMessage(), leaveSession()]">
-          <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
+          <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red; z-index:2;" ></i>
         </button>
       </div>
         <!-- <div style="display: grid; place-items: center; border: none; margin-top:3%;"> -->
@@ -354,7 +355,7 @@
           <!-- 비디오 버튼 -->
           <video-button style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
           <!-- 프로필 버튼 -->
-          <img src="@/img/user.svg" alt="비디오 끄기" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px;"/>
+          <img src="@/img/user.svg" alt="비디오 끄기" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px; z-index:2;"/>
             <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/> -->
           <!-- 세션 종료 버튼 -->
           <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/> -->
@@ -966,6 +967,8 @@ export default {
         this.startTimer()
       }
       if (this.sessionLevel === 3) {
+        var nav = document.getElementsByClassName('nav-box')
+        nav.style.display = 'none'
         console.log('Its Level 3')
         axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
           .then(res => {
@@ -1030,6 +1033,7 @@ export default {
   height: 60%;
   width: 350px;
   right: 110px;
+  z-index: 1;
 }
 .button_grid{
   display: grid;
