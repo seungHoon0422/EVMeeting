@@ -8,12 +8,12 @@
         </a>
       </div>
       <div class="nav-padding">
-        <a class="text-light me-5 text-decoration-none" href="/">홈</a>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'chatlist' }">매칭목록</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'personalstat' }">{{currentUser.username}}의 통계</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="!isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
+        <a class="text-black me-5 text-decoration-none" href="/">홈</a>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-black me-5 text-decoration-none" :to="{ name: 'chatlist' }">매칭목록</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-black me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-black me-5 text-decoration-none" :to="{ name: 'personalstat' }">{{currentUser.username}}의 통계</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="!isLoggedIn" class="text-black text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
+        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-black text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
       </div>
     </div>
   </nav>

@@ -80,7 +80,7 @@ export default {
         datasets: [
           {
             label: 'MBTI Rate',
-            backgroundColor: '#6f42c1',
+            backgroundColor: '#E5CCE5',
             data: [40, 35, 20, 14, 13],
             borderRadius: 5
 

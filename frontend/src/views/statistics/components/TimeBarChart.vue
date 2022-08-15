@@ -4,7 +4,7 @@
   <div>
     <bars
     :data="chartData.datasets.data"
-    :gradient="['#001233', '#ff93df']"
+    :gradient="['#001233', '#E5CCE5']"
     :labelData="chartData.labels"
     :barWidth="20"
     :rounding="3"

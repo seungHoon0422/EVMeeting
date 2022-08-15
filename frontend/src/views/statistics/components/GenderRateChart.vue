@@ -69,7 +69,7 @@ export default {
         labels: ['남성', '여성'],
         datasets: [
           {
-            backgroundColor: ['#8a2be2', '#ff00ff'],
+            backgroundColor: ['#E4CAE4', '#FFE4E1'],
             data: [65, 40]
           }
         ]
@@ -92,7 +92,7 @@ export default {
         labels: lb,
         datasets: [
           {
-            backgroundColor: ['#8a2be2', '#ff00ff'],
+            backgroundColor: ['#CA97CA', '#E4CAE4'],
             data: datas
           }
         ]
@@ -123,3 +123,10 @@ export default {
 
 }
 </script>
+<style scoped>
+
+.chart-color{
+  background-color: #8a2be2;
+}
+
+</style>
