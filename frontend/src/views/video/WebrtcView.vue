@@ -118,7 +118,7 @@
     <!-- <div id="session_1" v-if="sessionLevel===1" class="container" style="color: #FAFAFA;"> -->
     <!-- <div id="session_1" v-if="sessionLevel===1" class="container" style="color: #77a094"> -->
     <div id="session_1" v-if="sessionLevel===1" class="container">
-      <h1>세션 ID : {{this.mySessionId}}</h1>
+      <!-- <h1>세션 ID : {{this.mySessionId}}</h1> -->
       <div class="col-auto">
         <h1 class="col-auto" style="font-weight:bold; margin-bottom: 20px;"> 안녕하세요! <span class="col-auto" style="color:#B9729E;">{{currentUser.username}} </span> 님</h1>
       </div>
@@ -967,8 +967,8 @@ export default {
         this.startTimer()
       }
       if (this.sessionLevel === 3) {
-        var nav = document.getElementsByClassName('nav-box')
-        nav.style.display = 'none'
+        // const nav = document.getElementsByClassName('nav-box')
+        // nav.style.display = 'none'
         console.log('Its Level 3')
         axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
           .then(res => {
@@ -1061,6 +1061,7 @@ export default {
   width: 100vw;
   background-repeat : no-repeat;
   background-size : cover;
+  position : relative;
 }
 @keyframes blink-effect {
   50% {
