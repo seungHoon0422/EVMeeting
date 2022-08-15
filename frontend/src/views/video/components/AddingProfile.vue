@@ -37,6 +37,11 @@ export default {
       if (this.countTogether !== 0) {
         this.buttonOff = false
       }
+    },
+    profileopencount () {
+      if (this.profileopencount === 10) {
+        this.buttonOff = true
+      }
     }
   },
   name: 'adding-profile',

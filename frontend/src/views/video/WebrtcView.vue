@@ -203,6 +203,10 @@
     <!-- 세션 2 => 상대방 얼굴 확인 10초 카운트 및 질문 -->
     <!-- <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%; color: #FAFAFA;"> -->
     <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%;">
+      <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
+      <audio id="back-audio" autoplay>
+      <source src="@/img/pianomoment.mp3">
+      </audio>
       <div class="contaniner my-5" v-if="currentUser">
         <h1 style="font-weight: bold;"> Hello I'm <span style="color : #B9729E;">{{this.strangerNickname}}</span></h1>
           <div class="container" style="width: 80%;">
@@ -287,19 +291,16 @@
     </div>
 
     <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
-    <div id="session_3" v-if="sessionLevel===3" class="container">
-      <!-- <h1>Hi I'm session_3</h1>
-      <h1>세션 ID : {{this.mySessionId}}</h1>
-      <h1> MBTI : {{currentUser.mbti}}</h1> -->
-      <h1>남은 시간 : {{tenseconds}}</h1>
+    <div id="session_3" v-if="sessionLevel===3" class="container3">
+      <h3 class="blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
       <!-- 랜덤 질문 출력 부분 -->
-      <div>
+      <div style="margin-top:-3px;">
         <random-button
         :session="session"
         :tenseconds="tenseconds">
         </random-button>
       </div>
-      <div>
+      <div style="margin-top:3px;">
         <random-question
         ref="qustionRequest"
         @subject="subject"
@@ -320,26 +321,44 @@
       <div>
           <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
       </div>
-      <!-- 테이블 -->
-      <div class="table" style="position:relative; height:100px;">
-        <img src="@/img/table.png" style="width: 100%; height: 100%; object-fit: cover;" />
-        <div style="display: grid; place-items: center; border: none; margin-top:3%;">
+      <!-- 선택 및 세션 종료 버튼 -->
+      <h2 style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:-15px; color:#ffffff; margin-top: -5px; margin-bottom:-10px;">최종 선택</h2>
+      <div class="d-flex justify-content-center">
+        <adding-profile
+          @profileOnOff="profileOnOff"
+          :profileopencount="profileopencount"
+          :session="session"
+          :countTogether ="countTogether"
+          >
+
+        </adding-profile>
+        <!-- 세션 종료 -->
+        <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+        <button id="buttonIcon" @click="[deleteRoom(), removeMessage(), leaveSession()]">
+          <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
+        </button>
+      </div>
+        <!-- <div style="display: grid; place-items: center; border: none; margin-top:3%;"> -->
           <!-- 거울 -->
           <!-- <img src="@/img/mirror.png" style="border: none; width:12.7%;"/> -->
           <!-- 내 비디오 출력 -->
-          <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-        </div>
-        <div class="button_grid" style="border:none; margin-top:-10%;">
-          <!-- 음소거 버튼 -->
-          <video-bottom style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></video-bottom>
+          <!-- <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+        </div> -->
+        <div class="button_grid" style="border:none; background-color:#d3a476; border-radius:10px; margin-top:10px;">
           <!-- 채팅 버튼 -->
-            <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/>
+          <img src="@/img/comment.svg" alt="비디오 끄기" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
+            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/> -->
+          <!-- 음소거 버튼 -->
+          <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
+          <user-video class="my-video" style="border: none; border-radius: 10px;  width: 310px; height:200px; margin-top:-200%; padding-left:85px;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+          <!-- 비디오 버튼 -->
+          <video-button style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
           <!-- 프로필 버튼 -->
-            <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/>
+          <img src="@/img/user.svg" alt="비디오 끄기" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px;"/>
+            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/> -->
           <!-- 세션 종료 버튼 -->
-          <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/>
+          <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/> -->
         </div>
-      </div>
     </div>
   </div>
 </div>
@@ -353,7 +372,7 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import LikeYou from '@/views/video/components/LikeYou'
 import UserProfile from '@/views/video/components/UserProfile'
-import VideoBottom from '@/views/video/components/VideoBottom'
+// import VideoBottom from '@/views/video/components/VideoBottom'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 import RandomButton from '@/views/video/components/RandomButton'
@@ -364,6 +383,8 @@ import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
 import OnebyOne from '@/views/video/animation/OnebyOne'
 import TimerAnimation from '@/views/video/animation/TimerAnimation'
 import ProfileView from '@/views/video/components/ProfileView'
+import VideoButton from './components/VideoButton.vue'
+import AudioButton from './components/AudioButton.vue'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -376,7 +397,7 @@ export default {
     LikeYou,
     UserProfile,
     AddingProfile,
-    VideoBottom,
+    // VideoBottom,
     StrangerProfile,
     ChatView,
     ElevatorAnimation,
@@ -385,7 +406,9 @@ export default {
     RandomQuestion,
     OnebyOne,
     TimerAnimation,
-    ProfileView
+    ProfileView,
+    AudioButton,
+    VideoButton
   },
   data () {
     return {
@@ -672,7 +695,7 @@ export default {
         this.stopaddFunc()
         // this.addcount = 0
       }
-      this.tenseconds = 10000000
+      this.tenseconds = 10
       // this.addcount += 1
       this.addflag = true
       if (this.addflag === true) {
@@ -844,31 +867,32 @@ export default {
     },
     ToProfile () {
       this.$router.push('/editphoto')
+    },
+    // 매칭 성공 modal
+    matchSuccess () {
+      this.$bvModal.msgBoxOk('매칭이 성공 되었습니다!', {
+        title: '축하드립니다!',
+        size: 'sm',
+        buttonSize: 'sm',
+        okVariant: 'success',
+        headerClass: 'p-2 border-bottom-0',
+        footerClass: 'p-2 border-top-0',
+        centered: true
+      })
+        .then(value => {
+          if (value === true) {
+            this.leaveSession()
+          }
+        })
+        .catch(err => {
+          console.log(err)
+        })
+    },
+    videoOnOff ({ video }) {
+      console.log('video')
+      console.log(video)
+      this.publisher.publishVideo(video)
     }
-    // Really? leave?
-    // reallyLeave () {
-    //   this.boxTwo = ''
-    //   this.$bvModal.msgBoxConfirm('정말 나가시겠습니까?', {
-    //     title: '알림',
-    //     size: 'sm',
-    //     buttonSize: 'sm',
-    //     okVariant: 'primary',
-    //     okTitle: '네',
-    //     cancelTitle: '아니요',
-    //     cancleVariant: 'danger',
-    //     footerClass: 'p-2',
-    //     hideHeaderClose: false,
-    //     centered: true
-    //   })
-    //     .then(value => {
-    //       if (value === true) {
-    //         this.leaveSession()
-    //       }
-    //     })
-    //     .catch(err => {
-    //       console.log(err)
-    //     })
-    // }
   },
   computed: {
     ...mapGetters(['isLoggedIn', 'authHeader', 'currentUser']),
@@ -897,24 +921,22 @@ export default {
   },
   watch: {
     // 시간이 다 되면 자동적으로 세션 종료
-    autoleaveflag (newautoleaveflag) {
+    autoleaveflag () {
       this.leaveSession()
     },
     // 입장과 동시에 시간 Count
     sessionjoined (sessionjoined) {
-      // this.startTimer()
-      // if (this.currentUserCount === 1) {
-      //   // this.startTimer()
-      // }
       if (sessionjoined === 1) {
         if (this.currentUserCount === 1) {
           this.startTimer()
         }
       }
     },
-    // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
     profileopencount () {
-      if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
+      if (this.profileopencount === 10) {
+        this.matchSuccess()
+      } else if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
+        // profileopencount 가 짝수 일 때마다 addCount가 증가하고,
         this.plusAddCount()
         // 같이 값을 바꿀 수 있는 countTogether
         this.countTogetherSignal()
@@ -945,13 +967,19 @@ export default {
       }
       if (this.sessionLevel === 3) {
         console.log('Its Level 3')
+        axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
+          .then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
         this.roomid = this.createRoom()
         this.tenseconds = 600
       }
     },
     tenseconds () {
       if (this.sessionLevel === 3 && this.tenseconds === 1) {
-        // this.roomid = this.createRoom()
+        this.id = this.createRoom()
       }
     },
     currentUserCount () {
@@ -960,9 +988,6 @@ export default {
       } else {
         this.$refs.elevatorOpen.meetStranger()
       }
-      // if (this.currentUserCount === 1) {
-      //   this.$refs.elevatorOpen.meetStranger()
-      // }
     },
     strangerLeaveFlag () {
       if (this.strangerLeaveFlag === true) {
@@ -993,22 +1018,23 @@ export default {
 }
 .pop_chat{
   position: absolute;
-  top: 70px;
-  height: 430px;
+  top: 120px;
+  height: 425px;
   width: 400px;
-  left: 20px;
+  left: 70px;
+  z-index: 1;
 }
 .pop_profile{
   position: absolute;
-  top: 150px;
+  top: 200px;
   height: 60%;
   width: 350px;
-  right: 67px;
+  right: 110px;
 }
 .button_grid{
   display: grid;
   place-items: center;
-  grid-template-columns: repeat(auto-fill,minmax(300px, 1fr));
+  grid-template-columns: 2fr 2fr 50px 2fr 2fr;
   border: none;
 }
 @media screen and (max-width: 1300px) {
@@ -1025,18 +1051,19 @@ export default {
     display: none;
   }
 }
-/* .box{
-  width: 30px;
-  height: 40px;
-  border-radius: 70%;
-  overflow: hidden;
-  background-color: white;
-  margin-right: 5px;
-  margin-left: -20px;
+.container3 {
+  background-image: url('@/img/minku-kang-EB4aBDOMyT4-unsplash.jpg');
+  height: 80vh;
+  width: 100vw;
+  background-repeat : no-repeat;
+  background-size : cover;
 }
-.photo {
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
-} */
+@keyframes blink-effect {
+  50% {
+    opacity: 0;
+  }
+}
+.blink {
+  animation: blink-effect 1s step-end infinite;
+}
 </style>
