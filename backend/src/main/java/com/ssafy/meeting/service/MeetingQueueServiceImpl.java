@@ -23,7 +23,15 @@ public class MeetingQueueServiceImpl implements MeetingQueueService {
     }
     @Override
     public MeetingQueue getCallMeetingByCategory(MeetingQueue meetingQueue) {
-        List<MeetingQueue> list = meetingQueueRepository.findAll(); // 미팅큐에 대기중인 유저가 있는지 확인
+//        List<MeetingQueue> list = meetingQueueRepository.findAll(); // 미팅큐에 대기중인 유저가 있는지 확인
+        List<MeetingQueue> list; // gender 필터링 추가
+        if(meetingQueue.getGender().equals("male")) list = meetingQueueRepository.findByGender("female");
+        else list = meetingQueueRepository.findByGender("male");
+
+        for(int i=0; i<list.size(); i++){
+            System.out.println(list.get(i).getUserid());
+            System.out.println(list.get(i).getGender());
+        }
         // 블랙리스트 조회 필터링
         List<Blacklist> blist1 = blacklistRepository.findByUserFrom(meetingQueue.getUserid()); // userFrom 컬럼 기준으로 검색
         List<Blacklist> blist2 = blacklistRepository.findByUserTo(meetingQueue.getUserid()); // userTo 컬럼 기준으로 검색

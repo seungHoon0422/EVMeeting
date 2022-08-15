@@ -21,6 +21,8 @@ public interface MeetingQueueRepository extends JpaRepository<MeetingQueue, Long
 
     List<MeetingQueue> findAll();
 
+    List<MeetingQueue> findByGender(@Param("gender") String gender);
+
     @Transactional
     void deleteByUserid(@Param("userid") String userid);
 }
