@@ -1040,6 +1040,9 @@ export default {
   place-items: center;
   grid-template-columns: 2fr 2fr 50px 2fr 2fr;
   border: none;
+  position:absolute;
+  bottom:0;
+  width:100%;
 }
 @media screen and (max-width: 1300px) {
   .pop_chat {
@@ -1061,7 +1064,7 @@ export default {
   width: 100vw;
   background-repeat : no-repeat;
   background-size : cover;
-  position : relative;
+  position:relative;
 }
 @keyframes blink-effect {
   50% {
