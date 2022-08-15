@@ -386,6 +386,7 @@ import TimerAnimation from '@/views/video/animation/TimerAnimation'
 import ProfileView from '@/views/video/components/ProfileView'
 import VideoButton from './components/VideoButton.vue'
 import AudioButton from './components/AudioButton.vue'
+import swal from 'sweetalert'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -616,9 +617,14 @@ export default {
       this.addflag = false
       this.profileopencount = undefined
 
-      this.$router.go('/cam')
+      swal({
+        title: '매칭 실패',
+        text: '상대방의 요청으로 연결이 종료되었습니다.',
+        icon: 'error'
+      })
+      // this.$router.go('/cam')
 
-      // window.removeEventListener('beforeunload', this.leaveSession)
+      window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -909,8 +915,13 @@ export default {
       // console.log('hi')
       console.log(this.isLoggedIn)
       window.addEventListener('beforeunload', (event) => {
+        swal({
+          title: '매칭 실패',
+          text: '상대방의 요청으로 연결이 종료되었습니다.',
+          icon: 'error'
+        })
         this.leaveSession()
-        this.$router.push('/')
+        // this.$router.push('/')
         // window.location.reload(true)
         // event.preventDefault()
         event.returnValue = 'TEST'
