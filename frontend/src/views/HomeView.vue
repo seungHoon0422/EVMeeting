@@ -5,8 +5,8 @@
       <a href="/totalstat"><button class="nav-btn mr-3" style="font-family:'GangwonEdu_OTFBoldA';">
         <b-icon icon="bar-chart-fill" scale="1" variant="danger"></b-icon>
       About US</button></a>
-      <a href="/login"><button class="nav-btn" style="font-family:'GangwonEdu_OTFBoldA';" v-if="!isLoggedIn">로그인/회원가입</button></a>
-      <a href="/profile"><button class="nav-btn me-3" style="font-family:'GangwonEdu_OTFBoldA';" v-if="isLoggedIn">내 정보</button></a>
+      <a href="/login"><button class="nav-btn" v-if="!isLoggedIn">로그인/회원가입</button></a>
+      <a href="/profile"><button class="nav-btn me-3"  v-if="isLoggedIn">내 정보</button></a>
       <a href="/logout"><button class="nav-btn" style="font-family:'GangwonEdu_OTFBoldA';" v-if="isLoggedIn">로그아웃</button></a>
     </div>
     <div class="home-text text-start">
