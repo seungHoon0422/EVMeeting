@@ -37,11 +37,11 @@
           <video-player :mp4="require(`@/img/elevatorVideo.mp4`)" ></video-player>
         </div>
       </div>
-
+      <footer-bar class="footer"></footer-bar>
     </div>
+
     <!-- <img class="elevator-img" src="@/img/elevator_1.gif" alt=".."> -->
     <!-- <p v-if="isLoggedIn">Hi, {{ currentUser.userid }}</p> -->
-    <!-- <footer-bar class="footer"></footer-bar> -->
   </div>
 </template>
 
@@ -50,15 +50,15 @@
 // import axios from 'axios'
 import { mapGetters, mapActions } from 'vuex'
 // import swal from 'sweetalert'
-// import FooterBar from '@/views/accounts/components/FooterBar.vue'
+import FooterBar from '@/views/accounts/components/FooterBar.vue'
 // import ChattingRoomView from './chat/ChattingRoomView.vue'
 import VideoPlayer from '@/views/video/components/VideoPlayer.vue'
 
 export default {
-  // components: { FooterBar },
   name: 'HomeView',
   components: {
-    VideoPlayer
+    VideoPlayer,
+    FooterBar
   },
   computed: {
     ...mapGetters(['currentUser', 'isLoggedIn'])
@@ -102,7 +102,7 @@ export default {
 
 >>>>>>> feature-statistics */
 .box {
-  height: 100vh;
+  height: 120vh;
   width: 100%;
   /* background-color: white; */
   background-color : #f5f5f5;
@@ -164,8 +164,9 @@ button:hover {
 }
 
 .footer {
-  margin-top: 1000px;
-  /* position: fixed; */
+  margin-top: 350px;
+  /* bottom: 0; */
+  /* position: sticky; */
 }
 
 #buttonIcon{

@@ -9,11 +9,11 @@
       </div>
       <div class="nav-padding">
         <a class="text-light me-5 text-decoration-none" href="/">홈</a>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'chatlist' }">매칭목록</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'profile' }">{{currentUser.username}}의 프로필</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'personalstat' }">{{currentUser.username}}의 통계</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="!isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
-        <router-link style="font-family: 'GangwonEdu_OTFBoldA';" v-if="isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
+        <router-link v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'chatlist' }"><span :class="{'selected': clicked === 'match'}" @click="select0">매칭목록</span></router-link>
+        <router-link v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'profile' }"><span :class="{'selected': clicked === 'profile'}" @click="select1">{{currentUser.username}}의 프로필</span></router-link>
+        <router-link v-if="isLoggedIn" class="text-dark me-5 text-decoration-none" :to="{ name: 'personalstat' }"><span :class="{'selected': clicked === 'stat'}" @click="select2">{{currentUser.username}}의 통계</span></router-link>
+        <router-link v-if="!isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'login' }">로그인/회원가입</router-link>
+        <router-link v-if="isLoggedIn" class="text-dark text-decoration-none" :to="{ name: 'logout' }">로그아웃</router-link>
       </div>
     </div>
   </nav>
@@ -25,11 +25,28 @@
 import { mapGetters, mapActions } from 'vuex'
 export default {
   name: 'NavBar',
+  data () {
+    return {
+      clicked: ''
+    }
+  },
   computed: {
     ...mapGetters(['isLoggedIn', 'currentUser'])
   },
   methods: {
-    ...mapActions(['fetchCurrentUser'])
+    ...mapActions(['fetchCurrentUser']),
+    select0 () {
+      this.clicked = 'match'
+      console.log(this.clicked)
+    },
+    select1 () {
+      this.clicked = 'profile'
+      console.log(this.clicked)
+    },
+    select2 () {
+      this.clicked = 'stat'
+      console.log(this.clicked)
+    }
   },
   created () {
     this.fetchCurrentUser()
@@ -37,7 +54,11 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+*{
+  font-family: 'GangwonEdu_OTFBoldA' !important;
+}
+
 .nav-box {
   width: 1200px;
   margin: 0 auto;
@@ -77,5 +98,9 @@ export default {
 #logo {
   width : 30px;
   height: 30px;
+}
+
+.selected {
+  color: #B9729E;
 }
 </style>
