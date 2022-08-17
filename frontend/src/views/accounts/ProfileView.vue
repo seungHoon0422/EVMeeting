@@ -1,9 +1,16 @@
 <template>
   <div>
-    <div class="box">
-      <!-- <h1 class="font-style my-3">프로필</h1> -->
+    <div class="container box">
       <div class="d-flex justify-content-center my-3">
-        <!-- <statistic-card></statistic-card> -->
+          <profile-card></profile-card>
+      </div>
+      <div class="button-style d-flex justify-content-between">
+        <!-- <router-link :to="{ name: 'editphoto' }"><button>사진 변경</button></router-link> -->
+        <router-link :to="{ name: 'editprofile' }"><button>프로필 변경</button></router-link>
+        <router-link :to="{ name: 'editpwd' }"><button>비밀번호 변경</button></router-link>
+        <router-link :to="{ name: 'deleteprofile' }"><button>회원 탈퇴</button></router-link>
+      </div>
+      <!-- <div class="d-flex justify-content-center my-3">
         <profile-card></profile-card>
       </div>
       <div class="button-style d-flex justify-content-between">
@@ -11,7 +18,7 @@
         <router-link :to="{ name: 'editprofile' }"><button>프로필 변경</button></router-link>
         <router-link :to="{ name: 'editpwd' }"><button>비밀번호 변경</button></router-link>
         <router-link :to="{ name: 'deleteprofile' }"><button>회원 탈퇴</button></router-link>
-      </div>
+      </div> -->
     </div>
   </div>
 </template>
@@ -31,13 +38,14 @@ export default {
 
 <style scoped>
 .box {
-  width: 800px;
-  height: 900px;
+  width: 100%;
+  height: 100%;
   border: 5px solid #FAFAFA;
   border-radius: 10px;
-  margin: 0 auto;
+  padding-top: 5%;
+  padding-bottom: 5%;
   position: relative;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(178, 174, 174, 0.4);
 }
 
 .font-style {
