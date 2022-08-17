@@ -3,7 +3,6 @@
     <div class="nav-btn-position d-flex justify-content-end" style="color:black;">
       <!-- <router-link :to="{ name: 'login' }"><button class="login-btn">로그인/회원가입</button></router-link> -->
       <a href="/totalstat"><button class="nav-btn mr-3" style="font-family:'GangwonEdu_OTFBoldA';">
-        <b-icon icon="bar-chart-fill" scale="1" variant="danger"></b-icon>
       About US</button></a>
       <a href="/login"><button class="nav-btn" v-if="!isLoggedIn">로그인/회원가입</button></a>
       <a href="/profile"><button class="nav-btn me-3"  v-if="isLoggedIn">내 정보</button></a>
@@ -29,7 +28,7 @@
           </div>
           <div>
             <button class="home-btn col-auto" @click="ToCam">
-                <p style="margin-top: 20px; font-weight: bold; font-family:'GangwonEdu_OTFBoldA'; color : white;">엘리베이터 타러 가기 </p>
+                <p style="margin-top: 20px; font-weight: bold; font-family:'GangwonEdu_OTFBoldA';">엘리베이터 타러 가기 </p>
             </button>
           </div>
         </div>
@@ -104,12 +103,14 @@ export default {
 .box {
   height: 120vh;
   width: 100%;
-  /* background-color: white; */
-  background-color : #f5f5f5;
+  background-color: white;
+  /* background-color : #f5f5f5; */
   /* background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg); */
   background-repeat : no-repeat;
   background-size : cover;
   background-attachment: fixed;
+  /* background-blend-mode: darken; */
+  /* background-image: url('https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg'); */
 }
 
 .elevator-img {
@@ -127,7 +128,7 @@ export default {
 }
 
 .home-btn {
-  background-color: #B9729E;
+  background-color: #D5ACD5;
   color: black;
   border-radius: 10px;
   border: 2px solid white;
@@ -137,13 +138,17 @@ export default {
 }
 
 .nav-btn {
-  background-color: transparent;
+  /* background-color: transparent; */
+  /* color: black; */
+  background-color: #D5ACD5;
   color: black;
   border-radius: 10px;
-  border: 1px solid #B9729E;
+  border: 1px solid #ffffff;
+  font-weight: 800;
   padding: 10px 30px;
   font-size: 15px;
   margin: 10px;
+  /* opacity: 0.7; */
 }
 
 .nav-btn-position {
@@ -153,7 +158,7 @@ export default {
 
 button:hover {
   color: white;
-  background-color: #B9729E;
+  background-color: #d18cd1;
 }
 
 .text-style {

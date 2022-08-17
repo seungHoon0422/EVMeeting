@@ -1,6 +1,6 @@
 <template>
   <div>
-    <h3 style="margin-top:4px;">{{this.subject}}</h3>
+    <h3 style="margin-top:10px; padding: 20px; color:white; background-color: rgba(178, 174, 174, 0.4); border-radius:5px; width:80%; margin-left: auto; margin-right: auto;">{{this.subject}}</h3>
   </div>
 </template>
 
@@ -8,7 +8,7 @@
 export default {
   data () {
     return {
-      subject: '',
+      subject: '매칭을 축하합니다! 자기자신을 소개해보세요',
       questionList: [
         '남녀 사이에 친구가 존재 할 수 있을까?',
         '전 애인과 친구가 될 수 있을까?',

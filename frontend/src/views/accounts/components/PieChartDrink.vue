@@ -5,7 +5,7 @@
         labels: drinkLabel,
         datasets: [
           {
-            backgroundColor: ['#8B008B', '#9932CC', '#BA55D3', '#FF00FF'],
+            backgroundColor: ['#E5CCE5', '#CC9ACC', '#997399', '#722672'],
             data: drinkRate
           }
         ]

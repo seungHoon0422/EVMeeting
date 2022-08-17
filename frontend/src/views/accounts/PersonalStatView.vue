@@ -110,6 +110,6 @@ export default {
 .header-font {
   margin-bottom: 20px;
   /* color: #FAFAFA; */
-  color: #31084b;
+  color: #000000;
 }
 </style>

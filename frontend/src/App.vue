@@ -35,6 +35,9 @@ export default {
 </script>
 
 <style>
+*{
+    font-family: 'GangwonEdu_OTFBoldA' !important;
+}
 @font-face {
     font-family: 'GangwonEdu_OTFBoldA';
     src: url('https://cdn.jsdelivr.net/gh/projectnoonnu/noonfonts_2201-2@1.0/GangwonEdu_OTFBoldA.woff') format('woff');
@@ -51,7 +54,7 @@ export default {
   /* background-color: white; */
 /* <<<<<<< HEAD */
   height: 1200px;
-  background-color : #f5f5f5;
+  /* background-color : #f5f5f5; */
   /* background-color : #77a094; */
   /* background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg); */
 /* =======
@@ -61,6 +64,7 @@ export default {
   background-repeat : no-repeat;
   background-size : cover;
   background-attachment: fixed;
+  /* background-image: url('https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg'); */
 }
 
 nav {

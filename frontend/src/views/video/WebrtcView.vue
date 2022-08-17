@@ -3,104 +3,80 @@
   <div id="join" v-if="!session">
     <div id="join-dialog" class="jumbotron vertical-center">
       <div class="container">
-        <!-- <div class="container my-5" style="color: #FAFAFA;"> -->
-        <!-- <div id="session_1" v-if="sessionLevel===1" class="container" style="color: #77a094"> -->
-        <div class="container my-5">
-          <div>
-            <div class="d-flex justify-content-center " style="flex-direction: row;">
-              <h1 class="col-auto" style="font-weight: bold;">안녕하세요!</h1>
-              <h1 class="col-auto mx-3" style="color:#B9729E; font-weight: bold;"> {{currentUser.username}} </h1>
-              <h1 class="col-auto" style="font-weight: bold;">님</h1>
+        <!-- Greeting Message -->
+        <div class="d-flex justify-content-center " style="flex-direction: row;">
+          <h1 class="col-auto" style="font-weight: bold;">안녕하세요!</h1>
+          <h1 class="col-auto mx-3 sessionColor"> {{currentUser.username}} </h1>
+          <h1 class="col-auto" style="font-weight: bold;">님</h1>
+        </div>
+        <!-- Main Context Box -->
+        <div class="d-flex justify-content-around my-5 align-items-center">
+          <div class="row">
+            <!-- User Profile Box -->
+            <div class="col-auto form-group my-5 mx-3" >
+              <div>
+                <img :src="`${currentUser.photo}`" id="myProfile" style="border : 5px solid #B9729E;">
+              </div>
+              <div style="margin-top: 20px;">
+                <button @click="ToProfile"
+                style="background-color : #B9729E; border: 0px;  border-radius: 10px;
+                font-family : 'GangwonEdu_OTFBoldA';
+                margin-top: 1px; color: white;"
+                >
+                  프로필 변경하기
+                </button>
+              </div>
             </div>
-            <div class="container d-flex justify-content-around my-5 align-items-center">
-              <div class="row">
-                <!-- 유저 프로필 부분 -->
-                <div class="col-auto form-group my-5 mx-3" >
-                  <div>
-                    <img :src="`${currentUser.photo}`" id="myProfile" style="border : 5px solid #B9729E;">
-                  </div>
-                  <div style="margin-top: 20px;">
-                    <button @click="ToProfile"
-                    style="background-color : #B9729E; border: 0px;  border-radius: 10px;
-                    font-family : 'GangwonEdu_OTFBoldA';
-                    margin-top: 1px; color: white;"
-                    >
-                      프로필 변경하기
-                    </button>
-                  </div>
-                </div>
-                <!-- How To Use -->
-                <div class="col-auto d-flex justify-content-center">
-                  <div class="d-flex justify-content-center">
-                    <!-- <div class="align-items-center">
+            <!-- How to Use Box-->
+            <div class="col-auto d-flex justify-content-center">
+              <div class="d-flex justify-content-center">
+                <!-- Elevator Animation -->
+                <div class="container d-flex justify-content-center align-items-center" id="elevatorAnimation">
+                  <div class="container">
+                    <div class="container d-flex justify-content-around align-items-center">
+                      <div class="col-md-auto col-auto">
+                        <elevator-infinity style="width: 200px; height: 125px"></elevator-infinity>
+                      </div>
+                      <!-- How to use 1st row -->
+                      <div class="col-md-auto col-auto mx-5">
+                        <span style="font-family : 'GangwonEdu_OTFBoldA'">
+                          <h4 style="font-weight:bold;">엘리베이터에 <span class="sessionColor">탑승</span>하세요</h4>
+                          <div class="d-flex mt-3">
+                            <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대가 마음에 들면</h6>
+                            <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 20px; color : blue;"></i>
+                          </div>
+                          <div class="d-flex my-2">
+                          <h6 style="font-family : 'GangwonEdu_OTFBoldA';">마음에 들지 않으면</h6>
+                          <i class='bx bxs-chevron-down-circle mx-2' style="font-size: 20px; color: red;" ></i>
+                          </div>
+                        </span>
+                      </div>
+                    </div>
+                    <hr>
+                    <!-- How to use 2nd row -->
+                    <div class="container d-flex justify-content-around align-items-center">
+                      <div class="col-auto">
+                        <span class="align-middle">
+                          <h4 style="font-weight:bold;">10초 동안 <span class="sessionColor">고민</span>하세요</h4>
+                            <div class="d-flex mt-3">
+                              <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대의 얼굴 과 프로필을 확인하고</h6>
+                            </div>
+                            <div class="d-flex">
+                              <h6 style="font-family : 'GangwonEdu_OTFBoldA';">고민 해보세요</h6>
+                            </div>
+                        </span>
+                      </div>
+                      <img src="@/img/thinkingImage.png" style="width: 200px; height: 200px">
+                    </div>
+                    <hr>
+                    <div class="col-auto container align-items-center mt-3">
+                      <span class="align-middle">
+                        <h4 style="font-weight: bold;"> 엘리베이터를 <span class="sessionColor">호출</span> 해보세요</h4>
+                      </span>
+                      <div>
                         <button id="buttonIcon" @click="playAnimation">
-                          <i class="fa-solid fa-elevator fa-3x" style="margin-top: 100px"></i>
+                          <i class="fa-solid fa-elevator fa-3x my-2"></i>
                         </button>
-                    </div> -->
-                    <!-- 엘리베이터 애니메이션 -->
-                    <div>
-                      <div class="container d-flex justify-content-center align-items-center" id="elevatorAnimation">
-                        <div class="container d-flex justify-content-center align-items-center" v-if="animationFlag===true" style="width: 550px; height: 650px; margin-top:85px;">
-                          <div class="container justify-content-center align-items-center">
-                            <button class="my-3" style="background-color: #FAFAFA" type="button" id="#buttonIcon" disabled>
-                              <span style="color : #B9729E;" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
-                              <span class="mx-1" style="font-weight:bold; color : black;">호출</span>
-                            </button>
-                            <div style="margin-bottom: 300px;">
-                              <elevator-animation></elevator-animation>
-                            </div>
-                          </div>
-                        </div>
-                        <div v-else>
-                          <div class="container">
-                            <div class="container d-flex justify-content-around align-items-center">
-                              <div class="col-md-auto col-auto">
-                                <elevator-infinity style="width: 200px; height: 125px"></elevator-infinity>
-                              </div>
-                              <div class="col-md-auto col-auto mx-5">
-                                <span class="align-middle" style="font-family : 'GangwonEdu_OTFBoldA'">
-                                  <h4 style="font-weight:bold;">엘리베이터에 <span style="color:#B9729E;">탑승</span>하세요</h4>
-                                  <div class="d-flex mt-3">
-                                    <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대가 마음에 들면</h6>
-                                    <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 20px; color : blue;"></i>
-                                  </div>
-                                  <div class="d-flex my-2">
-                                  <h6 style="font-family : 'GangwonEdu_OTFBoldA';">마음에 들지 않으면</h6>
-                                  <i class='bx bxs-chevron-down-circle mx-2' style="font-size: 20px; color: red;" ></i>
-                                  </div>
-                                </span>
-                              </div>
-                            </div>
-                            <hr>
-                            <div class="container d-flex justify-content-around align-items-center">
-                              <div class="col-auto">
-                                <span class="align-middle">
-                                  <h4 style="font-weight:bold;">10초 동안 <span style="color:#B9729E;">고민</span>하세요</h4>
-                                    <div class="d-flex mt-3">
-                                      <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대의 얼굴 과 프로필을 확인하고</h6>
-                                    </div>
-                                    <div class="d-flex">
-                                      <h6 style="font-family : 'GangwonEdu_OTFBoldA';">고민 해보세요</h6>
-                                    </div>
-                                </span>
-                              </div>
-                              <img src="@/img/thinkingImage.png" style="width: 200px; height: 200px">
-                            </div>
-                            <hr>
-                            <div class="col-auto container align-items-center">
-                              <div class="col-auto mt-3">
-                                <span class="align-middle">
-                                  <h4 style="font-weight: bold;"> 엘리베이터를 <span style="color:#B9729E;">호출</span> 해보세요</h4>
-                                </span>
-                              </div>
-                              <div>
-                                <button id="buttonIcon" @click="playAnimation">
-                                  <i class="fa-solid fa-elevator fa-3x my-2"></i>
-                                </button>
-                              </div>
-                            </div>
-                          </div>
-                        </div>
                       </div>
                     </div>
                   </div>
@@ -114,48 +90,55 @@
   </div>
 
   <div id="session" v-if="session" class="container d-flex justify-content-center align-items-center">
+    <!-- *****************************************-->
+    <!-- ****************Session1*****************-->
+    <!-- *****************************************-->
     <!-- 세션 1 => 상대방 프로필 확인 -->
-    <!-- <div id="session_1" v-if="sessionLevel===1" class="container" style="color: #FAFAFA;"> -->
-    <!-- <div id="session_1" v-if="sessionLevel===1" class="container" style="color: #77a094"> -->
     <div id="session_1" v-if="sessionLevel===1" class="container">
-      <!-- <h1>세션 ID : {{this.mySessionId}}</h1> -->
+      <!-- Greet Message Box -->
       <div class="col-auto">
-        <h1 class="col-auto" style="font-weight:bold; margin-bottom: 20px;"> 안녕하세요! <span class="col-auto" style="color:#B9729E;">{{currentUser.username}} </span> 님</h1>
+        <h1 class="col-auto" style="font-weight:bold; margin-bottom: 20px;"> 안녕하세요! <span class="col-auto sessionColor" >{{currentUser.username}} </span> 님</h1>
       </div>
+      <!-- Main Context Section -->
       <div class="container" style="width: 80%;">
         <div>
+          <!-- Waiting Time Section -->
           <div v-if="currentUserCount==0" class="d-flex justify-content-center align-items-center col-auto" style="flex-direction: column;">
             <button class="my-3" style="background-color: #FAFAFA" type="button" id="#buttonIcon" disabled>
               <span style="color : #B9729E;" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
               <span class="mx-1" style="font-weight:bold; color : black;">작동중</span>
             </button>
+            <!-- Elevator Animation -->
             <oneby-one
             ref="elevatorOpen"
             style="width: 90%; height: 90%"
             ></oneby-one>
-            <!-- 세션 종료 -->
-            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+            <!-- Leave Session Button -->
             <button id="buttonIcon" @click="leaveSession">
               <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
             </button>
           </div>
+          <!-- User Matching Success Section -->
           <div v-else class="d-flex justify-content-center align-items-center col-auto" style="flex-direction: column;">
-            <!-- 상대방의 호감 표시 확인 -->
+            <!-- Check OK Sign Section -->
             <div v-if="this.levelOneCount === 0">
               <i class='bx bxs-heart' style="font-size:  50px;"></i>
             </div>
             <div v-else-if="this.levelOneCount === 1">
               <i class='bx bxs-heart' style="font-size: 50px; color:#B9729E;"></i>
             </div>
+            <!-- Elevator Animation Section -->
             <oneby-one
             ref="elevatorOpen"
             style="width: 90%; height: 90%"
             >
             </oneby-one>
+            <!-- Simple User Information -->
             <div v-if="this.currentUserCount === 1">
-              <h3><span style="color: #B9729E; font-weight: bold;">이름 : </span><span style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerNickname}}</span></h3>
-              <h3><span style="color: #B9729E; font-weight: bold;">나이 : </span><span style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerAge}}</span></h3>
+              <h3><span class="sessionColor">이름 : </span><span class="sessionColor" style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerNickname}}</span></h3>
+              <h3><span class="sessionColor">나이 : </span><span class="sessionColor" style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerAge}}</span></h3>
             </div>
+            <!-- Click OK Sign -->
             <div class="d-flex justify-content-center" id="elevatorButton">
               <!-- 상대방이 마음에 든다는 신호 -->
               <like-you
@@ -163,14 +146,12 @@
               :session="session"
               >
               </like-you>
-              <!-- 세션 종료 -->
-              <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
+              <!-- Leave Session Button -->
               <button id="buttonIcon" @click="leaveSession">
                 <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
               </button>
             </div>
-            <!-- 상대방의 프로필이 보여야 함 -->
-            <!-- <button @click="showProfilePicture">Show</button> -->
+            <!-- Show Profile -->
             <div class="col-auto">
               <transition
               enter-active-class="animate__animated animate__fadeIn"
@@ -199,15 +180,15 @@
       </div>
 
     </div>
-
-    <!-- 세션 2 => 상대방 얼굴 확인 10초 카운트 및 질문 -->
-    <!-- <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%; color: #FAFAFA;"> -->
-    <div id="session_2" v-if="sessionLevel===2" class="container" style="width: 80%;">
+    <!-- *****************************************-->
+    <!-- ************** Session 2 ****************-->
+    <!-- *****************************************-->
+    <div id="session_2" v-if="sessionLevel===2" class="container">
       <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
       <audio id="back-audio" autoplay>
       <source src="@/img/pianomoment.mp3">
       </audio>
-      <div class="contaniner my-5" v-if="currentUser">
+      <div class="row my-5" v-if="currentUser" style="height:20%">
         <h1 style="font-weight: bold;"> Hello I'm <span style="color : #B9729E;">{{this.strangerNickname}}</span></h1>
           <div class="container" style="width: 80%;">
             <b-progress height="2rem" show-progress :max="8" class="mb-3" style="background-color: #b5b1ae;" >
@@ -228,7 +209,7 @@
             </b-progress>
           </div>
       </div>
-       <div>
+       <div class="row d-flex justify-content-center align-items-center" style="height: 200px;">
         <!-- 상대방의 정보 확인 -->
         <transition
         enter-active-class="animate__animated animate__fadeIn"
@@ -245,23 +226,32 @@
         </transition>
       </div>
       <!-- 비디오 출력 부분  -->
-      <div>
-        <div id="video-container" class="container d-flex justify-content-center align-items-center">
+      <div class="row">
+        <div class="col-5">
+          <user-video :stream-manager="publisher" :nickname="currentUser.username" :sessionLevel="sessionLevel" @click.native="updateMainVideoStreamManager(publisher)"/>
+        </div>
+        <div class="col-2">
+          <div class="row d-flex justify-content-center align-items-center">
+            <timer-animation style="width: 100px; height: 100px;"></timer-animation>
+            <h4 style="font-weight: bold;">{{tenseconds}}</h4>
+          </div>
+        </div>
+        <div class="col-5">
+          <user-video v-for="sub in subscribers" :nickname="strangerNickname" :sessionLevel="sessionLevel" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+        </div>
+        <!-- <div id="video-container" class="container d-flex justify-content-center align-items-center">
           <div class="container mx-2 col-auto" id="publisher_container">
-            <user-video :stream-manager="publisher" :nickname="currentUser.username" :sessionLevel="sessionLevel" @click.native="updateMainVideoStreamManager(publisher)"/>
           </div>
           <div class="container col-auto d-flex justify-content-center align-items-center mx-2" style="flex-direction: column;">
             <div>
-              <timer-animation style="width: 100px; height: 100px;"></timer-animation>
             </div>
             <div>
               <h4 style="font-weight: bold;">{{tenseconds}}</h4>
             </div>
           </div>
           <div class="container col-auto mx-2" id="subscriber_container">
-            <user-video v-for="sub in subscribers" :nickname="strangerNickname" :sessionLevel="sessionLevel" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
           </div>
-        </div>
+        </div> -->
       </div>
       <div>
         <!-- 선택 및 세션 종료 버튼 -->
@@ -281,85 +271,129 @@
           </button>
         </div>
         <div>
-          <video-bottom
-          @audioOnOff="audioOnOff"
-          :sessionLevel="sessionLevel"
-          >
-          </video-bottom>
+          <div class="col m-1">
+            <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
+          </div>
         </div>
       </div>
     </div>
-
-    <!-- 세션 3 => 상대방과 자유로운 교감 및 채팅 추가 -->
-    <div id="session_3" v-if="sessionLevel===3" class="container3">
-      <h3 class="blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
-      <!-- 랜덤 질문 출력 부분 -->
-      <div style="margin-top:-3px;">
+    <!-- *****************************************-->
+    <!-- ************** Session 3 ****************-->
+    <!-- *****************************************-->
+    <div id="session_3" v-if="sessionLevel===3" class="container3 p-2">
+      <!-- Random Question Box -->
+      <div class="row d-flex">
+        <h3 class="col blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
         <random-button
         :session="session"
-        :tenseconds="tenseconds">
-        </random-button>
-      </div>
-      <div style="margin-top:3px;">
+        :tenseconds="tenseconds"/>
         <random-question
         ref="qustionRequest"
-        @subject="subject"
-        >
-        </random-question>
+        @subject="subject"/>
       </div>
-      <div v-show="is_show_c" class="pop_chat">
-        <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
-      </div>
-      <div v-show="is_show_p" class="pop_profile">
-        <profile-view v-for="sub in subscribers"
-            :key="sub.stream.connection.connectionId"
-            :stranger="sub.stream.connection.data"
-            :countTogether ="countTogether"
-            @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
-      </div>
-      <!-- 상대 비디오 출력   -->
-      <div>
-          <user-video style="width:150%; height: 100%; margin-left:11.3%; margin-right:11%; z-index:0;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
-      </div>
-      <!-- 선택 및 세션 종료 버튼 -->
-      <h2 style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:-15px; color:#ffffff; margin-top: -5px; margin-bottom:-10px;">최종 선택</h2>
-      <div class="d-flex justify-content-center" >
-        <adding-profile
-          @profileOnOff="profileOnOff"
-          :profileopencount="profileopencount"
-          :session="session"
-          :countTogether ="countTogether"
-          style="z-index:2;"
-          >
+      <!-- Main Context Row -->
+      <div class="row d-flex justify-content-md-center align-items-center">
+        <!-- Left Column -->
+        <div class="col-auto">
+          <!-- Camera Row -->
+          <div class="row d-flex justify-content-md-center align-items-center ">
+            <!-- Other Camera Section -->
+            <div class="col-auto p-auto">
+              <user-video style="z-index:0;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
+            </div>
+            <!-- My Camera Section -->
+            <div class="col-auto p-auto">
+              <user-video class="my-video" style="z-index:0;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+            </div>
+            <div class="col-auto"></div>
+          </div>
+          <!-- Final Select Row -->
+          <h2 style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:-15px; color:#ffffff; margin-top: -5px; margin-bottom:-10px;">최종 선택</h2>
+          <!-- Select Buttons -->
+          <div class="d-flex justify-content-center" >
+            <!-- OK Button -->
+            <adding-profile
+              @profileOnOff="profileOnOff"
+              :profileopencount="profileopencount"
+              :session="session"
+              :countTogether ="countTogether"
+              style="z-index:2;"
+              >
+            <!-- Leave session Button -->
+            </adding-profile>
+            <button id="buttonIcon" @click="[deleteRoom(), removeMessage(), leaveSession()]">
+              <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red; z-index:2;" ></i>
+            </button>
+          </div>
+          <!-- Menu Button Grid : Mic, Camera, Chat, Profile -->
+          <div class="row">
+            <!-- Grid Section -->
+            <div class="col-auto"></div>
+            <div class="col-6 buttonGrid">
+              <!-- Grid Title -->
+              <!-- <div class="row p-3"><h4 style="color : white;">Menu</h4></div> -->
+              <div class="row p-3 d-flex justify-content-center align-items-center">
+                <!-- Audio Button -->
+                <div class="col m-1">
+                  <audio-button class="button1" style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
+                </div>
+                <!-- Video Button -->
+                <div class="col m-1">
+                  <video-button class="button1" style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
+                </div>
+                <!-- Chatting Button -->
+                <!-- <div class="col m-1">
+                  <button class="button1">
+                    <img src="@/img/comment.svg" alt="chatting" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
+                  </button>
+                </div> -->
+                <!-- Profile Button -->
+                <!-- <div class="col m-1">
+                  <button class="button1">
+                    <img src="@/img/user.svg" alt="profile" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px; z-index:2;"/>
+                  </button>
+                  </div> -->
+                <div class="col m-1">
+                    <button class="button1">
+                      <b-button class="button1"  v-b-toggle.sidebar-right style="background-color:transparent; border-color: transparent;">Menu</b-button>
+                    </button>
+                </div>
+              </div>
+            </div>
+            <div class="col-auto"></div>
 
-        </adding-profile>
-        <!-- 세션 종료 -->
-        <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="leaveSession" value="닫힘"> -->
-        <button id="buttonIcon" @click="[deleteRoom(), removeMessage(), leaveSession()]">
-          <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red; z-index:2;" ></i>
-        </button>
-      </div>
-        <!-- <div style="display: grid; place-items: center; border: none; margin-top:3%;"> -->
-          <!-- 거울 -->
-          <!-- <img src="@/img/mirror.png" style="border: none; width:12.7%;"/> -->
-          <!-- 내 비디오 출력 -->
-          <!-- <user-video class="my-video" style="border: none;  width: 330px; height:200px; margin-left:10.7%; margin-top:-15%;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-        </div> -->
-        <div class="button_grid" style="border:none; background-color:#d3a476; border-radius:10px; margin-top:10px;">
-          <!-- 채팅 버튼 -->
-          <img src="@/img/comment.svg" alt="비디오 끄기" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
-            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenChat" @click="openChat" value="채팅"/> -->
-          <!-- 음소거 버튼 -->
-          <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
-          <user-video class="my-video" style="border: none; border-radius: 10px;  width: 310px; height:200px; margin-top:-200%; padding-left:85px;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-          <!-- 비디오 버튼 -->
-          <video-button style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
-          <!-- 프로필 버튼 -->
-          <img src="@/img/user.svg" alt="비디오 끄기" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px; z-index:2;"/>
-            <!-- <input class="btn btn-large btn-danger" type="button" id="buttonOpenProfile" @click="openProfile" value="프로필"/> -->
-          <!-- 세션 종료 버튼 -->
-          <!-- <input class="btn btn-large btn-danger" type="button" id="buttonLeaveSession" @click="[deleteRoom(), removeMessage(), leaveSession()]" value="나가기"/> -->
+          </div>
         </div>
+        <!-- Side Bar : Chatting, Profile Section -->
+        <div class="col-auto" v-if="is_show_c || is_show_p">
+          <!-- Chatting Section -->
+          <div v-show="is_show_c" class="pop_chat">
+            <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
+          </div>
+          <!-- Profile Section -->
+          <div v-show="is_show_p" class="pop_profile">
+            <profile-view v-for="sub in subscribers"
+                :key="sub.stream.connection.connectionId"
+                :stranger="sub.stream.connection.data"
+                :countTogether ="countTogether"
+                @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
+          </div>
+        </div>
+      </div>
+      <template>
+        <div>
+          <b-sidebar id="sidebar-right" title="Side Bar" right shadow width="500px">
+            <div class="px-3 py-2">
+              <profile-view v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+              :stranger="sub.stream.connection.data"
+              :countTogether ="countTogether"
+              @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
+              <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
+            </div>
+          </b-sidebar>
+        </div>
+      </template>
     </div>
   </div>
 </div>
@@ -379,7 +413,6 @@ import StrangerProfile from '@/views/video/components/StrangerProfile'
 import RandomButton from '@/views/video/components/RandomButton'
 import RandomQuestion from '@/views/video/components/RandomQuestion'
 import ChatView from '@/views/chat/ChatInMeeting'
-import ElevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
 import OnebyOne from '@/views/video/animation/OnebyOne'
 import TimerAnimation from '@/views/video/animation/TimerAnimation'
@@ -402,7 +435,6 @@ export default {
     // VideoBottom,
     StrangerProfile,
     ChatView,
-    ElevatorAnimation,
     ElevatorInfinity,
     RandomButton,
     RandomQuestion,
@@ -589,7 +621,7 @@ export default {
           })
       })
 
-      window.addEventListener('beforeunload', this.leaveSession)
+      // window.addEventListener('beforeunload', this.leaveSession)
 
       if (this.session !== undefined) {
         console.log(this.subscriber)
@@ -616,6 +648,8 @@ export default {
       this.userinfo = undefined
       this.addflag = false
       this.profileopencount = undefined
+      document.getElementById('app').style.backgroundImage = ''
+      document.getElementById('app').style.backgroundColor = 'white'
 
       swal({
         title: '매칭 실패',
@@ -867,9 +901,17 @@ export default {
       ).catch({})
     },
     openChat () {
+      // 프로필이 오픈되어있는 상황에서 채팅을 오픈하려는 경우 -> 프로필 닫기
+      if (!this.is_show_c && this.is_show_p) {
+        this.is_show_p = false
+      }
       this.is_show_c = !this.is_show_c
     },
     openProfile () {
+      // 채팅이 오픈되어있는 상황에서 프로필을 오픈하려는 경우 -> 채팅 닫기
+      if (this.is_show_c && !this.is_show_p) {
+        this.is_show_c = false
+      }
       this.is_show_p = !this.is_show_p
     },
     ToProfile () {
@@ -978,8 +1020,7 @@ export default {
         this.startTimer()
       }
       if (this.sessionLevel === 3) {
-        // const nav = document.getElementsByClassName('nav-box')
-        // nav.style.display = 'none'
+        document.getElementById('app').style.backgroundImage = 'url(https://images.unsplash.com/photo-1621343607959-5d11ff0f1e39?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80)'
         console.log('Its Level 3')
         axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
           .then(res => {
@@ -1012,7 +1053,21 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
+
+.sessionColor {
+  color: rgb(213, 136, 209);
+  font-weight: bold;
+}
+.buttonGrid{
+  background-color: transparent;
+  border-radius: 20px;
+  border-color: 2px, white;
+  margin-right: auto;
+  margin-left: auto;
+
+}
+
 #myProfile{
   margin-top: 100px;
   width: 250px;
@@ -1031,20 +1086,8 @@ export default {
   width:100%;
 }
 .pop_chat{
-  position: absolute;
-  top: 120px;
-  height: 425px;
-  width: 400px;
-  left: 70px;
-  z-index: 1;
 }
 .pop_profile{
-  position: absolute;
-  top: 200px;
-  height: 60%;
-  width: 350px;
-  right: 110px;
-  z-index: 1;
 }
 .button_grid{
   display: grid;
@@ -1069,13 +1112,41 @@ export default {
     display: none;
   }
 }
+
+#join{
+  border: 3px solid #FAFAFA;
+  border-radius: 10px;
+  padding: 2%;
+  background-color: rgba(216, 213, 213, 0.4);
+
+}
+#session_1{
+  border: 3px solid #FAFAFA;
+  border-radius: 10px;
+  padding: 2%;
+  background-color: rgba(143, 142, 142, 0.4);
+
+}
+#session_2{
+  border: 3px solid #FAFAFA;
+  border-radius: 10px;
+  padding: 2%;
+  background-color: rgba(143, 142, 142, 0.4);
+
+}
 .container3 {
-  background-image: url('@/img/minku-kang-EB4aBDOMyT4-unsplash.jpg');
-  height: 80vh;
-  width: 100vw;
+  height: auto;
+  width: auto;
   background-repeat : no-repeat;
   background-size : cover;
-  position:relative;
+  position:absolute;
+  border-radius: 10px;
+  top: 5%;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+  padding: 3%;
+  margin: 20px;
 }
 @keyframes blink-effect {
   50% {
@@ -1084,5 +1155,35 @@ export default {
 }
 .blink {
   animation: blink-effect 1s step-end infinite;
+}
+.button1 {
+ /* padding: 17px 40px; */
+ border-radius: 50px;
+ border: 0;
+ height: 40px;
+ width: 140px;
+ padding: auto;
+ background-color: rgb(187, 115, 201);
+ box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+ letter-spacing: 1.5px;
+ text-transform: uppercase;
+ font-size: 15px;
+ transition: all .5s ease;
+}
+
+.button1:hover {
+ letter-spacing: 3px;
+ background-color: hsl(261deg 80% 48%);
+ color: hsl(0, 0%, 100%);
+ box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+}
+
+.button1:active {
+ letter-spacing: 3px;
+ background-color: hsl(261deg 80% 48%);
+ color: hsl(0, 0%, 100%);
+ box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+ transform: translateY(10px);
+ transition: 100ms;
 }
 </style>

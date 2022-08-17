@@ -1,7 +1,7 @@
 <template>
   <div>
-    <div v-if="this.sessionLevel===3">
-      <img :src="require('@/img/cross-circle.svg')" alt="음소거" id="audiobutton" type="audiobutton" @click="audioOnOff" style="width:30px; height:10px;"/>
+    <div v-if="this.sessionLevel===3" style="width:100%; height: 100%;" @click="audioOnOff">
+      <img :src="require('@/img/cross-circle.svg')" alt="음소거" id="audiobutton" type="audiobutton"  style="width:30px; height:10px; margin-top: 5px;"/>
     </div>
   </div>
 </template>

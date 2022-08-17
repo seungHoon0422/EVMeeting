@@ -27,7 +27,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 .line {
   text-align: center;
   font-size: 12px;
