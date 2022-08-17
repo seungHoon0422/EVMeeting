@@ -638,7 +638,7 @@ export default {
           })
       })
 
-      window.addEventListener('beforeunload', this.leaveSession)
+      // window.addEventListener('beforeunload', this.leaveSession)
 
       if (this.session !== undefined) {
         console.log(this.subscriber)
@@ -679,7 +679,7 @@ export default {
 
       this.$router.go('/cam')
 
-      window.removeEventListener('beforeunload', this.leaveSession)
+      // window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -985,18 +985,18 @@ export default {
     if (this.isLoggedIn) {
       // console.log('hi')
       console.log(this.isLoggedIn)
-      window.addEventListener('beforeunload', (event) => {
-        this.leaveSession()
-        // swal({
-        //   title: '매칭 실패',
-        //   text: '상대방의 요청으로 연결이 종료되었습니다.',
-        //   icon: 'error'
-        // })
-        // this.$router.push('/')
-        window.location.reload(true)
-        event.preventDefault()
-        event.returnValue = 'TEST'
-      })
+      // window.addEventListener('beforeunload', (event) => {
+      //   this.leaveSession()
+      //   // swal({
+      //   //   title: '매칭 실패',
+      //   //   text: '상대방의 요청으로 연결이 종료되었습니다.',
+      //   //   icon: 'error'
+      //   // })
+      //   // this.$router.push('/')
+      //   window.location.reload(true)
+      //   event.preventDefault()
+      //   event.returnValue = 'TEST'
+      // })
     } else {
       alert('잘못된 접근')
       this.$router.back()
