@@ -1053,7 +1053,7 @@ export default {
 }
 </script>
 
-<style>
+<style scoped>
 
 .sessionColor {
   color: rgb(213, 136, 209);
