@@ -621,7 +621,7 @@ export default {
           })
       })
 
-      // window.addEventListener('beforeunload', this.leaveSession)
+      window.addEventListener('beforeunload', this.leaveSession)
 
       if (this.session !== undefined) {
         console.log(this.subscriber)
@@ -636,8 +636,14 @@ export default {
         console.log(err)
       })
       // --- Leave the session by calling 'disconnect' method over the Session object ---
-      if (this.session) this.session.disconnect()
-
+      if (this.session) {
+        swal({
+          title: '매칭 실패',
+          text: '상대방의 요청으로 연결이 종료되었습니다.',
+          icon: 'error'
+        })
+        this.session.disconnect()
+      }
       this.sessionjoined = 0
       this.autocountflag = false
       this.session = undefined
@@ -651,11 +657,6 @@ export default {
       document.getElementById('app').style.backgroundImage = ''
       document.getElementById('app').style.backgroundColor = 'white'
 
-      swal({
-        title: '매칭 실패',
-        text: '상대방의 요청으로 연결이 종료되었습니다.',
-        icon: 'error'
-      })
       // this.$router.go('/cam')
 
       window.removeEventListener('beforeunload', this.leaveSession)
@@ -890,7 +891,15 @@ export default {
     },
     removeMessage () {
       axios.delete(api.chat.removeMsg() + `${this.roomid}`).then(
-        res => { alert('success') }
+        res => {
+          // alert('success')
+          console.log('delete')
+          swal({
+            title: '매칭 실패',
+            text: '엘리베이터에서 나오셨습니다.',
+            icon: 'success'
+          })
+        }
       ).catch({})
     },
     deleteRoom () {
@@ -957,12 +966,12 @@ export default {
       // console.log('hi')
       console.log(this.isLoggedIn)
       window.addEventListener('beforeunload', (event) => {
-        swal({
-          title: '매칭 실패',
-          text: '상대방의 요청으로 연결이 종료되었습니다.',
-          icon: 'error'
-        })
         this.leaveSession()
+        // swal({
+        //   title: '매칭 실패',
+        //   text: '상대방의 요청으로 연결이 종료되었습니다.',
+        //   icon: 'error'
+        // })
         // this.$router.push('/')
         // window.location.reload(true)
         // event.preventDefault()
