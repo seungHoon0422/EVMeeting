@@ -6,7 +6,7 @@
         datasets: [
           {
             label: 'MBTI',
-            backgroundColor: '#6610f2',
+            backgroundColor: '#D5ACD5',
             data: mbtiRate
           }
         ]

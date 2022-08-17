@@ -3,7 +3,7 @@
   <div class="signup-form">
     <div class="mt-5 p-3 mb-5 rounded form-style">
       <h1>입주민 등록</h1>
-      <p class="guide head">*모든 항목 기입해주시기 바랍니다</p>
+      <p class="guide head">*모든 항목을 기입해주세요</p>
       <form @submit.prevent="signup({credentials, valid})" class="mt-5">
         <div class="d-flex justify-content-between">
           <div class="ms-3">
@@ -52,7 +52,7 @@
               <label for="mbti" class="me-3 pt-3">MBTI</label>
               <select v-model="credentials.mbti" name="mbti" id="mbti" class="length height" required>
                 <option value=""> 선택하세요 </option>
-                <option value="XXXX">잘 모름</option>
+                <!-- <option value="XXXX">잘 모름</option> -->
                 <option value="ISTJ">ISTJ</option>
                 <option value="ISTP">ISTP</option>
                 <option value="ISFJ">ISFJ</option>

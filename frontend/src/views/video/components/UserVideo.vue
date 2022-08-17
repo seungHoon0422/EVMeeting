@@ -1,12 +1,7 @@
 <template>
 <div v-if="streamManager">
-  <div v-if="this.sessionLevel===2">
-    <div class="userVideoContainer mx-3" id="UserVideoSession2">
-      <ov-video :stream-manager="streamManager"/>
-    </div>
-  </div>
-  <div v-else>
-    <div class="userVideoContainer mx-3" id="UserVideo">
+  <div>
+    <div class="userVideoContainer" id="UserVideo">
       <ov-video :stream-manager="streamManager"/>
     </div>
   </div>
@@ -54,12 +49,12 @@ export default {
 .userVideoContainer {
   position: relative;
   display: block;
-  width : 50%;
-  height : 50%;
+  max-width: 80%;
+  margin: auto;
+  border-radius: 10px;
+  border-color: aquamarine;
 }
 
 #UserVideoSession2{
-  width: 400px;
-  height: 300px;
 }
 </style>

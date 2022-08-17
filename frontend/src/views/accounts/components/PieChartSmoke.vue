@@ -5,7 +5,7 @@
         labels: ['흡연', '비흡연'],
         datasets: [
           {
-            backgroundColor: ['#8B008B', '#9932CC'],
+            backgroundColor: ['#D5ACD5', '#BD7DBD'],
             data: cigaretteRate
           }
         ]
