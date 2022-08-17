@@ -30,53 +30,66 @@
             <!-- How to Use Box-->
             <div class="col-auto d-flex justify-content-center">
               <div class="d-flex justify-content-center">
-                <!-- Elevator Animation -->
-                <div class="container d-flex justify-content-center align-items-center" id="elevatorAnimation">
-                  <div class="container">
-                    <div class="container d-flex justify-content-around align-items-center">
-                      <div class="col-md-auto col-auto">
-                        <elevator-infinity style="width: 200px; height: 125px"></elevator-infinity>
-                      </div>
-                      <!-- How to use 1st row -->
-                      <div class="col-md-auto col-auto mx-5">
-                        <span style="font-family : 'GangwonEdu_OTFBoldA'">
-                          <h4 style="font-weight:bold;">엘리베이터에 <span class="sessionColor">탑승</span>하세요</h4>
-                          <div class="d-flex mt-3">
-                            <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대가 마음에 들면</h6>
-                            <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 20px; color : blue;"></i>
-                          </div>
-                          <div class="d-flex my-2">
-                          <h6 style="font-family : 'GangwonEdu_OTFBoldA';">마음에 들지 않으면</h6>
-                          <i class='bx bxs-chevron-down-circle mx-2' style="font-size: 20px; color: red;" ></i>
-                          </div>
-                        </span>
-                      </div>
+                <div class="container d-flex justify-content-center align-items-center" v-if="animationFlag===true" style="width: 550px; height: 650px; margin-top:85px;">
+                  <div class="container justify-content-center align-items-center">
+                    <button class="my-3" style="background-color: #FAFAFA" type="button" id="#buttonIcon" disabled>
+                      <span style="color : #B9729E;" class="spinner-grow spinner-grow-sm" role="status" aria-hidden="true"></span>
+                      <span class="mx-1" style="font-weight:bold; color : black;">호출</span>
+                    </button>
+                    <div style="margin-bottom: 300px;">
+                      <elevator-animation></elevator-animation>
                     </div>
-                    <hr>
-                    <!-- How to use 2nd row -->
-                    <div class="container d-flex justify-content-around align-items-center">
-                      <div class="col-auto">
-                        <span class="align-middle">
-                          <h4 style="font-weight:bold;">10초 동안 <span class="sessionColor">고민</span>하세요</h4>
+                  </div>
+                </div>
+                <div v-else>
+                  <!-- Elevator Animation -->
+                  <div class="container d-flex justify-content-center align-items-center" id="elevatorAnimation">
+                    <div class="container">
+                      <div class="container d-flex justify-content-around align-items-center">
+                        <div class="col-md-auto col-auto">
+                          <elevator-infinity style="width: 200px; height: 125px"></elevator-infinity>
+                        </div>
+                        <!-- How to use 1st row -->
+                        <div class="col-md-auto col-auto mx-5">
+                          <span style="font-family : 'GangwonEdu_OTFBoldA'">
+                            <h4 style="font-weight:bold;">엘리베이터에 <span class="sessionColor">탑승</span>하세요</h4>
                             <div class="d-flex mt-3">
-                              <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대의 얼굴 과 프로필을 확인하고</h6>
+                              <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대가 마음에 들면</h6>
+                              <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 20px; color : blue;"></i>
                             </div>
-                            <div class="d-flex">
-                              <h6 style="font-family : 'GangwonEdu_OTFBoldA';">고민 해보세요</h6>
+                            <div class="d-flex my-2">
+                            <h6 style="font-family : 'GangwonEdu_OTFBoldA';">마음에 들지 않으면</h6>
+                            <i class='bx bxs-chevron-down-circle mx-2' style="font-size: 20px; color: red;" ></i>
                             </div>
-                        </span>
+                          </span>
+                        </div>
                       </div>
-                      <img src="@/img/thinkingImage.png" style="width: 200px; height: 200px">
-                    </div>
-                    <hr>
-                    <div class="col-auto container align-items-center mt-3">
-                      <span class="align-middle">
-                        <h4 style="font-weight: bold;"> 엘리베이터를 <span class="sessionColor">호출</span> 해보세요</h4>
-                      </span>
-                      <div>
-                        <button id="buttonIcon" @click="playAnimation">
-                          <i class="fa-solid fa-elevator fa-3x my-2"></i>
-                        </button>
+                      <hr>
+                      <!-- How to use 2nd row -->
+                      <div class="container d-flex justify-content-around align-items-center">
+                        <div class="col-auto">
+                          <span class="align-middle">
+                            <h4 style="font-weight:bold;">10초 동안 <span class="sessionColor">고민</span>하세요</h4>
+                              <div class="d-flex mt-3">
+                                <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대의 얼굴 과 프로필을 확인하고</h6>
+                              </div>
+                              <div class="d-flex">
+                                <h6 style="font-family : 'GangwonEdu_OTFBoldA';">고민 해보세요</h6>
+                              </div>
+                          </span>
+                        </div>
+                        <img src="@/img/thinkingImage.png" style="width: 200px; height: 200px">
+                      </div>
+                      <hr>
+                      <div class="col-auto container align-items-center mt-3">
+                        <span class="align-middle">
+                          <h4 style="font-weight: bold;"> 엘리베이터를 <span class="sessionColor">호출</span> 해보세요</h4>
+                        </span>
+                        <div>
+                          <button id="buttonIcon" @click="playAnimation">
+                            <i class="fa-solid fa-elevator fa-3x my-2"></i>
+                          </button>
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -414,6 +427,7 @@ import RandomButton from '@/views/video/components/RandomButton'
 import RandomQuestion from '@/views/video/components/RandomQuestion'
 import ChatView from '@/views/chat/ChatInMeeting'
 import ElevatorInfinity from '@/views/video/animation/ElevatorInfinity'
+import elevatorAnimation from '@/views/video/animation/ElevatorAnimation'
 import OnebyOne from '@/views/video/animation/OnebyOne'
 import TimerAnimation from '@/views/video/animation/TimerAnimation'
 import ProfileView from '@/views/video/components/ProfileView'
@@ -441,6 +455,7 @@ export default {
     OnebyOne,
     TimerAnimation,
     ProfileView,
+    elevatorAnimation,
     AudioButton,
     VideoButton
   },
@@ -520,6 +535,7 @@ export default {
       this.strangerNickname = ''
       this.strangerUserid = ''
       this.strangerAge = ''
+      this.level3flag = false
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -630,6 +646,7 @@ export default {
     },
 
     leaveSession () {
+      this.level3flag = true
       // strangerId: this.strangerId
       axios.post(api.video.userLeaveSession(), { userFrom: this.currentUser.userid, userTo: this.strangerObject }).then(res => {
         console.log(res)
@@ -638,12 +655,13 @@ export default {
       })
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) {
-        if (sessionLevel === 3 && 상대방){
+        if (this.sessionLevel === 3 && this.level3flag === true && this.profileopencount !== 10) {
           swal({
-          title: '매칭 실패',
-          text: '상대방의 요청으로 연결이 종료되었습니다.',
-          icon: 'error'
-        })}
+            title: '매칭 실패',
+            text: '상대방의 요청으로 연결이 종료되었습니다.',
+            icon: 'error'
+          })
+        }
         this.session.disconnect()
       }
       this.sessionjoined = 0
@@ -659,7 +677,7 @@ export default {
       document.getElementById('app').style.backgroundImage = ''
       document.getElementById('app').style.backgroundColor = 'white'
 
-      // this.$router.go('/cam')
+      this.$router.go('/cam')
 
       window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
@@ -975,8 +993,8 @@ export default {
         //   icon: 'error'
         // })
         // this.$router.push('/')
-        // window.location.reload(true)
-        // event.preventDefault()
+        window.location.reload(true)
+        event.preventDefault()
         event.returnValue = 'TEST'
       })
     } else {
