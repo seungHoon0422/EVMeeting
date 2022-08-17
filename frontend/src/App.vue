@@ -61,7 +61,7 @@ export default {
   background-repeat : no-repeat;
   background-size : cover;
   background-attachment: fixed;
-  background-image: url('https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg');
+  /* background-image: url('https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg'); */
 }
 
 nav {

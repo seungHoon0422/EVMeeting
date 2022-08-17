@@ -48,6 +48,6 @@ export default {
 
 .header-font {
   margin-bottom: 20px;
-  color: #ffffff;
+  color: #000000;
 }
 </style>

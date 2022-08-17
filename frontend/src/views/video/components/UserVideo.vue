@@ -49,6 +49,10 @@ export default {
 .userVideoContainer {
   position: relative;
   display: block;
+  max-width: 80%;
+  margin: auto;
+  border-radius: 10px;
+  border-color: aquamarine;
 }
 
 #UserVideoSession2{

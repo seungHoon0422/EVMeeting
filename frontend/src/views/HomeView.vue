@@ -103,14 +103,14 @@ export default {
 .box {
   height: 100vh;
   width: 100%;
-  /* background-color: white; */
+  background-color: white;
   /* background-color : #f5f5f5; */
   /* background-image: linear-gradient( rgba(0, 0, 0, 0.2), rgba(0, 0, 0, 0.2) ), url(@/img/scale.jpg); */
   background-repeat : no-repeat;
   background-size : cover;
   background-attachment: fixed;
   /* background-blend-mode: darken; */
-  background-image: url('https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg');
+  /* background-image: url('https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg'); */
 }
 
 .elevator-img {

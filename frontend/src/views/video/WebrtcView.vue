@@ -6,7 +6,7 @@
         <!-- Greeting Message -->
         <div class="d-flex justify-content-center " style="flex-direction: row;">
           <h1 class="col-auto" style="font-weight: bold;">안녕하세요!</h1>
-          <h1 class="col-auto mx-3" style="color:white; font-weight: bold;"> {{currentUser.username}} </h1>
+          <h1 class="col-auto mx-3 sessionColor"> {{currentUser.username}} </h1>
           <h1 class="col-auto" style="font-weight: bold;">님</h1>
         </div>
         <!-- Main Context Box -->
@@ -40,7 +40,7 @@
                       <!-- How to use 1st row -->
                       <div class="col-md-auto col-auto mx-5">
                         <span style="font-family : 'GangwonEdu_OTFBoldA'">
-                          <h4 style="font-weight:bold;">엘리베이터에 <span style="color: white;">탑승</span>하세요</h4>
+                          <h4 style="font-weight:bold;">엘리베이터에 <span class="sessionColor">탑승</span>하세요</h4>
                           <div class="d-flex mt-3">
                             <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대가 마음에 들면</h6>
                             <i class='bx bxs-chevron-up-circle mx-2' style="font-size: 20px; color : blue;"></i>
@@ -57,7 +57,7 @@
                     <div class="container d-flex justify-content-around align-items-center">
                       <div class="col-auto">
                         <span class="align-middle">
-                          <h4 style="font-weight:bold;">10초 동안 <span style="color:white;">고민</span>하세요</h4>
+                          <h4 style="font-weight:bold;">10초 동안 <span class="sessionColor">고민</span>하세요</h4>
                             <div class="d-flex mt-3">
                               <h6 style="font-family : 'GangwonEdu_OTFBoldA';">상대의 얼굴 과 프로필을 확인하고</h6>
                             </div>
@@ -71,7 +71,7 @@
                     <hr>
                     <div class="col-auto container align-items-center mt-3">
                       <span class="align-middle">
-                        <h4 style="font-weight: bold;"> 엘리베이터를 <span style="color:white;">호출</span> 해보세요</h4>
+                        <h4 style="font-weight: bold;"> 엘리베이터를 <span class="sessionColor">호출</span> 해보세요</h4>
                       </span>
                       <div>
                         <button id="buttonIcon" @click="playAnimation">
@@ -97,7 +97,7 @@
     <div id="session_1" v-if="sessionLevel===1" class="container">
       <!-- Greet Message Box -->
       <div class="col-auto">
-        <h1 class="col-auto" style="font-weight:bold; margin-bottom: 20px;"> 안녕하세요! <span class="col-auto" style="color:white;">{{currentUser.username}} </span> 님</h1>
+        <h1 class="col-auto" style="font-weight:bold; margin-bottom: 20px;"> 안녕하세요! <span class="col-auto sessionColor" >{{currentUser.username}} </span> 님</h1>
       </div>
       <!-- Main Context Section -->
       <div class="container" style="width: 80%;">
@@ -135,8 +135,8 @@
             </oneby-one>
             <!-- Simple User Information -->
             <div v-if="this.currentUserCount === 1">
-              <h3><span style="color: white; font-weight: bold;">이름 : </span><span style="color: white; font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerNickname}}</span></h3>
-              <h3><span style="color: white; font-weight: bold;">나이 : </span><span style="color: white; font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerAge}}</span></h3>
+              <h3><span class="sessionColor">이름 : </span><span class="sessionColor" style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerNickname}}</span></h3>
+              <h3><span class="sessionColor">나이 : </span><span class="sessionColor" style="font-family: 'GangwonEdu_OTFBoldA';">{{this.strangerAge}}</span></h3>
             </div>
             <!-- Click OK Sign -->
             <div class="d-flex justify-content-center" id="elevatorButton">
@@ -233,6 +233,7 @@
         <div class="col-2">
           <div class="row d-flex justify-content-center align-items-center">
             <timer-animation style="width: 100px; height: 100px;"></timer-animation>
+            <h4 style="font-weight: bold;">{{tenseconds}}</h4>
           </div>
         </div>
         <div class="col-5">
@@ -279,10 +280,10 @@
     <!-- *****************************************-->
     <!-- ************** Session 3 ****************-->
     <!-- *****************************************-->
-    <div id="session_3" v-if="sessionLevel===3" class="container3 p-2" style="background-color: gray;">
+    <div id="session_3" v-if="sessionLevel===3" class="container3 p-2">
       <!-- Random Question Box -->
-      <div class="row" style="height: 10%;">
-        <h3 class="blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
+      <div class="row d-flex">
+        <h3 class="col blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
         <random-button
         :session="session"
         :tenseconds="tenseconds"/>
@@ -291,20 +292,20 @@
         @subject="subject"/>
       </div>
       <!-- Main Context Row -->
-      <div class="row">
+      <div class="row d-flex justify-content-md-center align-items-center">
         <!-- Left Column -->
-        <div class="col bg-warning">
-          Main Col
+        <div class="col-auto">
           <!-- Camera Row -->
-          <div class="row">
-            <!-- My Camera Section -->
-            <div class="col">
-              <user-video class="my-video" style="z-index:0;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
-            </div>
+          <div class="row d-flex justify-content-md-center align-items-center ">
             <!-- Other Camera Section -->
-            <div class="col">
+            <div class="col-auto p-auto">
               <user-video style="z-index:0;" v-for="sub in subscribers" :key="sub.stream.connection.connectionId" :stream-manager="sub" @click.native="updateMainVideoStreamManager(sub)"/>
             </div>
+            <!-- My Camera Section -->
+            <div class="col-auto p-auto">
+              <user-video class="my-video" style="z-index:0;" :stream-manager="publisher" @click.native="updateMainVideoStreamManager(publisher)"/>
+            </div>
+            <div class="col-auto"></div>
           </div>
           <!-- Final Select Row -->
           <h2 style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:-15px; color:#ffffff; margin-top: -5px; margin-bottom:-10px;">최종 선택</h2>
@@ -325,34 +326,46 @@
             </button>
           </div>
           <!-- Menu Button Grid : Mic, Camera, Chat, Profile -->
-          <div class="row buttonGrid">
+          <div class="row">
             <!-- Grid Section -->
-            <div class="col-4" style="background-color:cornflowerblue;">
+            <div class="col-auto"></div>
+            <div class="col-6 buttonGrid">
               <!-- Grid Title -->
-              <div class="row p-3"><h4 style="color : white;">Menu</h4></div>
-              <div class="row p-3">
+              <!-- <div class="row p-3"><h4 style="color : white;">Menu</h4></div> -->
+              <div class="row p-3 d-flex justify-content-center align-items-center">
                 <!-- Audio Button -->
                 <div class="col m-1">
-                  <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
+                  <audio-button class="button1" style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
                 </div>
                 <!-- Video Button -->
                 <div class="col m-1">
-                  <video-button style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
+                  <video-button class="button1" style="color: red;" @videoOnOff="videoOnOff" :sessionLevel="sessionLevel"></video-button>
                 </div>
                 <!-- Chatting Button -->
-                <div class="col m-1">
-                  <img src="@/img/comment.svg" alt="비디오 끄기" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
-                </div>
+                <!-- <div class="col m-1">
+                  <button class="button1">
+                    <img src="@/img/comment.svg" alt="chatting" id="buttonOpenChat" @click="openChat" style="width:30px; height:10px;"/>
+                  </button>
+                </div> -->
                 <!-- Profile Button -->
+                <!-- <div class="col m-1">
+                  <button class="button1">
+                    <img src="@/img/user.svg" alt="profile" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px; z-index:2;"/>
+                  </button>
+                  </div> -->
                 <div class="col m-1">
-                  <img src="@/img/user.svg" alt="비디오 끄기" id="buttonOpenProfile" @click="openProfile" style="width:30px; height:10px; z-index:2;"/>
+                    <button class="button1">
+                      <b-button class="button1"  v-b-toggle.sidebar-right style="background-color:transparent; border-color: transparent;">Menu</b-button>
+                    </button>
                 </div>
               </div>
             </div>
+            <div class="col-auto"></div>
+
           </div>
         </div>
         <!-- Side Bar : Chatting, Profile Section -->
-        <div class="col-4 bg-blue" v-if="is_show_c || is_show_p">
+        <div class="col-auto" v-if="is_show_c || is_show_p">
           <!-- Chatting Section -->
           <div v-show="is_show_c" class="pop_chat">
             <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
@@ -367,6 +380,20 @@
           </div>
         </div>
       </div>
+      <template>
+        <div>
+          <b-sidebar id="sidebar-right" title="Side Bar" right shadow width="500px">
+            <div class="px-3 py-2">
+              <profile-view v-for="sub in subscribers"
+              :key="sub.stream.connection.connectionId"
+              :stranger="sub.stream.connection.data"
+              :countTogether ="countTogether"
+              @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
+              <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
+            </div>
+          </b-sidebar>
+        </div>
+      </template>
     </div>
   </div>
 </div>
@@ -594,7 +621,7 @@ export default {
           })
       })
 
-      window.addEventListener('beforeunload', this.leaveSession)
+      // window.addEventListener('beforeunload', this.leaveSession)
 
       if (this.session !== undefined) {
         console.log(this.subscriber)
@@ -621,7 +648,8 @@ export default {
       this.userinfo = undefined
       this.addflag = false
       this.profileopencount = undefined
-      document.getElementById('app').style.backgroundImage = 'url(https://wordpress-network.prod.aws.skyscnr.com/wp-content/uploads/2018/05/GettyImages-470434611.jpg)'
+      document.getElementById('app').style.backgroundImage = ''
+      document.getElementById('app').style.backgroundColor = 'white'
 
       swal({
         title: '매칭 실패',
@@ -695,7 +723,7 @@ export default {
         setTimeout(() => {
           this.tenseconds -= 0.5
           this.countTime()
-        }, 10000000)
+        }, 1000)
       }
     },
     // 한 사람당 4번 시간 추가 가능
@@ -992,9 +1020,7 @@ export default {
         this.startTimer()
       }
       if (this.sessionLevel === 3) {
-        document.getElementById('app').style.backgroundImage = 'url(https://www.wallpapertip.com/wmimgs/89-899442_street-cafe-in-bordeaux-france-paris-cafe-zoom.jpg)'
-        // const nav = document.getElementsByClassName('nav-box')
-        // nav.style.display = 'none'
+        document.getElementById('app').style.backgroundImage = 'url(https://images.unsplash.com/photo-1621343607959-5d11ff0f1e39?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80)'
         console.log('Its Level 3')
         axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
           .then(res => {
@@ -1029,11 +1055,16 @@ export default {
 
 <style>
 
+.sessionColor {
+  color: rgb(213, 136, 209);
+  font-weight: bold;
+}
 .buttonGrid{
-  background-color: blue;
-  bottom: 0;
-  border-radius: 5;
+  background-color: transparent;
+  border-radius: 20px;
   border-color: 2px, white;
+  margin-right: auto;
+  margin-left: auto;
 
 }
 
@@ -1086,7 +1117,7 @@ export default {
   border: 3px solid #FAFAFA;
   border-radius: 10px;
   padding: 2%;
-  background-color: rgba(143, 142, 142, 0.4);
+  background-color: rgba(216, 213, 213, 0.4);
 
 }
 #session_1{
@@ -1104,11 +1135,18 @@ export default {
 
 }
 .container3 {
-  height: 80vh;
-  width: 100vw;
+  height: auto;
+  width: auto;
   background-repeat : no-repeat;
   background-size : cover;
-  position:relative;
+  position:absolute;
+  border-radius: 10px;
+  top: 5%;
+  bottom: 5%;
+  left: 5%;
+  right: 5%;
+  padding: 3%;
+  margin: 20px;
 }
 @keyframes blink-effect {
   50% {
@@ -1117,5 +1155,35 @@ export default {
 }
 .blink {
   animation: blink-effect 1s step-end infinite;
+}
+.button1 {
+ /* padding: 17px 40px; */
+ border-radius: 50px;
+ border: 0;
+ height: 40px;
+ width: 140px;
+ padding: auto;
+ background-color: rgb(187, 115, 201);
+ box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
+ letter-spacing: 1.5px;
+ text-transform: uppercase;
+ font-size: 15px;
+ transition: all .5s ease;
+}
+
+.button1:hover {
+ letter-spacing: 3px;
+ background-color: hsl(261deg 80% 48%);
+ color: hsl(0, 0%, 100%);
+ box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
+}
+
+.button1:active {
+ letter-spacing: 3px;
+ background-color: hsl(261deg 80% 48%);
+ color: hsl(0, 0%, 100%);
+ box-shadow: rgb(93 24 220) 0px 0px 0px 0px;
+ transform: translateY(10px);
+ transition: 100ms;
 }
 </style>
