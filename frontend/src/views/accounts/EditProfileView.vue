@@ -24,7 +24,7 @@
             <div class="mt-3 d-flex justify-content-end">
               <label for="gender" class="me-3 pt-3">성별</label>
               <select name="gender" id="gender" class="length height">
-                <option value="">성별을 선택해주세요</option>
+                <!-- <option value="">성별을 선택해주세요</option> -->
                 <option value="male" :selected="currentUser.gender=='male'?true:false">남성</option>
                 <option value="female" :selected="currentUser.gender=='female'?true:false">여성</option>
               </select>
@@ -37,7 +37,7 @@
             <div class="mt-3 d-flex justify-content-end">
               <label for="cigarette" class="me-3 pt-3">흡연여부</label>
               <select name="cigarette" id="cigarette" class="length height">
-                <option value="">-- 흡연여부 --</option>
+                <!-- <option value="">-- 흡연여부 --</option> -->
                 <option value="smoke" :selected="currentUser.cigarette=='smoke'?true:false">흡연</option>
                 <option value="nosmoke" :selected="currentUser.cigarette=='nosmoke'?true:false">비흡연</option>
               </select>
@@ -50,8 +50,28 @@
               <input id="username" v-model="credentials.username" class="input-color rounded length height p-3 disabled" type="text" :placeholder="currentUser.username" disabled>
             </div>
             <div class="mt-3 d-flex justify-content-end">
+              <!-- <input id="mbti" v-model="credentials.mbti" class="input-color rounded length height p-3" type="text" :placeholder="currentUser.mbti"> -->
               <label for="mbti" class="me-3 pt-3">MBTI</label>
-              <input id="mbti" v-model="credentials.mbti" class="input-color rounded length height p-3" type="text" :placeholder="currentUser.mbti">
+              <select v-model="credentials.mbti" name="mbti" id="mbti" class="length height" required>
+                <!-- <option value=""> 선택하세요 </option> -->
+                <!-- <option value="XXXX">잘 모름</option> -->
+                <option value="ISTJ" :selected="currentUser.mbti=='ISTJ'?true:false">ISTJ</option>
+                <option value="ISTP" :selected="currentUser.mbti=='ISTP'?true:false">ISTP</option>
+                <option value="ISFJ" :selected="currentUser.mbti=='ISFJ'?true:false">ISFJ</option>
+                <option value="ISFP" :selected="currentUser.mbti=='ISFP'?true:false">ISFP</option>
+                <option value="INFJ" :selected="currentUser.mbti=='INFJ'?true:false">INFJ</option>
+                <option value="INFP" :selected="currentUser.mbti=='INFP'?true:false">INFP</option>
+                <option value="INTJ" :selected="currentUser.mbti=='INTJ'?true:false">INTJ</option>
+                <option value="INTP" :selected="currentUser.mbti=='INTP'?true:false">INTP</option>
+                <option value="ESTP" :selected="currentUser.mbti=='ESTP'?true:false">ESTP</option>
+                <option value="ESTJ" :selected="currentUser.mbti=='ESTJ'?true:false">ESTJ</option>
+                <option value="ESFP" :selected="currentUser.mbti=='ESFP'?true:false">ESFP</option>
+                <option value="ESFJ" :selected="currentUser.mbti=='ESFJ'?true:false">ESFJ</option>
+                <option value="ENFP" :selected="currentUser.mbti=='ENFP'?true:false">ENFP</option>
+                <option value="ENFJ" :selected="currentUser.mbti=='ENFJ'?true:false">ENFJ</option>
+                <option value="ENTP" :selected="currentUser.mbti=='ENTP'?true:false">ENTP</option>
+                <option value="ENTJ" :selected="currentUser.mbti=='ENTJ'?true:false">ENTJ</option>
+              </select>
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="hobby" class="me-3 pt-3">관심사</label>
@@ -68,7 +88,7 @@
             <div class="mt-3 d-flex justify-content-end">
               <label for="drink" class="me-3 pt-3">주량</label>
               <select name="drink" id="drink" class="length height">
-                <option value="">-- 주량 --</option>
+                <!-- <option value="">-- 주량 --</option> -->
                 <option value="zero" :selected="currentUser.drink=='zero'?true:false">소주 한 잔</option>
                 <option value="under1" :selected="currentUser.drink=='under1'?true:false">소주 1병 미만</option>
                 <option value="under3" :selected="currentUser.drink=='under3'?true:false">소주 1-3병</option>
@@ -155,7 +175,7 @@ export default {
 
 .signup-form {
   color: #FAFAFA;
-  /* background-color: rgba(0,0,0,0.4); */
+  background-color: rgba(0,0,0,0.4);
   border-color: #FAFAFA;
   border: solid 5px;
   border-radius: 20px;
@@ -205,5 +225,9 @@ input, textarea, select {
 button:hover {
   color: gray;
   background-color: #FAFAFA;
+}
+
+option {
+  background-color: rgba(0,0,0,0.4);
 }
 </style>

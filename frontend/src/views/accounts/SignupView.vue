@@ -52,7 +52,7 @@
               <label for="mbti" class="me-3 pt-3">MBTI</label>
               <select v-model="credentials.mbti" name="mbti" id="mbti" class="length height" required>
                 <option value=""> 선택하세요 </option>
-                <option value="XXXX">잘 모름</option>
+                <!-- <option value="XXXX">잘 모름</option> -->
                 <option value="ISTJ">ISTJ</option>
                 <option value="ISTP">ISTP</option>
                 <option value="ISFJ">ISFJ</option>
