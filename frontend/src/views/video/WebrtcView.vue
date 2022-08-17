@@ -481,7 +481,8 @@ export default {
       strangerAge: '',
       roomid: 1,
       is_show_c: false,
-      is_show_p: false
+      is_show_p: false,
+      level3flag: false
     }
   },
   methods: {
@@ -637,11 +638,12 @@ export default {
       })
       // --- Leave the session by calling 'disconnect' method over the Session object ---
       if (this.session) {
-        swal({
+        if (sessionLevel === 3 && 상대방){
+          swal({
           title: '매칭 실패',
           text: '상대방의 요청으로 연결이 종료되었습니다.',
           icon: 'error'
-        })
+        })}
         this.session.disconnect()
       }
       this.sessionjoined = 0
