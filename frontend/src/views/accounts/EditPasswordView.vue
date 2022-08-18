@@ -78,7 +78,6 @@ input {
   border: 2px solid #2c3e50;
   border-radius: 10px;
   padding: 0 20px;
-  color: #FAFAFA;
 }
 
 .input-box {

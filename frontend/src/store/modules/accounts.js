@@ -317,8 +317,21 @@ export default {
           // console.log(res)
           dispatch('fetchCurrentUser')
           router.push({ name: 'profile' })
+          swal({
+            title: '비밀번호 변경 성공',
+            text: '비밀번호가 변경되었습니다.',
+            icon: 'success'
+          })
         })
-        .catch(err => console.log(err))
+        .catch(err => {
+          if (err.message === 'Request failed with status code 401') {
+            swal({
+              title: '비밀번호 변경 실패',
+              text: '아이디와 비밀번호를 다시 한 번 확인해주세요.',
+              icon: 'error'
+            })
+          }
+        })
     },
 
     deleteProfile ({ dispatch }, credentials) {
