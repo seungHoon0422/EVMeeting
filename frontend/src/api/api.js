@@ -1,5 +1,5 @@
-// const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
-const HOST = 'https://localhost:8080/api/v1/'
+const HOST = 'https://i7a708.p.ssafy.io:8080/api/v1/'
+// const HOST = 'https://localhost:8080/api/v1/'
 
 const ACCOUNTS = 'accounts/'
 const CHAT = 'chat/'
@@ -44,7 +44,9 @@ export default {
     getMatchingTime: userid => HOST + STATISTICS + 'individual/matchingTime/' + userid,
     getMBTIRate: userid => HOST + STATISTICS + 'individual/mbtiRate/' + userid,
     getDrinkRate: userid => HOST + STATISTICS + 'individual/drinkRate/' + userid,
-    getCigaretteRate: userid => HOST + STATISTICS + 'individual/cigaretteRate/' + userid
+    getCigaretteRate: userid => HOST + STATISTICS + 'individual/cigaretteRate/' + userid,
+    addMatchingHistory: () => HOST + STATISTICS + 'individual/addMatchingHistory',
+    editMatchingHistory: () => HOST + STATISTICS + 'individual/editMatchingHistory'
   }
   // Update end
 }

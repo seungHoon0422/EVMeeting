@@ -11,7 +11,7 @@
             <label for="email">이메일</label>
             <input v-model="credentials.email" id="email" type="email" placeholder="이메일" required>
           </div>
-        <button type="submit">변경하기</button>
+        <button type="submit">임시 비밀번호 보내기</button>
       </form>
     </div>
   </div>
@@ -40,27 +40,24 @@ export default {
   width: 450px;
   height: 350px;
   margin: 0 auto;
-  border: 5px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   border-radius: 10px;
-  background-color: rgba(0, 0, 0, 0.4);
+  background-color: rgba(178, 174, 174, 0.4);
 }
 
 .font-style {
-  color: #FAFAFA;
   font-size: 40px;
 }
 
 button {
   background-color: transparent;
   padding: 5px 30px;
-  border: 2px solid #FAFAFA;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
-  color: white;
 }
 
 label {
   font-size: 20px;
-  color: #FAFAFA;
   margin-right: 20px;
 }
 
@@ -68,17 +65,20 @@ input {
   background-color: transparent;
   width: 200px;
   height: 40px;
-  border: 2px solid #FAFAFA;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
   padding: 0 20px;
-  color: #FAFAFA;
 }
 
 .input-box {
   margin: 30px 30px;
 }
 
-::placeholder {
+/* ::placeholder {
   color: #FAFAFA;
+} */
+button:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(203, 150, 210);
 }
 </style>

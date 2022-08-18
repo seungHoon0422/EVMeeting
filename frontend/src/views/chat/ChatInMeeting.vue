@@ -177,10 +177,10 @@ export default {
   display: flex;
   flex-direction: column;
   justify-content: space-between;
-  width: 400px;
-  height: 700px;
+  width: 100%;
+  height: 100%;
   background-color: #5b7b8d;
-  margin: 5rem auto 0rem;
+  margin: auto;
   box-shadow: 0px 1px 20px #9c9cc855;
   border-radius: 10px;
 }
@@ -197,7 +197,7 @@ export default {
   scroll-behavior: smooth;
   display:flex;
   flex-direction: column;
-  height: 80%;
+  height: 300px;
 }
 
 .chat__body::-webkit-scrollbar {

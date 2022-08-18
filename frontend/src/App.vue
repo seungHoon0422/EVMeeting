@@ -35,7 +35,7 @@ export default {
 </script>
 
 <style>
-*:not(i){
+*:not(i) {
     font-family: 'GangwonEdu_OTFBoldA' !important;
 }
 

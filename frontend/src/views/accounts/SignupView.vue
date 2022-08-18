@@ -220,22 +220,22 @@ export default {
 }
 
 .signup-form {
-  color: #FAFAFA;
-  background-color: rgba(0, 0, 0, 0.3);
-  border-color: #FAFAFA;
-  border: solid 5px;
+  color: #2c3e50;
+  background-color: rgba(178, 174, 174, 0.4);
+  border-color: #2c3e50;
+  border: solid 3px;
   border-radius: 20px;
   width: 800px;
 }
 
 .btn {
-  color: #FAFAFA;
+  color: #2c3e50;
   background-color: transparent;
-  border: 1px solid #FAFAFA;
+  border: 2px solid #2c3e50;
 }
 
 .input-color {
-  border: solid 3px #FAFAFA;
+  border: solid 3px #2c3e50;
   background-color: transparent;
 }
 
@@ -244,15 +244,19 @@ export default {
 }
 
 select {
-  border: 3px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 10px;
   padding: 0 10px;
+  border-radius: 5px;
 }
 
 input, textarea, select {
   outline-color: yellowgreen;
-  color: #FAFAFA;
+  color: #2c3e50;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif !important;
 }
 
 .guide {
@@ -271,7 +275,6 @@ input, textarea, select {
 }
 
 ::placeholder {
-  color: #FAFAFA;
   font-size: 8px;
 }
 
@@ -286,5 +289,14 @@ input, textarea, select {
 
 option {
   background-color: rgba(0,0,0,0.4);
+}
+
+input[type='date'] {
+  font-size: 10px;
+}
+
+button:hover {
+  color: rgb(0, 0, 0);
+  background-color: rgb(203, 150, 210);
 }
 </style>
