@@ -44,7 +44,9 @@ export default {
     getMatchingTime: userid => HOST + STATISTICS + 'individual/matchingTime/' + userid,
     getMBTIRate: userid => HOST + STATISTICS + 'individual/mbtiRate/' + userid,
     getDrinkRate: userid => HOST + STATISTICS + 'individual/drinkRate/' + userid,
-    getCigaretteRate: userid => HOST + STATISTICS + 'individual/cigaretteRate/' + userid
+    getCigaretteRate: userid => HOST + STATISTICS + 'individual/cigaretteRate/' + userid,
+    addMatchingHistory: () => HOST + STATISTICS + 'individual/addMatchingHistory',
+    editMatchingHistory: () => HOST + STATISTICS + 'individual/editMatchingHistory'
   }
   // Update end
 }
