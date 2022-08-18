@@ -11,7 +11,7 @@
             <label for="email">이메일</label>
             <input v-model="credentials.email" id="email" type="email" placeholder="이메일" required>
           </div>
-        <button type="submit">변경하기</button>
+        <button type="submit">임시 비밀번호 보내기</button>
       </form>
     </div>
   </div>
