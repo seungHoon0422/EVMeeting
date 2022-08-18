@@ -1,7 +1,6 @@
 <template>
   <div class="d-flex justify-content-center">
     <div class="line">
-      <!-- <img src="@/img/logo1.png" id="logo"> -->
       <p>
         <a href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp"><i class="fa-brands fa-facebook fa-xl"></i></a>
         <a href="https://www.ssafy.com/ksp/jsp/swp/swpMain.jsp"><i class="fa-brands fa-instagram fa-xl mx-3"></i></a>
@@ -35,7 +34,6 @@ export default {
   width: 100%;
   background-color: rgba(0,0,0,0.4);
   padding-top: 10px;
-  /* margin: 0 auto; */
 }
 
 .img {
