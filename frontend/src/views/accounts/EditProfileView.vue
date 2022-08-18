@@ -23,7 +23,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="gender" class="me-3 pt-3">성별</label>
-              <select name="gender" id="gender" class="length height">
+              <select v-model="credentials.gender" name="gender" id="gender" class="length height">
                 <!-- <option value="">성별을 선택해주세요</option> -->
                 <option value="male" :selected="currentUser.gender=='male'?true:false">남성</option>
                 <option value="female" :selected="currentUser.gender=='female'?true:false">여성</option>
@@ -36,7 +36,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="cigarette" class="me-3 pt-3">흡연여부</label>
-              <select name="cigarette" id="cigarette" class="length height">
+              <select v-model="credentials.cigarette" name="cigarette" id="cigarette" class="length height">
                 <!-- <option value="">-- 흡연여부 --</option> -->
                 <option value="smoke" :selected="currentUser.cigarette=='smoke'?true:false">흡연</option>
                 <option value="nosmoke" :selected="currentUser.cigarette=='nosmoke'?true:false">비흡연</option>
@@ -87,7 +87,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="drink" class="me-3 pt-3">주량</label>
-              <select name="drink" id="drink" class="length height">
+              <select v-model="credentials.drink" name="drink" id="drink" class="length height">
                 <!-- <option value="">-- 주량 --</option> -->
                 <option value="zero" :selected="currentUser.drink=='zero'?true:false">소주 한 잔</option>
                 <option value="under1" :selected="currentUser.drink=='under1'?true:false">소주 1병 미만</option>
