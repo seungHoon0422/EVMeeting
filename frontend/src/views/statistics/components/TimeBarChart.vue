@@ -120,7 +120,7 @@ export default {
           res.data.forEach(element => {
             this.chartData.labels.push(element.time)
             if (element.matchingPercent !== 0) this.chartData.datasets.data.push(element.matchingPercent)
-            else this.chartData.datasets.data.push(10)
+            else this.chartData.datasets.data.push(2)
           })
         })
         .catch(err => console.log(err))

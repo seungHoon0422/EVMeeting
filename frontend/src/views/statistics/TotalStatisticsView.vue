@@ -24,12 +24,6 @@
             </div>
         </div>
     </div>
-    <div class="col-12">
-            <div class="p-3 m-3 border bg-light">
-            <h4>시간대별 매칭율</h4>
-            <time-bar-chart></time-bar-chart>
-            </div>
-    </div>
     <h1 class="header-font mt-5">Teammates</h1>
     <team-intro></team-intro>
   </div>
