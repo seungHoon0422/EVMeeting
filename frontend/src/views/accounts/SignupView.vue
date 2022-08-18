@@ -246,7 +246,7 @@ export default {
 select {
   border: 3px solid #FAFAFA;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 10px;
   padding: 0 10px;
 }
 
@@ -289,5 +289,9 @@ input, textarea, select {
 
 option {
   background-color: rgba(0,0,0,0.4);
+}
+
+input[type='date'] {
+  font-size: 10px;
 }
 </style>
