@@ -198,7 +198,7 @@
     <!-- *****************************************-->
     <div id="session_2" v-if="sessionLevel===2" class="container">
       <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
-      <audio id="back-audio" autoplay>
+      <audio id="back-audio" onloadstart="this.volume=0.5" autoplay>
       <source src="@/img/pianomoment.mp3">
       </audio>
       <div class="row my-5" v-if="currentUser" style="height:20%">
@@ -294,6 +294,11 @@
     <!-- ************** Session 3 ****************-->
     <!-- *****************************************-->
     <div id="session_3" v-if="sessionLevel===3" class="container3 p-2">
+      <bg-button
+        :session="session"/>
+        <back-url
+        ref="urlRequest"
+        @url="url"/>
       <!-- Random Question Box -->
       <div class="row d-flex">
         <h3 class="col blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
@@ -434,6 +439,8 @@ import ProfileView from '@/views/video/components/ProfileView'
 import VideoButton from './components/VideoButton.vue'
 import AudioButton from './components/AudioButton.vue'
 import swal from 'sweetalert'
+import BgButton from '@/views/video/components/BgButton'
+import BackUrl from '@/views/video/components/BackUrl'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -457,7 +464,9 @@ export default {
     ProfileView,
     elevatorAnimation,
     AudioButton,
-    VideoButton
+    VideoButton,
+    BgButton,
+    BackUrl
   },
   data () {
     return {
@@ -497,7 +506,9 @@ export default {
       roomid: 1,
       is_show_c: false,
       is_show_p: false,
-      level3flag: false
+      level3flag: false,
+      randomUrl: '',
+      Value: 0
     }
   },
   methods: {
@@ -605,6 +616,15 @@ export default {
         this.randomValue -= 1
         this.$refs.qustionRequest.showQuestion(this.randomValue)
       })
+      // 배경 변경
+      this.session.on('signal:changeBack', () => {
+        if (this.Value === 0) {
+          this.Value = 2
+        }
+        this.Value -= 1
+        this.$refs.urlRequest.changeUrl(this.Value)
+        document.getElementById('app').style.backgroundImage = `url(${this.randomUrl})`
+      })
       // --- Connect to the session with a valid user token ---
 
       // 'getToken' method is simulating what your server-side should do.
@@ -646,6 +666,7 @@ export default {
     },
 
     leaveSession () {
+      this.radomUrl = ''
       this.level3flag = true
       // strangerId: this.strangerId
       axios.post(api.video.userLeaveSession(), { userFrom: this.currentUser.userid, userTo: this.strangerObject }).then(res => {
@@ -861,7 +882,13 @@ export default {
       this.strangerAge = data
     },
     subject (data) {
+      console.log(data)
       this.randomSubject = data
+    },
+    url (data) {
+      console.log('wearehereeeee')
+      console.log(data)
+      this.randomUrl = data
     },
     createRoom () {
       console.log('current user', this.currentUser.id)
