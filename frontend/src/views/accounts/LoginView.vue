@@ -13,7 +13,7 @@
           </div>
         </div>
         <div>
-          <button type="submit" class="btn btn-light rounded length mt-3">로그인</button>
+          <button type="submit" class="btn rounded length mt-3">로그인</button>
         </div>
       </form>
         <!-- <div class="my-3">
@@ -28,8 +28,8 @@
         <!-- <button @click="client.requestAccessToken()">Authorize me</button>
         <button @click="fetchinfo">fetchinfo</button> -->
       <div class="mt-3 d-flex justify-content-center">
-        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'findpassword' }">비밀번호 찾기</router-link>
-        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'signup' }">회원가입</router-link>
+        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'findpassword' }"><span>비밀번호 찾기</span></router-link>
+        <router-link v-if="!isLoggedIn" class="nav-link text-color" :to="{ name: 'signup' }"><span>회원가입</span></router-link>
       </div>
     </div>
   </div>
@@ -112,29 +112,27 @@ export default {
 .box {
   width: 500px;
   height: 450px;
-  border: 5px solid #FAFAFA;
-  background-color: rgba(0, 0, 0, 0.3) ;
+  border: 5px solid #2c3e50;
+  background-color: rgba(178, 174, 174, 0.4);
   border-radius: 10px;
 }
 
 .text-color {
- color: #FAFAFA;
  font-weight: 600;
 }
 
 .font-head {
-  color: #FAFAFA;
   font-size: 40px;
 }
 
 input {
   background-color: transparent;
-  border: 3px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   border-top: none;
   border-left: none;
   border-right: none;
   border-radius: 5px;
-  color: #FAFAFA;
+  color: #2c3e50;
 }
 
 input:focus {
@@ -142,6 +140,22 @@ input:focus {
 }
 
 input::placeholder {
-  color: #FAFAFA;
+  color: #2c3e50;
+}
+
+button:hover {
+  background-color: rgb(203, 150, 210);
+}
+
+span {
+  color: #2c3e50;
+}
+
+span:hover {
+  color: rgb(203, 150, 210);
+}
+
+.btn {
+  border: 2px solid #2c3e50 !important;
 }
 </style>

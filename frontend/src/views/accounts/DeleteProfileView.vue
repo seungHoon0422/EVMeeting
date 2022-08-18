@@ -45,27 +45,24 @@ export default {
   width: 400px;
   height: 450px;
   margin: 0 auto;
-  border: 5px solid #FAFAFA;
+  border: 5px solid #2c3e50;
   border-radius: 10px;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(178, 174, 174, 0.4);
 }
 
 .font-style {
-  color: #FAFAFA;
   font-size: 40px;
 }
 
 button {
   background-color: transparent;
   padding: 5px 30px;
-  border: 1px solid #FAFAFA;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
-  color: #FAFAFA;
 }
 
 label {
   font-size: 20px;
-  color: #FAFAFA;
   margin-right: 20px;
 }
 
@@ -73,22 +70,21 @@ input {
   background-color: transparent;
   width: 200px;
   height: 40px;
-  border: 2px solid #FAFAFA;
+  border: 2px solid #2c3e50;
   border-radius: 10px;
   padding: 0 20px;
-  color: #FAFAFA;
 }
 
 .input-box {
   margin: 30px 20px;
 }
 
-::placeholder {
-  color: #FAFAFA;
-}
+/* ::placeholder {
+  color: #2c3e50;
+} */
 
 button:hover {
-  color: gray;
-  background-color: white;
+  color: rgb(0, 0, 0);
+  background-color: rgb(203, 150, 210);
 }
 </style>

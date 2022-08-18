@@ -65,7 +65,7 @@ export default {
 .img-box {
   width: 400px;
   height: 400px;
-  border: 5px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   border-radius: 10px;
   margin: 20px auto;
 }
@@ -77,14 +77,13 @@ export default {
 }
 
 .icon-color {
-  color: #FAFAFA;
+  color: #2c3e50;
   font-size: 30px;
   margin-top: 50px;
   cursor: pointer;
 }
 
 .font-style {
-  color: #FAFAFA;
   font-size: 40px;
 }
 
@@ -94,26 +93,30 @@ export default {
 }
 
 .box {
-  border: 5px solid #FAFAFA;
+  border: 3px solid #FAFAFA;
   width: 800px;
   height: 700px;
   margin: 0 auto;
   position: relative;
   border-radius: 10px;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(178, 174, 174, 0.4);
 }
 
 .upload-button {
-  border: 3px solid #FAFAFA;
+  border: 2px solid #2c3e50;
   background-color: transparent;
-  color: white;
+  color: #000000;
   border-radius: 5px;
   margin-top: 25px;
   padding: 5px 25px;
 }
 
 button:hover {
-  color: gray;
-  background-color: #FAFAFA;
+  color: rgb(0, 0, 0);
+  background-color: rgb(203, 150, 210);
+}
+
+i:hover {
+  color: black;
 }
 </style>
