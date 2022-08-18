@@ -246,13 +246,16 @@ export default {
 select {
   border: 3px solid #FAFAFA;
   background-color: transparent;
-  font-size: 14px;
+  font-size: 10px;
   padding: 0 10px;
 }
 
 input, textarea, select {
   outline-color: yellowgreen;
   color: #FAFAFA;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif !important;
 }
 
 .guide {
@@ -286,5 +289,9 @@ input, textarea, select {
 
 option {
   background-color: rgba(0,0,0,0.4);
+}
+
+input[type='date'] {
+  font-size: 10px;
 }
 </style>
