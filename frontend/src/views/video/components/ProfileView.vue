@@ -4,21 +4,21 @@
       <table class="table">
         <thead>
           <tr class="">
-            <th scope="row" class="fs-5" colspan="2" >{{this.strangerName}}</th>
+            <th scope="row" class="fs-5" colspan="2" ><span style="font-size: 12px;">{{this.strangerName}}</span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
             <th scope="row" ><span style="font-size: 12px;">키</span></th>
-            <td>{{this.height}} <span style="font-size: 12px;"></span>cm</td>
+            <td>{{this.height}} <span style="font-size: 12px;">cm</span></td>
           </tr>
           <tr>
             <th scope="row"><span style="font-size: 12px;">몸무게</span></th>
             <td>{{this.weight}} <span style="font-size: 12px;">kg</span></td>
           </tr>
           <tr>
-            <th scope="row"><span style="font-size: 12px;">관심사</span></th>
-            <td><span style="font-size: 12px;"></span>{{this.hobby}}</td>
+            <th scope="row" ><span style="font-size: 12px;">관심사</span></th>
+            <td><span style="font-size: 12px;">{{this.hobby}}</span></td>
           </tr>
           <tr>
             <th scope="row"><span style="font-size: 12px;">MBTI</span></th>
@@ -128,9 +128,12 @@ table, tr, td, th {
  text-align: center;
  font-family: 'GangwonEdu_OTFBoldA';
 }
-
+.table>:not(caption)>*>*{
+  padding:0rem;
+}
 .box {
   width: 100%;
+  height: 100%;
   border: none;
   border-radius: 10px;
   margin: 0;
