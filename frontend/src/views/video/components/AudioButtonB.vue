@@ -1,6 +1,6 @@
 <template>
   <div>
-    <button class="button1" @click="changeBack">A</button>
+    <button class="buttonB" @click="changeAudioB">B</button>
   </div>
 </template>
 
@@ -11,31 +11,31 @@ export default {
       type: Object
     }
   },
-  name: 'changeBack',
+  name: 'changeAudioB',
   setup (props, { emit }) {
-    const changeBack = () => {
+    const changeAudioB = () => {
       // Sending Signal
       props.session.signal({
         data: '',
         to: [],
-        type: 'changeBack'
+        type: 'changeAudioB'
       })
     }
     return {
-      changeBack
+      changeAudioB
     }
   }
 }
 </script>
 <style scopeed>
-.button1 {
+.buttonA {
  /* padding: 17px 40px; */
  border-radius: 50px;
  border: 0;
  height: 40px;
  width: 140px;
  padding: auto;
- background-color: rgb(187, 115, 201);
+ background-color: #5b7b8d;
  box-shadow: rgb(0 0 0 / 5%) 0 0 8px;
  letter-spacing: 1.5px;
  text-transform: uppercase;
@@ -43,14 +43,14 @@ export default {
  transition: all .5s ease;
 }
 
-.button1:hover {
+.buttonA:hover {
  letter-spacing: 3px;
  background-color: hsl(261deg 80% 48%);
  color: hsl(0, 0%, 100%);
  box-shadow: rgb(93 24 220) 0px 7px 29px 0px;
 }
 
-.button1:active {
+.buttonA:active {
  letter-spacing: 3px;
  background-color: hsl(261deg 80% 48%);
  color: hsl(0, 0%, 100%);

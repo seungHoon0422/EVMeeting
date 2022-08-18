@@ -294,11 +294,11 @@
     <!-- ************** Session 3 ****************-->
     <!-- *****************************************-->
     <div id="session_3" v-if="sessionLevel===3" class="container3 p-2">
-      <bg-button
-        :session="session"/>
-        <back-url
-        ref="urlRequest"
-        @url="url"/>
+    <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
+    <audio id="back-audio" onloadstart="this.volume=0.5" autoplay>
+      <source src="@/img/silence.mp3">
+    </audio>
+    <h1>{{this.audiofile}}</h1>
       <!-- Random Question Box -->
       <div class="row d-flex">
         <h3 class="col blink" style="font-family: 'GangwonEdu_OTFBoldA'; margin-top:6px; color:red;">최종 선택 까지 : {{tenseconds}}초</h3>
@@ -406,6 +406,30 @@
               :countTogether ="countTogether"
               @click.native="updateMainVideoStreamManager(sub)"></profile-view>
               <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
+              <!-- background change button -->
+              <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-top:10px; margin-right:5px;">
+                배경화면
+              </button>
+              <ul class="dropdown-menu">
+                <li><bg-button-a class="dropdown-item" :session="session"/>
+                <back-url ref="urlRequest" @url="url"/></li>
+                <li><bg-button-b class="dropdown-item" :session="session"/>
+                <back-url ref="urlRequest" @url="url"/></li>
+                <li><bg-button-c class="dropdown-item" :session="session"/>
+                <back-url ref="urlRequest" @url="url"/></li>
+              </ul>
+              <!-- audio change button -->
+              <!-- <button class="btn btn-secondary dropdown-toggle" type="button" data-bs-toggle="dropdown" aria-expanded="false" style="margin-top:10px;">
+                배경음악
+              </button>
+              <ul class="dropdown-menu">
+                <li><audio-button-a class="dropdown-item" :session="session"/>
+                <audio-url ref="audioRequest" @file="file"/></li>
+                <li><audio-button-b class="dropdown-item" :session="session"/>
+                <audio-url ref="audioRequest" @file="file"/></li>
+                <li><audio-button-c class="dropdown-item" :session="session"/>
+                <audio-url ref="audioRequest" @file="file"/></li>
+              </ul> -->
             </div>
           </b-sidebar>
         </div>
@@ -423,7 +447,6 @@ import { OpenVidu } from 'openvidu-browser'
 import UserVideo from '@/views/video/components/UserVideo'
 import LikeYou from '@/views/video/components/LikeYou'
 import UserProfile from '@/views/video/components/UserProfile'
-// import VideoBottom from '@/views/video/components/VideoBottom'
 import AddingProfile from '@/views/video/components/AddingProfile'
 import StrangerProfile from '@/views/video/components/StrangerProfile'
 import RandomButton from '@/views/video/components/RandomButton'
@@ -437,8 +460,14 @@ import ProfileView from '@/views/video/components/ProfileView'
 import VideoButton from './components/VideoButton.vue'
 import AudioButton from './components/AudioButton.vue'
 import swal from 'sweetalert'
-import BgButton from '@/views/video/components/BgButton'
+import BgButtonA from '@/views/video/components/BgButtonA'
 import BackUrl from '@/views/video/components/BackUrl'
+import BgButtonB from '@/views/video/components/BgButtonB'
+import BgButtonC from '@/views/video/components/BgButtonC'
+// import AudioButtonA from '@/views/video/components/AudioButtonA'
+// import AudioUrl from '@/views/video/components/AudioUrl'
+// import AudioButtonB from '@/views/video/components/AudioButtonB'
+// import AudioButtonC from '@/views/video/components/AudioButtonC'
 
 axios.defaults.headers.post['Content-Type'] = 'application/json'
 
@@ -451,7 +480,6 @@ export default {
     LikeYou,
     UserProfile,
     AddingProfile,
-    // VideoBottom,
     StrangerProfile,
     ChatView,
     ElevatorInfinity,
@@ -463,8 +491,14 @@ export default {
     elevatorAnimation,
     AudioButton,
     VideoButton,
-    BgButton,
-    BackUrl
+    BgButtonA,
+    BackUrl,
+    BgButtonB,
+    BgButtonC
+    // AudioUrl,
+    // AudioButtonA,
+    // AudioButtonB,
+    // AudioButtonC
   },
   data () {
     return {
@@ -506,7 +540,9 @@ export default {
       is_show_p: false,
       level3flag: false,
       randomUrl: '',
-      Value: 0
+      Value: 0,
+      index: 0,
+      audiofile: '@/img/pianomoment.mp3'
     }
   },
   methods: {
@@ -545,6 +581,7 @@ export default {
       this.strangerUserid = ''
       this.strangerAge = ''
       this.level3flag = false
+      this.audiofile = ''
       // --- Get an OpenVidu object ---
       this.OV = new OpenVidu()
 
@@ -614,12 +651,32 @@ export default {
         this.randomValue -= 1
         this.$refs.qustionRequest.showQuestion(this.randomValue)
       })
+      // 오디오 변경
+      // this.session.on('signal:changeAudioA', () => {
+      //   this.index = 0
+      //   this.$refs.audioRequest.changeFile(this.index)
+      // })
+      // this.session.on('signal:changeAudioB', () => {
+      //   this.index = 1
+      //   this.$refs.audioRequest.changeFile(this.index)
+      // })
+      // this.session.on('signal:changeAudioC', () => {
+      //   this.index = 2
+      //   this.$refs.audioRequest.changeFile(this.index)
+      // })
       // 배경 변경
-      this.session.on('signal:changeBack', () => {
-        if (this.Value === 0) {
-          this.Value = 2
-        }
-        this.Value -= 1
+      this.session.on('signal:changeBackA', () => {
+        this.Value = 0
+        this.$refs.urlRequest.changeUrl(this.Value)
+        document.getElementById('app').style.backgroundImage = `url(${this.randomUrl})`
+      })
+      this.session.on('signal:changeBackB', () => {
+        this.Value = 1
+        this.$refs.urlRequest.changeUrl(this.Value)
+        document.getElementById('app').style.backgroundImage = `url(${this.randomUrl})`
+      })
+      this.session.on('signal:changeBackC', () => {
+        this.Value = 2
         this.$refs.urlRequest.changeUrl(this.Value)
         document.getElementById('app').style.backgroundImage = `url(${this.randomUrl})`
       })
@@ -888,6 +945,11 @@ export default {
       console.log(data)
       this.randomUrl = data
     },
+    // file (data) {
+    //   console.log('wearehereeeee')
+    //   console.log(data)
+    //   this.audiofile = data
+    // },
     createRoom () {
       console.log('current user', this.currentUser.id)
       console.log('stranger', this.strangerId)
