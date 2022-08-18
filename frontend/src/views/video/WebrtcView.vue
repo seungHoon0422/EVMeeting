@@ -896,6 +896,7 @@ export default {
         // window.location.reload(true)
         // event.preventDefault()
         event.returnValue = 'TEST'
+        return "메시지 테스트";
       })
     } else {
       alert('잘못된 접근')
