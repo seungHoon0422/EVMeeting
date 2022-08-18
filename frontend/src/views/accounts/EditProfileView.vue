@@ -100,7 +100,7 @@
         </div>
         <div class="mt-3">
           <p class="text-start self-margin">자기소개</p>
-          <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color p-3" :placeholder="currentUser.description"></textarea>
+          <textarea v-model="credentials.description" name="self-intro" id="" cols="120" rows="10" class="input-color p-3" :placeholder="currentUser.description"></textarea>
         </div>
         <button type="submit" class="btn rounded length mt-4">변경 사항 저장</button>
       </form>
@@ -194,7 +194,7 @@ export default {
 }
 
 .self-margin {
-  margin-left: 40px;
+  margin-left: 30px;
 }
 
 select {
@@ -216,7 +216,7 @@ input, textarea, select {
   font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
     "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
     "Malgun Gothic", sans-serif !important;
-
+  font-size: 10px;
 }
 
 /* option {
