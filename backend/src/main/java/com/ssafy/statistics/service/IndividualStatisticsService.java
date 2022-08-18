@@ -225,8 +225,6 @@ public class IndividualStatisticsService {
         //DB에서 해당하는 데이터 전부 지우기
         statisticsRepository.deleteAllByUserid1(userid);
         statisticsRepository.deleteAllByUserid2(userid);
-//        statisticsRepository.deleteStartingMatchingHistory();
-//        statisticsRepository.deleteMatchingHistory(userid);
         return;
     }
 
