@@ -200,8 +200,9 @@ export default {
 select {
   border: 3px solid #FAFAFA;
   background-color: transparent;
-  font-size: 14px;
+  /* font-size: 14px; */
   padding: 0 10px;
+  line-height: 1.5;
 }
 
 input[type='date']::before {
@@ -212,6 +213,10 @@ input[type='date']::before {
 input, textarea, select {
   color: #FAFAFA;
   outline-color: yellowgreen;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif !important;
+
 }
 
 /* option {
@@ -230,4 +235,5 @@ button:hover {
 option {
   background-color: rgba(0,0,0,0.4);
 }
+
 </style>
