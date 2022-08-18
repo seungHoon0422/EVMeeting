@@ -87,7 +87,7 @@ export default {
 <style scoped>
 .box {
   text-align: left;
-  /* border: 3px solid #F88F6D; */
+  /* border: 3px solid #; */
   width: 100%;
   height: 100%;
   margin-right: 10px;
@@ -99,6 +99,7 @@ export default {
 }
 
 .img-box1 {
+  margin-top: 15px;
   /* width: 450px;
   height: 400px; */
 }
@@ -106,6 +107,8 @@ export default {
 img {
   width:100%;
   height:100%;
+  border: 2px solid #2c3e50;
+  border-radius: 5px;
 }
 
 .description {
@@ -129,7 +132,7 @@ table, tr, td, th {
   color: #000000;
   padding: 5px 20px;
   background-color: transparent;
-  border: 2px solid #9a4c9e;
+  border: 2px solid #2c3e50;
   border-radius: 5px;
   margin:20px;
   /* margin-left : auto;

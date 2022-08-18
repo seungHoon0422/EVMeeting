@@ -23,7 +23,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="gender" class="me-3 pt-3">성별</label>
-              <select name="gender" id="gender" class="length height">
+              <select v-model="credentials.gender" name="gender" id="gender" class="length height">
                 <!-- <option value="">성별을 선택해주세요</option> -->
                 <option value="male" :selected="currentUser.gender=='male'?true:false">남성</option>
                 <option value="female" :selected="currentUser.gender=='female'?true:false">여성</option>
@@ -36,7 +36,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="cigarette" class="me-3 pt-3">흡연여부</label>
-              <select name="cigarette" id="cigarette" class="length height">
+              <select v-model="credentials.cigarette" name="cigarette" id="cigarette" class="length height">
                 <!-- <option value="">-- 흡연여부 --</option> -->
                 <option value="smoke" :selected="currentUser.cigarette=='smoke'?true:false">흡연</option>
                 <option value="nosmoke" :selected="currentUser.cigarette=='nosmoke'?true:false">비흡연</option>
@@ -87,7 +87,7 @@
             </div>
             <div class="mt-3 d-flex justify-content-end">
               <label for="drink" class="me-3 pt-3">주량</label>
-              <select name="drink" id="drink" class="length height">
+              <select v-model="credentials.drink" name="drink" id="drink" class="length height">
                 <!-- <option value="">-- 주량 --</option> -->
                 <option value="zero" :selected="currentUser.drink=='zero'?true:false">소주 한 잔</option>
                 <option value="under1" :selected="currentUser.drink=='under1'?true:false">소주 1병 미만</option>
@@ -100,7 +100,7 @@
         </div>
         <div class="mt-3">
           <p class="text-start self-margin">자기소개</p>
-          <textarea v-model="credentials.description" name="self-intro" id="" cols="80" rows="5" class="input-color p-3" :placeholder="currentUser.description"></textarea>
+          <textarea v-model="credentials.description" name="self-intro" id="" cols="120" rows="10" class="input-color p-3" :placeholder="currentUser.description"></textarea>
         </div>
         <button type="submit" class="btn rounded length mt-4">변경 사항 저장</button>
       </form>
@@ -174,34 +174,33 @@ export default {
 }
 
 .signup-form {
-  color: #FAFAFA;
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(178, 174, 174, 0.4);
   border-color: #FAFAFA;
-  border: solid 5px;
+  border: solid 3px;
   border-radius: 20px;
   width: 800px;
 }
 
 .btn {
-  color: #FAFAFA;
-  border: 2px solid #FAFAFA;
+  border: 2px solid #2c3e50;
   background-color: transparent;
 }
 
 .input-color {
-  border: solid 3px #FAFAFA;
+  border: solid 3px #2c3e50;
   background-color: transparent;
 }
 
 .self-margin {
-  margin-left: 40px;
+  margin-left: 30px;
 }
 
 select {
-  border: 3px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   background-color: transparent;
-  font-size: 14px;
+  /* font-size: 14px; */
   padding: 0 10px;
+  line-height: 1.5;
 }
 
 input[type='date']::before {
@@ -210,8 +209,13 @@ input[type='date']::before {
 }
 
 input, textarea, select {
-  color: #FAFAFA;
+  color: #2c3e50;
   outline-color: yellowgreen;
+  font-family: Pretendard, -apple-system, BlinkMacSystemFont, system-ui, Roboto,
+    "Helvetica Neue", "Segoe UI", "Apple SD Gothic Neo", "Noto Sans KR",
+    "Malgun Gothic", sans-serif !important;
+  font-size: 10px;
+  border-radius: 5px;
 }
 
 /* option {
@@ -219,15 +223,16 @@ input, textarea, select {
 } */
 
 .disabled {
-  background-color: black;
+  background-color: rgba(0,0,0,0.4);
 }
 
 button:hover {
-  color: gray;
-  background-color: #FAFAFA;
+  color: rgb(0, 0, 0);
+  background-color: rgb(203, 150, 210);
 }
 
 option {
-  background-color: rgba(0,0,0,0.4);
+  background-color: rgba(178, 174, 174, 0.4);
 }
+
 </style>

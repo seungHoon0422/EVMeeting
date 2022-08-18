@@ -38,9 +38,9 @@ export default {
 
 <style scoped>
 .box {
-  width: 100%;
+  width: 70%;
   height: 100%;
-  border: 5px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   border-radius: 10px;
   padding-top: 5%;
   padding-bottom: 5%;

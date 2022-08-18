@@ -373,7 +373,7 @@
                   </div> -->
                 <div class="col m-1">
                     <button class="button1">
-                      <b-button class="button1"  v-b-toggle.sidebar-right style="background-color:transparent; border-color: transparent;">Menu</b-button>
+                      <b-button v-b-toggle.sidebar-right style="background-color:transparent; border-color: transparent;">Menu</b-button>
                     </button>
                 </div>
               </div>
@@ -383,12 +383,10 @@
           </div>
         </div>
         <!-- Side Bar : Chatting, Profile Section -->
-        <div class="col-auto" v-if="is_show_c || is_show_p">
-          <!-- Chatting Section -->
+        <!-- <div class="col-auto" v-if="is_show_c || is_show_p">
           <div v-show="is_show_c" class="pop_chat">
             <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
           </div>
-          <!-- Profile Section -->
           <div v-show="is_show_p" class="pop_profile">
             <profile-view v-for="sub in subscribers"
                 :key="sub.stream.connection.connectionId"
@@ -396,17 +394,17 @@
                 :countTogether ="countTogether"
                 @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
           </div>
-        </div>
+        </div> -->
       </div>
       <template>
         <div>
-          <b-sidebar id="sidebar-right" title="Side Bar" right shadow width="500px">
+          <b-sidebar id="sidebar-right" title="Side Bar" right shadow width="400px">
             <div class="px-3 py-2">
               <profile-view v-for="sub in subscribers"
               :key="sub.stream.connection.connectionId"
               :stranger="sub.stream.connection.data"
               :countTogether ="countTogether"
-              @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
+              @click.native="updateMainVideoStreamManager(sub)"></profile-view>
               <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
             </div>
           </b-sidebar>
@@ -658,7 +656,7 @@ export default {
           })
       })
 
-      window.addEventListener('beforeunload', this.leaveSession)
+      // window.addEventListener('beforeunload', this.leaveSession)
 
       if (this.session !== undefined) {
         console.log(this.subscriber)
@@ -700,7 +698,7 @@ export default {
 
       this.$router.go('/cam')
 
-      window.removeEventListener('beforeunload', this.leaveSession)
+      // window.removeEventListener('beforeunload', this.leaveSession)
       // 사용자 UX 고려 해야할 부분
       // this.$router.back('practice')
     },
@@ -1012,18 +1010,18 @@ export default {
     if (this.isLoggedIn) {
       // console.log('hi')
       console.log(this.isLoggedIn)
-      window.addEventListener('beforeunload', (event) => {
-        this.leaveSession()
-        // swal({
-        //   title: '매칭 실패',
-        //   text: '상대방의 요청으로 연결이 종료되었습니다.',
-        //   icon: 'error'
-        // })
-        // this.$router.push('/')
-        window.location.reload(true)
-        event.preventDefault()
-        event.returnValue = 'TEST'
-      })
+      // window.addEventListener('beforeunload', (event) => {
+      //   this.leaveSession()
+      //   // swal({
+      //   //   title: '매칭 실패',
+      //   //   text: '상대방의 요청으로 연결이 종료되었습니다.',
+      //   //   icon: 'error'
+      //   // })
+      //   // this.$router.push('/')
+      //   window.location.reload(true)
+      //   event.preventDefault()
+      //   event.returnValue = 'TEST'
+      // })
     } else {
       alert('잘못된 접근')
       this.$router.back()
@@ -1078,7 +1076,7 @@ export default {
       if (this.sessionLevel === 3) {
         document.getElementById('app').style.backgroundImage = 'url(https://images.unsplash.com/photo-1621343607959-5d11ff0f1e39?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80)'
         console.log('Its Level 3')
-        axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
+        axios.post(api.statistics.addMatchingHistory(), { userid1: this.currentUser.id, userid2: this.strangerId })
           .then(res => {
             console.log(res)
           }).catch(err => {
@@ -1140,10 +1138,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   width:100%;
-}
-.pop_chat{
-}
-.pop_profile{
 }
 .button_grid{
   display: grid;

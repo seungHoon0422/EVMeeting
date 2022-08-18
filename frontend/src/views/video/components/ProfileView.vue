@@ -4,41 +4,41 @@
       <table class="table">
         <thead>
           <tr class="">
-            <th scope="row" class="fs-5" colspan="2" >{{this.strangerName}}</th>
+            <th scope="row" class="fs-5" colspan="2" ><span style="font-size: 12px;">{{this.strangerName}}</span></th>
           </tr>
         </thead>
         <tbody>
           <tr>
-            <th scope="row">키</th>
-            <td>{{this.height}} cm</td>
+            <th scope="row" ><span style="font-size: 12px;">키</span></th>
+            <td>{{this.height}} <span style="font-size: 12px;">cm</span></td>
           </tr>
           <tr>
-            <th scope="row">몸무게</th>
-            <td>{{this.weight}} kg</td>
+            <th scope="row"><span style="font-size: 12px;">몸무게</span></th>
+            <td>{{this.weight}} <span style="font-size: 12px;">kg</span></td>
           </tr>
           <tr>
-            <th scope="row">관심사</th>
-            <td>{{this.hobby}}</td>
+            <th scope="row" ><span style="font-size: 12px;">관심사</span></th>
+            <td><span style="font-size: 12px;">{{this.hobby}}</span></td>
           </tr>
           <tr>
-            <th scope="row">MBTI</th>
-            <td>{{this.mbti}}</td>
+            <th scope="row"><span style="font-size: 12px;">MBTI</span></th>
+            <td><span style="font-size: 12px;">{{this.mbti}}</span></td>
           </tr>
           <tr>
-            <th scope="row">음주</th>
-            <td v-if="this.drink == 'zero'">소주 한 잔</td>
-            <td v-else-if="this.drink == 'under1'">소주 1병 미만</td>
-            <td v-else-if="this.drink == 'under3'">소주 1-3병</td>
-            <td v-else-if="this.drink == 'over3'">소주 3병 이상</td>
+            <th scope="row"><span style="font-size: 12px;">음주</span></th>
+            <td v-if="this.drink == 'zero'"><span style="font-size: 12px;">소주 한 잔</span></td>
+            <td v-else-if="this.drink == 'under1'"><span style="font-size: 12px;">소주 1병 미만</span></td>
+            <td v-else-if="this.drink == 'under3'"><span style="font-size: 12px;">소주 1-3병</span></td>
+            <td v-else-if="this.drink == 'over3'"><span style="font-size: 12px;">소주 3병 이상</span></td>
           </tr>
           <tr>
-            <th scope="row">흡연</th>
-            <td v-if="this.cigarette == 'smoke'">흡연</td>
-            <td v-else-if="this.cigarette == 'nosmoke'">비흡연</td>
+            <th scope="row"><span style="font-size: 12px;">흡연</span></th>
+            <td v-if="this.cigarette == 'smoke'"><span style="font-size: 12px;">흡연</span></td>
+            <td v-else-if="this.cigarette == 'nosmoke'"><span style="font-size: 12px;">비흡연</span></td>
           </tr>
           <tr>
-            <th scope="row">자기소개</th>
-            <td colspan="3">{{this.description}}</td>
+            <th scope="row"><span style="font-size: 12px;">자기소개</span></th>
+            <td colspan="3"><span style="font-size: 12px;">{{this.description}}</span></td>
           </tr>
         </tbody>
       </table>
@@ -112,8 +112,8 @@ export default {
     font-style: normal;
 }
 .description {
-  padding: 20px;
-  font-size: 20px;
+  padding: 10px;
+  font-size: 15px;
   background-color: #FAFAFA;
 }
 
@@ -128,12 +128,15 @@ table, tr, td, th {
  text-align: center;
  font-family: 'GangwonEdu_OTFBoldA';
 }
+.table>:not(caption)>*>*{
+  padding:0rem;
+}
 .box {
-  width: 400px;
-  height: 420px;
+  width: 100%;
+  height: 100%;
   border: none;
   border-radius: 10px;
-  margin: 0 auto;
+  margin: 0;
   position: relative;
   padding: 0 10px;
   background-color: #5b7b8d;
