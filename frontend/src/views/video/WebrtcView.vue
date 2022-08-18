@@ -1051,7 +1051,7 @@ export default {
       if (this.sessionLevel === 3) {
         document.getElementById('app').style.backgroundImage = 'url(https://images.unsplash.com/photo-1621343607959-5d11ff0f1e39?ixlib=rb-1.2.1&ixid=MnwxMjA3fDB8MHxwaG90by1yZWxhdGVkfDF8fHxlbnwwfHx8fA%3D%3D&w=1000&q=80)'
         console.log('Its Level 3')
-        axios.post('https://localhost:8080/api/v1/statistics/individual/addMatchingHistory', { userid1: this.currentUser.id, userid2: this.strangerId })
+        axios.post(api.statistics.addMatchingHistory(), { userid1: this.currentUser.id, userid2: this.strangerId })
           .then(res => {
             console.log(res)
           }).catch(err => {
