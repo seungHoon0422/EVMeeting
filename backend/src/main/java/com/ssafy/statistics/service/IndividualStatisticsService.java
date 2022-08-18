@@ -223,8 +223,10 @@ public class IndividualStatisticsService {
 
     public void deleteStatistic(Long userid) {
         //DB에서 해당하는 데이터 전부 지우기
-        statisticsRepository.deleteStartingMatchingHistory();
-        statisticsRepository.deleteMatchingHistory(userid);
+        statisticsRepository.deleteAllByUserid1(userid);
+        statisticsRepository.deleteAllByUserid2(userid);
+//        statisticsRepository.deleteStartingMatchingHistory();
+//        statisticsRepository.deleteMatchingHistory(userid);
         return;
     }
 
