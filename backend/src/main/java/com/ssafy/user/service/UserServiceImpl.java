@@ -42,7 +42,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
+	@Value("${S3.URL}")
+	private String bucketUrl;
+
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
@@ -59,6 +62,8 @@ public class UserServiceImpl implements UserService {
 		user.setDrink(userRegisterInfo.getDrink());
 		user.setCigarette(userRegisterInfo.getCigarette());
 		user.setDescription(userRegisterInfo.getDescription());
+
+		user.setPhoto(bucketUrl + "profile/default_profile.jpg");
 		// 보안을 위해서 유저 패스워드 암호화 하여 디비에 저장.
 		user.setPassword(passwordEncoder.encode(userRegisterInfo.getPassword1()));
 		return userRepository.save(user);
@@ -136,8 +141,6 @@ public class UserServiceImpl implements UserService {
 	@Value("${S3.BUCKETNAME}")
 	private String bucketName;
 
-	@Value("${S3.URL}")
-	private String bucketUrl;
 
 
 
@@ -170,7 +173,9 @@ public class UserServiceImpl implements UserService {
 	public User deletePhoto(User user) {
 		String location = user.getPhoto();
 		//S3에 저장된 파일을 삭제한다
-		amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, location.replace(bucketUrl, "")));
+		if(!location.equals(bucketUrl + "profile/default_profile.jpg")){
+			amazonS3Client.deleteObject(new DeleteObjectRequest(bucketName, location.replace(bucketUrl, "")));
+		}
 		//DB에 해당 사진 경로를 삭제한다
 		user.setPhoto(null);
 		return userRepository.save(user);

@@ -8,6 +8,7 @@ import org.kurento.client.internal.server.Param;
 import org.springframework.data.jpa.repository.JpaRepository;
 import org.springframework.data.jpa.repository.Query;
 import org.springframework.stereotype.Repository;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 import java.util.Optional;
@@ -24,7 +25,16 @@ public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
     @Override
     Optional<Statistics> findById(Long id);
 
-    @Query(value = "select * from statistics where (userid1= :userid1 and userid2= :userid2) or (userid2= :userid1 and userid1= :userid2)\n" +
+    @Override
+    void deleteById(Long aLong);
+
+
+    @Transactional
+    void deleteAllByUserid1(Long userid1);
+    @Transactional
+    void deleteAllByUserid2(Long userid2);
+
+    @Query(value = "select * from statistics where (userid1= :userid1 and userid2= :userid2)\n" +
             "order by id desc limit 1;", nativeQuery = true)
     Optional<Statistics> getCorrectMatchingHistory(@Param("userid1") Long userid1, @Param("userid2") Long userid2);
 
