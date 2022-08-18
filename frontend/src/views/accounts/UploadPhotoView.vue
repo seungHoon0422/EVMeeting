@@ -64,7 +64,7 @@ export default {
 .img-box {
   width: 400px;
   height: 400px;
-  border: 5px solid #2c3e50;
+  border: 3px solid #2c3e50;
   border-radius: 10px;
   margin: 20px auto;
 }
@@ -92,7 +92,7 @@ export default {
 }
 
 .box {
-  border: 5px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   width: 800px;
   height: 700px;
   margin: 0 auto;

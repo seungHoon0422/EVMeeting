@@ -112,7 +112,7 @@ export default {
 .box {
   width: 500px;
   height: 450px;
-  border: 5px solid #2c3e50;
+  border: 3px solid #2c3e50;
   background-color: rgba(178, 174, 174, 0.4);
   border-radius: 10px;
 }

@@ -176,7 +176,7 @@ export default {
 .signup-form {
   background-color: rgba(178, 174, 174, 0.4);
   border-color: #FAFAFA;
-  border: solid 5px;
+  border: solid 3px;
   border-radius: 20px;
   width: 800px;
 }

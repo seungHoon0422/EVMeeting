@@ -44,6 +44,8 @@ export default {
   width: 1000px !important;
   /* height: 550px !important; */
   background: rgba(178, 174, 174, 0.4);
+  /* border: 5px solid #2c3e50;
+  border-radius: 10px; */
 }
 
 .header-font {

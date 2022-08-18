@@ -93,7 +93,7 @@ export default {
 }
 
 .box {
-  border: 3px solid #FAFAFA;
+  border: 3px solid #2c3e50;
   width: 800px;
   height: 700px;
   margin: 0 auto;

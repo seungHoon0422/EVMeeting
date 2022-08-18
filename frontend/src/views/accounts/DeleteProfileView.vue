@@ -45,7 +45,7 @@ export default {
   width: 400px;
   height: 450px;
   margin: 0 auto;
-  border: 5px solid #2c3e50;
+  border: 3px solid #2c3e50;
   border-radius: 10px;
   background-color: rgba(178, 174, 174, 0.4);
 }

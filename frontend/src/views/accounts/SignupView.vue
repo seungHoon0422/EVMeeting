@@ -223,7 +223,7 @@ export default {
   color: #2c3e50;
   background-color: rgba(178, 174, 174, 0.4);
   border-color: #2c3e50;
-  border: solid 5px;
+  border: solid 3px;
   border-radius: 20px;
   width: 800px;
 }
@@ -248,6 +248,7 @@ select {
   background-color: transparent;
   font-size: 10px;
   padding: 0 10px;
+  border-radius: 5px;
 }
 
 input, textarea, select {
