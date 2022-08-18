@@ -308,8 +308,7 @@ public class UserController {
 			if (passwordEncoder.matches(password1, user.getPassword())) {
 				// 패스워드가 일치한다면 회원탈퇴를 진행한다.
 
-				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
-				userService.deletePhoto(user);
+
 
 				// chatList DB에 있는 회원의 대화목록들을 완전히 삭제한다.
 				List<ChatRoomVO> rooms = chatroomService.findChatRoomByUserid(user.getId());
@@ -319,6 +318,9 @@ public class UserController {
 
 				// meetingHistory DB에 있는 회원의 매칭목록들을 완전히 삭제한다.
 				individualStatisticsService.deleteStatistic(user.getId());
+
+				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
+				userService.deletePhoto(user);
 
 				// 그 다음으로 user DB에 저장되어있는 회원 정보를 완전히 삭제한다.
 				userService.removeUser(userId);
