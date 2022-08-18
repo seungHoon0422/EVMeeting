@@ -211,11 +211,13 @@ public class IndividualStatisticsService {
         return statisticsRepository.save(statistic);
     }
 
-    public Statistics editStatistic(MatchingDto matchingdto) {
+    public Statistics editStatistic(Long userid1, Long userid2, int usedTime) {
         //DB에서 해당하는 데이터 불러오기
-        Statistics statistic = statisticsRepository.getCorrectMatchingHistory(matchingdto.getUserid1(), matchingdto.getUserid2()).get();
-        statistic.setUsedTime(matchingdto.getUsedTime());
-        statistic.setMatched(true);    //기본값을 false로 설정
+        Statistics statistic = statisticsRepository.getCorrectMatchingHistory(userid1, userid2).get();
+        if(!statistic.equals(null)) {
+            statistic.setUsedTime(usedTime);
+            statistic.setMatched(true);
+        }
         return statisticsRepository.save(statistic);
     }
 

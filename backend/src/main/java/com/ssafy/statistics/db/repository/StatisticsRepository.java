@@ -24,7 +24,7 @@ public interface StatisticsRepository extends JpaRepository<Statistics, Long> {
     @Override
     Optional<Statistics> findById(Long id);
 
-    @Query(value = "select * from statistics where (userid1= :userid1 and userid2= :userid2) or (userid2= :userid1 and userid1= :userid2)\n" +
+    @Query(value = "select * from statistics where (userid1= :userid1 and userid2= :userid2)\n" +
             "order by id desc limit 1;", nativeQuery = true)
     Optional<Statistics> getCorrectMatchingHistory(@Param("userid1") Long userid1, @Param("userid2") Long userid2);
 
