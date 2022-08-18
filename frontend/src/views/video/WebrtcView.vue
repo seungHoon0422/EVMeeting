@@ -283,10 +283,8 @@
             <i class='bx bxs-chevron-down-circle' style="font-size: 50px; color: red;" ></i>
           </button>
         </div>
-        <div>
-          <div class="col m-1">
-            <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
-          </div>
+        <div class="col">
+          <audio-button style="color: red;" @audioOnOff="audioOnOff" :sessionLevel="sessionLevel"></audio-button>
         </div>
       </div>
     </div>
