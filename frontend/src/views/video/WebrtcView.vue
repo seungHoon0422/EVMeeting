@@ -378,12 +378,10 @@
           </div>
         </div>
         <!-- Side Bar : Chatting, Profile Section -->
-        <div class="col-auto" v-if="is_show_c || is_show_p">
-          <!-- Chatting Section -->
+        <!-- <div class="col-auto" v-if="is_show_c || is_show_p">
           <div v-show="is_show_c" class="pop_chat">
             <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
           </div>
-          <!-- Profile Section -->
           <div v-show="is_show_p" class="pop_profile">
             <profile-view v-for="sub in subscribers"
                 :key="sub.stream.connection.connectionId"
@@ -391,7 +389,7 @@
                 :countTogether ="countTogether"
                 @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
           </div>
-        </div>
+        </div> -->
       </div>
       <template>
         <div>
@@ -1113,10 +1111,6 @@ export default {
   justify-content: space-between;
   align-items: center;
   width:100%;
-}
-.pop_chat{
-}
-.pop_profile{
 }
 .button_grid{
   display: grid;
