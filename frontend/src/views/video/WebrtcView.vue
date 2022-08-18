@@ -368,7 +368,7 @@
                   </div> -->
                 <div class="col m-1">
                     <button class="button1">
-                      <b-button class="button1"  v-b-toggle.sidebar-right style="background-color:transparent; border-color: transparent;">Menu</b-button>
+                      <b-button v-b-toggle.sidebar-right style="background-color:transparent; border-color: transparent;">Menu</b-button>
                     </button>
                 </div>
               </div>
@@ -393,13 +393,13 @@
       </div>
       <template>
         <div>
-          <b-sidebar id="sidebar-right" title="Side Bar" right shadow width="500px">
+          <b-sidebar id="sidebar-right" title="Side Bar" right shadow width="400px">
             <div class="px-3 py-2">
               <profile-view v-for="sub in subscribers"
               :key="sub.stream.connection.connectionId"
               :stranger="sub.stream.connection.data"
               :countTogether ="countTogether"
-              @click.native="updateMainVideoStreamManager(sub)" style="width:100%; height:100%;"></profile-view>
+              @click.native="updateMainVideoStreamManager(sub)"></profile-view>
               <chat-view :roomid=this.roomid style="width:100%; height:100%;"></chat-view>
             </div>
           </b-sidebar>
