@@ -1,5 +1,9 @@
 package com.ssafy.user.controller;
 
+import com.ssafy.chat.model.ChatRoomVO;
+import com.ssafy.chat.service.ChatRoomService;
+import com.ssafy.statistics.db.repository.StatisticsRepository;
+import com.ssafy.statistics.service.IndividualStatisticsService;
 import com.ssafy.user.db.repository.UserRepository;
 import com.ssafy.user.request.*;
 import com.ssafy.user.response.UserLoginPostRes;
@@ -29,6 +33,7 @@ import springfox.documentation.annotations.ApiIgnore;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpSession;
 
+import java.util.List;
 import java.util.Random;
 
 import static org.springframework.data.jpa.domain.AbstractPersistable_.id;
@@ -50,6 +55,11 @@ public class UserController {
 	PasswordEncoder passwordEncoder;
 	@Autowired
 	UserRepository userRepository;
+
+	@Autowired
+	ChatRoomService chatroomService;
+	@Autowired
+	IndividualStatisticsService individualStatisticsService;
 
 
 	@PostMapping("login/")
@@ -301,7 +311,16 @@ public class UserController {
 				// 우선 S3에 저장되어있는 프로필 사진을 S3에서 삭제한다.
 				userService.deletePhoto(user);
 
-				// 그 다음으로 DB에 저장되어있는 회원 정보를 완전히 삭제한다.
+				// chatList DB에 있는 회원의 대화목록들을 완전히 삭제한다.
+				List<ChatRoomVO> rooms = chatroomService.findChatRoomByUserid(user.getId());
+				for(ChatRoomVO room : rooms){
+					chatroomService.removeRoom(room.getId());
+				}
+
+				// meetingHistory DB에 있는 회원의 매칭목록들을 완전히 삭제한다.
+				individualStatisticsService.deleteStatistic(user.getId());
+
+				// 그 다음으로 user DB에 저장되어있는 회원 정보를 완전히 삭제한다.
 				userService.removeUser(userId);
 
 				// 세션 초기화 진행

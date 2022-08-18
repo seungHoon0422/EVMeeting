@@ -24,7 +24,7 @@ public interface UserRepository extends JpaRepository<User, Long> {
     @Query("SELECT COUNT(*) FROM User as u WHERE u.gender = :gender")
     int countUserByGender(@Param("gender") String gender);
 
-    @Query(value = "select * from user u where u.id in (select s.userid2 from statistics s where s.userid1= :id) or u.id in (select s.userid1 from statistics s where s.userid2= :id)", nativeQuery = true,
-            countQuery = "select * from user u where u.id in (select s.userid2 from statistics s where s.userid1= :id) or u.id in (select s.userid1 from statistics s where s.userid2= :id)")
+    @Query(value = "select * from user u where u.id in (select s.userid2 from statistics s where s.userid1= :id and s.matched = 1) or u.id in (select s.userid1 from statistics s where s.userid2= :id  and s.matched = 1)", nativeQuery = true,
+            countQuery = "select * from user u where u.id in (select s.userid2 from statistics s where s.userid1= :id and s.matched = 1) or u.id in (select s.userid1 from statistics s where s.userid2= :id and s.matched = 1)")
     public List<User> findMatchedThemById(@Param("id") Long id);
 }

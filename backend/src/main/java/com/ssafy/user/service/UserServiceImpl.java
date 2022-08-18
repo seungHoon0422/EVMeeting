@@ -42,7 +42,10 @@ public class UserServiceImpl implements UserService {
 	
 	@Autowired
 	PasswordEncoder passwordEncoder;
-	
+
+	@Value("${S3.URL}")
+	private String bucketUrl;
+
 	@Override
 	public User createUser(UserRegisterPostReq userRegisterInfo) {
 		User user = new User();
@@ -138,8 +141,6 @@ public class UserServiceImpl implements UserService {
 	@Value("${S3.BUCKETNAME}")
 	private String bucketName;
 
-	@Value("${S3.URL}")
-	private String bucketUrl;
 
 
 

@@ -1042,6 +1042,12 @@ export default {
     },
     profileopencount () {
       if (this.profileopencount === 10) {
+        axios.post(api.statistics.editMatchingHistory(), { userid1: this.currentUser.id, userid2: this.strangerId, usedTime: 600 - this.tenseconds })
+          .then(res => {
+            console.log(res)
+          }).catch(err => {
+            console.log(err)
+          })
         this.matchSuccess()
       } else if (this.profileopencount !== 0 && this.profileopencount % 2 === 0) {
         // profileopencount 가 짝수 일 때마다 addCount가 증가하고,

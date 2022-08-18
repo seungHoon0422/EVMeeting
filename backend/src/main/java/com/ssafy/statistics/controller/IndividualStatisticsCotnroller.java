@@ -91,6 +91,7 @@ public class IndividualStatisticsCotnroller {
     })
     public ResponseEntity<? extends BaseResponseBody> editMatchingHistory(
             @RequestBody @ApiParam(value = "매칭 기록에 관련된 정보들", required = true) MatchingDto matchingdto) {
+        System.out.println("EDIT MATCHING HISTORY!!!!!");
         individualStatisticsService.editStatistic(matchingdto);
         return ResponseEntity.ok(UserLoginPostRes.of(200, "Success"));
     }
