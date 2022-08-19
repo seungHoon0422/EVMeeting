@@ -197,10 +197,10 @@
     <!-- ************** Session 2 ****************-->
     <!-- *****************************************-->
     <div id="session_2" v-if="sessionLevel===2" class="container">
-      <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
+      <!-- <iframe src="@/img/silence.mp3" allow="autoplay" id="back-audio" style="display:none"></iframe>
       <audio id="back-audio" onloadstart="this.volume=0.5" autoplay>
       <source src="@/img/pianomoment.mp3">
-      </audio>
+      </audio> -->
       <div class="row my-5" v-if="currentUser" style="height:20%">
         <h1 style="font-weight: bold;"> Hello I'm <span style="color : #B9729E;">{{this.strangerNickname}}</span></h1>
           <div class="container" style="width: 80%;">

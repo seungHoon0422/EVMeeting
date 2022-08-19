@@ -22,7 +22,7 @@
           </div>
           <div class="text-style col-auto">
             <div class="col-auto">
-              <p style="font-family:'GangwonEdu_OTFBoldA';">엘리베이터에서 안에서 우린</p>
+              <p style="font-family:'GangwonEdu_OTFBoldA';">엘리베이터 안에서 우린</p>
               <p style="font-family:'GangwonEdu_OTFBoldA';">사랑을 나누지</p>
             </div>
           </div>
